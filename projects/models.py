@@ -1,27 +1,39 @@
 from django.db import models
-
+from django.apps import apps
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from datetime import date, timedelta
+from django.apps import apps
+from django.conf import settings
+import requests
 # Create your models here.
 
 
-class User(models.Model):
-    """Model definition for User."""
-    username = models.CharField(max_length=50, unique=True)
-    email = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def create_user(self, email=None, username=None, password=None):
+        user = self.model(
+            email=self.normalize_email(email),
+            password=password,
+            username=username
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
+class User(AbstractBaseUser):
+    email = models.EmailField(max_length=255)
+    password = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, unique=True)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['password']
 
-    class Meta:
-        """Meta definition for User."""
-
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+    objects = UserManager()
 
     def __str__(self):
-        """Unicode representation of User."""
-        pass
+        return self.username
+
 
 
 class LoginLog(models.Model):
@@ -87,9 +99,9 @@ class Member(models.Model):
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
 
-    def __str__(self):
-        """Unicode representation of Member."""
-        pass
+    @property
+    def full_name(self):
+        return self.first_name + ' ' + self.middle_name + ' ' + self.surname
 
 class Project(models.Model):
     """Model definition for Project."""
