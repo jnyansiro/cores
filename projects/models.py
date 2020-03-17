@@ -5,8 +5,8 @@ from datetime import date, timedelta
 from django.apps import apps
 from django.conf import settings
 import requests
+from django.conf import settings
 # Create your models here.
-
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -27,7 +27,7 @@ class User(AbstractBaseUser):
     password = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['password']
+    REQUIRED_FIELDS = ['username','password']
 
     objects = UserManager()
 
@@ -53,7 +53,7 @@ class LoginLog(models.Model):
 
     def __str__(self):
         """Unicode representation of LoginLog."""
-        pass
+        return self.login_time
 
 
 class ActivityLog(models.Model):
@@ -73,7 +73,7 @@ class ActivityLog(models.Model):
 
     def __str__(self):
         """Unicode representation of ActivityLog."""
-        pass
+        return self.activity
 
 
 class Member(models.Model):
@@ -84,6 +84,7 @@ class Member(models.Model):
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
+    gender = models.CharField(choices=settings.GENDER,max_length=50)
     phone = models.CharField(max_length=12)
     country = models.CharField(max_length=50)
     professional = models.CharField(max_length=50, blank=True)
@@ -127,7 +128,7 @@ class Project(models.Model):
 
     def __str__(self):
         """Unicode representation of Project."""
-        pass
+        return self.project_title
 
 class Incentive(models.Model):
     """Model definition for Incentive."""
@@ -146,7 +147,7 @@ class Incentive(models.Model):
 
     def __str__(self):
         """Unicode representation of Incentive."""
-        pass
+        return self.incentive_type
 
 class ProjectIncentive(models.Model):
     """Model definition for ProjectIncentive."""
@@ -167,7 +168,7 @@ class ProjectIncentive(models.Model):
 
     def __str__(self):
         """Unicode representation of ProjectIncentive."""
-        pass
+        return self.amount
 
 class ProjectMembership(models.Model):
     """Model definition for ProjectMembership."""
@@ -188,7 +189,7 @@ class ProjectMembership(models.Model):
 
     def __str__(self):
         """Unicode representation of ProjectMembership."""
-        pass
+        return self.member_role
 
 class Viewpoint(models.Model):
     """Model definition for Viewpoint."""
@@ -209,7 +210,7 @@ class Viewpoint(models.Model):
 
     def __str__(self):
         """Unicode representation of Viewpoint."""
-        pass
+        return self.viewpoint_name
 class Goal(models.Model):
     """Model definition for Goal."""
 
@@ -230,7 +231,7 @@ class Goal(models.Model):
 
     def __str__(self):
         """Unicode representation of Goal."""
-        pass
+        return self.goal_name
 
 class Requirement(models.Model):
     """Model definition for Requirement."""
@@ -252,7 +253,7 @@ class Requirement(models.Model):
 
     def __str__(self):
         """Unicode representation of Requirement."""
-        pass
+        return self.name
 
 class Scenario(models.Model):
     """Model definition for Scenario."""
@@ -273,7 +274,7 @@ class Scenario(models.Model):
 
     def __str__(self):
         """Unicode representation of Scenario."""
-        pass
+        return self.name
 
 class Process(models.Model):
     """Model definition for Process."""
@@ -293,7 +294,7 @@ class Process(models.Model):
 
     def __str__(self):
         """Unicode representation of Process."""
-        pass
+        return self.file
 
 class UseCase(models.Model):
     """Model definition for UseCase."""
@@ -315,7 +316,7 @@ class UseCase(models.Model):
 
     def __str__(self):
         """Unicode representation of UseCase."""
-        pass
+        return self.usecasename
 
 class Repository(models.Model):
     """Model definition for Repository."""
@@ -338,7 +339,7 @@ class Repository(models.Model):
 
     def __str__(self):
         """Unicode representation of Repository."""
-        pass
+        return self.resource_name
 
 class Comment(models.Model):
     """Model definition for Comment."""
@@ -358,8 +359,7 @@ class Comment(models.Model):
         verbose_name_plural = 'Comments'
 
     def __str__(self):
-        """Unicode representation of Comment."""
-        pass
+        return self.comment
 
 class RequirementArtifact(models.Model):
     """Model definition for RequirementArtifact."""
@@ -381,8 +381,7 @@ class RequirementArtifact(models.Model):
         verbose_name_plural = 'RequirementArtifacts'
 
     def __str__(self):
-        """Unicode representation of RequirementArtifact."""
-        pass
+        return self.artifact_content
 
 class StarRate(models.Model):
     """Model definition for StarRate."""
@@ -401,7 +400,7 @@ class StarRate(models.Model):
 
     def __str__(self):
         """Unicode representation of StarRate."""
-        pass
+        return self.number_of_stars
 class Like(models.Model):
     """Model definition for Like."""
 
@@ -420,7 +419,7 @@ class Like(models.Model):
 
     def __str__(self):
         """Unicode representation of Like."""
-        pass
+        return self.liked_by
 
 class Dislike(models.Model):
     """Model definition for Dislike."""
@@ -439,7 +438,7 @@ class Dislike(models.Model):
 
     def __str__(self):
         """Unicode representation of Dislike."""
-        pass
+        return self.dislike
 class ProjectComment(models.Model):
     """Model definition for ProjectComment."""
 
@@ -706,7 +705,7 @@ class ScenarioRate(models.Model):
         pass
 
 class ProcessRate(models.Model):
-    """Model definition for ProcessRate."""
+    """Model definition for ProcessRate.""" 
 
     # TODO: Define fields here
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
@@ -998,7 +997,7 @@ class GoalDislike(models.Model):
      def __str__(self):
          """Unicode representation of GoalDislike."""
          pass
-class RequiremetDislike(models.Model):
+class RequirementDislike(models.Model):
     """Model definition for RequiremetDislike."""
 
     # TODO: Define fields here
