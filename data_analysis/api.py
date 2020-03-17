@@ -12,4 +12,4 @@ class FemaleUsers(viewsets.ModelViewSet):
     permission_classes = [
         permissions.AllowAny
     ]
-    # serializer_class = GenderSerializer
+    serializer_class = GenderSerializer
