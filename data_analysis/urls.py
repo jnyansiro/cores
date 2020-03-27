@@ -5,4 +5,5 @@ from .api import *
 
 router = routers.DefaultRouter()
 router.register('api/data-analysis/female-members', FemaleUsers, 'female')
+router.register('api/data-analysis/male-members', MaleUsers, 'male')
 urlpatterns = router.urls

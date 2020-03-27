@@ -5,4 +5,4 @@ class GenderSerializer(serializers.ModelSerializer):
 
     class Meta:
             model = Member
-            fields = ['user','gender']
+            fields = ['id','gender']

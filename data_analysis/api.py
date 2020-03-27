@@ -13,3 +13,10 @@ class FemaleUsers(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = GenderSerializer
+
+class MaleUsers(viewsets.ModelViewSet):
+    queryset = Member.objects.filter(gender="Male")
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = GenderSerializer
