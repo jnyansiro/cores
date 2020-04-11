@@ -6,16 +6,16 @@ from django.apps import apps
 from django.conf import settings
 import requests
 from django.conf import settings
+
 # Create your models here.
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def create_user(self, email=None, username=None, password=None):
         user = self.model(
-            email=self.normalize_email(email),
-            password=password,
-            username=username
+            email=self.normalize_email(email), password=password, username=username
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -26,14 +26,13 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username','password']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["username", "password"]
 
     objects = UserManager()
 
     def __str__(self):
         return self.username
-
 
 
 class LoginLog(models.Model):
@@ -48,8 +47,8 @@ class LoginLog(models.Model):
     class Meta:
         """Meta definition for LoginLog."""
 
-        verbose_name = 'LoginLog'
-        verbose_name_plural = 'LoginLogs'
+        verbose_name = "LoginLog"
+        verbose_name_plural = "LoginLogs"
 
     def __str__(self):
         """Unicode representation of LoginLog."""
@@ -68,8 +67,8 @@ class ActivityLog(models.Model):
     class Meta:
         """Meta definition for ActivityLog."""
 
-        verbose_name = 'ActivityLog'
-        verbose_name_plural = 'ActivityLogs'
+        verbose_name = "ActivityLog"
+        verbose_name_plural = "ActivityLogs"
 
     def __str__(self):
         """Unicode representation of ActivityLog."""
@@ -84,9 +83,10 @@ class Member(models.Model):
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    gender = models.CharField(choices=settings.GENDER,max_length=50)
+    gender = models.CharField(choices=settings.GENDER, max_length=50)
     phone = models.CharField(max_length=12)
-    country = models.CharField(max_length=50)
+    email = models.EmailField(max_length=34, blank=True)
+    country = models.CharField(max_length=50, blank=True)
     professional = models.CharField(max_length=50, blank=True)
     job_title = models.CharField(max_length=50, blank=True)
     institution_name = models.CharField(max_length=50, blank=True)
@@ -97,12 +97,13 @@ class Member(models.Model):
     class Meta:
         """Meta definition for Member."""
 
-        verbose_name = 'Member'
-        verbose_name_plural = 'Members'
+        verbose_name = "Member"
+        verbose_name_plural = "Members"
 
     @property
     def full_name(self):
-        return self.first_name + ' ' + self.middle_name + ' ' + self.surname
+        return self.first_name + " " + self.middle_name + " " + self.surname
+
 
 class Project(models.Model):
     """Model definition for Project."""
@@ -119,16 +120,16 @@ class Project(models.Model):
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 
-
     class Meta:
         """Meta definition for Project."""
 
-        verbose_name = 'Project'
-        verbose_name_plural = 'Projects'
+        verbose_name = "Project"
+        verbose_name_plural = "Projects"
 
     def __str__(self):
         """Unicode representation of Project."""
         return self.project_title
+
 
 class Incentive(models.Model):
     """Model definition for Incentive."""
@@ -139,15 +140,17 @@ class Incentive(models.Model):
     description = models.CharField(max_length=500, blank=True, null=True)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
+
     class Meta:
         """Meta definition for Incentive."""
 
-        verbose_name = 'Incentive'
-        verbose_name_plural = 'Incentives'
+        verbose_name = "Incentive"
+        verbose_name_plural = "Incentives"
 
     def __str__(self):
         """Unicode representation of Incentive."""
         return self.incentive_type
+
 
 class ProjectIncentive(models.Model):
     """Model definition for ProjectIncentive."""
@@ -163,16 +166,17 @@ class ProjectIncentive(models.Model):
     class Meta:
         """Meta definition for ProjectIncentive."""
 
-        verbose_name = 'ProjectIncentive'
-        verbose_name_plural = 'ProjectIncentives'
+        verbose_name = "ProjectIncentive"
+        verbose_name_plural = "ProjectIncentives"
 
     def __str__(self):
         """Unicode representation of ProjectIncentive."""
         return self.amount
 
+
 class ProjectMembership(models.Model):
     """Model definition for ProjectMembership."""
-    
+
     # TODO: Define fields here
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     member = models.ForeignKey("Member", on_delete=models.CASCADE)
@@ -184,12 +188,13 @@ class ProjectMembership(models.Model):
     class Meta:
         """Meta definition for ProjectMembership."""
 
-        verbose_name = 'ProjectMembership'
-        verbose_name_plural = 'ProjectMemberships'
+        verbose_name = "ProjectMembership"
+        verbose_name_plural = "ProjectMemberships"
 
     def __str__(self):
         """Unicode representation of ProjectMembership."""
         return self.member_role
+
 
 class Viewpoint(models.Model):
     """Model definition for Viewpoint."""
@@ -205,12 +210,14 @@ class Viewpoint(models.Model):
     class Meta:
         """Meta definition for Viewpoint."""
 
-        verbose_name = 'Viewpoint'
-        verbose_name_plural = 'Viewpoints'
+        verbose_name = "Viewpoint"
+        verbose_name_plural = "Viewpoints"
 
     def __str__(self):
         """Unicode representation of Viewpoint."""
         return self.viewpoint_name
+
+
 class Goal(models.Model):
     """Model definition for Goal."""
 
@@ -218,7 +225,7 @@ class Goal(models.Model):
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=50)
     description = models.CharField(max_length=2300, null=True, blank=True)
-    category = models.CharField(max_length=50) #example comflict
+    category = models.CharField(max_length=50)  # example comflict
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -226,12 +233,13 @@ class Goal(models.Model):
     class Meta:
         """Meta definition for Goal."""
 
-        verbose_name = 'Goal'
-        verbose_name_plural = 'Goals'
+        verbose_name = "Goal"
+        verbose_name_plural = "Goals"
 
     def __str__(self):
         """Unicode representation of Goal."""
         return self.goal_name
+
 
 class Requirement(models.Model):
     """Model definition for Requirement."""
@@ -248,12 +256,13 @@ class Requirement(models.Model):
     class Meta:
         """Meta definition for Requirement."""
 
-        verbose_name = 'Requirement'
-        verbose_name_plural = 'Requirements'
+        verbose_name = "Requirement"
+        verbose_name_plural = "Requirements"
 
     def __str__(self):
         """Unicode representation of Requirement."""
         return self.name
+
 
 class Scenario(models.Model):
     """Model definition for Scenario."""
@@ -269,12 +278,13 @@ class Scenario(models.Model):
     class Meta:
         """Meta definition for Scenario."""
 
-        verbose_name = 'Scenario'
-        verbose_name_plural = 'Scenarios'
+        verbose_name = "Scenario"
+        verbose_name_plural = "Scenarios"
 
     def __str__(self):
         """Unicode representation of Scenario."""
         return self.name
+
 
 class Process(models.Model):
     """Model definition for Process."""
@@ -289,12 +299,13 @@ class Process(models.Model):
     class Meta:
         """Meta definition for Process."""
 
-        verbose_name = 'Process'
-        verbose_name_plural = 'Processs'
+        verbose_name = "Process"
+        verbose_name_plural = "Processs"
 
     def __str__(self):
         """Unicode representation of Process."""
         return self.file
+
 
 class UseCase(models.Model):
     """Model definition for UseCase."""
@@ -311,12 +322,13 @@ class UseCase(models.Model):
     class Meta:
         """Meta definition for UseCase."""
 
-        verbose_name = 'UseCase'
-        verbose_name_plural = 'UseCases'
+        verbose_name = "UseCase"
+        verbose_name_plural = "UseCases"
 
     def __str__(self):
         """Unicode representation of UseCase."""
         return self.usecasename
+
 
 class Repository(models.Model):
     """Model definition for Repository."""
@@ -330,16 +342,16 @@ class Repository(models.Model):
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 
-
     class Meta:
         """Meta definition for Repository."""
 
-        verbose_name = 'Repository'
-        verbose_name_plural = 'Repositorys'
+        verbose_name = "Repository"
+        verbose_name_plural = "Repositorys"
 
     def __str__(self):
         """Unicode representation of Repository."""
         return self.resource_name
+
 
 class Comment(models.Model):
     """Model definition for Comment."""
@@ -350,16 +362,15 @@ class Comment(models.Model):
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 
-
-
     class Meta:
         """Meta definition for Comment."""
 
-        verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
 
     def __str__(self):
         return self.comment
+
 
 class RequirementArtifact(models.Model):
     """Model definition for RequirementArtifact."""
@@ -377,11 +388,12 @@ class RequirementArtifact(models.Model):
     class Meta:
         """Meta definition for RequirementArtifact."""
 
-        verbose_name = 'RequirementArtifact'
-        verbose_name_plural = 'RequirementArtifacts'
+        verbose_name = "RequirementArtifact"
+        verbose_name_plural = "RequirementArtifacts"
 
     def __str__(self):
         return self.artifact_content
+
 
 class StarRate(models.Model):
     """Model definition for StarRate."""
@@ -395,12 +407,14 @@ class StarRate(models.Model):
     class Meta:
         """Meta definition for StarRate."""
 
-        verbose_name = 'StarRate'
-        verbose_name_plural = 'StarRates'
+        verbose_name = "StarRate"
+        verbose_name_plural = "StarRates"
 
     def __str__(self):
         """Unicode representation of StarRate."""
         return self.number_of_stars
+
+
 class Like(models.Model):
     """Model definition for Like."""
 
@@ -410,16 +424,16 @@ class Like(models.Model):
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 
-
     class Meta:
         """Meta definition for Like."""
 
-        verbose_name = 'Like'
-        verbose_name_plural = 'Likes'
+        verbose_name = "Like"
+        verbose_name_plural = "Likes"
 
     def __str__(self):
         """Unicode representation of Like."""
         return self.liked_by
+
 
 class Dislike(models.Model):
     """Model definition for Dislike."""
@@ -433,12 +447,14 @@ class Dislike(models.Model):
     class Meta:
         """Meta definition for Dislike."""
 
-        verbose_name = 'Dislike'
-        verbose_name_plural = 'Dislikes'
+        verbose_name = "Dislike"
+        verbose_name_plural = "Dislikes"
 
     def __str__(self):
         """Unicode representation of Dislike."""
         return self.dislike
+
+
 class ProjectComment(models.Model):
     """Model definition for ProjectComment."""
 
@@ -451,18 +467,21 @@ class ProjectComment(models.Model):
     class Meta:
         """Meta definition for ProjectComment."""
 
-        verbose_name = 'ProjectComment'
-        verbose_name_plural = 'ProjectComments'
+        verbose_name = "ProjectComment"
+        verbose_name_plural = "ProjectComments"
 
     def __str__(self):
         """Unicode representation of ProjectComment."""
         pass
 
+
 class ArtifactComment(models.Model):
     """Model definition for ArtifactComment."""
 
     # TODO: Define fields here
-    requirement_artifact = models.ForeignKey("RequirementArtifact", on_delete=models.CASCADE)
+    requirement_artifact = models.ForeignKey(
+        "RequirementArtifact", on_delete=models.CASCADE
+    )
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -470,12 +489,13 @@ class ArtifactComment(models.Model):
     class Meta:
         """Meta definition for ArtifactComment."""
 
-        verbose_name = 'ArtifactComment'
-        verbose_name_plural = 'ArtifactComments'
+        verbose_name = "ArtifactComment"
+        verbose_name_plural = "ArtifactComments"
 
     def __str__(self):
         """Unicode representation of ArtifactComment."""
         pass
+
 
 class ViewPointComment(models.Model):
     """Model definition for ViewPointComment."""
@@ -489,12 +509,13 @@ class ViewPointComment(models.Model):
     class Meta:
         """Meta definition for ViewPointComment."""
 
-        verbose_name = 'ViewPointComment'
-        verbose_name_plural = 'ViewPointComments'
+        verbose_name = "ViewPointComment"
+        verbose_name_plural = "ViewPointComments"
 
     def __str__(self):
         """Unicode representation of ViewPointComment."""
         pass
+
 
 class GoalComment(models.Model):
     """Model definition for GoalComment."""
@@ -508,12 +529,13 @@ class GoalComment(models.Model):
     class Meta:
         """Meta definition for GoalComment."""
 
-        verbose_name = 'GoalComment'
-        verbose_name_plural = 'GoalComments'
+        verbose_name = "GoalComment"
+        verbose_name_plural = "GoalComments"
 
     def __str__(self):
         """Unicode representation of GoalComment."""
         pass
+
 
 class RequirementComment(models.Model):
     """Model definition for RequirementComment."""
@@ -527,12 +549,13 @@ class RequirementComment(models.Model):
     class Meta:
         """Meta definition for RequirementComment."""
 
-        verbose_name = 'RequirementComment'
-        verbose_name_plural = 'RequirementComments'
+        verbose_name = "RequirementComment"
+        verbose_name_plural = "RequirementComments"
 
     def __str__(self):
         """Unicode representation of RequirementComment."""
         pass
+
 
 class ScenarioComment(models.Model):
     """Model definition for ScenarioComment."""
@@ -546,12 +569,13 @@ class ScenarioComment(models.Model):
     class Meta:
         """Meta definition for ScenarioComment."""
 
-        verbose_name = 'ScenarioComment'
-        verbose_name_plural = 'ScenarioComments'
+        verbose_name = "ScenarioComment"
+        verbose_name_plural = "ScenarioComments"
 
     def __str__(self):
         """Unicode representation of ScenarioComment."""
         pass
+
 
 class ProcessComment(models.Model):
     """Model definition for ProcessComment."""
@@ -565,12 +589,13 @@ class ProcessComment(models.Model):
     class Meta:
         """Meta definition for ProcessComment."""
 
-        verbose_name = 'ProcessComment'
-        verbose_name_plural = 'ProcessComments'
+        verbose_name = "ProcessComment"
+        verbose_name_plural = "ProcessComments"
 
     def __str__(self):
         """Unicode representation of ProcessComment."""
         pass
+
 
 class UseCaseComment(models.Model):
     """Model definition for UseCaseComment."""
@@ -584,12 +609,13 @@ class UseCaseComment(models.Model):
     class Meta:
         """Meta definition for UseCaseComment."""
 
-        verbose_name = 'UseCaseComment'
-        verbose_name_plural = 'UseCaseComments'
+        verbose_name = "UseCaseComment"
+        verbose_name_plural = "UseCaseComments"
 
     def __str__(self):
         """Unicode representation of UseCaseComment."""
         pass
+
 
 class ProjectRate(models.Model):
     """Model definition for ProjectRate."""
@@ -603,18 +629,21 @@ class ProjectRate(models.Model):
     class Meta:
         """Meta definition for ProjectRate."""
 
-        verbose_name = 'ProjectRate'
-        verbose_name_plural = 'ProjectRates'
+        verbose_name = "ProjectRate"
+        verbose_name_plural = "ProjectRates"
 
     def __str__(self):
         """Unicode representation of ProjectRate."""
         pass
 
+
 class RequirementArtifactRate(models.Model):
     """Model definition for RequirementArtifactRate."""
 
     # TODO: Define fields here
-    requiremet_artifact = models.ForeignKey("RequirementArtifact", on_delete=models.CASCADE)
+    requiremet_artifact = models.ForeignKey(
+        "RequirementArtifact", on_delete=models.CASCADE
+    )
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -622,12 +651,13 @@ class RequirementArtifactRate(models.Model):
     class Meta:
         """Meta definition for RequirementArtifactRate."""
 
-        verbose_name = 'RequirementArtifactRate'
-        verbose_name_plural = 'RequirementArtifactRates'
+        verbose_name = "RequirementArtifactRate"
+        verbose_name_plural = "RequirementArtifactRates"
 
     def __str__(self):
         """Unicode representation of RequirementArtifactRate."""
         pass
+
 
 class ViewPointRate(models.Model):
     """Model definition for ViewPointRate."""
@@ -641,12 +671,14 @@ class ViewPointRate(models.Model):
     class Meta:
         """Meta definition for ViewPointRate."""
 
-        verbose_name = 'ViewPointRate'
-        verbose_name_plural = 'ViewPointRates'
+        verbose_name = "ViewPointRate"
+        verbose_name_plural = "ViewPointRates"
 
     def __str__(self):
         """Unicode representation of ViewPointRate."""
         pass
+
+
 class GoalRate(models.Model):
     """Model definition for GoalRate."""
 
@@ -659,12 +691,13 @@ class GoalRate(models.Model):
     class Meta:
         """Meta definition for GoalRate."""
 
-        verbose_name = 'GoalRate'
-        verbose_name_plural = 'GoalRates'
+        verbose_name = "GoalRate"
+        verbose_name_plural = "GoalRates"
 
     def __str__(self):
         """Unicode representation of GoalRate."""
         pass
+
 
 class RequirementRate(models.Model):
     """Model definition for RequirementRate."""
@@ -678,12 +711,13 @@ class RequirementRate(models.Model):
     class Meta:
         """Meta definition for RequirementRate."""
 
-        verbose_name = 'RequirementRate'
-        verbose_name_plural = 'RequirementRates'
+        verbose_name = "RequirementRate"
+        verbose_name_plural = "RequirementRates"
 
     def __str__(self):
         """Unicode representation of RequirementRate."""
         pass
+
 
 class ScenarioRate(models.Model):
     """Model definition for ScenarioRate."""
@@ -697,15 +731,16 @@ class ScenarioRate(models.Model):
     class Meta:
         """Meta definition for ScenarioRate."""
 
-        verbose_name = 'ScenarioRate'
-        verbose_name_plural = 'ScenarioRates'
+        verbose_name = "ScenarioRate"
+        verbose_name_plural = "ScenarioRates"
 
     def __str__(self):
         """Unicode representation of ScenarioRate."""
         pass
 
+
 class ProcessRate(models.Model):
-    """Model definition for ProcessRate.""" 
+    """Model definition for ProcessRate."""
 
     # TODO: Define fields here
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
@@ -716,12 +751,13 @@ class ProcessRate(models.Model):
     class Meta:
         """Meta definition for ProcessRate."""
 
-        verbose_name = 'ProcessRate'
-        verbose_name_plural = 'ProcessRates'
+        verbose_name = "ProcessRate"
+        verbose_name_plural = "ProcessRates"
 
     def __str__(self):
         """Unicode representation of ProcessRate."""
         pass
+
 
 class UseCaseRate(models.Model):
     """Model definition for UseCaseRate."""
@@ -735,12 +771,13 @@ class UseCaseRate(models.Model):
     class Meta:
         """Meta definition for UseCaseRate."""
 
-        verbose_name = 'UseCaseRate'
-        verbose_name_plural = 'UseCaseRates'
+        verbose_name = "UseCaseRate"
+        verbose_name_plural = "UseCaseRates"
 
     def __str__(self):
         """Unicode representation of UseCaseRate."""
         pass
+
 
 class ProjectLike(models.Model):
     """Model definition for ProjectLike."""
@@ -754,12 +791,13 @@ class ProjectLike(models.Model):
     class Meta:
         """Meta definition for ProjectLike."""
 
-        verbose_name = 'ProjectLike'
-        verbose_name_plural = 'ProjectLikes'
+        verbose_name = "ProjectLike"
+        verbose_name_plural = "ProjectLikes"
 
     def __str__(self):
         """Unicode representation of ProjectLike."""
         pass
+
 
 class ViewpointLike(models.Model):
     """Model definition for ViewpointLike."""
@@ -773,12 +811,14 @@ class ViewpointLike(models.Model):
     class Meta:
         """Meta definition for ViewpointLike."""
 
-        verbose_name = 'ViewpointLike'
-        verbose_name_plural = 'ViewpointLikes'
+        verbose_name = "ViewpointLike"
+        verbose_name_plural = "ViewpointLikes"
 
     def __str__(self):
         """Unicode representation of ViewpointLike."""
         pass
+
+
 class GoalLike(models.Model):
     """Model definition for GoalLike."""
 
@@ -791,48 +831,54 @@ class GoalLike(models.Model):
     class Meta:
         """Meta definition for GoalLike."""
 
-        verbose_name = 'GoalLike'
-        verbose_name_plural = 'GoalLikes'
+        verbose_name = "GoalLike"
+        verbose_name_plural = "GoalLikes"
 
     def __str__(self):
         """Unicode representation of GoalLike."""
         pass
+
+
 class RequirementLike(models.Model):
-     """Model definition for RequirementLike."""
- 
-     # TODO: Define fields here
-     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
-     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-     created_on = models.DateField(auto_now=True)
-     updated_on = models.DateField(auto_now=True)
- 
-     class Meta:
-         """Meta definition for RequirementLike."""
- 
-         verbose_name = 'RequirementLike'
-         verbose_name_plural = 'RequirementLikes'
- 
-     def __str__(self):
-         """Unicode representation of RequirementLike."""
-         pass
+    """Model definition for RequirementLike."""
+
+    # TODO: Define fields here
+    requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
+    like = models.ForeignKey("Like", on_delete=models.CASCADE)
+    created_on = models.DateField(auto_now=True)
+    updated_on = models.DateField(auto_now=True)
+
+    class Meta:
+        """Meta definition for RequirementLike."""
+
+        verbose_name = "RequirementLike"
+        verbose_name_plural = "RequirementLikes"
+
+    def __str__(self):
+        """Unicode representation of RequirementLike."""
+        pass
+
+
 class ScenarioLike(models.Model):
-     """Model definition for ScenarioLike."""
- 
-     # TODO: Define fields here
-     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
-     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-     created_on = models.DateField(auto_now=True)
-     updated_on = models.DateField(auto_now=True)
- 
-     class Meta:
-         """Meta definition for ScenarioLike."""
- 
-         verbose_name = 'ScenarioLike'
-         verbose_name_plural = 'ScenarioLikes'
- 
-     def __str__(self):
-         """Unicode representation of ScenarioLike."""
-         pass
+    """Model definition for ScenarioLike."""
+
+    # TODO: Define fields here
+    scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
+    like = models.ForeignKey("Like", on_delete=models.CASCADE)
+    created_on = models.DateField(auto_now=True)
+    updated_on = models.DateField(auto_now=True)
+
+    class Meta:
+        """Meta definition for ScenarioLike."""
+
+        verbose_name = "ScenarioLike"
+        verbose_name_plural = "ScenarioLikes"
+
+    def __str__(self):
+        """Unicode representation of ScenarioLike."""
+        pass
+
+
 class ProcessLike(models.Model):
     """Model definition for ProcessLike."""
 
@@ -845,12 +891,14 @@ class ProcessLike(models.Model):
     class Meta:
         """Meta definition for ProcessLike."""
 
-        verbose_name = 'ProcessLike'
-        verbose_name_plural = 'ProcessLikes'
+        verbose_name = "ProcessLike"
+        verbose_name_plural = "ProcessLikes"
 
     def __str__(self):
         """Unicode representation of ProcessLike."""
         pass
+
+
 class UseCaseLike(models.Model):
     """Model definition for UseCaseLike."""
 
@@ -863,12 +911,14 @@ class UseCaseLike(models.Model):
     class Meta:
         """Meta definition for UseCaseLike."""
 
-        verbose_name = 'UseCaseLike'
-        verbose_name_plural = 'UseCaseLikes'
+        verbose_name = "UseCaseLike"
+        verbose_name_plural = "UseCaseLikes"
 
     def __str__(self):
         """Unicode representation of UseCaseLike."""
         pass
+
+
 class CommentLike(models.Model):
     """Model definition for CommentLike."""
 
@@ -881,17 +931,21 @@ class CommentLike(models.Model):
     class Meta:
         """Meta definition for CommentLike."""
 
-        verbose_name = 'CommentLike'
-        verbose_name_plural = 'CommentLikes'
+        verbose_name = "CommentLike"
+        verbose_name_plural = "CommentLikes"
 
     def __str__(self):
         """Unicode representation of CommentLike."""
         pass
+
+
 class RequirementArtifactLike(models.Model):
     """Model definition for RequirementArtifactLike."""
 
     # TODO: Define fields here
-    requirement_artifact = models.ForeignKey("RequirementArtifact", on_delete=models.CASCADE)
+    requirement_artifact = models.ForeignKey(
+        "RequirementArtifact", on_delete=models.CASCADE
+    )
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -899,12 +953,13 @@ class RequirementArtifactLike(models.Model):
     class Meta:
         """Meta definition for RequirementArtifactLike."""
 
-        verbose_name = 'RequirementArtifactLike'
-        verbose_name_plural = 'RequirementArtifactLikes'
+        verbose_name = "RequirementArtifactLike"
+        verbose_name_plural = "RequirementArtifactLikes"
 
     def __str__(self):
         """Unicode representation of RequirementArtifactLike."""
         pass
+
 
 class ProjectDislike(models.Model):
     """Model definition for ProjectDislike."""
@@ -914,22 +969,25 @@ class ProjectDislike(models.Model):
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
-    
+
     class Meta:
         """Meta definition for ProjectDislike."""
 
-        verbose_name = 'ProjectDislike'
-        verbose_name_plural = 'ProjectDislikes'
+        verbose_name = "ProjectDislike"
+        verbose_name_plural = "ProjectDislikes"
 
     def __str__(self):
         """Unicode representation of ProjectDislike."""
         pass
 
+
 class RequirementArtifactDislike(models.Model):
     """Model definition for RequirementArtifactDislike."""
 
     # TODO: Define fields here
-    requirement_artifact = models.ForeignKey("RequirementArtifact", on_delete=models.CASCADE)
+    requirement_artifact = models.ForeignKey(
+        "RequirementArtifact", on_delete=models.CASCADE
+    )
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -937,12 +995,14 @@ class RequirementArtifactDislike(models.Model):
     class Meta:
         """Meta definition for RequirementArtifactDislike."""
 
-        verbose_name = 'RequirementArtifactDislike'
-        verbose_name_plural = 'RequirementArtifactDislikes'
+        verbose_name = "RequirementArtifactDislike"
+        verbose_name_plural = "RequirementArtifactDislikes"
 
     def __str__(self):
         """Unicode representation of RequirementArtifactDislike."""
         pass
+
+
 class CommentDislike(models.Model):
     """Model definition for CommentDislike."""
 
@@ -955,12 +1015,14 @@ class CommentDislike(models.Model):
     class Meta:
         """Meta definition for CommentDislike."""
 
-        verbose_name = 'CommentDislike'
-        verbose_name_plural = 'CommentDislikes'
+        verbose_name = "CommentDislike"
+        verbose_name_plural = "CommentDislikes"
 
     def __str__(self):
         """Unicode representation of CommentDislike."""
         pass
+
+
 class ViewpointDislike(models.Model):
     """Model definition for ViewpointDislike."""
 
@@ -973,30 +1035,34 @@ class ViewpointDislike(models.Model):
     class Meta:
         """Meta definition for ViewpointDislike."""
 
-        verbose_name = 'ViewpointDislike'
-        verbose_name_plural = 'ViewpointDislikes'
+        verbose_name = "ViewpointDislike"
+        verbose_name_plural = "ViewpointDislikes"
 
     def __str__(self):
         """Unicode representation of ViewpointDislike."""
         pass
+
+
 class GoalDislike(models.Model):
-     """Model definition for GoalDislike."""
- 
-     # TODO: Define fields here
-     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
-     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-     created_on = models.DateField(auto_now=True)
-     updated_on = models.DateField(auto_now=True)
- 
-     class Meta:
-         """Meta definition for GoalDislike."""
- 
-         verbose_name = 'GoalDislike'
-         verbose_name_plural = 'GoalDislikes'
- 
-     def __str__(self):
-         """Unicode representation of GoalDislike."""
-         pass
+    """Model definition for GoalDislike."""
+
+    # TODO: Define fields here
+    goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
+    dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
+    created_on = models.DateField(auto_now=True)
+    updated_on = models.DateField(auto_now=True)
+
+    class Meta:
+        """Meta definition for GoalDislike."""
+
+        verbose_name = "GoalDislike"
+        verbose_name_plural = "GoalDislikes"
+
+    def __str__(self):
+        """Unicode representation of GoalDislike."""
+        pass
+
+
 class RequirementDislike(models.Model):
     """Model definition for RequiremetDislike."""
 
@@ -1009,12 +1075,13 @@ class RequirementDislike(models.Model):
     class Meta:
         """Meta definition for RequiremetDislike."""
 
-        verbose_name = 'RequiremetDislike'
-        verbose_name_plural = 'RequiremetDislikes'
+        verbose_name = "RequiremetDislike"
+        verbose_name_plural = "RequiremetDislikes"
 
     def __str__(self):
         """Unicode representation of RequiremetDislike."""
         pass
+
 
 class ScenarioDislike(models.Model):
     """Model definition for ScenarioDislike."""
@@ -1028,12 +1095,14 @@ class ScenarioDislike(models.Model):
     class Meta:
         """Meta definition for ScenarioDislike."""
 
-        verbose_name = 'ScenarioDislike'
-        verbose_name_plural = 'ScenarioDislikes'
+        verbose_name = "ScenarioDislike"
+        verbose_name_plural = "ScenarioDislikes"
 
     def __str__(self):
         """Unicode representation of ScenarioDislike."""
         pass
+
+
 class ProcessDislike(models.Model):
     """Model definition for ProcessDislike."""
 
@@ -1046,12 +1115,13 @@ class ProcessDislike(models.Model):
     class Meta:
         """Meta definition for ProcessDislike."""
 
-        verbose_name = 'ProcessDislike'
-        verbose_name_plural = 'ProcessDislikes'
+        verbose_name = "ProcessDislike"
+        verbose_name_plural = "ProcessDislikes"
 
     def __str__(self):
         """Unicode representation of ProcessDislike."""
         pass
+
 
 class UseCaseDislike(models.Model):
     """Model definition for UseCaseDislike."""
@@ -1065,8 +1135,8 @@ class UseCaseDislike(models.Model):
     class Meta:
         """Meta definition for UseCaseDislike."""
 
-        verbose_name = 'UseCaseDislike'
-        verbose_name_plural = 'UseCaseDislikes'
+        verbose_name = "UseCaseDislike"
+        verbose_name_plural = "UseCaseDislikes"
 
     def __str__(self):
         """Unicode representation of UseCaseDislike."""

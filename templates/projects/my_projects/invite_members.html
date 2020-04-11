@@ -1,0 +1,51 @@
+{% load static %}
+{% include '../../header.html' %}
+<!-- Bordered card body table -->
+<div class="card">
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title">Project Members</h5>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+                <a class="list-icons-item" data-action="reload"></a>
+                <a class="list-icons-item" data-action="remove"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body" style="width: 100%;">
+      <div class="row">
+          
+      </div>
+
+        <div class="card card-table table-responsive shadow-0 mb-0">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Options</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in member_details %}
+                    <tr>
+                        <td>{{ member.id }}</td>
+                        <td>{{ member.first_name }}</td>
+                        <td>{{ member.surname }}</td>
+                        <td>{{ member.user }}</td>
+                        <td><button class="btn btn-primary">View</button>|<button
+                                class="btn btn-warning">Suspend</button>|<button class="btn btn-danger">Remove</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /bordered card body table -->

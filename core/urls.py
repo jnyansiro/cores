@@ -15,10 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from projects.views import *
+from django.conf.urls import handler404, handler500
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('projects.urls')),
-    path('', include('authentication.urls')),
-    path('', include('data_analysis.urls'))
+    path("", index, name="index"),
+    path("", include("authentication.urls")),
+    path("admin/", admin.site.urls),
+    path("", include("projects.urls")),
+    path("login", login, name="login"),
+    path("registration", registration, name="registration"),
+    path("forgetpassword", forgetpassword, name="forgetpassword"),
 ]
+handler404 = pagenotfound
+handler500 = servererror

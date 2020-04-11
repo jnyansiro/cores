@@ -7,46 +7,32 @@ import projects.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0001_initial'),
+        ("projects", "0001_initial"),
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='user',
-            options={},
-        ),
+        migrations.AlterModelOptions(name="user", options={},),
         migrations.AlterModelManagers(
-            name='user',
-            managers=[
-                ('objects', projects.models.UserManager()),
-            ],
+            name="user", managers=[("objects", projects.models.UserManager()),],
         ),
-        migrations.RemoveField(
-            model_name='user',
-            name='created_on',
-        ),
-        migrations.RemoveField(
-            model_name='user',
-            name='updated_on',
-        ),
+        migrations.RemoveField(model_name="user", name="created_on",),
+        migrations.RemoveField(model_name="user", name="updated_on",),
         migrations.AddField(
-            model_name='user',
-            name='last_login',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='last login'),
+            model_name="user",
+            name="last_login",
+            field=models.DateTimeField(
+                blank=True, null=True, verbose_name="last login"
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(max_length=255),
+            model_name="user", name="email", field=models.EmailField(max_length=255),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='password',
-            field=models.CharField(max_length=255),
+            model_name="user", name="password", field=models.CharField(max_length=255),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='username',
+            model_name="user",
+            name="username",
             field=models.CharField(max_length=255, unique=True),
         ),
     ]
