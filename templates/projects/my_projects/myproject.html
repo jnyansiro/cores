@@ -36,7 +36,7 @@
                 <div class="card-img-actions mr-3">
                     <img class="card-img img-fluid" src="{% static 'assets/images/page.jpg' %}" alt="">
                     <div class="card-img-actions-overlay card-img">
-                        <a href="blog_single.html"
+                        <a href="{% url 'projects:viewmyproject'%}"
                             class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
                             <i class="icon-link"></i>
                         </a>
@@ -63,7 +63,7 @@
                     able to cover it.</p>
                 His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he
                 looked
-                <a href="#">[...]</a>
+                <a href="{% url 'projects:viewmyproject'%}">[...]</a>
 
                 <div
                     class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
@@ -87,7 +87,7 @@
               <div class="card-img-actions mr-3">
                   <img class="card-img img-fluid" src="{% static 'assets/images/page.jpg' %}" alt="">
                   <div class="card-img-actions-overlay card-img">
-                      <a href="blog_single.html"
+                      <a href="{% url 'projects:viewmyproject'%}"
                           class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
                           <i class="icon-link"></i>
                       </a>
@@ -96,7 +96,7 @@
 
               <div class="mb-3">
                   <h5 class="font-weight-semibold my-1">
-                      <a href="#" class="text-default">Project Title</a>
+                      <a href="{% url 'projects:viewmyproject'%}" class="text-default">Project Title</a>
                   </h5>
 
                   <ul class="list-inline list-inline-dotted text-muted mb-0">
@@ -114,7 +114,7 @@
                   able to cover it.</p>
               His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he
               looked
-              <a href="#">[...]</a>
+              <a href="{% url 'projects:viewmyproject'%}">[...]</a>
 
               <div
                   class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
