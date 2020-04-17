@@ -35,10 +35,10 @@
 <body>
 
 	<!-- Main navbar -->
-	<div class="navbar navbar-expand-md navbar-dark fixed-top">
+	<div class="navbar navbar-expand-md bg-primary fixed-top" style="color:white;">
 		<div class="navbar-brand">
-			<a href="{% url 'index'%}" class="d-inline-block">
-				<h5>CORES</h5>
+			<a href="{% url 'index'%}" class="d-inline-block" style="color:white">
+				<h6>CORES</h6>
 			</a>
 		</div>
 
@@ -51,25 +51,13 @@
 		<div class="collapse navbar-collapse" id="navbar-mobile">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item dropdown">
-					<a href="#" class="navbar-nav-link">
-						<i class="icon-display4"></i>
+					<a href="/" class="navbar-nav-link" style="color:white">
+						<i class="icon-home"></i>
 						<span class="d-md-none ml-2">Go to website</span>
 					</a>					
 				</li>
 
-				<li class="nav-item dropdown">
-					<a href="#" class="navbar-nav-link">
-						<i class="icon-user-tie"></i>
-						<span class="d-md-none ml-2">Contact admin</span>
-					</a>					
-				</li>
-
-				<li class="nav-item dropdown">
-					<a href="#" class="navbar-nav-link">
-						<i class="icon-cog3"></i>
-						<span class="d-md-none ml-2">Options</span>
-					</a>					
-				</li>
+				
 			</ul>
 		</div>
 	</div>
@@ -87,7 +75,7 @@
 
 				<!-- Registration form -->
 				
-				<form  method="POST" {% url 'registration' %}" class="flex-fill">
+				<form  method="POST" action="{% url 'registration' %}" class="flex-fill">
 					{% csrf_token %}
 					<div class="row">
 						<div class="col-lg-6 offset-lg-3">
@@ -96,6 +84,11 @@
 									<div class="text-center mb-3">
 										<i class="icon-plus3 icon-2x text-success border-success border-3 rounded-round p-3 mb-3 mt-1"></i>
 										<h5 class="mb-0">Create account</h5>
+										<p style="color:red">
+											{% if message %}
+											{{ message }}
+											{% endif %}
+										</p>
 
 									</div>
                                      
@@ -140,8 +133,8 @@
 											<div class="form-group form-group-feedback form-group-feedback-right">
 												<select name="gender" id="" class="form-control">
 													<option>select Gender</option>
-													<option value="ME">MALE</option>
-													<option value="FE">FEMALE</option>
+													<option value="Male">MALE</option>
+													<option value="Female">FEMALE</option>
 
 												</select>
 												<div class="form-control-feedback">
@@ -201,7 +194,7 @@
 										<div class="form-check">
 											<label class="form-check-label">
 												<input type="checkbox" name="subscribe" class="form-input-styled" checked data-fouc>
-												Subscribe to monthly newsletter
+			 									Subscribe to monthly newsletter
 											</label>
 										</div>
 

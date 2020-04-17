@@ -1,0 +1,246 @@
+{% load static %}
+{% include '../header.html'%}
+<!-- Main content -->
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+<div class="row">
+    
+    <div class="col-md-6">
+       
+           <!-- User details (with sample pattern) -->
+
+           <div class="card">
+               <div class="card-header bg-primary">
+                   <center>
+                       <h5>Personal Details</h5>
+                   </center>
+               </div>
+               <div class="card-body bg-white text-center card-img-top"
+                   style="background-image: url("{% static 'global_assets/images/backgrounds/panel_bg.png' %}"); background-size: contain;">
+                   <div class="card-img-actions d-inline-block mb-3">
+                       {% if member_details %}
+                       <img class="img-fluid rounded-circle"
+                           src="{% static 'global_assets/images/placeholders/placeholder.jpg'%}" width="170" height="170"
+                           alt="">
+                       <div class="card-img-actions-overlay card-img rounded-circle">
+                           <a href="#"
+                               class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                               <i class="icon-plus3"></i>
+                           </a>
+                           <a href="user_pages_profile.html"
+                               class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2">
+                               <i class="icon-link"></i>
+                           </a>
+                       </div>
+                   </div>
+
+                   
+               </div>
+
+               <div class="card-body border-top-0">
+                   <div class="d-sm-flex flex-sm-wrap mb-3">
+                       <div class="font-weight-semibold">Full name:</div>
+                       <div class="ml-sm-auto mt-2 mt-sm-0">
+                           {{ member_details.first_name }} {{ member_details.middle_name }}
+                           {{   member_details.surname  }}
+                       </div>
+                   </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Gender:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.gender }}</div>
+                    </div>
+
+                   <div class="d-sm-flex flex-sm-wrap mb-3">
+                       <div class="font-weight-semibold">Phone number:</div>
+                       <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.phone }}</div>
+                   </div>
+
+                   <div class="d-sm-flex flex-sm-wrap mb-3">
+                       <div class="font-weight-semibold">Personal Email:</div>
+                       <div class="ml-sm-auto mt-2 mt-sm-0"><a
+                               href="mailTo:{{ member_details.email }}">{{ member_details.email }}</a></div>
+                   </div>
+
+                   <div class="d-sm-flex flex-sm-wrap">
+                       <div class="font-weight-semibold">Job Email:</div>
+                       <div class="ml-sm-auto mt-2 mt-sm-0"><a
+                               href="mailTo:{{ member_details.email }}">{{ member_details.email }}</a></div>
+                   </div>
+                   <div class="">
+                       <button class="btn btn-primary" data-toggle="modal" data-target="#update_personal_details">
+                           update
+                       </button>
+                   </div>
+               </div>
+           </div>
+           <!-- /user details (with sample pattern) -->
+        
+    </div>
+
+    <div class="col-md-6">
+
+        <!-- User details (with sample pattern) -->
+        <div class="card">
+            <div class="card-header bg-primary">
+                <center>
+                    <h5>Residence Details</h5>
+                </center>
+            </div>
+
+            <div class="card-body border-top-0">
+                <div class="d-sm-flex flex-sm-wrap mb-3">
+                    <div class="font-weight-semibold">Country:</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">Tanzania</div>
+                </div>
+
+                <div class="d-sm-flex flex-sm-wrap mb-3">
+                    <div class="font-weight-semibold">Region:</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">Dar es salaam</div>
+                </div>
+
+                <div class="d-sm-flex flex-sm-wrap mb-3">
+                    <div class="font-weight-semibold">District:</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">Kinondoni</div>
+                </div>
+
+              <div class="">
+                  <button class="btn btn-primary">
+                      update
+                  </button>
+              </div>
+            </div>
+        </div>
+        <!-- /user details (with sample pattern) -->
+
+        <div class="card">
+            <div class="card-header bg-primary">
+                <center>
+                    <h5>Job Details</h5>
+                </center>
+            </div>
+
+            <div class="card-body border-top-0">
+                <div class="d-sm-flex flex-sm-wrap mb-3">
+                    <div class="font-weight-semibold">Professional:</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">TDeveloper</div>
+                </div>
+
+                <div class="d-sm-flex flex-sm-wrap mb-3">
+                    <div class="font-weight-semibold">Job Title:</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">Dar es salaam</div>
+                </div>
+
+                <div class="d-sm-flex flex-sm-wrap mb-3">
+                    <div class="font-weight-semibold">Institute Name:</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">Kinondoni</div>
+                </div>
+
+<div class="float-left">
+
+    <button class="btn btn-primary float-left">
+        update
+    </button>
+</div>
+            </div>
+        </div>
+
+        {% endif %}
+
+    </div>
+    
+</div>
+</div>
+</div>
+
+
+
+<!-- models for updation -->
+
+<!-- Vertical form modal -->
+<div id="update_personal_details" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Personal Details:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>First name</label>
+                                <input type="text" placeholder="Eugene" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Middle Name</label>
+                                <input type="text" placeholder="Kopyov" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Surname</label>
+                                <input type="text" value="" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Gender</label>
+                                <select class="form-control" name="gender">
+                                    <option value="Male">
+                                        MALE
+                                    </option>
+                                    <option value="Female">
+                                        FEMALE
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Phone</label>
+                                <input type="number" value="" class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label>personal Email</label>
+                                <input type="email" name="email" value=""  class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label>Job Email </label>
+                                <input type="email" name="job_email" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Profile Photo</label>
+                                <input type="file"  class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Submit form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->

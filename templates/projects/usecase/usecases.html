@@ -1,0 +1,154 @@
+{% load static %}
+{% include '../viewpoints/viewpoint_header.html' %}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="card blog-horizontal blog-horizontal-xs">
+            <div class="card-body">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="tabbable">
+                            <ul class="nav  nav-tabs nav-justified">
+                                <style>
+                                    .viewpoint {
+
+                                        background-color: blue;
+                                        border: 2px white bold;
+
+                                    }
+
+                                    .requirement {
+                                        background: blue;
+                                    }
+
+                                    .scenario {
+                                        background: blue;
+                                    }
+
+                                    .goal {
+                                        background: blue;
+                                    }
+
+                                    .process {
+                                        background: blue;
+                                    }
+
+                                    .usecase {
+                                        background: lightblue;
+                                    }
+
+                                    #li a {
+                                        color: white
+                                    }
+
+                                    #li1 :hover a {
+                                        background-color: white;
+                                        color: blue;
+                                    }
+                                </style>
+                                <li class="viewpoint col-md-2">
+                                    <a href="{% url 'projects:viewpoint'%}" class="col-md-2" style="color: white;font-weight:bold">
+                                        ViewPoint Description
+                                    </a>
+                                </li>
+                                <li class="goal col-md-2">
+                                    <a href="{% url 'projects:viewgoal'%}" class="col-md-2" style="color:white;font-weight:bold">
+                                        Goal Description
+                                    </a>
+                                </li>
+                                <li class=" requirement col-md-2">
+                                    <a href="{% url 'projects:viewrequirement'%}" style="color:white;font-weight:bold">
+                                        Requirement Description
+                                    </a>
+                                </li>
+                                <li class=" scenario col-md-2">
+                                    <a href="{% url 'projects:viewscenario'%}" style="color:white;font-weight:bold">
+                                        Scenario Description
+                                    </a>
+                                </li>
+                                <li class="process col-md-2">
+                                    <a href="{% url 'projects:viewprocess'%}" style="color:white;font-weight:bold">
+                                        Process Description
+                                    </a>
+                                </li>
+                                <li class="usecase col-md-2">
+                                    <a href="{% url 'projects:usecases'%}" style="color:black;font-weight:bold">
+                                        Usecase
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <li class="col-md-12 float-right" style="list-style: none;">
+                                <a href="{% url 'projects:createusecase' %}"><button
+                                        class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                                        Add Usecase <i class="icon-add"></i>
+                                    </button></a>
+                            </li>
+
+                        </div>
+
+                        <div class="form-group form-horizontal">
+                            <label class="col-lg-1 text-semibold control-label">
+                                Filter:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <select name="" data-placeholder="Select View point" class="form-control" id="">
+                                        <option value="1">
+                                            Process one
+                                        </option>
+                                        <option value="2">
+                                            Process two
+                                        </option>
+                                    </select>
+                                    <span class="input-group-append">
+                                        <span class="input-group-append"><button class="btn btn-primary"><i
+                                                    class="icon-search4"></i></button></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-10 mt-10">
+                            <h5 class="text-semibold">
+                                Usecases:
+                            </h5>
+                            <div>
+                                <ul class="list-group">
+                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                        1.
+                                        Usecase two
+                                        <a href=""
+                                            class="btn float-right text-warning-600 btn-flat btn-icon btn-rounded btn-sm"
+                                            data-popup="tooltip" data-placement="bottom" title="Delete"
+                                            style="margin-top: -6px;">
+                                            <i class="icon-trash"></i>
+                                        </a>
+                                        <a href=""
+                                            class="btn float-right text-info-600 btn-flat btn-icon btn-rounded btn-sm"
+                                            data-popup="tooltip" data-placement="bottom" title="Edit"
+                                            style="margin-top: -6px;">
+                                            <i class="icon-pencil"></i>
+                                        </a>
+                                        <a href="{% url 'projects:viewusecase'%}"
+                                            class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                            data-popup="tooltip" data-placement="bottom" title="View"
+                                            style="margin-top: -6px;">
+                                            <i class="icon-enter3"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /mini size -->
+
+            </div>
+        </div>
+    </div>
+</div>

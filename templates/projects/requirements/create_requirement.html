@@ -1,0 +1,121 @@
+<script>
+    function public_view() {
+        document.getElementById('invitational').disabled = true;
+        document.getElementById('discoverable').disabled = true;
+        document.getElementById('invitational').title = "you have selected public then can`t be invitational";
+        document.getElementById('discoverable').title = "You have selected public then can`t be discoverable";
+        document.getElementById('public').disabled = false;
+    }
+
+    function private_view() {
+        document.getElementById('public').disabled = true;
+        document.getElementById('public').checked = false;
+        document.getElementById('invitational').disabled = false;
+        document.getElementById('discoverable').disabled = false;
+    }
+</script>
+
+{% load static %}
+{% include '../project_header.html'%}
+
+<!-- Main content -->
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+        <!-- Main charts -->
+        <div class="row">
+            <div class="col-xl-12">
+
+                <!-- Traffic sources -->
+                <div class="card">
+                    <div class="card-header header-elements-inline">
+                        <h6 class="card-title">Create Requirement</h6>
+                        <div class="header-elements">
+                            <div class="form-check form-check-right form-check-switchery form-check-switchery-sm">
+                                <label class="form-check-label">
+                                    Live update:
+                                    <input type="checkbox" class="form-input-switchery" checked data-fouc>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body py-0">
+                        <form method="post" action=""></form>
+                        <div class="row">
+
+                            <div class="col-sm-3">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <div class="col-md-12">
+                                        <label>Requirement Title:</label>
+                                        <input class="form-control" type="text" name="requirement_title" required
+                                            placeholder="Enter Requirement title">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <div class="col-md-12">
+                                        <label>Requirement Link</label>
+                                        <input type="text" name="link" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <div class="col-md-12">
+                                        <label>Requirement photo:</label>
+                                        <input class="form-control" type="file" name="requirement_photo">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <div class="col-md-12">
+                                        <label>Requirement Docs:</label>
+                                        <input class="form-control" type="file" name="requirement_docs" multiple>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                        <div className="form-group col-md-6 float-left">
+                            <label>Requirement Descriptions:</label>
+                            <textarea class="form-control" name="requirement_descriptions" id="editor-full" rows="4"
+                                bottom="4"></textarea><br>
+                            <button class="btn btn-primary float-right"><span
+                                    class="fa fa-facebook">create</span></button>
+                        </div>
+
+
+
+
+                    </div>
+
+
+                </div>
+                </form>
+            </div>
+
+            <div class="chart position-relative" id="traffic-sources"></div>
+        </div>
+        <!-- /traffic sources -->
+
+    </div>
+</div>
+</div>
+</div>
+
+
+<!-- /main charts --

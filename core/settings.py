@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "authentication",
     "projects",
+    "authentication",
     "rest_framework",
     "knox",
 ]
@@ -129,3 +129,7 @@ GENDER = [
     ("Male", "Male"),
     ("Female", "Female"),
 ]
+AUTH_USER_MODEL = 'projects.User'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'docs')
+MEDIA_URL = '/docs/'

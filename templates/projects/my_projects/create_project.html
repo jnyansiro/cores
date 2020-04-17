@@ -12,6 +12,8 @@
        document.getElementById('invitational').disabled = false;
        document.getElementById('discoverable').disabled = false;
        }
+
+       
 </script>
 
 {% load static %}
@@ -32,17 +34,12 @@
                 <div class="card-header header-elements-inline">
                     <h6 class="card-title">Create Project</h6>
                     <div class="header-elements">
-                        <div class="form-check form-check-right form-check-switchery form-check-switchery-sm">
-                            <label class="form-check-label">
-                                Live update:
-                                <input type="checkbox" class="form-input-switchery" checked data-fouc>
-                            </label>
-                        </div>
+                       
                     </div>
                 </div>
 
                 <div class="card-body py-0">
-                    <form method="post" action=""></form>
+                    <form method="post" action="{% url 'projects:createproject'%}"></form>
                     <div class="row">
                         
                         <div class="col-sm-3">
@@ -60,6 +57,11 @@
                                <div class="col-md-12">
                                    <label>Sector:</label>
                                    <select name="sector" id="sector" class="form-control" required>
+                                       {% if sectors %}
+                                       {% for sector in sectors %}
+                                       <option value="{{ sector.id }}"> {{ sector.name }} </option>
+                                       {% endfor %}
+                                       {% endif %}
                                       
                                    </select>
                                </div>
@@ -71,7 +73,7 @@
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="col-md-12">
                                 <label>Due Date</label>
-                                <input type="date" class="form-control" required>
+                                <input type="date" class="form-control" name="due_date" required>
                                 </div>
                             </div>
                             
@@ -90,7 +92,7 @@
                              <div class="d-flex align-items-center justify-content-center mb-2">
                                  <div class="col-md-12">
                                      <label>Project Docs:</label>
-                                     <input class="form-control" type="file" name="project_photo"
+                                     <input class="form-control" type="file" name="project_docs"
                                          multiple>
                                  </div>
                              </div>
@@ -102,8 +104,10 @@
                                  <div class="col-md-12">
                                      <label>Project Visibility:</label>
                                      <div class="form-control">
-                                     <input class="form-input-switchery" type="radio" id="public" name="visibility" style="padding:14px">public</>
-                                     <input class="form-input-switchery" type="radio" id="private" name="visibility" style="padding:14px">private</>
+                                     <input class="form-input-switchery" type="radio" onclick="public_view()"
+                                         name="visibility" style="padding:14px">public</>
+                                     <input class="form-input-switchery" type="radio"
+                                         onclick="private_view()" name="visibility" style="padding:14px">private</>
                                          </div>
                                  </div>
                              </div>
@@ -116,10 +120,10 @@
                                      
                                      <div class="form-group col-md-12">
                                          <label>Project Participation:</label>
-                                             <select class="form-control multiselect" multiple="multiple" data-fouc>
-                                                 <option value="Public">Public</option>
-                                                 <option value="Invitational">Invitational</option>
-                                                 <option value="Discoverable">Discoverable</option>
+                                             <select class="form-control multiselect" name="participation" multiple="multiple" data-fouc>
+                                                 <option  value="Public" id="publick">public</option>
+                                                 <option value="Invitational" id="invitational">Invitational</option>
+                                                 <option value="Discoverable" id="discoverable">Discoverable</option>
                                                 
                                              </select>
                                          </div>

@@ -1,0 +1,243 @@
+{% load static %}
+{% include '../viewpoints/viewpoint_header.html' %}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="card blog-horizontal blog-horizontal-xs">
+            <div class="card-body">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="tabbable">
+                            <ul class="nav  nav-tabs nav-justified">
+                                <style>
+                                    .viewpoint {
+
+                                        background-color: blue;
+                                        border: 2px white bold;
+
+                                    }
+
+                                    .requirement {
+                                        background: green;
+                                    }
+
+                                    .scenario {
+                                        background: pink;
+                                    }
+
+                                    .goal {
+                                        background: lightblue;
+                                    }
+
+                                    .process {
+                                        background: rgb(235, 44, 124);
+                                    }
+
+                                    .usecase {
+                                        background: rgb(83, 228, 38);
+                                    }
+
+                                    #li a {
+                                        color: white
+                                    }
+
+                                    #li1 {
+                                        width: auto;
+
+                                        background-color: grey;
+                                    }
+
+                                    #li1 :hover a {
+                                        background-color: white;
+                                        color: blue;
+                                    }
+                                </style>
+                                <li class="viewpoint col-md-2">
+                                    <a href="{% url 'projects:viewpoint'%}" class="col-md-2"
+                                        style="color: white;font-weight:bold">
+                                        ViewPoint Description
+                                    </a>
+                                </li>
+                                <li class="goal col-md-2">
+                                    <a href="{% url 'projects:goals'%}" class="col-md-2"
+                                        style="color:black;font-weight:bold">
+                                        Goal Description
+                                    </a>
+                                </li>
+                                <li class=" requirement col-md-2">
+                                    <a href="{% url 'projects:requirements'%}" style="color:white;font-weight:bold">
+                                        Requirements
+                                    </a>
+                                </li>
+                                <li class=" scenario col-md-2">
+                                    <a href="" style="color:black;font-weight:bold">
+                                        Scenarios
+                                    </a>
+                                </li>
+                                <li class="process col-md-2">
+                                    <a href="" style="color:black;font-weight:bold">
+                                        Process
+                                    </a>
+                                </li>
+                                <li class="usecase col-md-2">
+                                    <a href="" style="color:black;font-weight:bold">
+                                        Usecase
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <li class="col-md-12 float-right" style="list-style: none;">
+                                <a href="{% url 'projects:creategoal' %}"><button
+                                        class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                                        Add Goal <i class="icon-add"></i>
+                                    </button></a>
+                            </li>
+
+                        </div>
+
+                        <div class="form-group form-horizontal">
+                            <label class="col-lg-1 text-semibold control-label">
+                                Filter:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <select name="" data-placeholder="Select View point" class="form-control" id="">
+                                        <option value="1">
+                                            Goal one
+                                        </option>
+                                        <option value="2">
+                                            Goal two
+                                        </option>
+                                    </select>
+                                    <span class="input-group-append">
+                                        <span class="input-group-append"><button class="btn btn-primary"><i
+                                                    class="icon-search4"></i></button></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-img-actions mr-1">
+                            <img class="card-img" src="{% static 'assets/images/page.jpg' %}" height="300" with="400"
+                                alt="">
+                            <div class="card-img-actions-overlay card-img">
+                                <a href="blog_single.html"
+                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                                    <i class="icon-link"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-weight-semibold my-1">
+                                <a href="#" class="text-default">Goal Title</a>
+                            </h5>
+
+                            <ul class="list-inline list-inline-dotted text-muted mb-0">
+                                <li class="list-inline-item">By <a href="#" class="text-muted">Eugene</a></li>
+                                <li class="list-inline-item">July 5th, 2016</li>
+                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                            class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
+                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                            class="icon-thumbs-down2 font-size-base text-danger mr-2"></i> 281</a></li>
+                                <li class="list-inline-item col-md-3 float-right"><a href="#" class="text-muted"><i
+                                            class="icon-folder font-size-base text-blue mr-2"></i>Goal docs</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <p>The bedding was hardly able to cover it and seemed ready to slide off any moment. The bedding
+                            was
+                            hardly
+                            able to cover it.</p>
+                        His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly
+                        as he
+                        looked
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt animi eius, iste incidunt eum
+                        rerum similique
+                        explicabo.
+                        Similique pariatur velit harum recusandae odio laborum modi necessitatibus eum itaque,
+                        quibusdam, alias, magni
+                        iure consectetur
+                        nihil doloribus atque natus fugiat. Nemo quasi magnam eligendi reiciendis expedita deserunt
+                        voluptas ratione, ad
+                        quos provident veniam
+                        debitis! Rem perferendis quia omnis consequatur sapiente at nobis nihil corporis eaque. Dolorum
+                        sit accusantium
+                        odio nisi distinctio iste
+                        eius consequatur, suscipit aut, labore corporis rerum. Veniam deserunt nisi deleniti hic sequi
+                        temporibus odit,
+                        repellat nobis esse! Illo quibusdam culpa,
+                        saepe consectetur animi facere obcaecati quasi! Quis molestias voluptatem nesciunt commodi
+                        ratione aperiam
+                        magnam rerum cupiditate omnis, totam ipsum esse
+                        laborum quia, et vitae impedit repudiandae eos, pariatur dolorum perspiciatis eaque. Temporibus
+                        minus saepe
+                        corporis neque voluptatum rerum distinctio
+                        nulla iure magni, alias, doloribus, consequuntur praesentium. Commodi sit mollitia aut quo
+                        voluptatum in hic
+                        perferendis illum repellat ullam pariatur
+                        ipsum id minima numquam explicabo, tenetur voluptatem corporis odio. Neque eos laudantium
+                        tempora quia, non
+                    
+                        <div
+                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                            class="icon-star-full2 text-warning mr-2"></i></a></li>
+                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                            class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
+                            </ul>
+
+
+                        </div>
+
+                        <div class="col-md-12 mb-10">
+                            <h5 class="text-semibold">
+                                Contents:
+                            </h5>
+                            <div>
+                                <ul class="list-group col-md-6">
+                                   
+                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                        number of Requirements
+                                        <span class="badge badge-info float-right">
+                                            10
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                        number of Scenarios
+                                        <span class="badge badge-info float-right">
+                                            10
+                                        </span>
+                                    </li>
+                                     <li class="list-group-item pl-10 pr-10 text-capitalize" title="">
+                                         number of Process
+                                         <!-- if its zero -->
+                                         <span class="badge badge-warning float-right">
+                                             0
+                                         </span>
+                                     </li>
+                                      <li class="list-group-item pl-10 pr-10 text-capitalize" title="">
+                                          number of Usecases
+                                          <!-- if its zero -->
+                                          <span class="badge badge-warning float-right">
+                                              0
+                                          </span>
+                                      </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        </div>
+                        </div>
+                        <!-- /mini size -->
+
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                    

@@ -6,6 +6,8 @@ from django.apps import apps
 from django.conf import settings
 import requests
 from django.conf import settings
+from datetime import timezone
+from django.contrib.auth.models import PermissionsMixin
 
 # Create your models here.
 
@@ -20,14 +22,28 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+    def create_superuser(self, username=None, password=None):
+        """Creates and saves a superuser with the given email and password."""
+        user = self.create_user(
+            username=username,
+            password=password,
+        )
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
-
-class User(AbstractBaseUser):
+class User(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(max_length=255)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now=True)
     password = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["username", "password"]
+    # REQUIRED_FIELDS = ["username", "password"]
 
     objects = UserManager()
 
@@ -74,16 +90,21 @@ class ActivityLog(models.Model):
         """Unicode representation of ActivityLog."""
         return self.activity
 
+class Sector(models.Model):
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    sector_name = models.CharField(max_length=50)
+    created_on = models.DateField(auto_now=True)
 
 class Member(models.Model):
     """Model definition for Member."""
 
     # TODO: Define fields here
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    gender = models.CharField(choices=settings.GENDER, max_length=50)
+    surname = models.CharField(max_length=50) 
+    gender = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
     phone = models.CharField(max_length=12)
     email = models.EmailField(max_length=34, blank=True)
     country = models.CharField(max_length=50, blank=True)
@@ -103,6 +124,8 @@ class Member(models.Model):
     @property
     def full_name(self):
         return self.first_name + " " + self.middle_name + " " + self.surname
+    def __str__(self):
+        return self.full_name
 
 
 class Project(models.Model):
@@ -111,11 +134,14 @@ class Project(models.Model):
     # TODO: Define fields here
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     project_title = models.CharField(max_length=50)
-    description = models.CharField(max_length=2500)
-    due_date = models.DateField()
+    project_photo = models.CharField(max_length=50,blank=True,null=True)
+    project_files = models.CharField(max_length=50,blank=True,null=True)
+    description = models.CharField(max_length=5000)
+    due_date = models.DateField(auto_now=False)
     sector = models.CharField(max_length=50)
+    project_visibility = models.CharField(max_length=40)
     is_public = models.BooleanField(default=False)
-    is_private = models.BooleanField(default=False)
+    is_invitational = models.BooleanField(default=False)
     is_discoverable = models.BooleanField(default=False)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -200,9 +226,12 @@ class Viewpoint(models.Model):
     """Model definition for Viewpoint."""
 
     # TODO: Define fields here
-    project = models.ForeignKey("Project", on_delete=models.CASCADE)
-    created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Member, on_delete=models.CASCADE)
     viewpoint_name = models.CharField(max_length=50)
+    viewpoint_links= models.CharField(max_length=600,blank=True,null=True)
+    viewpoint_photo = models.CharField(max_length=50,blank=True,null=True)
+    viewpoint_docs = models.CharField(max_length=500,blank=True,null=True)
     description = models.CharField(max_length=2300)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -225,7 +254,7 @@ class Goal(models.Model):
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=50)
     description = models.CharField(max_length=2300, null=True, blank=True)
-    category = models.CharField(max_length=50)  # example comflict
+    category = models.CharField(max_length=50,null=True)  # example comflict
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)

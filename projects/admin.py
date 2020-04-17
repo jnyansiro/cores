@@ -3,6 +3,8 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Project)
+admin.site.register(User)
+admin.site.register(Sector)
 admin.site.register(Member)
 admin.site.register(Like)
 admin.site.register(StarRate)
