@@ -25,7 +25,7 @@ SECRET_KEY = "4tmbzn66wnk@u!d_cdc2xk8zp05upl_wm@-vv7zng46(n3%sho"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.8.113:8080", "*"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "authentication",
     "rest_framework",
     "knox",
+    "gunicorn",
 ]
 
 REST_FRAMEWORK = {
