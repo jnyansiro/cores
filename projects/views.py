@@ -14,7 +14,8 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html", {})
     indexhead = "Dashboard"
-    return render(request, "index.html", {"indexhead": indexhead})
+    hidesearch = "hide"
+    return render(request, "index.html", {"indexhead": indexhead,'hidesearch':hidesearch})
 
 
 def profile(request):
