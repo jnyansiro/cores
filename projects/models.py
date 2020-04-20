@@ -91,9 +91,13 @@ class ActivityLog(models.Model):
         return self.activity
 
 class Sector(models.Model):
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     sector_name = models.CharField(max_length=50)
     created_on = models.DateField(auto_now=True)
+
+    def __str__(self):
+        """Unicode representation of ActivityLog."""
+        return self.sector_name
 
 class Member(models.Model):
     """Model definition for Member."""

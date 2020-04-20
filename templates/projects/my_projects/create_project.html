@@ -56,14 +56,19 @@
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                <div class="col-md-12">
                                    <label>Sector:</label>
-                                   <select name="sector" id="sector" class="form-control" required>
+                                   <select class="form-control multiselect" name="sector" multiple="multiple"
+                                       data-fouc>
                                        {% if sectors %}
                                        {% for sector in sectors %}
                                        <option value="{{ sector.id }}"> {{ sector.name }} </option>
                                        {% endfor %}
                                        {% endif %}
-                                      
+                                       <option value="Public" id="publick">public</option>
+                                       <option value="Invitational" id="invitational">Invitational</option>
+                                       <option value="Discoverable" id="discoverable">Discoverable</option>
+
                                    </select>
+                                   
                                </div>
                             </div>
                             
