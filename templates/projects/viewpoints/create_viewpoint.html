@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="card-body py-0">
-                        <form method="POST" action="{% url 'projects:createviewpoint'%}">
+                        <form method="POST" action="{% url 'projects:createviewpoint' project_id=project_id %}">
                             {% csrf_token %}
                         <div class="row">
 

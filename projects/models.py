@@ -99,6 +99,7 @@ class Sector(models.Model):
         """Unicode representation of ActivityLog."""
         return self.sector_name
 
+
 class Member(models.Model):
     """Model definition for Member."""
 
@@ -142,7 +143,6 @@ class Project(models.Model):
     project_files = models.CharField(max_length=50,blank=True,null=True)
     description = models.CharField(max_length=5000)
     due_date = models.DateField(auto_now=False)
-    sector = models.CharField(max_length=50)
     project_visibility = models.CharField(max_length=40)
     is_public = models.BooleanField(default=False)
     is_invitational = models.BooleanField(default=False)
@@ -159,6 +159,16 @@ class Project(models.Model):
     def __str__(self):
         """Unicode representation of Project."""
         return self.project_title
+
+class ProjectSector(models.Model):
+    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    created_on = models.DateField(auto_now=True)
+
+    def __str__(self):
+        """Unicode representation of ActivityLog."""
+        return self.id
+
 
 
 class Incentive(models.Model):

@@ -448,7 +448,7 @@
 
                     <!-- Header -->
                     <div class="card-header header-elements-inline">
-                        <h6 class="card-title">Navigation</h6>
+                        <h6 class="card-title">Project</h6>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <a class="list-icons-item" data-action="collapse"></a>
@@ -492,29 +492,26 @@
                                     title="Main"></i>
                             </li>
                             <li class="nav-item">
-                                <a href="{% url 'projects:viewproject' %}" class="nav-link active">
+                                
+                                <a href="#" class="nav-link active">
                                     <i class="icon-home4"></i>
                                     <span>
-                                    Project
+                                    Viewpoints:
 
                                     </span>
                                 </a>
+                                
                             </li>
+                            {% if viewpoints %}
+                            {% for viewpoints in viewpoints %}
                             <li class="nav-item nav-item">
-                                <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Viewpoint one</span></a>
+                                <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoints.pk %}" class="nav-link"><i
+                                        class="icon-magazine"></i> <span>{{ viewpoints.viewpoint_name }}</span></a>
 
                             </li>
-                            <li class="nav-item nav-item">
-                                <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Viewpoinr two</span></a>
-
-                            </li>
-                            <li class="nav-item nav-item">
-                                <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Viewpoint three</span></a>
-
-                            </li>
-                            <li class="nav-item"><a href="../../../RTL/default/full/index.html" class="nav-link"><i
-                                        class="icon-width"></i> <span>Viewpoint four</span></a></li>
-                            <!-- /main -->
+                            {% endfor %}
+                            {% endif %}
+                            
 
                         </ul>
                     </div>

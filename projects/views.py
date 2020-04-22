@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .models import User, Member, Project,Viewpoint
+from .models import User, Member, Project, Viewpoint, Sector,Goal
 from django.core.files.storage import FileSystemStorage
 
 
@@ -14,20 +14,34 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html", {})
     indexhead = "Dashboard"
+    current_projects = Project.objects.all().order_by("-id")[:2]
     hidesearch = "hide"
-    return render(request, "index.html", {"indexhead": indexhead,'hidesearch':hidesearch})
+    return render(
+        request,
+        "index.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "current_projects": current_projects,
+        },
+    )
 
 
 def profile(request):
     indexhead = "User Profile"
     user_id = request.user.id
     print(user_id)
+    hidesearch = "hide"
     member_details = Member.objects.get(user=user_id)
     print(member_details)
     return render(
         request,
         "user/profile.html",
-        {"member_details": member_details, "indexhead": indexhead},
+        {
+            "member_details": member_details,
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+        },
     )
 
 
@@ -155,6 +169,7 @@ def createProject(request):
             due_date=due_date,
         )
         project.save()
+
         if project:
             myProjects = Project.objects.filter(created_by=member).order_by(-id)
             indexhead = "Projects / My Project(s)"
@@ -166,51 +181,68 @@ def createProject(request):
 
     indexhead = "Project / Create-Project"
     hidesearch = "hide"
+    sectors = Sector.objects.all().order_by("sector_name")
+    print("sectors")
     return render(
         request,
         "projects/my_projects/create_project.html",
-        {"indexhead": indexhead, "hidesearch": hidesearch},
+        {"indexhead": indexhead, "hidesearch": hidesearch, "sectors": sectors},
     )
 
 
 def myProjects(request):
     indexhead = "Projects / My Project(s)"
+    member = Member.objects.get(user=request.user)
+    myProject = Project.objects.filter(created_by=member)
     return render(
-        request, "projects/my_projects/myproject.html", {"indexhead": indexhead}
+        request,
+        "projects/my_projects/myproject.html",
+        {"indexhead": indexhead, "myProject": myProject},
     )
 
-def viewMyproject(request):
+
+def viewMyproject(request, project_id):
     indexhead = "Projects / My Project(s)"
-    hidesearch = "hide"
-    return render(
-        request, "projects/my_projects/view_myproject.html", {"indexhead": indexhead,'hidesearch':hidesearch}
-    )
-
-
-def viewProject(request):
-    indexhead = "project Title"
+    project = Project.objects.get(id=project_id)
     hidesearch = "hide"
     return render(
         request,
+        "projects/my_projects/view_myproject.html",
+        {"indexhead": indexhead, "hidesearch": hidesearch, "project": project},
+    )
+
+
+def viewProject(request, project_id):
+    indexhead = "project Title"
+    hidesearch = "hide"
+    project = Project.objects.filter(id=project_id)
+
+    return render(
+        request,
         "projects/other_projects/view_project.html",
-        {"indexhead": indexhead, "hidesearch": hidesearch},
+        {"indexhead": indexhead, "hidesearch": hidesearch, "project": project},
     )
 
 
 def projectMembers(request):
     indexhead = "Projects / Project-Members"
     member_details = Member.objects.all()
-    
+    placeholder = "search member"
+
     return render(
         request,
         "projects/my_projects/project_members.html",
-        {"indexhead": indexhead, "member_details": member_details},
+        {
+            "indexhead": indexhead,
+            "member_details": member_details,
+            "placeholder": placeholder,
+        },
     )
 
 
 def memberRequest(request):
     indexhead = "Project / Member Requests"
-    
+
     return render(
         request, "projects/my_projects/member_request.html", {"indexhead": indexhead}
     )
@@ -226,69 +258,121 @@ def inviteMember(request):
 
 def projects(request):
     indexhead = "Projects"
+    projects = Project.objects.all()
+    print(projects)
 
     return render(
-        request, "projects/other_projects/projects.html", {"indexhead": indexhead}
+        request,
+        "projects/other_projects/projects.html",
+        {"indexhead": indexhead, "projects": projects},
     )
 
 
-def viewpoint(request):
+def viewpoint(request, viewpoint_id):
     indexhead = "Project - ViewPoint"
     hidesearch = "hide"
+
+    viewpoint = Viewpoint.objects.filter(id=viewpoint_id)
+    viewpoints = Viewpoint.objects.all().order_by("-id")
+    project_id = viewpoint_id
     return render(
-        request, "projects/viewpoints/viewpoint.html", {"indexhead": indexhead,'hidesearch':hidesearch}
+        request,
+        "projects/viewpoints/viewpoint.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "viewpoint": viewpoint,
+            "viewpoints": viewpoints,
+            "project_id":project_id,
+        },
     )
 
 
-def createViewpoint(request):
-    if request.method == 'POST':
-        viewpoint_title = request.POST.get('viewpoint_title')
-        links = request.POST.get('links')
-        viewpoint_photo = request.FILES.get('viewpoint_photo')
-        viewpoint_docs = request.FILES.get('viewpoint_docs')
-        viewpoint_descriptions = request.POST.get('viewpoint_descriptions')
+def viewpoints(request, project_id):
+    indexhead = "Project - ViewPoint"
+    hidesearch = "hide"
+
+    viewpoint = Viewpoint.objects.filter(project=project_id).order_by("-id")[:4]
+    viewpoints = Viewpoint.objects.filter(project=project_id).order_by("-id")
+    project_id = project_id
+    return render(
+        request,
+        "projects/viewpoints/viewpoints.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "viewpoint": viewpoint,
+            "viewpoints": viewpoints,
+            "project_id":project_id,
+        },
+    )
+
+
+def createViewpoint(request,project_id):
+    if request.method == "POST":
+        viewpoint_title = request.POST.get("viewpoint_title")
+        links = request.POST.get("links")
+        viewpoint_photo = request.FILES.get("viewpoint_photo")
+        viewpoint_docs = request.FILES.get("viewpoint_docs")
+        viewpoint_descriptions = request.POST.get("viewpoint_descriptions")
+        project_id = project_id
 
         # getting member who to create a viewpoint
         user_id = request.user.id
         member = Member.objects.get(user=user_id)
-        project = Project.objects.all()[0]
-        print(project)
+        project = Project.objects.get(id=project_id)
+   
 
         viewpoint = Viewpoint.objects.create(
-            project = project,
-            created_by = member,
-            viewpoint_name = viewpoint_title,
-            viewpoint_links= links,
-            viewpoint_photo = viewpoint_photo,
-            viewpoint_docs = viewpoint_docs,
-            description = viewpoint_descriptions
+            project=project,
+            created_by=member,
+            viewpoint_name=viewpoint_title,
+            viewpoint_links=links,
+            viewpoint_photo=viewpoint_photo,
+            viewpoint_docs=viewpoint_docs,
+            description=viewpoint_descriptions,
         )
         viewpoint.save()
         if viewpoint:
             allviewpoints = Viewpoint.objects.all().order_by(-id)
             indexhead = "Project - ViewPoint"
             hidesearch = "hide"
-            return render(request,"viewpoint.html",{"indexhead": indexhead,'hidesearch':hidesearch,'allviewpoints':allviewpoints})
-    
+            return render(
+                request,
+                "viewpoint.html",
+                {
+                    "indexhead": indexhead,
+                    "hidesearch": hidesearch,
+                    "allviewpoints": allviewpoints,
+                    "project_id": project_id,
+                },
+            )
+
     indexhead = "Project - Create ViewPoint"
     hidesearch = "hide"
     return render(
-        request, "projects/viewpoints/create_viewpoint.html", {"indexhead": indexhead,'hidesearch':hidesearch}
+        request,
+        "projects/viewpoints/create_viewpoint.html",
+        {"indexhead": indexhead, "hidesearch": hidesearch,'project_id':project_id},
     )
 
 
-def goals(request):
+def goals(request, viewpoint_id):
     indexhead = "Viewpoint-Goals"
-    return render(request, "projects/Goals/goals.html", {"indexhead": indexhead})
+    goals = Goal.objects.filter(viewpoint=viewpoint_id)
+    viewpoint_id = viewpoint_id
+    return render(request, "projects/Goals/goals.html", {"indexhead": indexhead,'goals':goals,'viewpoint_id':viewpoint_id})
 
 
-def viewGoal(request):
+def viewGoal(request,goal_id):
     indexhead = "Goal Description"
-    return render(request, "projects/Goals/view_goal.html", {"indexhead": indexhead})
+    goal = Goal.objects.filter(id=goal_id)
+    return render(request, "projects/Goals/view_goal.html", {"indexhead": indexhead,'goal':goal})
 
 
-def createGoal(request):
+def createGoal(request,viewpoint_id):
     indexhead = "Create Goal"
+
     return render(request, "projects/Goals/create_goal.html", {"indexhead": indexhead})
 
 

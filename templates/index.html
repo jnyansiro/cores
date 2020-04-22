@@ -92,15 +92,16 @@
                         Recent Projects
 						<!-- Traffic sources -->
 						<div class="row">
+							{% if current_projects %}
+							{% for current_project in current_projects %}
 							<div class="col-lg-12">
-
 								<!-- Mini size -->
 								<div class="card blog-horizontal blog-horizontal-xs">
 									<div class="card-body">
 										<div class="card-img-actions mr-3">
 											<img class="card-img img-fluid" src="{% static 'assets/images/page.jpg' %}" alt="">
 											<div class="card-img-actions-overlay card-img">
-												<a href="{% url 'projects:viewproject'%}"
+												<a href="{% url 'projects:viewproject' project_id=current_project.id %}"
 													class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
 													<i class="icon-link"></i>
 												</a>
@@ -109,12 +110,12 @@
 
 										<div class="mb-3">
 											<h5 class="font-weight-semibold my-1">
-												<a href="#" class="text-default">Project Title</a>
+												<a href="#" class="text-default">{{ current_project.project_title }}</a>
 											</h5>
 
 											<ul class="list-inline list-inline-dotted text-muted mb-0">
-												<li class="list-inline-item">By <a href="#" class="text-muted">Eugene</a></li>
-												<li class="list-inline-item">July 5th, 2016</li>
+												<li class="list-inline-item">By <a href="#" class="text-muted">{{ current_project.created_by }}</a></li>
+												<li class="list-inline-item">{{ current_project.created_on }}</li>
 												<li class="list-inline-item"><a href="#" class="text-muted"><i
 															class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
 												<li class="list-inline-item"><a href="#" class="text-muted"><i
@@ -122,14 +123,8 @@
 											</ul>
 										</div>
 
-										<p>The bedding was hardly able to cover it and seemed ready to slide off any moment. The bedding
-											was
-											hardly
-											able to cover it.</p>
-										His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as
-										he
-										looked
-										<a href="{% url 'projects:viewproject'%}">[...]</a>
+										{{ current_project.description|safe|truncatewords:40 }}
+										<a href="{% url 'projects:viewproject' project_id=current_project.id %}">[...]</a>
 
 										<div
 											class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
@@ -146,59 +141,8 @@
 								</div>
 								<!-- /mini size -->
 							</div>
-							<div class="col-lg-12">
-								<!-- Mini size -->
-								<div class="card blog-horizontal blog-horizontal-xs">
-									<div class="card-body">
-										<div class="card-img-actions mr-3">
-											<img class="card-img img-fluid" src="{% static 'assets/images/page.jpg' %}" alt="">
-											<div class="card-img-actions-overlay card-img">
-												<a href="{% url 'projects:viewproject'%}"
-													class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-													<i class="icon-link"></i>
-												</a>
-											</div>
-										</div>
-
-										<div class="mb-3">
-											<h5 class="font-weight-semibold my-1">
-												<a href="#" class="text-default">Project Title</a>
-											</h5>
-
-											<ul class="list-inline list-inline-dotted text-muted mb-0">
-												<li class="list-inline-item">By <a href="#" class="text-muted">Eugene</a></li>
-												<li class="list-inline-item">July 5th, 2016</li>
-												<li class="list-inline-item"><a href="#" class="text-muted"><i
-															class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
-												<li class="list-inline-item"><a href="#" class="text-muted"><i
-															class="icon-thumbs-down2 font-size-base text-danger mr-2"></i> 281</a></li>
-											</ul>
-										</div>
-
-										<p>The bedding was hardly able to cover it and seemed ready to slide off any moment. The bedding
-											was
-											hardly
-											able to cover it.</p>
-										His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as
-										he
-										looked
-										<a href="{% url 'projects:viewproject'%}">[...]</a>
-
-										<div
-											class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
-											<ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
-												<li class="list-inline-item"><a href="#" class="text-muted"><i
-															class="icon-star-full2 text-warning mr-2"></i></a></li>
-												<li class="list-inline-item"><a href="#" class="text-muted"><i
-															class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
-											</ul>
-
-
-										</div>
-									</div>
-								</div>
-								<!-- /mini size -->
-							</div>
+							{% endfor %}
+							{% endif %}
 						</div>
 
 					</div>

@@ -56,12 +56,14 @@
                                     }
                                 </style>
                                 <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoint'%}" class="col-md-2" style="color: white;font-weight:bold">
+                                    <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint_id %}" class="col-md-2"
+                                        style="color: white;font-weight:bold">
                                         ViewPoint Description
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
-                                    <a href="{% url 'projects:goals'%}" class="col-md-2" style="color:black;font-weight:bold">
+                                  
+                                    <a href="#" class="col-md-2" style="color:black;font-weight:bold">
                                         Goals
                                     </a>
                                 </li>
@@ -89,7 +91,8 @@
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:creategoal' %}"><button
+
+                                <a href="{% url 'projects:creategoal' viewpoint_id=viewpoint_id %}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Goal <i class="icon-add"></i>
                                     </button></a>
@@ -124,9 +127,10 @@
                               </h5>
                               <div>
                                   <ul class="list-group">
+                                      {% for goal in goals %}
                                       <li class="list-group-item pl-10 pr-10 text-capitalize">
-                                          1.
-                                          goal two
+                                          
+                                          {{ goal.goal_name }}
                                           <a href=""
                                               class="btn float-right text-warning-600 btn-flat btn-icon btn-rounded btn-sm"
                                               data-popup="tooltip" data-placement="bottom" title="Delete"
@@ -139,13 +143,16 @@
                                               style="margin-top: -6px;">
                                               <i class="icon-pencil"></i>
                                           </a>
-                                          <a href="{% url 'projects:viewgoal'%}"
+                                        
+                                          <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
                                               class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                               data-popup="tooltip" data-placement="bottom" title="View"
                                               style="margin-top: -6px;">
                                               <i class="icon-enter3"></i>
                                           </a>
+                                          
                                       </li>
+                                      {% endfor %}
                                   </ul>
                               </div>
                           </div>

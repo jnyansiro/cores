@@ -6,28 +6,26 @@
     <div class="content">
 <div class="row">
     <div class="col-lg-12">
-
+        {% if project%}
+        {% for project in project %}
         <!-- Mini size -->
         <div class="card blog-horizontal blog-horizontal-xs">
             <div class="card-body">
                 <div class="card-img-actions mr-1">
-                    <img class="card-img" src="{% static 'assets/images/page.jpg' %}" height="300" with="400" alt="">
+                    <img class="card-img" src="{% static 'assets/images/page.jpg' %}" height="200" with="400" alt="">
                     <div class="card-img-actions-overlay card-img">
-                        <a href="blog_single.html"
-                            class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                            <i class="icon-link"></i>
-                        </a>
+                        
                     </div>
                 </div>
 
                 <div class="mb-4">
                     <h5 class="font-weight-semibold my-1">
-                        <a href="#" class="text-default">Project Title</a>
+                        <a href="#" class="text-default">{{ project.project_title }}</a>
                     </h5>
 
                     <ul class="list-inline list-inline-dotted text-muted mb-0">
-                        <li class="list-inline-item">By <a href="#" class="text-muted">Eugene</a></li>
-                        <li class="list-inline-item">July 5th, 2016</li>
+                        <li class="list-inline-item">By <a href="#" class="text-muted">{{ project.created_by}}</a></li>
+                        <li class="list-inline-item">{{ project.created_on }}</li>
                         <li class="list-inline-item"><a href="#" class="text-muted"><i
                                     class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
                         <li class="list-inline-item"><a href="#" class="text-muted"><i
@@ -38,26 +36,7 @@
                     </ul>
                 </div>
 
-                <p>The bedding was hardly able to cover it and seemed ready to slide off any moment. The bedding was
-                    hardly
-                    able to cover it.</p>
-                His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he
-                looked
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt animi eius, iste incidunt eum rerum similique explicabo. 
-                Similique pariatur velit harum recusandae odio laborum modi necessitatibus eum itaque, quibusdam, alias, magni iure consectetur 
-                nihil doloribus atque natus fugiat. Nemo quasi magnam eligendi reiciendis expedita deserunt voluptas ratione, ad quos provident veniam
-                 debitis! Rem perferendis quia omnis consequatur sapiente at nobis nihil corporis eaque. Dolorum sit accusantium odio nisi distinctio iste
-                  eius consequatur, suscipit aut, labore corporis rerum. Veniam deserunt nisi deleniti hic sequi temporibus odit, repellat nobis esse! Illo quibusdam culpa,
-                   saepe consectetur animi facere obcaecati quasi! Quis molestias voluptatem nesciunt commodi ratione aperiam magnam rerum cupiditate omnis, totam ipsum esse 
-                   laborum quia, et vitae impedit repudiandae eos, pariatur dolorum perspiciatis eaque. Temporibus minus saepe corporis neque voluptatum rerum distinctio
-                    nulla iure magni, alias, doloribus, consequuntur praesentium. Commodi sit mollitia aut quo voluptatum in hic perferendis illum repellat ullam pariatur
-                     ipsum id minima numquam explicabo, tenetur voluptatem corporis odio. Neque eos laudantium tempora quia, non optio quasi animi sed reprehenderit eveniet
-                      praesentium necessitatibus illo saepe placeat quibusdam itaque atque nobis consequuntur dignissimos sint debitis facilis iure, quod nesciunt? Dolorem 
-                      inventore delectus exercitationem provident! Rerum vitae saepe, repudiandae dicta odio iusto!
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque eos dicta, voluptatum neque aperiam velit laborum dignissimos sed possimus itaque pariatur tempore. Quod natus velit inventore qui temporibus saepe voluptatibus dignissimos vel, totam repellendus nostrum, ea mollitia odio culpa. Omnis officia quia iusto earum explicabo delectus eius nemo. Cupiditate expedita eaque a accusamus beatae nesciunt obcaecati sed necessitatibus modi maxime.
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique earum dignissimos atque dolorem ipsa, officia qui nisi laborum repellat rem, quae aperiam quo excepturi hic! Asperiores laudantium et itaque eveniet officiis, reprehenderit laboriosam. Quaerat distinctio incidunt mollitia ab nisi aspernatur in delectus adipisci, impedit veritatis dignissimos veniam, corporis ex consequuntur tempore tempora voluptates et possimus corrupti. Dolores ipsa officia eligendi vero, nulla nemo non sunt ipsam cum corporis voluptatum enim ab fuga sint provident iste quibusdam suscipit quo, sequi ullam dolore officiis earum voluptatem? Minus nisi corrupti reprehenderit id numquam.
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quasi? Distinctio, laboriosam nihil? Labore eum quia fugiat a nobis nesciunt dolorum quam quaerat obcaecati itaque deleniti libero vel minima soluta accusamus, quod veritatis quas quibusdam. Accusamus nisi sint deleniti ipsum maiores esse earum, dolor expedita hic consectetur itaque aliquid. Quaerat dicta qui eius, culpa blanditiis autem dolores iusto nihil explicabo eum quasi odit, iure exercitationem fuga veritatis, inventore libero. Illo culpa, molestiae numquam natus voluptate consequatur eaque, adipisci quo sunt repellat perspiciatis odio, illum ea? Aliquam, id, adipisci nesciunt sunt amet at, repudiandae deleniti laboriosam earum nobis ad necessitatibus odit tenetur libero dolor accusantium dolorum enim aut? Adipisci asperiores maiores, optio atque eum obcaecati magni voluptates dicta minima quo iure alias illo, consequatur facere esse recusandae sapiente, dolorem sint provident! Fuga nihil rerum, praesentium ea laboriosam voluptatibus odio, in corrupti tempore, accusamus voluptatum aspernatur? Minus voluptatibus vero omnis blanditiis repellendus sit rerum, expedita quos fugit, maiores doloremque animi reiciendis laboriosam cupiditate minima quod tenetur temporibus modi veniam iste quam non inventore voluptate? Quisquam facere, saepe, deserunt necessitatibus adipisci, odit quod iure quae aliquam vel accusamus! Incidunt quam ut cumque repudiandae officiis reiciendis est quidem? Sequi hic impedit eos eveniet quae!
-
+              {{ project.description|safe }}
                 <div
                     class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
                     <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
@@ -74,5 +53,8 @@
         <!-- /mini size -->
 
     </div>
+    {% endfor %}
+    {% endif %}
+
 </div>
 </div>

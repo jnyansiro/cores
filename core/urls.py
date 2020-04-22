@@ -21,6 +21,7 @@ from django.conf.urls import handler404, handler500
 urlpatterns = [
     path("", index, name="index"),
     path("", include("authentication.urls")),
+    path("", include("data_analysis.urls")),
     path("admin/", admin.site.urls),
     path("", include("projects.urls")),
     path("login", login, name="login"),

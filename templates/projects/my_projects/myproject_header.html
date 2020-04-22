@@ -411,7 +411,13 @@
                 {% if not hidesearch %}
                 <!-- {{ indexhead }} -->
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="search project">
+                    {% if not placeholder %}
+                    <input type="text" class="form-control"  placeholder="search project">
+                    {% endif %}
+                    
+                    {% if placeholder %}
+                    <input type="text" class="form-control" placeholder="{{ placeholder }}">
+                    {% endif %}
                     <span class="input-group-append"></span>
                     <span class="input-group-append"><button class="btn btn-primary"><i
                                 class="icon-search4"></i></button></span>
@@ -520,8 +526,12 @@
                                     <span> Invite Member
                                         </span></a></li>
                             <li class="nav-item nav-item">
-                                <a href="{% url 'projects:viewpoint'%}" class="nav-link"><i class="icon-copy"></i>
+                                {% if project %}
+                                
+                                <a href="{% url 'projects:viewpoints' project_id=project.id %}" class="nav-link"><i class="icon-copy"></i>
                                     <span>Viewpoints</span></a>
+                                   
+                                    {% endif %}
 
                             </li>
                             <li class="nav-item nav-item-submenu">

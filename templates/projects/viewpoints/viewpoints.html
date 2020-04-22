@@ -1,0 +1,182 @@
+{% load static %}
+{% include './viewpoint_header.html' %}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="card blog-horizontal blog-horizontal-xs">
+            <div class="card-body">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="tabbable">
+                            <ul class="nav  nav-tabs nav-justified">
+                                <style>
+                                    .viewpoint {
+
+                                        background-color: lightblue;
+
+                                    }
+
+                                    .requirement {
+                                        background: green;
+                                    }
+
+                                    .scenario {
+                                        background: pink;
+                                    }
+
+                                    .goal {
+                                        background: yellow;
+                                    }
+
+                                    .process {
+                                        background: rgb(235, 44, 124);
+                                    }
+
+                                    .usecase {
+                                        background: rgb(83, 228, 38);
+                                    }
+
+                                    #li a {
+                                        color: white
+                                    }
+
+                                    #li1 {
+                                        width: auto;
+
+                                        background-color: grey;
+                                    }
+
+                                    #li1 :hover a {
+                                        background-color: white;
+                                        color: blue;
+                                    }
+                                </style>
+                                <li class="viewpoint col-md-2">
+                                    <a href="#" class="col-md-2" style="color: white;font-weight:bold">
+                                        ViewPoints
+                                    </a>
+                                </li>
+                                <li class="goal col-md-2">
+                                    
+                                    <a href="#" class="col-md-2"
+                                        style="color:black;font-weight:bold">
+                                        Goals
+                                    </a>
+                                   
+                                    
+                                </li>
+                                <li class=" requirement col-md-2">
+                                    <a href="" style="color:white;font-weight:bold">
+                                        Requirements
+                                    </a>
+                                </li>
+                                <li class=" scenario col-md-2">
+                                    <a href="" style="color:black;font-weight:bold">
+                                        Scenarios
+                                    </a>
+                                </li>
+                                <li class="process col-md-2">
+                                    <a href="" style="color:black;font-weight:bold">
+                                        Process
+                                    </a>
+                                </li>
+                                <li class="usecase col-md-2">
+                                    <a href="" style="color:black;font-weight:bold">
+                                        Usecase
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <li class="col-md-12 float-right" style="list-style: none;">
+                                <a href="{% url 'projects:createviewpoint' project_id=project_id %}"><button
+                                        class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                                        Add Viewpoint <i class="icon-add"></i>
+                                    </button></a>
+                            </li>
+
+                        </div>
+                        <strong style="color:green">Recent Viewpoints</strong>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+                      
+
+
+
+
+
+
+                        <div class="row">
+                              {% if viewpoint %}
+                              {% for viewpoint in viewpoint %}
+                            <div class="col-lg-6">
+
+                                <!-- Mini size -->
+                                <div class="card blog-horizontal blog-horizontal-xs">
+                                    <div class="card-body">
+                                        <div class="card-img-actions mr-3">
+                                            <img class="card-img img-fluid" src="{% static 'assets/images/page.jpg' %}"
+                                                alt="">
+                                            <div class="card-img-actions-overlay card-img">
+
+                                                <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                                                    <i class="icon-link"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <h5 class="font-weight-semibold my-1">
+                                                <a href="#" class="text-default">{{ viewpoint.viewpoint_name }}</a>
+                                            </h5>
+
+                                            <ul class="list-inline list-inline-dotted text-muted mb-0">
+                                                <li class="list-inline-item">By <a href="#"
+                                                        class="text-muted">{{ viewpoint.created_by }}</a></li>
+                                                <li class="list-inline-item">{{ viewpoint.created_on }}</li>
+                                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                                            class="icon-thumbs-up2 font-size-base text-blue mr-2"></i>
+                                                        281</a></li>
+                                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                                            class="icon-thumbs-down2 font-size-base text-danger mr-2"></i>
+                                                        281</a></li>
+                                            </ul>
+                                        </div>
+                                           {{ viewpoint.description|safe|truncatewords:40 }}
+                                        <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}">[...]</a>
+
+                                        <div
+                                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+                                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+                                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                                            class="icon-star-full2 text-warning mr-2"></i></a></li>
+                                                <li class="list-inline-item"><a href="#" class="text-muted"><i
+                                                            class="icon-bubbles5 text-blue mr-2"></i>12 comments</a>
+                                                </li>
+                                            </ul>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /mini size -->
+
+                            </div>
+
+
+                            {% endfor %}
+                            {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
