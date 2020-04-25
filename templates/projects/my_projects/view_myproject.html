@@ -12,10 +12,10 @@
                 <div class="card blog-horizontal blog-horizontal-xs">
                     <div class="card-body">
                         <div class="card-img-actions mr-1">
-                            <img class="card-img" src="{% static 'assets/images/page.jpg' %}"
+                            <img class="card-img" src="../../../docs/{{ project.project_photo }}"
                                 alt="">
                             <div class="card-img-actions-overlay card-img">
-                                <a href="blog_single.html"
+                                <a href="#"
                                     class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
                                     <i class="icon-link"></i>
                                 </a>
@@ -29,7 +29,8 @@
 
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
                                 <li class="list-inline-item">By <a href="#" class="text-muted">{{ project.created_by }}</a></li>
-                                <li class="list-inline-item">{{ project.created_on }}</li>
+                                <li class="list-inline-item">Created on: {{ project.created_on }}</li>
+                                <li class="list-inline-item">Due Date: {{ project.due_date }}</li>
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
                                             class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
@@ -40,7 +41,7 @@
                             </ul>
                         </div>
 
-                       {{ project.description }}
+                       {{ project.description|safe }}
 
                         <div
                             class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">

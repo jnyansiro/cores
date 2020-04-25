@@ -1,19 +1,4 @@
-<script>
-    function public_view() {
-        document.getElementById('invitational').disabled = true;
-        document.getElementById('discoverable').disabled = true;
-        document.getElementById('invitational').title = "you have selected public then can`t be invitational";
-        document.getElementById('discoverable').title = "You have selected public then can`t be discoverable";
-        document.getElementById('public').disabled = false;
-    }
 
-    function private_view() {
-        document.getElementById('public').disabled = true;
-        document.getElementById('public').checked = false;
-        document.getElementById('invitational').disabled = false;
-        document.getElementById('discoverable').disabled = false;
-    }
-</script>
 
 {% load static %}
 {% include '../project_header.html'%}

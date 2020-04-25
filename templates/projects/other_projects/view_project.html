@@ -12,7 +12,8 @@
         <div class="card blog-horizontal blog-horizontal-xs">
             <div class="card-body">
                 <div class="card-img-actions mr-1">
-                    <img class="card-img" src="{% static 'assets/images/page.jpg' %}" height="200" with="400" alt="">
+                    <img class="card-img" src="../../../docs/{{ project.project_photo }}" height="200" with="400"
+                        alt="">
                     <div class="card-img-actions-overlay card-img">
                         
                     </div>
@@ -25,7 +26,8 @@
 
                     <ul class="list-inline list-inline-dotted text-muted mb-0">
                         <li class="list-inline-item">By <a href="#" class="text-muted">{{ project.created_by}}</a></li>
-                        <li class="list-inline-item">{{ project.created_on }}</li>
+                        <li class="list-inline-item">Created On: {{ project.created_on }}</li>
+                        <li class="list-inline-item">Due Date: {{ project.created_on }}</li>
                         <li class="list-inline-item"><a href="#" class="text-muted"><i
                                     class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
                         <li class="list-inline-item"><a href="#" class="text-muted"><i

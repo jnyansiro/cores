@@ -15,6 +15,9 @@ def index(request):
         return render(request, "login.html", {})
     indexhead = "Dashboard"
     current_projects = Project.objects.all().order_by("-id")[:2]
+    for project in current_projects:
+        print(project.project_photo)
+    
     hidesearch = "hide"
     return render(
         request,
@@ -135,36 +138,36 @@ def createProject(request):
         due_date = request.POST.get("due_date")
         project_photo = request.FILES.get("project_photo")
         project_files = request.FILES.get("project_docs")
-        project_visibility = request.POST.get("visibility")
-        is_public = request.POST.get("participation")
-        is_discoverable = request.POST.get("participation")
-        is_invitational = request.POST.get("participation")
-        project_description = request.POST.get("project_description")
+        project_visibility= request.POST.get("visibility")
+        # is_public = request.POST.get("participation")
+        project_participation = request.POST.get("participation")
+        print(sector)
+        print(project_participation)
+        # is_invitational = request.POST.get("participation")
+        project_description = request.POST.get("project_descriptions")
 
-        if not empty(is_discoverable):
-            is_discoverable = True
-        else:
-            is_discoverable = False
+        # if is_discoverable:
+        #     is_discoverable = True
+        # else:
+        #     is_discoverable = False
 
-        if not empty(is_invitational):
-            is_invitational = True
-        else:
-            is_invitational = False
+        # if is_invitational:
+        #     is_invitational = True
+        # else:
+        #     is_invitational = False
 
-        if not empty(is_public):
-            is_public = True
-        else:
-            is_public = False
+        # if is_public:
+        #     is_public = True
+        # else:
+        #     is_public = False
         # getting member who create of project
         member = Member.objects.get(user=request.user.id)
-        print(member)
         project = Project.objects.create(
             created_by=member,
+            project_photo=project_photo,
+            project_files=project_files,
             project_title=project_title,
             project_visibility=project_visibility,
-            is_public=is_public,
-            is_discoverable=is_discoverable,
-            is_invitational=is_invitational,
             description=project_description,
             due_date=due_date,
         )
@@ -193,7 +196,7 @@ def createProject(request):
 def myProjects(request):
     indexhead = "Projects / My Project(s)"
     member = Member.objects.get(user=request.user)
-    myProject = Project.objects.filter(created_by=member)
+    myProject = Project.objects.filter(created_by=member).order_by('-id')
     return render(
         request,
         "projects/my_projects/myproject.html",
@@ -258,8 +261,7 @@ def inviteMember(request):
 
 def projects(request):
     indexhead = "Projects"
-    projects = Project.objects.all()
-    print(projects)
+    projects = Project.objects.all().order_by('-id')
 
     return render(
         request,

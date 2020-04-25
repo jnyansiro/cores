@@ -109,6 +109,7 @@ class Member(models.Model):
     middle_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50) 
     gender = models.CharField(max_length=50)
+    date_of_birth = models.DateField(auto_now=False,blank=True, null=True)
     is_active = models.BooleanField(default=True)
     phone = models.CharField(max_length=12)
     email = models.EmailField(max_length=34, blank=True)
@@ -116,7 +117,7 @@ class Member(models.Model):
     professional = models.CharField(max_length=50, blank=True)
     job_title = models.CharField(max_length=50, blank=True)
     institution_name = models.CharField(max_length=50, blank=True)
-    profile_photo = models.CharField(max_length=50, blank=True)
+    profile_photo = models.ImageField(max_length=50, blank=True)
     created_on = models.DateField(auto_now=True)
     update_on = models.DateField(auto_now=True)
 
@@ -139,11 +140,11 @@ class Project(models.Model):
     # TODO: Define fields here
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     project_title = models.CharField(max_length=50)
-    project_photo = models.CharField(max_length=50,blank=True,null=True)
-    project_files = models.CharField(max_length=50,blank=True,null=True)
-    description = models.CharField(max_length=5000)
+    project_photo = models.ImageField(max_length=50,blank=True,null=True)
+    project_files = models.FileField(max_length=50,blank=True,null=True)
+    description = models.CharField(max_length=5000,null=True,blank=True)
     due_date = models.DateField(auto_now=False)
-    project_visibility = models.CharField(max_length=40)
+    project_visibility = models.CharField(max_length=40,null=True,blank=True)
     is_public = models.BooleanField(default=False)
     is_invitational = models.BooleanField(default=False)
     is_discoverable = models.BooleanField(default=False)
@@ -244,8 +245,8 @@ class Viewpoint(models.Model):
     created_by = models.ForeignKey(Member, on_delete=models.CASCADE)
     viewpoint_name = models.CharField(max_length=50)
     viewpoint_links= models.CharField(max_length=600,blank=True,null=True)
-    viewpoint_photo = models.CharField(max_length=50,blank=True,null=True)
-    viewpoint_docs = models.CharField(max_length=500,blank=True,null=True)
+    viewpoint_photo = models.ImageField(blank=True,null=True)
+    viewpoint_docs = models.FileField(max_length=500,blank=True,null=True)
     description = models.CharField(max_length=2300)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -267,6 +268,8 @@ class Goal(models.Model):
     # TODO: Define fields here
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=50)
+    goal_photo = models.ImageField(blank=True,null=True)
+    goal_docs = models.FileField(blank=True,null=True)
     description = models.CharField(max_length=2300, null=True, blank=True)
     category = models.CharField(max_length=50,null=True)  # example comflict
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
@@ -291,6 +294,8 @@ class Requirement(models.Model):
     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+    requirement_photo = models.ImageField(blank=True,null=True)
+    requirement_docs = models.FileField(max_length=500,blank=True,null=True)
     description = models.CharField(max_length=2500)
     file = models.CharField(max_length=500)
     created_on = models.DateField(auto_now=True)
@@ -314,6 +319,8 @@ class Scenario(models.Model):
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+    scenario_photo = models.ImageField(blank=True,null=True)
+    scenario_docs = models.FileField(blank=True,null=True)
     description = models.CharField(max_length=1500)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
@@ -335,7 +342,10 @@ class Process(models.Model):
     # TODO: Define fields here
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    file = models.CharField(max_length=500)
+    process_name = models.CharField(max_length=60)
+    process_photo = models.ImageField(blank=True,null=True)
+    process_docs = models.FileField(max_length=500,blank=True,null=True)
+    description = models.CharField(max_length=1000)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 
@@ -358,7 +368,9 @@ class UseCase(models.Model):
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
     description = models.CharField(max_length=500)
-    file = models.CharField(max_length=500)
+    usecase_link = models.CharField(max_length=500)
+    usecase_photo = models.ImageField(blank=True,null=True)
+    usecase_docs = models.FileField(max_length=500,blank=True,null=True)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 
@@ -370,7 +382,7 @@ class UseCase(models.Model):
 
     def __str__(self):
         """Unicode representation of UseCase."""
-        return self.usecasename
+        return self.usecase_name
 
 
 class Repository(models.Model):
@@ -424,7 +436,7 @@ class RequirementArtifact(models.Model):
     artifact_type = models.CharField(max_length=50)
     artifact_content = models.CharField(max_length=500)
     artifact_link = models.CharField(max_length=200, null=True, blank=True)
-    uploaded_file = models.CharField(max_length=50)
+    uploaded_file = models.FileField(max_length=50,blank=True,null=True)
     created_on = models.DateField(auto_now=True)
     updated_on = models.DateField(auto_now=True)
 

@@ -39,7 +39,8 @@
                 </div>
 
                 <div class="card-body py-0">
-                    <form method="post" action="{% url 'projects:createproject'%}"></form>
+                    <form method="post" action="{% url 'projects:createproject'%}">
+                        {% csrf_token %}
                     <div class="row">
                         
                         <div class="col-sm-3">
@@ -108,9 +109,9 @@
                                      <label>Project Visibility:</label>
                                      <div class="form-control">
                                      <input class="form-input-switchery" type="radio" onclick="public_view()"
-                                         name="visibility" style="padding:14px">public</>
+                                         name="visibility" value="publick" style="padding:14px">public</>
                                      <input class="form-input-switchery" type="radio"
-                                         onclick="private_view()" name="visibility" style="padding:14px">private</>
+                                         onclick="private_view()" name="visibility" value="private" style="padding:14px">private</>
                                          </div>
                                  </div>
                              </div>

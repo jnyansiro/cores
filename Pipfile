@@ -13,6 +13,8 @@ psycopg2-binary = "*"
 django-rest-framework = "*"
 requests = "*"
 django-rest-knox = "*"
+pillow = "*"
+django-select-multiple-field = "*"
 
 [requires]
 python_version = "3.7"

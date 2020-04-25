@@ -1,5 +1,27 @@
 {% load static %}
 {% include '../../header.html'%}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+<div class="row">
+    <div class="page-header page-header-default col-md-12">
+        <div class="breadcrumb-line col-md-12">
+            <br>
+            <ul class="breadcrumb breadcrumb-caret col-md-12">
+                
+                <li class="col-md-12 float-right">
+                    <a href="{% url 'projects:createproject' %}"><button
+                            class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                            Add Project <i class="icon-add"></i>
+                        </button></a>
+                </li>
+                <!-- <li class="active">Location</li> -->
+
+            </ul>
+        </div>
+    </div>
+</div>
 <div class="row">
     {% if projects %}
     {% for project in projects %}
@@ -9,7 +31,7 @@
     <div class="card blog-horizontal blog-horizontal-xs">
         <div class="card-body">
             <div class="card-img-actions mr-3">
-                <img class="card-img img-fluid" src="{% static 'assets/images/page.jpg' %}"
+                <img class="card-img img-fluid" src="docs/{{ project.project_photo }}"
                     alt="">
                 <div class="card-img-actions-overlay card-img">
                     <a href="{% url 'projects:viewproject' project_id=project.id %}"
@@ -26,7 +48,8 @@
 
                 <ul class="list-inline list-inline-dotted text-muted mb-0">
                     <li class="list-inline-item">By <a href="#" class="text-muted">{{ project.created_by }}</a></li>
-                    <li class="list-inline-item">J{{ project.created_on }}</li>
+                    <li class="list-inline-item">Created On: {{ project.created_on }}</li>
+                    <li class="list-inline-item">Due Date: {{ project.created_on }}</li>
                     <li class="list-inline-item"><a href="#" class="text-muted"><i
                                 class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
@@ -42,9 +65,7 @@
                 <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                     <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-star-full2 text-warning mr-2"></i></a></li>
                     <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
-                </ul>
-
-               
+                </ul>  
             </div>
         </div>
     </div>
