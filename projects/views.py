@@ -277,12 +277,6 @@ def myProjects(request):
     indexhead = "Projects / My Project(s)"
     member = Member.objects.get(user=request.user)
     myProject = Project.objects.filter(created_by=member).order_by("-id")
-    comments = []
-    for project in myProject:
-        comment = ProjectComment.objects.filter(project=project.id)
-        comments.append(comment)
-    comments = str(comments.append(comment))
-    print(comments)
     return render(
         request,
         "projects/my_projects/myproject.html",
