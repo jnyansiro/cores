@@ -1,22 +1,19 @@
 {% load static %}
 {% include './myproject_header.html'%}
+		<div class="content-wrapper">
+
+		    <!-- Content area -->
+		    <div class="content">
 <!-- Bordered card body table -->
-<div class="card">
+
+<div class="row">
+<div class="card col-xl-12">
     <div class="card-header header-elements-inline">
         <h5 class="card-title">Project Members</h5>
-        <div class="header-elements">
-            <div class="list-icons">
-                <a class="list-icons-item" data-action="collapse"></a>
-                <a class="list-icons-item" data-action="reload"></a>
-                <a class="list-icons-item" data-action="remove"></a>
-            </div>
-        </div>
+        
     </div>
 
-    <div class="card-body" style="width: 100%;">
-        <p class="mb-3">Example of <code>bordered framed</code> table inside card body. By default bordered table also
-            doesn't have a border, to use border around the bordered table add <code>.table-framed</code> to the
-            <code>&lt;table></code>.</p>
+    <div class="card-body">
 
         <div class="card card-table table-responsive shadow-0 mb-0">
             <table class="table table-bordered">
@@ -26,19 +23,22 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Username</th>
+                        <th>Role</th>
                         <th>Options</th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    {% for member in member_details %}
+                    {% for member in project_member %}
                     <tr>
                         <td>{{ member.id }}</td>
-                        <td>{{ member.first_name }}</td>
-                        <td>{{ member.surname }}</td>
-                        <td>{{ member.user }}</td>
-                        <td><button class="btn btn-primary col-md-4">View</button><button
-                                class="btn btn-warning col-md-4">Suspend</button><button class="btn btn-danger col-md-4">Remove</button>
+                        <td>{{ member.member.first_name }}</td>
+                        <td>{{ member.member.surname }}</td>
+                        <td>{{ member.member.user }}</td>
+                        <td>{{ member.member_role }}</td>
+                        <td><button class="btn btn-primary col-md-3 mr-md-3 ">View</button><button
+                                class="btn bg-orange col-md-3 mr-md-3">Suspend</button><button
+                                    class="btn btn-danger col-md-3 mr-md-3">Remove</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -48,4 +48,8 @@
         </div>
     </div>
 </div>
+</div>
 <!-- /bordered card body table -->
+
+</div>
+</div>

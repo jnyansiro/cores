@@ -21,15 +21,15 @@
                    style="background-image: url("{% static 'global_assets/images/backgrounds/panel_bg.png' %}"); background-size: contain;">
                    <div class="card-img-actions d-inline-block mb-3">
                        {% if member_details %}
-                       <img class="img-fluid rounded-circle"
-                           src="{% static 'global_assets/images/placeholders/placeholder.jpg'%}" width="170" height="170"
+                       <img class="img-fluid " style="border-radius:420px"
+                           src="../../../../docs/{{ member_details.profile_photo }}" width="200" height="200"
                            alt="">
                        <div class="card-img-actions-overlay card-img rounded-circle">
-                           <a href="#"
+                           <a href="#" type="file"
                                class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                               <i class="icon-plus3"></i>
+                               <i class="icon-plus3"><input type="file" hidden></i>
                            </a>
-                           <a href="user_pages_profile.html"
+                           <a href="#"
                                class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2">
                                <i class="icon-link"></i>
                            </a>
@@ -67,7 +67,7 @@
                    <div class="d-sm-flex flex-sm-wrap">
                        <div class="font-weight-semibold">Job Email:</div>
                        <div class="ml-sm-auto mt-2 mt-sm-0"><a
-                               href="mailTo:{{ member_details.email }}">{{ member_details.email }}</a></div>
+                               href="mailTo:{{ member_details.job_email }}">{{ member_details.job_email }}</a></div>
                    </div>
                    <div class="">
                        <button class="btn btn-primary" data-toggle="modal" data-target="#update_personal_details">
@@ -93,17 +93,17 @@
             <div class="card-body border-top-0">
                 <div class="d-sm-flex flex-sm-wrap mb-3">
                     <div class="font-weight-semibold">Country:</div>
-                    <div class="ml-sm-auto mt-2 mt-sm-0">Tanzania</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">{{member_details.country}}</div>
                 </div>
 
                 <div class="d-sm-flex flex-sm-wrap mb-3">
                     <div class="font-weight-semibold">Region:</div>
-                    <div class="ml-sm-auto mt-2 mt-sm-0">Dar es salaam</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.region }}</div>
                 </div>
 
                 <div class="d-sm-flex flex-sm-wrap mb-3">
                     <div class="font-weight-semibold">District:</div>
-                    <div class="ml-sm-auto mt-2 mt-sm-0">Kinondoni</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.district }}</div>
                 </div>
 
               <div class="">
@@ -125,17 +125,17 @@
             <div class="card-body border-top-0">
                 <div class="d-sm-flex flex-sm-wrap mb-3">
                     <div class="font-weight-semibold">Professional:</div>
-                    <div class="ml-sm-auto mt-2 mt-sm-0">TDeveloper</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.professional }}</div>
                 </div>
 
                 <div class="d-sm-flex flex-sm-wrap mb-3">
                     <div class="font-weight-semibold">Job Title:</div>
-                    <div class="ml-sm-auto mt-2 mt-sm-0">Dar es salaam</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.job_title}}</div>
                 </div>
 
                 <div class="d-sm-flex flex-sm-wrap mb-3">
                     <div class="font-weight-semibold">Institute Name:</div>
-                    <div class="ml-sm-auto mt-2 mt-sm-0">Kinondoni</div>
+                    <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.institution_name}}</div>
                 </div>
 
 <div class="float-left">

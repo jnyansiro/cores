@@ -43,7 +43,8 @@
 
             <div class="mb-3">
                 <h5 class="font-weight-semibold my-1">
-                    <a href="#" class="text-default">{{ project.project_title }}</a>
+                    <a href="{% url 'projects:viewproject' project_id=project.id %}"
+                        class="text-default" style="color:blue">{{ project.project_title }}</a>
                 </h5>
 
                 <ul class="list-inline list-inline-dotted text-muted mb-0">
@@ -64,7 +65,7 @@
                 class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
                 <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                     <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-star-full2 text-warning mr-2"></i></a></li>
-                    <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
+                    <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>0 comments</a></li>
                 </ul>  
             </div>
         </div>

@@ -1,7 +1,5 @@
-
-
 {% load static %}
-{% include '../project_header.html'%}
+{% include '../viewpoints/viewpoint_header.html' %}
 
 <!-- Main content -->
 <div class="content-wrapper">
@@ -17,18 +15,13 @@
                 <div class="card">
                     <div class="card-header header-elements-inline">
                         <h6 class="card-title">Create Usecase</h6>
-                        <div class="header-elements">
-                            <div class="form-check form-check-right form-check-switchery form-check-switchery-sm">
-                                <label class="form-check-label">
-                                    Live update:
-                                    <input type="checkbox" class="form-input-switchery" checked data-fouc>
-                                </label>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <div class="card-body py-0">
-                        <form method="post" action=""></form>
+                        <form method="post" action="{% url 'projects:createusecase' process_id%}"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
                         <div class="row">
 
                             <div class="col-sm-3">

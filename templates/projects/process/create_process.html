@@ -1,5 +1,5 @@
 {% load static %}
-{% include '../project_header.html'%}
+{% include '../viewpoints/viewpoint_header.html' %}
 
 <!-- Main content -->
 <div class="content-wrapper">
@@ -21,7 +21,9 @@
                     </div>
 
                     <div class="card-body py-0">
-                        <form method="post" action=""></form>
+                        <form method="post" action="{% url 'projects:createprocess' scenario_id%}"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
                         <div class="row">
 
                             <div class="col-sm-3">
@@ -70,7 +72,7 @@
                         </div>
                         <div className="form-group col-md-6 float-left">
                             <label>Process Descriptions:</label>
-                            <textarea class="form-control" name="process_descriptions" id="editor-full" rows="4"
+                            <textarea class="form-control" required name="process_descriptions" id="editor-full" rows="4"
                                 bottom="4"></textarea><br>
                             <button class="btn btn-primary float-right"><span
                                     class="fa fa-facebook">create</span></button>

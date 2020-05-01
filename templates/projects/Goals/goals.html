@@ -104,20 +104,26 @@
                              <label class="col-lg-1 text-semibold control-label">
                                  Filter:</label>
                              <div class="col-md-3">
+                                 <form method="post" action="{% url 'projects:goals' viewpoint_id %}">
+                                     {% csrf_token %}
                                  <div class="input-group">
-                                 <select name="" data-placeholder="Select View point" class="form-control" id="">
-                                     <option value="1">
-                                         ViewPoint one
+
+                                     
+                                     
+                                 <select name="viewpoint_id" data-placeholder="Select View point" class="form-control" id="">
+                                     {% for viewpointiess in viewpointiees%}
+                                     <option value="{{viewpointiess.id}}">
+                                         {{viewpointiess.viewpoint_name }}
                                      </option>
-                                     <option value="2">
-                                         ViewPoint two
-                                     </option>
+                                     {% endfor %}
                                  </select>
                                  <span class="input-group-append">
                                  <span class="input-group-append"><button class="btn btn-primary"><i
                                              class="icon-search4"></i></button></span>
                                  </span>
+                                
                                  </div>
+                                 </form>
                              </div>
                          </div>
 
@@ -130,19 +136,9 @@
                                       {% for goal in goals %}
                                       <li class="list-group-item pl-10 pr-10 text-capitalize">
                                           
-                                          {{ goal.goal_name }}
-                                          <a href=""
-                                              class="btn float-right text-warning-600 btn-flat btn-icon btn-rounded btn-sm"
-                                              data-popup="tooltip" data-placement="bottom" title="Delete"
-                                              style="margin-top: -6px;">
-                                              <i class="icon-trash"></i>
-                                          </a>
-                                          <a href=""
-                                              class="btn float-right text-info-600 btn-flat btn-icon btn-rounded btn-sm"
-                                              data-popup="tooltip" data-placement="bottom" title="Edit"
-                                              style="margin-top: -6px;">
-                                              <i class="icon-pencil"></i>
-                                          </a>
+                                         <a
+                                             href="{% url 'projects:viewgoal' goal_id=goal.id %}">{{ goal.goal_name }}</a> By {{goal.created_by}}, Created On: {{goal.created_on}}
+                                         
                                         
                                           <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
                                               class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"

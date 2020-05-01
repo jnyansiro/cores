@@ -53,11 +53,11 @@
                     </a>
                 </li>
                 <li class="goal col-md-2">
-                    {% for viewpoint in viewpoint %}
+                    {% if viewpoint %}
                     <a href="{% url 'projects:goals' viewpoint_id=viewpoint.id %}" class="col-md-2" style="color:black;font-weight:bold">
                          Goals 
                     </a>
-                    {% endfor %}
+                    {% endif %}
                 </li>
                 <li class=" requirement col-md-2" >
                     <a href="" style="color:white;font-weight:bold">
@@ -92,9 +92,8 @@
         </div>
         <br><br>
         {% if viewpoint %}
-        {% for viewpoint in viewpoint %}
         <div class="card-img-actions mr-1">
-            <img class="card-img" src="docs/{{ viewpoint.viewpoint_photo }}" alt="">
+            <img class="card-img" src="../../../docs/{{ viewpoint.viewpoint_photo }}" alt="">
             <div class="card-img-actions-overlay card-img">
                 <a href="#"
                     class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
@@ -174,7 +173,6 @@
                     </li>
                 </ul>
             </div>
-            {% endfor %}
             {% endif %}
         </div>
 

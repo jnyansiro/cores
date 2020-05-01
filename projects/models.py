@@ -58,7 +58,7 @@ class LoginLog(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     login_time = models.DateTimeField(auto_now=True)
     logout_time = models.DateTimeField(auto_now=True)
-    created_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for LoginLog."""
@@ -78,7 +78,7 @@ class ActivityLog(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     activity = models.CharField(max_length=500)
     activity_time = models.DateTimeField(auto_now=False)
-    created_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ActivityLog."""
@@ -93,7 +93,7 @@ class ActivityLog(models.Model):
 class Sector(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     sector_name = models.CharField(max_length=50)
-    created_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Unicode representation of ActivityLog."""
@@ -109,17 +109,20 @@ class Member(models.Model):
     middle_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50) 
     gender = models.CharField(max_length=50)
-    date_of_birth = models.DateField(auto_now=False,blank=True, null=True)
+    date_of_birth = models.DateTimeField(auto_now=False,blank=True, null=True)
     is_active = models.BooleanField(default=True)
     phone = models.CharField(max_length=12)
     email = models.EmailField(max_length=34, blank=True)
-    country = models.CharField(max_length=50, blank=True)
+    job_email = models.EmailField(max_length=34, blank=True)
+    country = models.CharField(max_length=50, blank=True,default="Tanzania")
+    region = models.CharField(max_length=260, blank=True,null=True)
+    district = models.CharField(max_length=260, blank=True,null=True)
     professional = models.CharField(max_length=50, blank=True)
     job_title = models.CharField(max_length=50, blank=True)
     institution_name = models.CharField(max_length=50, blank=True)
     profile_photo = models.ImageField(max_length=50, blank=True)
-    created_on = models.DateField(auto_now=True)
-    update_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    update_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Member."""
@@ -143,13 +146,13 @@ class Project(models.Model):
     project_photo = models.ImageField(max_length=50,blank=True,null=True)
     project_files = models.FileField(max_length=50,blank=True,null=True)
     description = models.CharField(max_length=5000,null=True,blank=True)
-    due_date = models.DateField(auto_now=False)
+    due_date = models.DateTimeField(auto_now=False)
     project_visibility = models.CharField(max_length=40,null=True,blank=True)
     is_public = models.BooleanField(default=False)
     is_invitational = models.BooleanField(default=False)
     is_discoverable = models.BooleanField(default=False)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Project."""
@@ -164,7 +167,7 @@ class Project(models.Model):
 class ProjectSector(models.Model):
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Unicode representation of ActivityLog."""
@@ -179,8 +182,8 @@ class Incentive(models.Model):
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     incentive_type = models.CharField(max_length=50)
     description = models.CharField(max_length=500, blank=True, null=True)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Incentive."""
@@ -201,8 +204,8 @@ class ProjectIncentive(models.Model):
     incentive = models.ForeignKey("Incentive", on_delete=models.CASCADE)
     unit = models.CharField(max_length=50, blank=True, null=True)
     amount = models.CharField(max_length=50)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProjectIncentive."""
@@ -223,8 +226,8 @@ class ProjectMembership(models.Model):
     member = models.ForeignKey("Member", on_delete=models.CASCADE)
     member_role = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProjectMembership."""
@@ -234,7 +237,7 @@ class ProjectMembership(models.Model):
 
     def __str__(self):
         """Unicode representation of ProjectMembership."""
-        return self.member_role
+        return self.project.project_title
 
 
 class Viewpoint(models.Model):
@@ -248,8 +251,8 @@ class Viewpoint(models.Model):
     viewpoint_photo = models.ImageField(blank=True,null=True)
     viewpoint_docs = models.FileField(max_length=500,blank=True,null=True)
     description = models.CharField(max_length=2300)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Viewpoint."""
@@ -269,12 +272,13 @@ class Goal(models.Model):
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=50)
     goal_photo = models.ImageField(blank=True,null=True)
+    goal_link = models.CharField(max_length=50,blank=True,null=True)
     goal_docs = models.FileField(blank=True,null=True)
     description = models.CharField(max_length=2300, null=True, blank=True)
     category = models.CharField(max_length=50,null=True)  # example comflict
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Goal."""
@@ -296,10 +300,10 @@ class Requirement(models.Model):
     name = models.CharField(max_length=50)
     requirement_photo = models.ImageField(blank=True,null=True)
     requirement_docs = models.FileField(max_length=500,blank=True,null=True)
-    description = models.CharField(max_length=2500)
-    file = models.CharField(max_length=500)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    description = models.CharField(max_length=2500 ,null=True, blank=True)
+    requirement_links = models.CharField(max_length=50,blank=True,null=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Requirement."""
@@ -321,9 +325,10 @@ class Scenario(models.Model):
     name = models.CharField(max_length=50)
     scenario_photo = models.ImageField(blank=True,null=True)
     scenario_docs = models.FileField(blank=True,null=True)
+    scenario_links = models.CharField(max_length=1500,blank=True, null=True)
     description = models.CharField(max_length=1500)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Scenario."""
@@ -343,11 +348,12 @@ class Process(models.Model):
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     process_name = models.CharField(max_length=60)
+    process_links = models.CharField(max_length=500, blank=True, null=True)
     process_photo = models.ImageField(blank=True,null=True)
     process_docs = models.FileField(max_length=500,blank=True,null=True)
     description = models.CharField(max_length=1000)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Process."""
@@ -357,7 +363,7 @@ class Process(models.Model):
 
     def __str__(self):
         """Unicode representation of Process."""
-        return self.file
+        return self.process_name
 
 
 class UseCase(models.Model):
@@ -371,8 +377,8 @@ class UseCase(models.Model):
     usecase_link = models.CharField(max_length=500)
     usecase_photo = models.ImageField(blank=True,null=True)
     usecase_docs = models.FileField(max_length=500,blank=True,null=True)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for UseCase."""
@@ -394,8 +400,8 @@ class Repository(models.Model):
     resource_name = models.CharField(max_length=500)
     resource_type = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Repository."""
@@ -414,8 +420,8 @@ class Comment(models.Model):
     # TODO: Define fields here
     commented_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     comment = models.CharField(max_length=2500)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Comment."""
@@ -437,8 +443,8 @@ class RequirementArtifact(models.Model):
     artifact_content = models.CharField(max_length=500)
     artifact_link = models.CharField(max_length=200, null=True, blank=True)
     uploaded_file = models.FileField(max_length=50,blank=True,null=True)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementArtifact."""
@@ -456,8 +462,8 @@ class StarRate(models.Model):
     # TODO: Define fields here
     rated_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     number_of_stars = models.IntegerField()
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for StarRate."""
@@ -476,8 +482,8 @@ class Like(models.Model):
     # TODO: Define fields here
     liked_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     like = models.BooleanField(default=False)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Like."""
@@ -496,8 +502,8 @@ class Dislike(models.Model):
     # TODO: Define fields here
     disliked_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     dislike = models.BooleanField(default=False)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for Dislike."""
@@ -516,8 +522,8 @@ class ProjectComment(models.Model):
     # TODO: Define fields here
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProjectComment."""
@@ -538,8 +544,8 @@ class ArtifactComment(models.Model):
         "RequirementArtifact", on_delete=models.CASCADE
     )
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ArtifactComment."""
@@ -558,8 +564,8 @@ class ViewPointComment(models.Model):
     # TODO: Define fields here
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ViewPointComment."""
@@ -578,8 +584,8 @@ class GoalComment(models.Model):
     # TODO: Define fields here
     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for GoalComment."""
@@ -598,8 +604,8 @@ class RequirementComment(models.Model):
     # TODO: Define fields here
     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementComment."""
@@ -618,8 +624,8 @@ class ScenarioComment(models.Model):
     # TODO: Define fields here
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ScenarioComment."""
@@ -638,8 +644,8 @@ class ProcessComment(models.Model):
     # TODO: Define fields here
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProcessComment."""
@@ -658,8 +664,8 @@ class UseCaseComment(models.Model):
     # TODO: Define fields here
     usecase = models.ForeignKey("UseCase", on_delete=models.CASCADE)
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for UseCaseComment."""
@@ -678,8 +684,8 @@ class ProjectRate(models.Model):
     # TODO: Define fields here
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProjectRate."""
@@ -700,8 +706,8 @@ class RequirementArtifactRate(models.Model):
         "RequirementArtifact", on_delete=models.CASCADE
     )
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementArtifactRate."""
@@ -720,8 +726,8 @@ class ViewPointRate(models.Model):
     # TODO: Define fields here
     view_point = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ViewPointRate."""
@@ -740,8 +746,8 @@ class GoalRate(models.Model):
     # TODO: Define fields here
     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for GoalRate."""
@@ -760,8 +766,8 @@ class RequirementRate(models.Model):
     # TODO: Define fields here
     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementRate."""
@@ -780,8 +786,8 @@ class ScenarioRate(models.Model):
     # TODO: Define fields here
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ScenarioRate."""
@@ -800,8 +806,8 @@ class ProcessRate(models.Model):
     # TODO: Define fields here
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProcessRate."""
@@ -820,8 +826,8 @@ class UseCaseRate(models.Model):
     # TODO: Define fields here
     usecase = models.ForeignKey("UseCase", on_delete=models.CASCADE)
     star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for UseCaseRate."""
@@ -840,8 +846,8 @@ class ProjectLike(models.Model):
     # TODO: Define fields here
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProjectLike."""
@@ -860,8 +866,8 @@ class ViewpointLike(models.Model):
     # TODO: Define fields here
     view_point = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ViewpointLike."""
@@ -880,8 +886,8 @@ class GoalLike(models.Model):
     # TODO: Define fields here
     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for GoalLike."""
@@ -900,8 +906,8 @@ class RequirementLike(models.Model):
     # TODO: Define fields here
     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementLike."""
@@ -920,8 +926,8 @@ class ScenarioLike(models.Model):
     # TODO: Define fields here
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ScenarioLike."""
@@ -940,8 +946,8 @@ class ProcessLike(models.Model):
     # TODO: Define fields here
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProcessLike."""
@@ -960,8 +966,8 @@ class UseCaseLike(models.Model):
     # TODO: Define fields here
     use_case = models.ForeignKey("UseCase", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for UseCaseLike."""
@@ -980,8 +986,8 @@ class CommentLike(models.Model):
     # TODO: Define fields here
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for CommentLike."""
@@ -1002,8 +1008,8 @@ class RequirementArtifactLike(models.Model):
         "RequirementArtifact", on_delete=models.CASCADE
     )
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementArtifactLike."""
@@ -1022,8 +1028,8 @@ class ProjectDislike(models.Model):
     # TODO: Define fields here
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProjectDislike."""
@@ -1044,8 +1050,8 @@ class RequirementArtifactDislike(models.Model):
         "RequirementArtifact", on_delete=models.CASCADE
     )
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequirementArtifactDislike."""
@@ -1064,8 +1070,8 @@ class CommentDislike(models.Model):
     # TODO: Define fields here
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for CommentDislike."""
@@ -1084,8 +1090,8 @@ class ViewpointDislike(models.Model):
     # TODO: Define fields here
     view_point = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ViewpointDislike."""
@@ -1104,8 +1110,8 @@ class GoalDislike(models.Model):
     # TODO: Define fields here
     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for GoalDislike."""
@@ -1124,8 +1130,8 @@ class RequirementDislike(models.Model):
     # TODO: Define fields here
     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for RequiremetDislike."""
@@ -1144,8 +1150,8 @@ class ScenarioDislike(models.Model):
     # TODO: Define fields here
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ScenarioDislike."""
@@ -1164,8 +1170,8 @@ class ProcessDislike(models.Model):
     # TODO: Define fields here
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for ProcessDislike."""
@@ -1184,8 +1190,8 @@ class UseCaseDislike(models.Model):
     # TODO: Define fields here
     use_case = models.ForeignKey("UseCase", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Meta definition for UseCaseDislike."""

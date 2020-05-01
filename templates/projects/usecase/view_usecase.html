@@ -56,42 +56,42 @@
                                     }
                                 </style>
                                 <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoint'%}" class="col-md-2"
+                                    <a href="{% url 'projects:viewpoint' viewpoint_id%}" class="col-md-2"
                                         style="color: white;font-weight:bold">
                                         ViewPoint Description
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
-                                    <a href="{% url 'projects:viewgoal'%}" class="col-md-2"
+                                    <a href="{% url 'projects:viewgoal' goal_id%}" class="col-md-2"
                                         style="color:white;font-weight:bold">
                                         Goal Description
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:viewrequirement'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewrequirement' requirement_id%}" style="color:white;font-weight:bold">
                                         Requirement Description
                                     </a>
                                 </li>
                                 <li class=" scenario col-md-2">
-                                    <a href="{% url 'projects:viewscenario'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewscenario' scenario_id%}" style="color:white;font-weight:bold">
                                         Scenario Description
                                     </a>
                                 </li>
                                 <li class="process col-md-2">
-                                    <a href="{% url 'projects:viewprocess'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewprocess' process_id %}" style="color:white;font-weight:bold">
                                         Process Description
                                     </a>
                                 </li>
                                 <li class="usecase col-md-2">
-                                    <a href="{% url 'projects:viewusecase'%}" style="color:black;font-weight:bold">
-                                        Usecase
+                                    <a href="#" style="color:black;font-weight:bold">
+                                        Usecase Description
                                     </a>
                                 </li>
 
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createusecase' %}"><button
+                                <a href="{% url 'projects:createusecase' process_id %}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Usecase <i class="icon-add"></i>
                                     </button></a>
@@ -100,31 +100,33 @@
                         </div>
 
                         <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
+                            <label class="col-lg-2 text-semibold control-label">
+                                Filter Usecases:</label>
+                                <form method="post" action="{% url 'projects:viewusecase' usecase_id%}">
+                                    {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <select name="" data-placeholder="Select View point" class="form-control" id="">
-                                        <option value="1">
-                                            usecase one
+                                    <select name="usecase" data-placeholder="Select View point" class="form-control" id="">
+                                        {% for usecase in usecases%}
+                                        <option value="{{usecase.id}}">
+                                            {{usecase.usecase_name}}
                                         </option>
-                                        <option value="2">
-                                            usecase two
-                                        </option>
+                                        {% endfor %}
                                     </select>
                                     <span class="input-group-append">
                                         <span class="input-group-append"><button class="btn btn-primary"><i
                                                     class="icon-search4"></i></button></span>
                                     </span>
                                 </div>
+                                </form>
                             </div>
                         </div>
 
                         <div class="card-img-actions mr-1">
-                            <img class="card-img" src="{% static 'assets/images/page.jpg' %}" height="300" with="400"
+                            <img class="card-img" src="../../../docs/{{usecase.usecase_photo}}"
                                 alt="">
                             <div class="card-img-actions-overlay card-img">
-                                <a href="blog_single.html"
+                                <a href="#"
                                     class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
                                     <i class="icon-link"></i>
                                 </a>
@@ -133,12 +135,12 @@
 
                         <div class="mb-4">
                             <h5 class="font-weight-semibold my-1">
-                                <a href="#" class="text-default">Usecase Title</a>
+                                <a href="#" class="text-default">{{usecase.usecase_name}}</a>
                             </h5>
 
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
-                                <li class="list-inline-item">By <a href="#" class="text-muted">Eugene</a></li>
-                                <li class="list-inline-item">July 5th, 2016</li>
+                                <li class="list-inline-item">By <a href="#" class="text-muted">{{usecase.created_by}}</a></li>
+                                <li class="list-inline-item">{{usecase.created_on}}</li>
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
                                             class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
@@ -149,39 +151,7 @@
                             </ul>
                         </div>
 
-                        <p>The bedding was hardly able to cover it and seemed ready to slide off any moment. The bedding
-                            was
-                            hardly
-                            able to cover it.</p>
-                        His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly
-                        as he
-                        looked
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt animi eius, iste incidunt eum
-                        rerum similique
-                        explicabo.
-                        Similique pariatur velit harum recusandae odio laborum modi necessitatibus eum itaque,
-                        quibusdam, alias, magni
-                        iure consectetur
-                        nihil doloribus atque natus fugiat. Nemo quasi magnam eligendi reiciendis expedita deserunt
-                        voluptas ratione, ad
-                        quos provident veniam
-                        debitis! Rem perferendis quia omnis consequatur sapiente at nobis nihil corporis eaque. Dolorum
-                        sit accusantium
-                        odio nisi distinctio iste
-                        eius consequatur, suscipit aut, labore corporis rerum. Veniam deserunt nisi deleniti hic sequi
-                        temporibus odit,
-                        repellat nobis esse! Illo quibusdam culpa,
-                        saepe consectetur animi facere obcaecati quasi! Quis molestias voluptatem nesciunt commodi
-                        ratione aperiam
-                        magnam rerum cupiditate omnis, totam ipsum esse
-                        laborum quia, et vitae impedit repudiandae eos, pariatur dolorum perspiciatis eaque. Temporibus
-                        minus saepe
-                        corporis neque voluptatum rerum distinctio
-                        nulla iure magni, alias, doloribus, consequuntur praesentium. Commodi sit mollitia aut quo
-                        voluptatum in hic
-                        perferendis illum repellat ullam pariatur
-                        ipsum id minima numquam explicabo, tenetur voluptatem corporis odio. Neque eos laudantium
-                        tempora quia, non
+                       {{usecase.description|safe}}
 
                         <div
                             class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">

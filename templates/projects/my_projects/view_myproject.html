@@ -1,5 +1,15 @@
 {% load static %}
 {% include './myproject_header.html'%}
+
+<script>
+    function showComments(){
+         document.getElementById('comments').style.display = 'block'
+         
+    }
+   function closetab(){
+       document.getElementById('comments').style.display = 'none'
+   }
+</script>
 <div class="content-wrapper">
 
     <!-- Content area -->
@@ -48,18 +58,138 @@
                             <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
                                             class="icon-star-full2 text-warning mr-2"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="text-muted"><i
-                                            class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
+                                <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
+                                            class="icon-bubbles5 text-blue mr-2"></i>{{ total_comments }} comments</a></li>
+                                
                             </ul>
+                            <div class="col-md-10 float-right" style="margin-left: 1rem;">
+                            <li class="list-inline-item float-right"><a
+                                    href="#" 
+                                    class="text-muted"><button class="btn btn-danger" data-toggle="modal"
+                                        data-target="#delete"> Delete<i
+                                            class="icon-trash"></i></button></a></li>
+
+                                    <script>
+                                      function ask(){
+                                         var del = confirm('do you real what to delete?')
+                                         if (del){
+                                            
+                                         }
+                                      }
+                                    </script>
+                                     <!-- {% url 'projects:deleteproject' project_id=project.id %}" -->
+                            <li class="list-inline-item float-right"><a
+                                    href="{% url 'projects:editproject' project_id=project.id %}"
+                                    class="text-muted"><button class="btn btn-primary"> Edit<i
+                                            class="icon-pencil text-white mr-2"></i></button></a></li>
+                                            </div>
+                                            <br>
+
+
 
 
                         </div>
+
+                        <!-- Line content divider -->
+                        <div class="card " id="comments" style="display: none;">
+                            <div class="card-header header-elements-inline">
+                                <h5 class="card-title"><a href="#">{{project.project_title}}</a>`s Comments:</h5>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
+                                        <a class="list-icons-item" data-action="remove" onclick="closetab()"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <ul class="media-list media-chat-scrollable mb-3">
+                                    <li class="media content-divider justify-content-center text-muted mx-0">
+                                        <span class="px-2">{{ today}}</span>
+                                    </li>
+                                     {% for comment in comments %}
+                                    <li class="media">
+                                        <div class="mr-3"><img
+                                                src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                                                class="rounded-circle" width="40" height="40" alt=""></div>
+                                        <div class="media-body">
+                                            <div class="media-title d-flex flex-nowrap">
+                                                <a href="#" class="font-weight-semibold mr-3">{{comment.comment.commented_by}}</a>
+                                                <span class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }} <a
+                                                        href="#"><i
+                                                            class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                            </div>
+                                            {{ comment.comment }}
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                                <form method="post" action="{% url 'projects:createprojectcomment' project_id=project.id %}">
+                                    {% csrf_token %}
+
+                                <textarea name="comment" required class="form-control mb-3" rows="3" cols="1"
+                                    placeholder="Enter your comment..."></textarea>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="list-icons list-icons-extended">
+                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
+                                            title="Send photo"><i class="icon-file-picture"></i></a>
+                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
+                                            title="Send video"><i class="icon-file-video"></i></a>
+                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
+                                            title="Send file"><i class="icon-file-plus"></i></a>
+                                    </div>
+
+                                    <button class="btn bg-primary btn-labeled btn-labeled-right ml-auto"><b><i class="icon-paperplane"></i></b> Send</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /line content divider -->
+
+
                     </div>
                 </div>
                 {% endif %}
                
                 <!-- /mini size -->
 
+                
+
             </div>
         </div>
     </div>
+
+
+
+
+
+      <!-- delete model -->
+    
+      <div id="delete" class="modal top" tabindex="-1">
+          <div class="modal-dialog modal-xs ">
+              <div class="modal-content bg-white-300" style="color:red">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Warning</h5>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      
+                  </div>
+
+                  <div class="modal-body">
+                      <center><i class="icon-help icon-4x mb-3 mt-1 "
+                              style="height: 40px;"></i>
+                      <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                      </center>
+                      
+                  </div>
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                      <a href="{% url 'projects:deleteproject' project_id=project.id %}"><button type="button"
+                              class="btn bg-primary">Yes</button></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- /custom background color -->

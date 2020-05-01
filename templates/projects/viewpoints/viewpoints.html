@@ -134,7 +134,8 @@
 
                                         <div class="mb-3">
                                             <h5 class="font-weight-semibold my-1">
-                                                <a href="#" class="text-default">{{ viewpoint.viewpoint_name }}</a>
+                                                <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}"
+                                                    class="text-default" style="color:blue">{{ viewpoint.viewpoint_name }}</a>
                                             </h5>
 
                                             <ul class="list-inline list-inline-dotted text-muted mb-0">

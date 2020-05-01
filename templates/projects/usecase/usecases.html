@@ -50,32 +50,32 @@
                                     }
                                 </style>
                                 <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoint'%}" class="col-md-2" style="color: white;font-weight:bold">
+                                    <a href="{% url 'projects:viewpoint' viewpoint_id%}" class="col-md-2" style="color: white;font-weight:bold">
                                         ViewPoint Description
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
-                                    <a href="{% url 'projects:viewgoal'%}" class="col-md-2" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewgoal' goal_id%}" class="col-md-2" style="color:white;font-weight:bold">
                                         Goal Description
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:viewrequirement'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewrequirement' requirement_id%}" style="color:white;font-weight:bold">
                                         Requirement Description
                                     </a>
                                 </li>
                                 <li class=" scenario col-md-2">
-                                    <a href="{% url 'projects:viewscenario'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewscenario' scenario_id%}" style="color:white;font-weight:bold">
                                         Scenario Description
                                     </a>
                                 </li>
                                 <li class="process col-md-2">
-                                    <a href="{% url 'projects:viewprocess'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewprocess' process_id%}" style="color:white;font-weight:bold">
                                         Process Description
                                     </a>
                                 </li>
                                 <li class="usecase col-md-2">
-                                    <a href="{% url 'projects:usecases'%}" style="color:black;font-weight:bold">
+                                    <a href="#" style="color:black;font-weight:bold">
                                         Usecase
                                     </a>
                                 </li>
@@ -83,7 +83,7 @@
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createusecase' %}"><button
+                                <a href="{% url 'projects:createusecase'  process_id%}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Usecase <i class="icon-add"></i>
                                     </button></a>
@@ -92,23 +92,26 @@
                         </div>
 
                         <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
+                            <label class="col-lg-2 text-semibold control-label">
+                                Filter Process:</label>
+                                 <form method="post" action="{% url 'projects:usecases' process_id%}">
+                                     {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <select name="" data-placeholder="Select View point" class="form-control" id="">
-                                        <option value="1">
-                                            Process one
+                                    <select name="process" data-placeholder="Select View point" class="form-control"
+                                        id="">
+                                        {% for process in processes%}
+                                        <option value="{{process.id}}">
+                                            {{ process.process_name}}
                                         </option>
-                                        <option value="2">
-                                            Process two
-                                        </option>
+                                        {% endfor %}
                                     </select>
                                     <span class="input-group-append">
                                         <span class="input-group-append"><button class="btn btn-primary"><i
                                                     class="icon-search4"></i></button></span>
                                     </span>
                                 </div>
+                                </form>
                             </div>
                         </div>
 
@@ -118,10 +121,11 @@
                             </h5>
                             <div>
                                 <ul class="list-group">
+                                    {% for usecase in usecases %}
                                     <li class="list-group-item pl-10 pr-10 text-capitalize">
-                                        1.
-                                        Usecase two
-                                        <a href=""
+                                         <a href="{% url 'projects:viewusecase' usecase_id=usecase.id %}">
+                                             {{ usecase.usecase_name}}</a>  By {{ usecase.created_by}} Created On: {{ usecase.created_on}}
+                                        <!-- <a href=""
                                             class="btn float-right text-warning-600 btn-flat btn-icon btn-rounded btn-sm"
                                             data-popup="tooltip" data-placement="bottom" title="Delete"
                                             style="margin-top: -6px;">
@@ -132,14 +136,15 @@
                                             data-popup="tooltip" data-placement="bottom" title="Edit"
                                             style="margin-top: -6px;">
                                             <i class="icon-pencil"></i>
-                                        </a>
-                                        <a href="{% url 'projects:viewusecase'%}"
+                                        </a> -->
+                                        <a href="{% url 'projects:viewusecase' usecase_id=usecase.id %}"
                                             class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                             data-popup="tooltip" data-placement="bottom" title="View"
                                             style="margin-top: -6px;">
                                             <i class="icon-enter3"></i>
                                         </a>
                                     </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>

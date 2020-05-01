@@ -1,5 +1,15 @@
 {% load static %}
 {% include '../project_header.html'%}
+
+<script>
+    function showComments() {
+        document.getElementById('comments').style.display = 'block'
+
+    }
+      function closetab(){
+      document.getElementById('comments').style.display = 'none'
+      }
+</script>
 <div class="content-wrapper">
 
     <!-- Content area -->
@@ -7,7 +17,7 @@
 <div class="row">
     <div class="col-lg-12">
         {% if project%}
-        {% for project in project %}
+    
         <!-- Mini size -->
         <div class="card blog-horizontal blog-horizontal-xs">
             <div class="card-body">
@@ -44,18 +54,79 @@
                     <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                         <li class="list-inline-item"><a href="#" class="text-muted"><i
                                     class="icon-star-full2 text-warning mr-2"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-muted"><i
-                                    class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
+                        <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
+                                    class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a></li>
                     </ul>
 
 
                 </div>
+
+                <!-- Line content divider -->
+                        <div class="card " id="comments" style="display: none;">
+                            <div class="card-header header-elements-inline">
+                                <h5 class="card-title"><a href="#">{{project.project_title}}</a>`s Comments:</h5>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
+                                        <a class="list-icons-item" data-action="remove" onclick="closetab()"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <ul class="media-list media-chat-scrollable mb-3">
+                                    <li class="media content-divider justify-content-center text-muted mx-0">
+                                        <span class="px-2">{{ today}}</span>
+                                    </li>
+                                     {% for comment in comments %}
+                                    <li class="media">
+                                        <div class="mr-3"><img
+                                                src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                                                class="rounded-circle" width="40" height="40" alt=""></div>
+                                        <div class="media-body">
+                                            <div class="media-title d-flex flex-nowrap">
+                                                <a href="#" class="font-weight-semibold mr-3">{{comment.comment.commented_by}}</a>
+                                                <span class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }} <a
+                                                        href="#"><i
+                                                            class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                            </div>
+                                            {{ comment.comment }}
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                                <form method="post" action="{% url 'projects:createprojectcomment' project_id=project.id %}">
+                                    {% csrf_token %}
+
+                                <textarea name="comment" required class="form-control mb-3" rows="3" cols="1"
+                                    placeholder="Enter your comment..."></textarea>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="list-icons list-icons-extended">
+                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
+                                            title="Send photo"><i class="icon-file-picture"></i></a>
+                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
+                                            title="Send video"><i class="icon-file-video"></i></a>
+                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
+                                            title="Send file"><i class="icon-file-plus"></i></a>
+                                    </div>
+
+                                    <button class="btn bg-primary btn-labeled btn-labeled-right ml-auto"><b><i class="icon-paperplane"></i></b> Send</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /line content divider -->
+
+
+
             </div>
         </div>
         <!-- /mini size -->
 
     </div>
-    {% endfor %}
+    
     {% endif %}
 
 </div>

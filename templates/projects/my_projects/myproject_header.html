@@ -27,6 +27,7 @@
     <!-- Core JS files -->
     <script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
     <script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/widgets.min.js' %}"></script>
@@ -44,6 +45,7 @@
 
 
     <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/extra_sweetalert.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_pages/editor_ckeditor_default.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_pages/dashboard.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_charts/pages/dashboard/light/streamgraph.js' %}"></script>
@@ -69,7 +71,9 @@
     <!-- /theme JS files -->
 
     <!-- JS for text area -->
+    <script src="{% static 'global_assets/js/demo_pages/chat_layouts.js' %}"></script>
     <script src="{% static 'assets/textarea/scripts/widgEditor.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_modals.js' %}"></script>
 
 </head>
 
@@ -105,7 +109,7 @@
                         <i class="icon-bell2" style="color:white"></i>
                         <span class="d-md-none ml-2">Activity</span>
                         <span
-                            class="badge badge-pill badge-mark bg-orange-400 border-orange-400 ml-auto ml-md-0"></span>
+                            class="badge badge-danger-pill badge-pill bg-danger-400 border-danger-400 ml-auto ml-md-0">12</span>
                     </a>
 
                     <div class="dropdown-menu dropdown-content wmin-md-350">
@@ -210,128 +214,13 @@
             <span class="badge bg-success-400 ml-md-auto mr-md-3">Active</span>
 
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
-                        <i class="icon-bubbles5" style="color:white"></i>
-                        <span class="d-md-none ml-2">Messages</span>
-                        <span
-                            class="badge badge-pill badge-mark bg-orange-400 border-orange-400 ml-auto ml-md-0"></span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
-                        <div class="dropdown-content-header">
-                            <span class="font-weight-semibold">Messages</span>
-                            <a href="#" class="text-default"><i class="icon-compose"></i></a>
-                        </div>
-
-                        <div class="dropdown-content-body dropdown-scrollable">
-                            <ul class="media-list">
-                                <li class="media">
-                                    <div class="mr-3 position-relative">
-                                        <img src="/global_assets/images/placeholders/placeholder.jpg" width="36"
-                                            height="36" class="rounded-circle" alt="">
-                                    </div>
-
-                                    <div class="media-body">
-                                        <div class="media-title">
-                                            <a href="#">
-                                                <span class="font-weight-semibold">James Alexander</span>
-                                                <span class="text-muted float-right font-size-sm">04:58</span>
-                                            </a>
-                                        </div>
-
-                                        <span class="text-muted">who knows, maybe that would be the best thing for
-                                            me...</span>
-                                    </div>
-                                </li>
-
-                                <li class="media">
-                                    <div class="mr-3 position-relative">
-                                        <img src="global_assets/images/placeholders/placeholder.jpg" width="36"
-                                            height="36" class="rounded-circle" alt="">
-                                    </div>
-
-                                    <div class="media-body">
-                                        <div class="media-title">
-                                            <a href="#">
-                                                <span class="font-weight-semibold">Margo Baker</span>
-                                                <span class="text-muted float-right font-size-sm">12:16</span>
-                                            </a>
-                                        </div>
-
-                                        <span class="text-muted">That was something he was unable to do
-                                            because...</span>
-                                    </div>
-                                </li>
-
-                                <li class="media">
-                                    <div class="mr-3">
-                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg"
-                                            width="36" height="36" class="rounded-circle" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="media-title">
-                                            <a href="#">
-                                                <span class="font-weight-semibold">Jeremy Victorino</span>
-                                                <span class="text-muted float-right font-size-sm">22:48</span>
-                                            </a>
-                                        </div>
-
-                                        <span class="text-muted">But that would be extremely strained and
-                                            suspicious...</span>
-                                    </div>
-                                </li>
-
-                                <li class="media">
-                                    <div class="mr-3">
-                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg"
-                                            width="36" height="36" class="rounded-circle" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="media-title">
-                                            <a href="#">
-                                                <span class="font-weight-semibold">Beatrix Diaz</span>
-                                                <span class="text-muted float-right font-size-sm">Tue</span>
-                                            </a>
-                                        </div>
-
-                                        <span class="text-muted">What a strenuous career it is that I've
-                                            chosen...</span>
-                                    </div>
-                                </li>
-
-                                <li class="media">
-                                    <div class="mr-3">
-                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg"
-                                            width="36" height="36" class="rounded-circle" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="media-title">
-                                            <a href="#">
-                                                <span class="font-weight-semibold">Richard Vango</span>
-                                                <span class="text-muted float-right font-size-sm">Mon</span>
-                                            </a>
-                                        </div>
-
-                                        <span class="text-muted">Other travelling salesmen live a life of
-                                            luxury...</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown-content-footer justify-content-center p-0">
-                            <a href="#" class="bg-light text-grey w-100 py-2" data-popup="tooltip" title="Load more"><i
-                                    class="icon-menu7 d-block top-0"></i></a>
-                        </div>
-                    </div>
-                </li>
+                
 
                 <li class="nav-item dropdown dropdown-user" style="color: white;">
                     <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown"
                         style="color: white;">
-                        <img src="{% static 'global_assets/images/placeholders/placeholder.jpg' %}"
-                            class="rounded-circle mr-2" height="34" alt="">
+                        <img src="../../../docs/{{member.profile_photo}}" class="rounded-circle mr-2"
+                            style="border-radius: 400px;" height="34" alt="">
                         <span>
                             {% if user.is_authenticated %}
                             {{ user.username }}
@@ -516,9 +405,10 @@
                                     <span>Projects</span></a>
 
                             </li>
-                            <li class="nav-item"><a href="{% url 'projects:projectmembers'%}" class="nav-link"><i class="icon-users"></i> <span>Project Member
+                            <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}" class="nav-link"><i class="icon-users"></i> <span>Project Member
                                         </span></a></li>
-                             <li class="nav-item"><a href="{% url 'projects:memberrequest'%}" class="nav-link"><i
+                             <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}"
+                                     class="nav-link"><i
                                          class="icon-user"></i>
                                                 <span>Member
                                                     Requests</span></a></li>
@@ -532,14 +422,27 @@
                                     <span>Viewpoints</span></a>
                                    
                                     {% endif %}
+                                
+
+                            </li>
+                            <li class="nav-item nav-item">
+                               
+                                     {% if project %}
+                                <a href="{% url 'projects:projectincentives' project_id=project.id %}" class="nav-link"><i
+                                        class="icon-gift"></i>
+                                    <span>Project Incentives</span></a>
+                                    {% endif%}
+
+                 
+
 
                             </li>
                             <li class="nav-item nav-item-submenu">
                                 <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
                                 <ul class="nav nav-group-sub" data-submenu-title="Layouts">
-                                <li class="nav-item"><a href="{% url 'projects:myprojects' %}" class="nav-link">My
+                                <li class="nav-item"><a href="#" class="nav-link">My
                                         Projects Report</a></li>
-                                <li class="nav-item"><a href="{% url 'projects:projects'%}" class="nav-link">Other
+                                <li class="nav-item"><a href="#" class="nav-link">Other
                                         Contribution Reports</a></li>
 
                                 </ul>

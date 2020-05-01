@@ -1,6 +1,6 @@
 
 {% load static %}
-{% include '../project_header.html'%}
+{% include '../viewpoints/viewpoint_header.html' %}
 
 <!-- Main content -->
 <div class="content-wrapper">
@@ -22,7 +22,9 @@
                     </div>
 
                     <div class="card-body py-0">
-                        <form method="post" action=""></form>
+                        <form method="post" action="{% url 'projects:creategoal' viewpoint_id=viewpoint_id %}"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
                         <div class="row">
 
                             <div class="col-sm-3">
@@ -35,17 +37,29 @@
                                 </div>
 
                             </div>
+                             <div class="col-sm-3">
+                                 <div class="d-flex align-items-center justify-content-center mb-2">
+                                     <div class="col-md-12">
+                                         <label>Goal Category</label>
+                                         <select name="category" class="form-control">
+
+                                         </select>
+                                     </div>
+                                 </div>
+
+                             </div>
 
 
                             <div class="col-sm-3">
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Goal Link</label>
-                                        <input type="text" name="link" class="form-control" >
+                                        <input type="text" name="goal_link" class="form-control" >
                                     </div>
                                 </div>
 
                             </div>
+                           
                             <div class="col-sm-3">
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
@@ -59,7 +73,7 @@
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Goal Docs:</label>
-                                        <input class="form-control" type="file" name="goal_photo" multiple>
+                                        <input class="form-control" type="file" name="goal_docs" multiple>
                                     </div>
                                 </div>
 
@@ -71,10 +85,10 @@
                         </div>
                         <div className="form-group col-md-6 float-left">
                             <label>Goal Descriptions:</label>
-                            <textarea class="form-control" name="goal_descriptions" id="editor-full" rows="4"
+                            <textarea class="form-control" name="description" id="editor-full" rows="4"
                                 bottom="4"></textarea><br>
                             <button class="btn btn-primary float-right"><span
-                                    class="fa fa-facebook">create</span></button>
+                                    class="">create</span></button>
                         </div>
 
 

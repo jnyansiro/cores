@@ -56,27 +56,27 @@
                                     }
                                 </style>
                                 <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoint'%}" class="col-md-2" style="color: white;font-weight:bold">
+                                    <a href="{% url 'projects:viewpoint' viewpoint_id%}" class="col-md-2" style="color: white;font-weight:bold">
                                         ViewPoint Description
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
-                                    <a href="{% url 'projects:viewgoal'%}" class="col-md-2" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewgoal' goal_id%}" class="col-md-2" style="color:white;font-weight:bold">
                                         Goal Description
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:viewrequirement'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewrequirement' requirement_id%}" style="color:white;font-weight:bold">
                                         Requirement Description
                                     </a>
                                 </li>
                                 <li class=" scenario col-md-2">
-                                    <a href="{% url 'projects:viewscenario'%}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewscenario' scenario_id%}" style="color:white;font-weight:bold">
                                         Scenario Description
                                     </a>
                                 </li>
                                 <li class="process col-md-2">
-                                    <a href="" style="color:black;font-weight:bold">
+                                    <a href="#" style="color:black;font-weight:bold">
                                         Process
                                     </a>
                                 </li>
@@ -89,7 +89,7 @@
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createprocess' %}"><button
+                                <a href="{% url 'projects:createprocess' scenario_id%}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Process <i class="icon-add"></i>
                                     </button></a>
@@ -100,21 +100,24 @@
                         <div class="form-group form-horizontal">
                             <label class="col-lg-1 text-semibold control-label">
                                 Filter:</label>
+                                <form method="post" action="{% url 'projects:processes' scenario_id%}">
+                                    {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <select name="" data-placeholder="Select View point" class="form-control" id="">
-                                        <option value="1">
-                                            Scenario one
+                                    <select name="scenario" data-placeholder="Select View point" class="form-control" id="">
+                                      {% for scenario in scenarios %}
+                                        <option value="{{ scenario.id}}">
+                                            {{ scenario.name}}
                                         </option>
-                                        <option value="2">
-                                            Scenario two
-                                        </option>
+                                        {% endfor %}
+                                        
                                     </select>
                                     <span class="input-group-append">
                                         <span class="input-group-append"><button class="btn btn-primary"><i
                                                     class="icon-search4"></i></button></span>
                                     </span>
                                 </div>
+                                </form>
                             </div>
                         </div>
 
@@ -124,28 +127,19 @@
                             </h5>
                             <div>
                                 <ul class="list-group">
+                                    {% for process in processes%}
                                     <li class="list-group-item pl-10 pr-10 text-capitalize">
-                                        1.
-                                        Process two
-                                        <a href=""
-                                            class="btn float-right text-warning-600 btn-flat btn-icon btn-rounded btn-sm"
-                                            data-popup="tooltip" data-placement="bottom" title="Delete"
-                                            style="margin-top: -6px;">
-                                            <i class="icon-trash"></i>
-                                        </a>
-                                        <a href=""
-                                            class="btn float-right text-info-600 btn-flat btn-icon btn-rounded btn-sm"
-                                            data-popup="tooltip" data-placement="bottom" title="Edit"
-                                            style="margin-top: -6px;">
-                                            <i class="icon-pencil"></i>
-                                        </a>
-                                        <a href="{% url 'projects:viewprocess'%}"
+                                         <a href="{% url 'projects:viewprocess' process_id=process.id%}">
+                                             {{process.process_name}}</a>, By {{process.created_by}}, Created On: {{ process.created_on }}
+                                       
+                                        <a href="{% url 'projects:viewprocess' process_id=process.id%}"
                                             class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                             data-popup="tooltip" data-placement="bottom" title="View"
                                             style="margin-top: -6px;">
                                             <i class="icon-enter3"></i>
                                         </a>
                                     </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
