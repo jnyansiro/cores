@@ -22,14 +22,16 @@ from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
-
+def indexsss(request):
+    return render(request,'web/index.html',{})
 
 def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html", {})
     indexhead = "Dashboard"
-    current_projects = Project.objects.all().order_by("-id")[:2]
+    current_projects = Project.objects.all().order_by("-id")[:6]
     total_projects = Project.objects.all().count()
+    members = Member.objects.all().count()
     member = Member.objects.get(user=request.user)
     request.session["userphoto"] = str(member.profile_photo)
     profilephoto = request.session["userphoto"]
@@ -44,7 +46,8 @@ def index(request):
             "current_projects": current_projects,
             "profilephoto": profilephoto,
             "total_projects": total_projects,
-            'member':member
+            'member':member,
+            'members':members
         },
     )
 

@@ -43,7 +43,7 @@
                         <li class="list-inline-item"><a href="#" class="text-muted"><i
                                     class="icon-thumbs-down2 font-size-base text-danger mr-2"></i> 281</a></li>
                                     <li class="list-inline-item col-md-3 float-right"><a href="#" class="text-muted"><i
-                                                class="icon-folder font-size-base text-blue mr-2"></i>project docs</a>
+                                                class="icon-folder font-size-base text-blue mr-2"></i>project Resources</a>
                                     </li>
                     </ul>
                 </div>
@@ -57,7 +57,10 @@
                         <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
                                     class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a></li>
                     </ul>
-
+                      <div class="col-md-10">
+                          <a href="{% url 'projects:viewpoints' project_id=project.id %}" class="btn float-right"> <button
+                                  class="btn btn-success"> Project Work Space</button></a>
+                      </div>
 
                 </div>
 

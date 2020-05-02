@@ -17,13 +17,13 @@
 						<div class="card bg-teal-400">
 							<div class="card-body">
 								<div class="d-flex">
-									<h3 class="font-weight-semibold mb-0">3,450</h3>
-									<span class="badge bg-teal-800 badge-pill align-self-center ml-auto">+53,6%</span>
+									<h3 class="font-weight-semibold mb-0"><span class="icon-users"></span>{{members}}</h3>
+									<span class="badge bg-teal-800 badge-pill align-self-center ml-auto"></span>
 								</div>
 				
 								<div>
-									Members online
-									<div class="font-size-sm opacity-75">489 avg</div>
+									Active Members
+									<div class="font-size-sm opacity-75">{{members}}</div>
 								</div>
 							</div>
 				
@@ -90,13 +90,17 @@
 				
 				
 				<div class="row">
-					<div class="card col-xl-7" >
-                        Recent Projects
+					<!-- <div class="card col-xl-7" > -->
+                        <div class=" card col-xl-12 text-center">
+							<span >
+								<label style="font-weight:bold;color:green">New Projects:</label>
+							</span>
+						</div>
 						<!-- Traffic sources -->
-						<div class="row">
+						<!-- <div class="row"> -->
 							{% if current_projects %}
 							{% for current_project in current_projects %}
-							<div class="col-lg-12">
+							<div class="col-lg-6">
 								<!-- Mini size -->
 								<div class="card blog-horizontal blog-horizontal-xs">
 									<div class="card-body">
@@ -147,21 +151,21 @@
 							</div>
 							{% endfor %}
 							{% endif %}
-						</div>
+						<!-- </div> -->
 
 					</div>
 					<div class="col-xl-5">
 						<!-- Sales stats -->
-						<div class="card">
+						<!-- <div class="card">
 							<h5 style="margin-left: 2rem;">Calendar</h5>
 							<div class="form-control-datepicker border-0"></div>
-						</div>
+						</div> -->
 						
-						<div class="card text-center">
-							<div class="card-body">
+						<!-- <div class="card text-center">
+							<div class="card-body"> -->
 
 								<!-- Progress counter -->
-								<div class="svg-center position-relative" id="hours-available-progress"></div>
+								<!-- <div class="svg-center position-relative" id="hours-available-progress"></div> -->
 								<!-- /progress counter -->
 
 
@@ -169,8 +173,8 @@
 								<div id="hours-available-bars"></div>
 								<!-- /bars -->
 
-							</div>
-						</div>
+							<!-- </div>
+						</div> -->
 					</div>
 					
 					</div>

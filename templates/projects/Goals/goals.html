@@ -12,63 +12,71 @@
                     <div class="panel-body">
                         <div class="tabbable">
                             <ul class="nav  nav-tabs nav-justified">
-                                <style>
-                                    .viewpoint {
+                                 <style>
+                                     .viewpoint {
 
-                                        background-color: blue;
-                                        border:2px white bold;
+                                         background-color: lightblue;
 
-                                    }
+                                     }
 
-                                    .requirement {
-                                        background: green;
-                                    }
+                                     .requirement {
+                                         background: lightblue;
+                                     }
 
-                                    .scenario {
-                                        background: pink;
-                                    }
+                                     .scenario {
+                                         background: lightblue;
+                                     }
 
-                                    .goal {
-                                        background: lightblue;
-                                    }
+                                     .goal {
+                                         background: blue;
+                                     }
 
-                                    .process {
-                                        background: rgb(235, 44, 124);
-                                    }
+                                     .process {
+                                         background: lightblue;
+                                     }
 
-                                    .usecase {
-                                        background: rgb(83, 228, 38);
-                                    }
+                                     .usecase {
+                                         background: lightblue;
+                                     }
 
-                                    #li a {
-                                        color: white
-                                    }
+                                     #li a {
+                                         color: white;
+                                         width: 100%;
 
-                                    #li1 {
-                                        width: auto;
 
-                                        background-color: grey;
-                                    }
+                                     }
 
-                                    #li1 :hover a {
-                                        background-color: white;
-                                        color: blue;
-                                    }
-                                </style>
+                                     #li {
+                                         border: 2 solid black;
+                                         align-content: center;
+
+                                     }
+
+                                     #li1 {
+                                         width: auto;
+
+                                         background-color: grey;
+                                     }
+
+                                     #li1 :hover a {
+                                         background-color: white;
+                                         color: blue;
+                                     }
+                                 </style>
                                 <li class="viewpoint col-md-2">
                                     <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint_id %}" class="col-md-2"
-                                        style="color: white;font-weight:bold">
+                                        style="color: black;font-weight:bold">
                                         ViewPoint Description
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
                                   
-                                    <a href="#" class="col-md-2" style="color:black;font-weight:bold">
+                                    <a href="#" class="col-md-2" style="color:white;font-weight:bold">
                                         Goals
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="" style="color:white;font-weight:bold">
+                                    <a href="" style="color:black;font-weight:bold">
                                         Requirements
                                     </a>
                                 </li>

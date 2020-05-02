@@ -15,33 +15,41 @@
                                 <style>
                                     .viewpoint {
 
-                                        background-color: blue;
-                                        border: 2px white bold;
+                                        background-color: lightblue;
 
                                     }
 
                                     .requirement {
-                                        background: blue;
-                                    }
-
-                                    .scenario {
                                         background: lightblue;
                                     }
 
-                                    .goal {
+                                    .scenario {
                                         background: blue;
                                     }
 
+                                    .goal {
+                                        background: lightblue;
+                                    }
+
                                     .process {
-                                        background: rgb(235, 44, 124);
+                                        background: lightblue;
                                     }
 
                                     .usecase {
-                                        background: rgb(83, 228, 38);
+                                        background: lightblue;
                                     }
 
                                     #li a {
-                                        color: white
+                                        color: white;
+                                        width: 100%;
+
+
+                                    }
+
+                                    #li {
+                                        border: 2 solid black;
+                                        align-content: center;
+
                                     }
 
                                     #li1 {
@@ -56,22 +64,22 @@
                                     }
                                 </style>
                                 <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoint' viewpoint_id %}" class="col-md-2" style="color: white;font-weight:bold">
+                                    <a href="{% url 'projects:viewpoint' viewpoint_id %}" class="col-md-2" style="color: black;font-weight:bold">
                                         ViewPoint Description
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
-                                    <a href="{% url 'projects:viewgoal' goal_id %}" class="col-md-2" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewgoal' goal_id %}" class="col-md-2" style="color:black;font-weight:bold">
                                         Goal Description
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:viewrequirement' requirement_id %}" style="color:white;font-weight:bold">
+                                    <a href="{% url 'projects:viewrequirement' requirement_id %}" style="color:black;font-weight:bold">
                                         Requirement Description
                                     </a>
                                 </li>
                                 <li class=" scenario col-md-2">
-                                    <a href="#" style="color:black;font-weight:bold">
+                                    <a href="#" style="color:white;font-weight:bold">
                                         Scenarios
                                     </a>
                                 </li>

@@ -10,37 +10,48 @@
             <div class="card-body">
                 <div class="panel">
                     <div class="panel-body">
+
+                       {% include '../projectfilter.html'%}
                         <div class="tabbable">
                             <ul class="nav  nav-tabs nav-justified">
                                 <style>
                                     .viewpoint {
 
-                                        background-color: lightblue;
+                                        background-color:blue;
 
                                     }
 
                                     .requirement {
-                                        background: green;
+                                        background: lightblue;
                                     }
 
                                     .scenario {
-                                        background: pink;
+                                        background: lightblue;
                                     }
 
                                     .goal {
-                                        background: yellow;
+                                        background: lightblue;
                                     }
 
                                     .process {
-                                        background: rgb(235, 44, 124);
+                                        background: lightblue;
                                     }
 
                                     .usecase {
-                                        background: rgb(83, 228, 38);
+                                        background: lightblue;
                                     }
 
                                     #li a {
-                                        color: white
+                                        color: white;
+                                        width: 100%;
+                                        
+                                        
+                                    }
+
+                                    #li{
+                                        border: 2 solid black;
+                                        align-content: center;
+
                                     }
 
                                     #li1 {
@@ -69,7 +80,7 @@
                                     
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="" style="color:white;font-weight:bold">
+                                    <a href="" style="color:black;font-weight:bold">
                                         Requirements
                                     </a>
                                 </li>
