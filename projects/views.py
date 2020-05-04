@@ -412,13 +412,15 @@ def viewpoint(request, project_id=None, viewpoint_id=None):
             "viewpoints": viewpoints,
             "project_id": project_id,
             'member':member
+            ,'project':project
         },
     )
 
 
 def viewpoints(request, project_id):
-
+    
     indexhead = "Project - ViewPoint"
+    project = Project.objects.get(id=project_id)
     hidesearch = "hide"
     projects = Project.objects.all().order_by('-id')
     if request.method == 'POST':
@@ -436,7 +438,8 @@ def viewpoints(request, project_id):
                 "viewpoint": viewpoint,
                 "viewpoints": viewpoints,
                 "project_id": project_id,
-                'member':member
+                'member':member,
+                'project':project
                 ,'projects':projects
             },
         )
@@ -455,7 +458,8 @@ def viewpoints(request, project_id):
             "viewpoint": viewpoint,
             "viewpoints": viewpoints,
             "project_id": project_id,
-            'member':member
+            'member':member,
+            'project':project
             ,'projects':projects
         },
     )
@@ -499,7 +503,8 @@ def createViewpoint(request, project_id):
                     "viewpoints": viewpoints,
                     "viewpoint": viewpoint,
                     "project_id": project_id,
-                    'member':member
+                    'member':member,
+                    'project':project
                 },
             )
 
@@ -534,7 +539,8 @@ def goals(request, project_id=None, viewpoint_id=None):
                 "viewpoints": viewpoints,
                 "viewpoint_id": viewpoint_id,
                 "viewpointiees": viewpointiees,
-                'member':member
+                'member':member,
+                'project':project
             },
         )
     goals = Goal.objects.filter(viewpoint=viewpoint_id).order_by("-id")
@@ -552,7 +558,8 @@ def goals(request, project_id=None, viewpoint_id=None):
             "viewpoints": viewpoints,
             "viewpoint_id": viewpoint_id,
             "viewpointiees": viewpointiees,
-            'member':member
+            'member':member,
+            'project':project
         },
     )
 
@@ -580,7 +587,8 @@ def viewGoal(request, goal_id):
                 "goal_id": goal_id,
                 "viewpoints": viewpoints,
                 "goals": goals,
-                'member':member
+                'member':member,
+                'project':project
             },
         )
 
@@ -602,7 +610,8 @@ def viewGoal(request, goal_id):
             "goal_id": goal_id,
             "viewpoints": viewpoints,
             "goals": goals,
-            'member':member
+            'member':member,
+            'project':project
         },
     )
 
@@ -652,7 +661,8 @@ def createGoal(request, viewpoint_id):
                     "viewpoint_id": viewpoint_id,
                     "viewpoints": viewpoints,
                     "viewpointiees": viewpointiees,
-                    'member':member
+                    'member':member,
+                    'project':project
                 },
             )
 
@@ -663,7 +673,8 @@ def createGoal(request, viewpoint_id):
             "indexhead": indexhead,
             "viewpoint_id": viewpoint_id,
             "viewpoints": viewpoints,
-            'member':member
+            'member':member,
+            'project':project
         },
     )
 
@@ -692,7 +703,8 @@ def requirements(request, goal_id):
                 "requirements": requirements,
                 "viewpoints": viewpoints,
                 "goals": goals,
-                'member':member
+                'member':member,
+                'project':project
             },
         )
 
@@ -716,7 +728,8 @@ def requirements(request, goal_id):
             "requirements": requirements,
             "viewpoints": viewpoints,
             "goals": goals,
-            'member':member
+            'member':member,
+            'project':project
         },
     )
 
@@ -746,7 +759,8 @@ def viewrequirement(request, requirement_id=None):
                 "viewpoints": viewpoints,
                 "requirements": requirements,
                 'requirement':requirement
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
     requirement = Requirement.objects.get(id=requirement_id)
@@ -769,7 +783,8 @@ def viewrequirement(request, requirement_id=None):
             "viewpoints": viewpoints,
             "requirements": requirements,
             'requirement':requirement
-            ,'member':member
+            ,'member':member,
+            'project':project
         },
     )
 
@@ -818,7 +833,8 @@ def createRequirement(request, goal_id):
                 "requirements": requirements,
                 "viewpoints": viewpoints,
                 "goals": goals,
-                'member':member
+                'member':member,
+                'project':project
             },
             )
 
@@ -858,7 +874,8 @@ def scenarios(request,requirement_id):
                 'scenarios':scenarios,
                 "goals": goals,
                 'requirement_id':requirement_id
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
 
@@ -886,7 +903,8 @@ def scenarios(request,requirement_id):
             "viewpoints": viewpoints,
             "goals": goals,
             'requirement_id':requirement_id
-            ,'member':member
+            ,'member':member,
+            'project':project
         },
     )
 
@@ -922,7 +940,8 @@ def viewscenario(request,scenario_id):
                 "viewpoints": viewpoints,
                 "requirements": requirements,
                 'requirement_id':requirement.id
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
     scenario = Scenario.objects.get(id=scenario_id)
@@ -949,7 +968,8 @@ def viewscenario(request,scenario_id):
             'scenarios':scenarios,
             "requirements": requirements,
             'requirement_id':requirement.id
-            ,'member':member
+            ,'member':member,
+            'project':project
         }
     )
 
@@ -1001,7 +1021,8 @@ def createScenario(request,requirement_id):
                 'scenarios':scenarios,
                 "viewpoints": viewpoints,
                 "goals": goals,
-                'member':member
+                'member':member,
+                'project':project
             }
             )
     return render(
@@ -1043,7 +1064,8 @@ def processes(request, scenario_id):
                 'scenario_id':scenario.id,
                 "goals": goals,
                 'requirement_id':requirement.id
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
 
@@ -1074,7 +1096,8 @@ def processes(request, scenario_id):
             "goals": goals,
             'processes':processes,
             'requirement_id':requirement.id
-            ,'member':member
+            ,'member':member,
+            'project':project
         },
     )
 
@@ -1114,7 +1137,8 @@ def viewprocess(request,process_id):
                 "viewpoints": viewpoints,
                 "requirements": requirements,
                 'requirement_id':requirement.id
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
     process = Process.objects.get(id=process_id)
@@ -1145,7 +1169,8 @@ def viewprocess(request,process_id):
             'scenarios':scenarios,
             "requirements": requirements,
             'requirement_id':requirement.id
-            ,'member':member
+            ,'member':member,
+            'project':project
         },
     )
 
@@ -1201,7 +1226,8 @@ def createProcess(request,scenario_id):
                 "viewpoints": viewpoints,
                 'processes':processes,
                 "goals": goals,
-                'member':member
+                'member':member,
+                'project':project
             },
             )
 
@@ -1246,7 +1272,8 @@ def usecases(request, process_id):
                 'usecases':usecases,
                 'process_id':process.id,
                 'requirement_id':requirement.id
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
     process = Process.objects.get(id=process_id)
@@ -1280,7 +1307,8 @@ def usecases(request, process_id):
             'process_id':process.id,
             'processes':processes,
             'requirement_id':requirement.id
-            ,'member':member
+            ,'member':member,
+            'project':project
         },
     )
 
@@ -1324,7 +1352,8 @@ def viewusecase(request,usecase_id):
                 "viewpoints": viewpoints,
                 "requirements": requirements,
                 'requirement_id':requirement.id
-                ,'member':member
+                ,'member':member,
+                'project':project
             },
         )
     usecase = UseCase.objects.get(id=usecase_id)
@@ -1361,7 +1390,8 @@ def viewusecase(request,usecase_id):
             'process_id':process.id,
             "requirements": requirements,
             'requirement_id':requirement.id
-            ,'member':member
+            ,'member':member,
+            'project':project
         },
     )
 
@@ -1422,7 +1452,8 @@ def createUsecase(request, process_id):
                 'process_id':process.id,
                 'usecases':usecases,
                 "goals": goals,
-                'member':member
+                'member':member,
+                'project':project
             },
             )
 
