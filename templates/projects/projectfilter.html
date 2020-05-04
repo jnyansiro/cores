@@ -1,14 +1,14 @@
  <div class="form-group form-horizontal">
      <label class="col-lg-1 text-semibold control-label">
          Filter Project:</label>
-     <form method="post" action="{% url 'projects:projects'%}">
+     <form method="post" action="{% url 'projects:viewpoints' project_id%}">
          {% csrf_token %}
          <div class="col-md-3">
              <div class="input-group">
-                 <select name="goal" data-placeholder="Select View point" class="form-control" id="">
-                     {% for goal in goals %}
-                     <option value="{{ goal.id}}">
-                         {{ goal.goal_name }}
+                 <select name="project" data-placeholder="Select View point" class="form-control" id="">
+                     {% for project in projects %}
+                     <option value="{{ project.id}}">
+                         {{ project.project_title }}
                      </option>
                      {% endfor %}
                  </select>

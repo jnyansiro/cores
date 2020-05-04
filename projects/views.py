@@ -52,6 +52,15 @@ def index(request):
     )
 
 
+def filterProject(request,project_id,page):
+    if page == "viewpoint":
+        pass
+
+
+    
+
+
+
 # user profile function
 def profile(request):
     indexhead = "User Profile"
@@ -408,8 +417,31 @@ def viewpoint(request, project_id=None, viewpoint_id=None):
 
 
 def viewpoints(request, project_id):
+
     indexhead = "Project - ViewPoint"
     hidesearch = "hide"
+    projects = Project.objects.all().order_by('-id')
+    if request.method == 'POST':
+        project_id = request.POST.get('project')
+        member = Member.objects.get(user=request.user)
+        viewpoint = Viewpoint.objects.filter(project=project_id).order_by("-id")[:4]
+        viewpoints = Viewpoint.objects.filter(project=project_id).order_by("-id")
+        project_id = project_id
+        return render(
+            request,
+            "projects/viewpoints/viewpoints.html",
+            {
+                "indexhead": indexhead,
+                "hidesearch": hidesearch,
+                "viewpoint": viewpoint,
+                "viewpoints": viewpoints,
+                "project_id": project_id,
+                'member':member
+                ,'projects':projects
+            },
+        )
+
+
     member = Member.objects.get(user=request.user)
     viewpoint = Viewpoint.objects.filter(project=project_id).order_by("-id")[:4]
     viewpoints = Viewpoint.objects.filter(project=project_id).order_by("-id")
@@ -424,6 +456,7 @@ def viewpoints(request, project_id):
             "viewpoints": viewpoints,
             "project_id": project_id,
             'member':member
+            ,'projects':projects
         },
     )
 

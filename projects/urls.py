@@ -12,6 +12,7 @@ urlpatterns = [
     path("myprojects", myProjects, name="myprojects"),
     url(r'^viewmyproject/(?P<project_id>\d+)/$', viewMyproject, name="viewmyproject"),
     url(r'^deleteproject/(?P<project_id>\d+)/$', deleteProject, name="deleteproject"),
+    url(r'^projectfilter/(?P<project_id>\w+)/(?P<page>\w+)/$', filterProject, name='filterproject'),
     url(r'^editproject/(?P<project_id>\d+)/$', editProject, name="editproject"),
     url(r'^createprojectcomment/(?P<project_id>\d+)/$', createProjectComment, name="createprojectcomment"),
     url(r'^projectincentives/(?P<project_id>\d+)/$', projectIncentive, name="projectincentives"),
