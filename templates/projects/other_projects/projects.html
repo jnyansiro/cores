@@ -1,4 +1,6 @@
 {% load static %}
+{% include '../rate_dependence.html'%}
+{% include '../like_dependence.html'%}
 {% include '../../header.html'%}
 <div class="content-wrapper">
 
@@ -51,10 +53,10 @@
                     <li class="list-inline-item">By <a href="#" class="text-muted">{{ project.created_by }}</a></li>
                     <li class="list-inline-item">Created On: {{ project.created_on }}</li>
                     <li class="list-inline-item">Due Date: {{ project.due_date }}</li>
-                    <li class="list-inline-item"><a href="#" class="text-muted"><i
-                                class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
-                                <li class="list-inline-item"><a href="#" class="text-muted"><i
-                                            class="icon-thumbs-down2 font-size-base text-danger mr-2"></i> 281</a></li>
+                    <li class="list-inline-item"><a href="#" class="like text-muted"><i
+                                class="icon-thumbs-up2 font-size-base text-primary mr-2" id="like"></i> <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" /></a></li>
+                                <li class="list-inline-item"><a href="#" class="dislike text-muted"><i
+                                            class="icon-thumbs-down2 font-size-base text-danger mr-2" id="dislike"></i> <input class="qty2" name="qty2" readonly="readonly" type="text" value="0" /></a></li>
                 </ul>
             </div>
 
@@ -64,8 +66,9 @@
             <div
                 class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
                 <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
-                    <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-star-full2 text-warning mr-2"></i></a></li>
-                    <li class="list-inline-item"><a href="#" class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>0 comments</a></li>
+                    <li class="list-inline-item"><i class="icon-star-full2  mr-2 "
+                                data-toggle="modal" data-target="#star"></i></li>
+                    <li class="list-inline-item"><a href="{% url 'projects:viewproject' project_id=project.id %}" class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>comments</a></li>
                 </ul>  
             </div>
         </div>
@@ -73,6 +76,53 @@
     <!-- /mini size -->
 
 </div>
+
+
+
+
+<!-- rate model -->
+
+<div id="star" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs">
+        <form method="POST" action="{% url 'projects:rateproject' project_id=project.id%}">
+            {% csrf_token %}
+            <div class="modal-content bg-white-300" style="color:red">
+                <div class="modal-header">
+
+                    <h5 class="modal-title text-center">Rate Viewpoint</h5>
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="rate float-center" style="margin-left: 3rem;">
+                        <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="Best">5
+                            stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="Better">4
+                            stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="Good">3
+                            stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="Normal">2
+                            stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="Bad">1
+                            star</label>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer col-md-12">
+                    <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not now</button>
+                    <button type="submit" class="btn bg-primary ">Rate</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- /custom background color -->
 {% endfor %}
 {% endif %}
  {% if not projects %}
@@ -85,3 +135,4 @@
 
 </div>
 </div>
+

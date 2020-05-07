@@ -465,15 +465,7 @@ class StarRate(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for StarRate."""
-
-        verbose_name = "StarRate"
-        verbose_name_plural = "StarRates"
-
-    def __str__(self):
-        """Unicode representation of StarRate."""
-        return self.number_of_stars
+    
 
 
 class Like(models.Model):
@@ -687,15 +679,6 @@ class ProjectRate(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ProjectRate."""
-
-        verbose_name = "ProjectRate"
-        verbose_name_plural = "ProjectRates"
-
-    def __str__(self):
-        """Unicode representation of ProjectRate."""
-        pass
 
 
 class RequirementArtifactRate(models.Model):
@@ -724,20 +707,11 @@ class ViewPointRate(models.Model):
     """Model definition for ViewPointRate."""
 
     # TODO: Define fields here
-    view_point = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
-    star_rate = models.ForeignKey("StarRate", on_delete=models.CASCADE)
+    view_point = models.ForeignKey(Viewpoint, on_delete=models.CASCADE)
+    star_rate = models.ForeignKey(StarRate, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ViewPointRate."""
-
-        verbose_name = "ViewPointRate"
-        verbose_name_plural = "ViewPointRates"
-
-    def __str__(self):
-        """Unicode representation of ViewPointRate."""
-        pass
 
 
 class GoalRate(models.Model):

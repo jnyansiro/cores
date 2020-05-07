@@ -1,0 +1,27 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+    $(function () {
+        $(".like").one("click", function () {
+            var input = $(this).find('.qty1');
+            input.val(parseInt(input.val()) + 1);
+            document.getElementById('like').style.color = "blue"
+
+
+        });
+        $(".dislike").one("click", function () {
+            var input = $(this).find('.qty2');
+            input.val(parseInt(input.val()) + 1);
+            document.getElementById('dislike').style.color = "red"
+        });
+    });
+</script>
+
+<style>
+    .qty1,
+    .qty2 {
+        border: none;
+        width: 20px;
+        background: transparent;
+    }
+</style>

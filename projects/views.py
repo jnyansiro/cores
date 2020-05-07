@@ -9,7 +9,10 @@ from .models import (
     Project,
     Viewpoint,
     Sector,
+    StarRate,
     Goal,
+    ProjectRate,
+    ViewPointRate,
     Comment,
     ProjectComment,
     ProjectMembership,
@@ -176,7 +179,9 @@ def servererror(request):
     return render(request, "pagenotfound.html", {})
 
 
-# project views
+
+
+# project views and project workspace
 def createProject(request):
     member = Member.objects.get(user=request.user.id)
     if request.method == "POST":
@@ -301,6 +306,7 @@ def viewMyproject(request, project_id):
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
     comments = ProjectComment.objects.filter(project=project).order_by("-id")
+    projectRate = ProjectRate.objects.filter(project=project,star_rate__rated_by=member)
     total_comments = comments.count()
     hidesearch = "hide"
     project_id
@@ -314,18 +320,20 @@ def viewMyproject(request, project_id):
             "comments": comments,
             "total_comments": total_comments,
             "project_id": project_id,
-            'member':member
+            'member':member,
+            'projectRate':projectRate
 
         },
     )
 
 
-def viewProject(request, project_id):
+def viewProject(request, project_id,message=None):
     indexhead = "Project Details"
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
     comments = ProjectComment.objects.filter(project=project).order_by("-id")
+    projectRate = ProjectRate.objects.filter(project=project,star_rate__rated_by=member)
     total_comments = comments.count()
 
     return render(
@@ -337,7 +345,9 @@ def viewProject(request, project_id):
             "project": project,
             "comments": comments,
             "total_comments": total_comments,
-            'member':member
+            'member':member,
+            'projectRate':projectRate,
+            'message':message
         },
     )
 
@@ -393,7 +403,7 @@ def projects(request):
     )
 
 
-def viewpoint(request, project_id=None, viewpoint_id=None):
+def viewPoint(request, project_id=None, viewpoint_id=None):
     indexhead = "Project - ViewPoint"
     hidesearch = "hide"
     
@@ -1460,3 +1470,61 @@ def createUsecase(request, process_id):
     return render(
         request, "projects/usecase/create_usecase.html", {"indexhead": indexhead,'viewpoints':viewpoints,'process_id':process_id,'member':member})
 
+
+
+# Rate
+
+def projectRate(request,project_id):
+    if request.POST.get('rate') != None:
+        
+        project = Project.objects.get(id=project_id)
+        member = Member.objects.get(user=request.user)
+        
+        if not ProjectRate.objects.filter(project=project,star_rate__rated_by=member).exists():
+            rate = StarRate.objects.create(
+                rated_by=member,
+                number_of_stars=request.POST.get('rate')
+
+            )
+            rate.save()
+            if rate:
+                project_rate = ProjectRate.objects.create(
+                    project=project,
+                    star_rate=rate
+                )
+                project_rate.save()
+                if project_rate:
+                    return viewProject(request,project_id=project_id)
+        message = "sorry you have already rated this project you can not rate this again"
+        return viewProject(request,project_id=project_id, message=message)
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewProject(request,project_id=project_id, message=message)
+
+
+def viewpointRate(request,viewpoint_id):
+    viewpoint = Viewpoint.objects.get(id=viewpoint_id)
+    if request.POST.get('rate') != None:
+        member = Member.objects.get(user=request.user)
+        if not ViewPointRate.objects.filter(view_point=viewpoint,star_rate__rated_by=member).exists():
+        
+            rate = StarRate.objects.create(
+                rated_by=member,
+                number_of_stars=request.POST.get('rate')
+
+            )
+            rate.save()
+            if rate:
+                
+                viewpoint_rate = ViewPointRate.objects.create(
+                    view_point=viewpoint,
+                    star_rate=rate
+                )
+                viewpoint_rate.save()
+                if viewpoint_rate:
+                    project_id = viewpoint.project.id
+                    return viewPoint(request, project_id=project_id , viewpoint_id=viewpoint_id)
+
+        message = "sorry you have already rated this Viewpoint you can not rate again"
+        return viewProject(request,project_id=project_id, message=message)
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewProject(request,project_id=project_id, message=message)
