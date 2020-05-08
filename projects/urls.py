@@ -5,6 +5,7 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from .api import *
 from .views import *
+from .docx_generation import *
 
 app_name = "projects"
 urlpatterns = [
@@ -46,6 +47,9 @@ urlpatterns = [
     url(r'^usecases/(?P<process_id>\d+)/$', usecases, name="usecases"),
     url(r'^viewusecase/(?P<usecase_id>\d+)/$', viewusecase, name="viewusecase"),
     url(r'^createusecase/(?P<process_id>\d+)/$', createUsecase, name="createusecase"),
+    
+    # Creating word docs URL
+    url(r'^generatedocs/(?P<project_id>\d+)/$', create_docx, name='generatedocs'),
     
     # rating URLS
     url(r'^rateproject/(?P<project_id>\d+)/$', projectRate, name='rateproject'),

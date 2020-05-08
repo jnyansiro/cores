@@ -334,6 +334,8 @@ def viewProject(request, project_id,message=None):
     project = Project.objects.get(id=project_id)
     comments = ProjectComment.objects.filter(project=project).order_by("-id")
     projectRate = ProjectRate.objects.filter(project=project,star_rate__rated_by=member)
+    rates = ProjectRate.objects.filter(project=project).order_by('-star_rate__number_of_stars')
+    total_rates = rates.count()
     total_comments = comments.count()
 
     return render(
@@ -347,7 +349,9 @@ def viewProject(request, project_id,message=None):
             "total_comments": total_comments,
             'member':member,
             'projectRate':projectRate,
-            'message':message
+            'message':message,
+            'rates':rates,
+            'total_rates':total_rates
         },
     )
 
@@ -403,7 +407,7 @@ def projects(request):
     )
 
 
-def viewPoint(request, project_id=None, viewpoint_id=None):
+def viewPoint(request, project_id=None, viewpoint_id=None,message=None):
     indexhead = "Project - ViewPoint"
     hidesearch = "hide"
     
@@ -422,7 +426,8 @@ def viewPoint(request, project_id=None, viewpoint_id=None):
             "viewpoints": viewpoints,
             "project_id": project_id,
             'member':member
-            ,'project':project
+            ,'project':project,
+            'message':message,
         },
     )
 
@@ -1503,6 +1508,7 @@ def projectRate(request,project_id):
 
 def viewpointRate(request,viewpoint_id):
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
+    project = Project.objects.get(viewpoint=viewpoint)
     if request.POST.get('rate') != None:
         member = Member.objects.get(user=request.user)
         if not ViewPointRate.objects.filter(view_point=viewpoint,star_rate__rated_by=member).exists():
@@ -1525,6 +1531,6 @@ def viewpointRate(request,viewpoint_id):
                     return viewPoint(request, project_id=project_id , viewpoint_id=viewpoint_id)
 
         message = "sorry you have already rated this Viewpoint you can not rate again"
-        return viewProject(request,project_id=project_id, message=message)
+        return viewPoint(request,project_id=project.id, viewpoint_id=viewpoint_id, message=message)
     message = "sorry you can not rate zero star, rate start from one star !!"
-    return viewProject(request,project_id=project_id, message=message)
+    return viewPoint(request,project_id=project.id, viewpoint_id=viewpoint_id, message=message)
