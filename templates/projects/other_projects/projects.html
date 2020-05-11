@@ -6,7 +6,24 @@
 
     <!-- Content area -->
     <div class="content">
+        
 <div class="row">
+
+      {% if message %}
+      <script>
+          question = confirm('{{ message }}')
+          if (question) {
+
+              window.location.assign('{% url "projects:membershiprequest" project_id=project_id %}')
+          }
+      </script>
+      {% endif %}
+      {% if requestmessage %}
+      <script>
+          alert('{{ requestmessage }}')
+      </script>
+      {% endif %}
+
     <div class="page-header page-header-default col-md-12">
         <div class="breadcrumb-line col-md-12">
             <br>
@@ -28,6 +45,8 @@
     {% if projects %}
     {% for project in projects %}
 <div class="col-lg-6">
+
+  
 
     <!-- Mini size -->
     <div class="card blog-horizontal blog-horizontal-xs">
@@ -128,7 +147,7 @@
  {% if not projects %}
  <div class="col-lg-12 text-center">
  <center>
-     <p style="color:red"> There is not Project cureently</p>
+      <p style="color:red"> Cureently there is no Project</p>
  </center>
  </div>
  {% endif %}

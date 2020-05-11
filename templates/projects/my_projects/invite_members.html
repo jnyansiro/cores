@@ -1,23 +1,19 @@
 {% load static %}
 {% include './myproject_header.html'%}
-<!-- Bordered card body table -->
-<div class="card">
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+        <!-- Bordered card body table -->
+
+        <div class="row">
+<div class="card col-xl-12">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title">Project Members</h5>
-        <div class="header-elements">
-            <div class="list-icons">
-                <a class="list-icons-item" data-action="collapse"></a>
-                <a class="list-icons-item" data-action="reload"></a>
-                <a class="list-icons-item" data-action="remove"></a>
-            </div>
-        </div>
+        <h5 class="card-title">Invite Members:</h5>
+
     </div>
 
-    <div class="card-body" style="width: 100%;">
-      <div class="row">
-          
-      </div>
-
+    <div class="card-body">
         <div class="card card-table table-responsive shadow-0 mb-0">
             <table class="table table-bordered">
                 <thead>
@@ -37,8 +33,8 @@
                         <td>{{ member.first_name }}</td>
                         <td>{{ member.surname }}</td>
                         <td>{{ member.user }}</td>
-                        <td><button class="btn btn-primary">View</button>|<button
-                                class="btn btn-warning">Suspend</button>|<button class="btn btn-danger">Remove</button>
+                        <td><button class="btn btn-primary col-md-3 mr-md-3 ">View</button><button
+                                class="btn btn-success col-md-3 mr-md-3 ">invite</button>
                         </td>
                     </tr>
                     {% endfor %}

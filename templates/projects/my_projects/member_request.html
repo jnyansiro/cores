@@ -1,5 +1,6 @@
 {% load static %}
 {% include './myproject_header.html'%}
+<br>
 <div class="content-wrapper">
 
     <!-- Content area -->
@@ -30,20 +31,40 @@
                             <tbody>
                                 {% for member in member_details %}
                                 <tr>
-                                    <td>{{ member.id }}</td>
-                                    <td>{{ member.first_name }}</td>
-                                    <td>{{ member.surname }}</td>
-                                    <td>{{ member.user }}</td>
+                                    <td>{{ member.member.id }}</td>
+                                    <td>{{ member.member.first_name }}</td>
+                                    <td>{{ member.member.surname }}</td>
+                                    <td>{{ member.member.user }}</td>
                                     <td>
+                                        <script>
+                                            function rejection(){
+                                                window.location.assign('{% url "projects:membershiprejection" project_id=project_id membership_id=member.id %}')
+                                            }
+                                            function acc(){
+                                            window.location.assign('{% url "projects:approvemember" project_id=project_id membership_id=member.id %}')
+                                            }
+                                        </script>
                                         <button class="btn btn-primary col-md-3 mr-md-3 ">View</button><button
-                                            class="btn btn-primary col-md-3 mr-md-3 ">Accept</button><button
-                                            class="btn btn-danger col-md-3 mr-md-3">Reject</button>
+                                            class="btn btn-success col-md-3 mr-md-3 " onclick="acc()">Accept</button><button
+                                            class="btn btn-danger col-md-3 mr-md-3" onclick="rejection()">Reject</button>
                                     </td>
+                                    
                                 </tr>
                                 {% endfor %}
+                            
+
+                                
 
                             </tbody>
                         </table>
+                            {% if not member_details %}
+                            
+                                <center>
+
+                                    <p class="text-danger">Currently there is no Project membership Request</p>
+                                </center>
+                            
+                            {% endif %}
                     </div>
                 </div>
             </div>

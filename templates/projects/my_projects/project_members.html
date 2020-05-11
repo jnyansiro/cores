@@ -9,7 +9,7 @@
 <div class="row">
 <div class="card col-xl-12">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title">Project Members</h5>
+        <h5 class="card-title"> Project Members </h5>
         
     </div>
 
@@ -24,6 +24,7 @@
                         <th>Last Name</th>
                         <th>Username</th>
                         <th>Role</th>
+                        <th>Status</th>
                         <th>Options</th>
 
                     </tr>
@@ -36,8 +37,42 @@
                         <td>{{ member.member.surname }}</td>
                         <td>{{ member.member.user }}</td>
                         <td>{{ member.member_role }}</td>
-                        <td><button class="btn btn-primary col-md-3 mr-md-3 ">View</button><button
-                                class="btn bg-orange col-md-3 mr-md-3">Suspend</button><button
+                        <td>{{ member.status }}</td>
+
+
+                          <script>
+                              function suspend() {
+                                  window.location.assign(
+                                      '{% url "projects:suspendmembership" membership_id=member.id %}'
+                                      )
+                              }
+                              function activate() {
+                              window.location.assign(
+                              '{% url "projects:activatemembership" membership_id=member.id %}'
+                              )
+                              }
+
+                              function acc(){
+                              window.location.assign('{% url "projects:approvemember" project_id=project_id membership_id=member.id %}')
+                              }
+
+                              function acr() {
+                                  
+                              }
+                          </script>
+
+                        <td><button class="btn btn-primary col-md-3 mr-md-3 ">View</button>
+                            {% if member.status == 'active' %}
+                            <button
+                                class="btn bg-orange col-md-3 mr-md-3" onclick="suspend()">Suspend</button>
+                            {% endif %}
+                            {% if member.status == 'suspended' %}
+                            <button class="btn bg-success col-md-3 mr-md-3" onclick="activate()">Activate</button>
+                            {% endif %}
+                            {% if member.status == 'rejected' %}
+                            <button class="btn bg-success col-md-3 mr-md-3" onclick="acc()">Accept</button>
+                            {% endif %}
+                                <button
                                     class="btn btn-danger col-md-3 mr-md-3">Remove</button>
                         </td>
                     </tr>

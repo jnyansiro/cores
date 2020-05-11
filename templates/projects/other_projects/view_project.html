@@ -53,7 +53,7 @@
                         <li class="list-inline-item"><a href="#" class="dislike text-muted"><i
                                     class="icon-thumbs-down2 font-size-base text-danger mr-2" id="dislike"></i> <input
                                     class="qty2" name="qty2" readonly="readonly" type="text" value="0" /></a></li>
-                                    <li class="list-inline-item col-md-3 float-right"><a href="#" class="text-muted"><i
+                                    <li class="list-inline-item col-md-3 float-right"><a href="{% url 'projects:projectresources' project_id=project.id %}" class="text-muted"><i
                                                 class="icon-folder font-size-base text-blue mr-2"></i>project Resources</a>
                                     </li>
                     </ul>
@@ -66,7 +66,7 @@
                         <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                 data-target="#rates">
                             {{total_rates}} Rates
-                        </a>
+                        </a></li>
 
                         <li class="list-inline-item"><a href="#" class="text-muted">
                              {% if not projectRate %}
@@ -122,7 +122,7 @@
                         <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
                                     class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a></li>
                     </ul>
-                      <div class="col-md-6">
+                      <div class="col-md-7">
                           <a href="{% url 'projects:viewpoints' project_id=project.id %}" class="btn float-right"> <button
                                   class="btn btn-success"> Project Workspace</button></a>
                       </div>
@@ -305,12 +305,7 @@
 
                                 <div class="d-flex align-items-center">
                                     <div class="list-icons list-icons-extended">
-                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
-                                            title="Send photo"><i class="icon-file-picture"></i></a>
-                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
-                                            title="Send video"><i class="icon-file-video"></i></a>
-                                        <a href="#" class="list-icons-item" data-popup="tooltip" data-container="body"
-                                            title="Send file"><i class="icon-file-plus"></i></a>
+                                        
                                     </div>
 
                                     <button class="btn bg-primary btn-labeled btn-labeled-right ml-auto"><b><i class="icon-paperplane"></i></b> Send</button>
