@@ -9,5 +9,5 @@ def create_docx(request,project_id):
     document.add_heading(project.project_title, 0)
     p = document.add_paragraph(project.description)
     print(document)
-    document.save('projectDocs.docx')
+    document.save(project.project_title+'.docx')
     return viewMyproject(request,project_id=project_id)

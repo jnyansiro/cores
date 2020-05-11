@@ -239,6 +239,24 @@ class ProjectMembership(models.Model):
         """Unicode representation of ProjectMembership."""
         return self.project.project_title
 
+class Category(models.Model):
+    """Model definition for Category."""
+
+    # TODO: Define fields here
+    category_name = models.CharField(max_length=60, blank=True, null=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Meta definition for Category."""
+
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categorys'
+
+    def __str__(self):
+        """Unicode representation of Category."""
+        return self.category_name
+
 
 class Viewpoint(models.Model):
     """Model definition for Viewpoint."""
@@ -396,22 +414,32 @@ class Repository(models.Model):
 
     # TODO: Define fields here
     added_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    project = models.ForeignKey("Project", on_delete=models.CASCADE)
-    resource_name = models.CharField(max_length=500)
-    resource_type = models.CharField(max_length=50)
-    description = models.CharField(max_length=500)
+    image = models.ImageField(blank=True,null=True)
+    docs = models.FileField(null=True,blank=True)
+    links = models.CharField(max_length=500, null=True,blank=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for Repository."""
+class ProjectRepository(models.Model):
+    """Model definition for ProjectRepository."""
 
-        verbose_name = "Repository"
-        verbose_name_plural = "Repositorys"
+    # TODO: Define fields here
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        """Unicode representation of Repository."""
-        return self.resource_name
+
+
+class ViewpointRepository(models.Model):
+    """Model definition for ViewpointRepository."""
+
+    # TODO: Define fields here
+    viewpoint = models.ForeignKey(Viewpoint, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
 
 
 class Comment(models.Model):
