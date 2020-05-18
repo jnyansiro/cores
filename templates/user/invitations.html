@@ -1,0 +1,48 @@
+{% load static %}
+{% include './profile_header.html'%}
+
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+        <!-- Bordered card body table -->
+
+        <div class="row">
+            <div class="card col-xl-12">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">{{ indexhead}}</h5>
+
+                </div>
+
+                <div class="card-body">
+                    <div class="card card-table table-responsive shadow-0 mb-0">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>project details</th> 
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for invite in invitations %}
+                                <tr>
+                                    <td>{{ invite.id }}</td>
+                                    <td><b class="text-primary">{{ invite.project.project_title }}</b> created by:
+                                        {{ invite.project.created_by}}</td>
+                                  
+                                    <td><a href="{% url 'projects:acceptinvitation' request_id=invite.id %}"><button
+                                                class="btn btn-success col-md-3 mr-md-3 ">Accept</button></a>
+                                        <a href="{% url 'projects:rejectinvitation' request_id=invite.id %}"><button
+                                            class="btn btn-danger col-md-3 mr-md-3 ">Reject</button></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /bordered card body table -->

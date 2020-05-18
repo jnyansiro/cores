@@ -86,7 +86,7 @@
                              <div class="d-flex align-items-center justify-content-center mb-2">
                                  <div class="col-md-12">
                                      <label>Project photo:</label>
-                                     <input class="form-control" type="file" name="project_photo"
+                                     <input class="form-control-styled" type="file" name="project_photo"
                                          placeholder="Enter project title">
                                  </div>
                              </div>
@@ -96,7 +96,7 @@
                              <div class="d-flex align-items-center justify-content-center mb-2">
                                  <div class="col-md-12">
                                      <label>Project Docs:</label>
-                                     <input class="form-control" type="file" name="project_docs"
+                                     <input class="form-control-styled" type="file" name="project_docs"
                                          multiple>
                                  </div>
                              </div>
@@ -106,14 +106,22 @@
                          <div class="col-sm-3">
                              <div class="d-flex align-items-center justify-content-center mb-2">
                                  <div class="col-md-12">
-                                     <label>Project Visibility:</label>
-                                     <div class="form-control">
-                                     <input class="form-input-switchery" type="radio" onclick="public_view()"
-                                         name="visibility" value="public" style="padding:14px">public</>
-                                     <input class="form-input-switchery" type="radio"
-                                         onclick="private_view()" name="visibility" value="private" style="padding:14px">private</>
+                                     <label>Project Visibility:</label><br><br>
+                                     
+                                     <!-- <div class="form-control append"> -->
+                                         <label style="display: inline-block; width:auto">
+                                         <span class="input-group-append float-right ml-3">
+                                     <input class="form-input-styled " type="radio" onclick="public_view()"
+                                         name="visibility" value="public"> public</>
+                                         </span>
+                                         <span class="input-group-append ml-3 mr-1 text-center">
+                                     <input class="form-input-styled " type="radio"
+                                         onclick="private_view()" name="visibility" value="private" > private</>
+                                         </span>
+                                         </label>
+                                         
                                          </div>
-                                 </div>
+                                 <!-- </div> -->
                              </div>
 
                          </div>

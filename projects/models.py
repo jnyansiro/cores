@@ -109,7 +109,7 @@ class Member(models.Model):
     middle_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50) 
     gender = models.CharField(max_length=50)
-    date_of_birth = models.DateTimeField(auto_now=False,blank=True, null=True)
+    date_of_birth = models.DateField(auto_now=False,blank=True, null=True)
     is_active = models.BooleanField(default=True)
     phone = models.CharField(max_length=12)
     email = models.EmailField(max_length=34, blank=True)
@@ -119,7 +119,7 @@ class Member(models.Model):
     district = models.CharField(max_length=260, blank=True,null=True)
     professional = models.CharField(max_length=50, blank=True)
     job_title = models.CharField(max_length=50, blank=True)
-    institution_name = models.CharField(max_length=50, blank=True)
+    institution_name = models.CharField(max_length=50, blank=True, null=True)
     profile_photo = models.ImageField(max_length=50, blank=True)
     created_on = models.DateTimeField(auto_now=True)
     update_on = models.DateTimeField(auto_now=True)
@@ -179,9 +179,7 @@ class Incentive(models.Model):
     """Model definition for Incentive."""
 
     # TODO: Define fields here
-    created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     incentive_type = models.CharField(max_length=50)
-    description = models.CharField(max_length=500, blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -202,8 +200,8 @@ class ProjectIncentive(models.Model):
     # TODO: Define fields here
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     incentive = models.ForeignKey("Incentive", on_delete=models.CASCADE)
-    unit = models.CharField(max_length=50, blank=True, null=True)
-    amount = models.CharField(max_length=50)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    description = models.CharField(max_length=800)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -215,7 +213,7 @@ class ProjectIncentive(models.Model):
 
     def __str__(self):
         """Unicode representation of ProjectIncentive."""
-        return self.amount
+        return self.description
 
 
 class ProjectMembership(models.Model):
@@ -441,6 +439,52 @@ class ViewpointRepository(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
 
+class GoalRepository(models.Model):
+    """Model definition for GoalRepository."""
+
+    # TODO: Define fields here
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+
+class RequirementRepository(models.Model):
+    """Model definition for equirementRepository."""
+
+    # TODO: Define fields here
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+
+class ScenarioRepository(models.Model):
+    """Model definition for ScenarioRepository."""
+
+    # TODO: Define fields here
+    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+class ProcessRepository(models.Model):
+    """Model definition for ProcessRepository."""
+
+    # TODO: Define fields here
+    process = models.ForeignKey(Process, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+class UsecaseRepository(models.Model):
+    """Model definition for UsecaseRepository."""
+
+    # TODO: Define fields here
+    usecase = models.ForeignKey(UseCase, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
     """Model definition for Comment."""

@@ -3,57 +3,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .models import (
-    User,
-    Member,
-    Project,
-    Viewpoint,
-    ViewPointComment,
-    Category,
-    ProjectRepository,
-    ViewpointLike,
-    ViewpointDislike,
-    ViewpointRepository,
-    ProjectDislike,
-    ProjectIncentive,
-    ProjectLike,
-    GoalComment,
-    GoalDislike,
-    GoalLike,
-    GoalRate,
-    Repository,
-    RequirementArtifact,
-    RequirementArtifactDislike,
-    RequirementLike,
-    RequirementComment,
-    RequirementDislike,
-    RequirementRate,
-    RequirementArtifactRate,
-    RequirementArtifactLike,
-    Sector,
-    StarRate,
-    Goal,
-    ProjectRate,
-    ViewPointRate,
-    Comment,
-    ProjectComment,
-    ProjectMembership,
-    Requirement,
-    Scenario,
-    Process,
-    UseCase,
-)
+from .models import *
 from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
-def indexsss(request):
-    return render(request, "web/index.html", {})
+def privacyPolicy(requiest):
+    pass
+def termsConditions(request):
+    pass
+
+def indexs(request):
+    members = Member.objects.all().count()
+    members = members + 100
+    projects = Project.objects.all().count()
+    projects = projects + 10
+    comments = Comment.objects.all().count()
+    rates = StarRate.objects.all().count()
+    return render(request, "web/index.html", {'members':members, 'projects':projects,'rates':rates, 'comments':comments})
 
 
+@login_required(login_url="login")
 def index(request):
-    if not request.user.is_authenticated:
-        return render(request, "login.html", {})
+
     indexhead = "Dashboard"
     current_projects = Project.objects.all().order_by("-id")[:6]
     total_projects = Project.objects.all().count()
@@ -79,6 +51,7 @@ def index(request):
 
 
 # user profile function
+@login_required(login_url="login")
 def profile(request):
     indexhead = "User Profile"
     member = Member.objects.get(user=request.user)
@@ -194,6 +167,7 @@ def servererror(request):
 
 
 # project views and project workspace
+@login_required(login_url="login")
 def createProject(request):
     member = Member.objects.get(user=request.user.id)
     if request.method == "POST":
@@ -248,14 +222,34 @@ def createProject(request):
     )
 
 
-def inviteMembers(request, project_id):
+@login_required(login_url="login")
+def sendInvitation(request, project_id, member_id):
+    member = Member.objects.get(id=member_id)
+    project = Project.objects.get(id=project_id)
+    if not ProjectMembership.objects.filter(project=project, member=member).exists():
+        invitation = ProjectMembership.objects.create(
+            project=project, member=member, member_role="member", status="invited"
+        )
+        invitation.save()
+        if invitation:
+            return inviteMembers(request, project_id=project_id)
+
+    return inviteMembers(request, project_id=project_id)
+
+
+@login_required(login_url="login")
+def inviteMembers(request, project_id, member_id=None):
     indexhead = "Invite Members:"
     placeholder = "search Members"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    member_details = Member.objects.exclude(
-        id__in=ProjectMembership.objects.filter(project=project)
-    )
+    project_membership = ProjectMembership.objects.filter(project=project)
+    ids = []
+    for id in project_membership:
+        id = id.member.id
+        ids.append(id)
+    print(ids)
+    member_details = Member.objects.exclude(id__in=ids).order_by("-id")
     return render(
         request,
         "projects/my_projects/invite_members.html",
@@ -270,6 +264,99 @@ def inviteMembers(request, project_id):
     )
 
 
+@login_required(login_url="login")
+def viewMemberDetails(request, member_id):
+    indexhead = "User Detals:"
+    hidesearch = "hide"
+    member_details = Member.objects.get(id=member_id)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "user/details.html",
+        {
+            "member_details": member_details,
+            "indexhead": indexhead,
+            "member": member,
+            "hidesearch": hidesearch,
+        },
+    )
+
+
+@login_required(login_url="login")
+def updatePersonalDetails(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        middle_name = request.POST.get("middle_name")
+        surname = request.POST.get("surname")
+        date_of_birth = request.POST.get("date_of_birth")
+        gender = request.POST.get("gender")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        job_email = request.POST.get("job_email")
+        profile_photo = request.FILES.get("profile_photo")
+        member = Member.objects.get(user=request.user)
+
+        if profile_photo:
+            member.profile_photo = request.FILES["profile_photo"]
+            member.save()
+            profile_photo = member.profile_photo
+        else:
+            profile_photo = member.profile_photo
+
+        if date_of_birth == "" or date_of_birth == None:
+            date_of_birth = member.date_of_birth
+
+        update_profile = Member.objects.filter(id=member.id).update(
+            first_name=first_name,
+            middle_name=middle_name,
+            surname=surname,
+            phone=phone,
+            date_of_birth=date_of_birth,
+            gender=gender,
+            email=email,
+            job_email=job_email,
+            profile_photo=profile_photo,
+        )
+        if update_profile:
+            return profile(request)
+    return profile(request)
+
+
+@login_required(login_url="login")
+def updateResidenceDetails(request):
+    if request.method == "POST":
+        country = request.POST.get("country")
+        region = request.POST.get("region")
+        district = request.POST.get("district")
+        member = Member.objects.get(user=request.user)
+
+        update_profile = Member.objects.filter(id=member.id).update(
+            country=country, region=region, district=district
+        )
+        if update_profile:
+            return profile(request)
+    return profile(request)
+
+
+@login_required(login_url="login")
+def updateJobDetails(request):
+    if request.method == "POST":
+        professional = request.POST.get("professonal")
+        job_title = request.POST.get("job_title")
+        institution_name = request.POST.get("institution_name")
+        member = Member.objects.get(user=request.user)
+
+        update_profile = Member.objects.filter(id=member.id).update(
+            professional=professional,
+            job_title=job_title,
+            institution_name=institution_name,
+        )
+        if update_profile:
+            return profile(request)
+    return profile(request)
+
+
+@login_required(login_url="login")
 def editProject(request, project_id):
     indexhead = "Project / Edit-Project"
     hidesearch = "hide"
@@ -290,12 +377,14 @@ def editProject(request, project_id):
     )
 
 
+@login_required(login_url="login")
 def deleteProject(request, project_id):
     delete_project = Project.objects.get(id=project_id).delete()
     if delete_project:
         return myProjects(request)
 
 
+@login_required(login_url="login")
 def createProjectComment(request, project_id):
     indexhead = "Project Details"
     hidesearch = "hide"
@@ -320,6 +409,7 @@ def createProjectComment(request, project_id):
     return viewProject(request, project_id=project_id)
 
 
+@login_required(login_url="login")
 def createViewpointComment(request, viewpoint_id):
     indexhead = "Viewpoint Details"
     hidesearch = "hide"
@@ -343,15 +433,18 @@ def createViewpointComment(request, viewpoint_id):
     return viewPoint(request, viewpoint_id=viewpoint_id)
 
 
+@login_required(login_url="login")
 def projectIncentive(request, project_id=None):
+    project = Project.objects.get(id=project_id)
     hidesearch = "hide"
     return render(
         request,
         "projects/my_projects/project_incentive.html",
-        {"hidesearch": hidesearch, "project_id": project_id},
+        {"hidesearch": hidesearch, "project_id": project_id,'project':project},
     )
 
 
+@login_required(login_url="login")
 def membershipProjects(request):
     indexhead = "Projects / Membership Project(s)"
     member = Member.objects.get(user=request.user)
@@ -369,6 +462,7 @@ def membershipProjects(request):
     )
 
 
+@login_required(login_url="login")
 def myProjects(request):
     indexhead = "Projects / My Project(s)"
     member = Member.objects.get(user=request.user)
@@ -380,6 +474,7 @@ def myProjects(request):
     )
 
 
+@login_required(login_url="login")
 def viewMyproject(request, project_id):
     indexhead = "Projects / My Project Details"
     project = Project.objects.get(id=project_id)
@@ -413,6 +508,7 @@ def viewMyproject(request, project_id):
     )
 
 
+@login_required(login_url="login")
 def viewProject(request, project_id, message=None):
     indexhead = "Project Details"
     hidesearch = "hide"
@@ -487,11 +583,16 @@ def viewProject(request, project_id, message=None):
     )
 
 
+@login_required(login_url="login")
 def projectMembers(request, project_id=None):
     indexhead = "Projects / Project-Members"
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
-    project_member = ProjectMembership.objects.filter(project=project_id)
+    project_member = (
+        ProjectMembership.objects.filter(project=project)
+        .exclude(status__in=["removed", "rejected", "invited"])
+        .order_by("-id")
+    )
     placeholder = "search member"
 
     return render(
@@ -508,6 +609,7 @@ def projectMembers(request, project_id=None):
     )
 
 
+@login_required(login_url="login")
 def membershipRequest(request, project_id):
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
@@ -522,6 +624,7 @@ def membershipRequest(request, project_id):
     return viewProject(request, project_id=project_id)
 
 
+@login_required(login_url="login")
 def membershipApproval(request, membership_id, project_id):
     member = ProjectMembership.objects.filter(id=membership_id)
     member.update(status="active")
@@ -529,6 +632,7 @@ def membershipApproval(request, membership_id, project_id):
         return memberRequest(request, project_id=project_id)
 
 
+@login_required(login_url="login")
 def membershipRejection(request, membership_id, project_id):
     member = ProjectMembership.objects.filter(id=membership_id).update(
         status="rejected"
@@ -537,6 +641,7 @@ def membershipRejection(request, membership_id, project_id):
         return memberRequest(request, project_id=project_id)
 
 
+@login_required(login_url="login")
 def suspendMembership(request, membership_id):
     membership = ProjectMembership.objects.get(id=membership_id)
 
@@ -549,6 +654,67 @@ def suspendMembership(request, membership_id):
     return projectMembers(request, project_id=membership.project.id)
 
 
+@login_required(login_url="login")
+def removeMember(request, membership_id):
+    membership = ProjectMembership.objects.get(id=membership_id)
+    if membership.member_role != "Admin":
+        remove = ProjectMembership.objects.filter(id=membership_id).delete()
+        if remove:
+            return projectMembers(request, project_id=membership.project.id)
+    return projectMembers(request, project_id=membership.project.id)
+
+
+@login_required(login_url="login")
+def incentives(request):
+    indexhead = "Member Incentives"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    incentives = ProjectIncentive.objects.filter(member=member)
+    return render(
+        request,
+        "user/incentives.html",
+        {
+            "indexhead": indexhead,
+            "incentives": incentives,
+            "member": member,
+            "hidesearch": hidesearch,
+        },
+    )
+
+
+@login_required(login_url="login")
+def invitations(request):
+    indexhead = "Project Membership Invitations:"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    invitations = ProjectMembership.objects.filter(member=member, status="invited")
+    return render(
+        request,
+        "user/invitations.html",
+        {
+            "member": member,
+            "indexhead": indexhead,
+            "invitations": invitations,
+            "hidesearch": hidesearch,
+        },
+    )
+
+
+@login_required(login_url="login")
+def acceptInvitation(request, request_id):
+    accept = ProjectMembership.objects.filter(id=request_id).update(status="active")
+    if accept:
+        return invitations(request)
+
+
+@login_required(login_url="login")
+def rejectInvitation(request, request_id):
+    reject = ProjectMembership.objects.filter(id=request_id).update(status="Rejected")
+    if reject:
+        return invitations(request)
+
+
+@login_required(login_url="login")
 def activateMembership(request, membership_id):
     membership = ProjectMembership.objects.get(id=membership_id)
     activate = ProjectMembership.objects.filter(id=membership_id).update(
@@ -558,6 +724,7 @@ def activateMembership(request, membership_id):
         return projectMembers(request, project_id=membership.project.id)
 
 
+@login_required(login_url="login")
 def memberRequest(request, project_id):
     indexhead = "Project / Member Requests"
     project = Project.objects.get(id=project_id)
@@ -578,6 +745,7 @@ def memberRequest(request, project_id):
     )
 
 
+@login_required(login_url="login")
 def projects(request, project_id=None, message=None, requestmessage=None):
     indexhead = "Projects"
     member = Member.objects.get(user=request.user)
@@ -597,6 +765,7 @@ def projects(request, project_id=None, message=None, requestmessage=None):
     )
 
 
+@login_required(login_url="login")
 def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
     indexhead = "Project - ViewPoint"
     hidesearch = "hide"
@@ -637,6 +806,7 @@ def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
     )
 
 
+@login_required(login_url="login")
 def viewpoints(request, project_id):
 
     indexhead = "Project - ViewPoint"
@@ -684,6 +854,7 @@ def viewpoints(request, project_id):
     )
 
 
+@login_required(login_url="login")
 def createViewpoint(request, project_id):
     if request.method == "POST":
         viewpoint_title = request.POST.get("viewpoint_title")
@@ -742,6 +913,7 @@ def createViewpoint(request, project_id):
     )
 
 
+@login_required(login_url="login")
 def goals(request, project_id=None, viewpoint_id=None):
     indexhead = "Viewpoint-Goals"
     member = Member.objects.get(user=request.user)
@@ -788,12 +960,23 @@ def goals(request, project_id=None, viewpoint_id=None):
     )
 
 
-def viewGoal(request, goal_id):
+@login_required(login_url="login")
+def viewGoal(request, goal_id,message=None):
     indexhead = "Goal Description"
+    goal = Goal.objects.get(id=goal_id)
     member = Member.objects.get(user=request.user)
+    comments = GoalComment.objects.filter(goal=goal).order_by("-id")
+    goalRate = GoalRate.objects.filter(
+        goal=goal, star_rate__rated_by=member
+    )
+    rates = GoalRate.objects.filter(goal=goal).order_by(
+        "-star_rate__number_of_stars"
+    )
+    total_rates = rates.count()
+    total_comments = comments.count()
     if request.method == "POST":
         goal = request.POST.get("goal")
-        goal = Goal.objects.get(id=goal)
+        goal = Goal.objects.get(id=goal_id)
         viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
         goals = Goal.objects.filter(viewpoint=viewpoint).order_by("-id")
         viewpoint_id = viewpoint.id
@@ -810,6 +993,12 @@ def viewGoal(request, goal_id):
                 "project_id": project_id,
                 "goal_id": goal_id,
                 "viewpoints": viewpoints,
+                'comments':comments,
+                'goalRate':goalRate,
+                'tota_rates':total_rates,
+                'total_comments':total_comments,
+                'message':message,
+                'rates':rates,
                 "goals": goals,
                 "member": member,
                 "project": project,
@@ -833,13 +1022,20 @@ def viewGoal(request, goal_id):
             "project_id": project_id,
             "goal_id": goal_id,
             "viewpoints": viewpoints,
+            'comments':comments,
+            'goalRate':goalRate,
+            'tota_rates':total_rates,
+            'total_comments':total_comments,
+            'rates':rates,
             "goals": goals,
+            'message':message,
             "member": member,
             "project": project,
         },
     )
 
 
+@login_required(login_url="login")
 def createGoal(request, viewpoint_id):
     indexhead = "Create Goal"
     member = Member.objects.get(user=request.user)
@@ -905,6 +1101,7 @@ def createGoal(request, viewpoint_id):
     )
 
 
+@login_required(login_url="login")
 def requirements(request, goal_id):
     indexhead = "Goal-Requirements"
     member = Member.objects.get(user=request.user)
@@ -959,10 +1156,21 @@ def requirements(request, goal_id):
     )
 
 
-def viewrequirement(request, requirement_id=None):
+@login_required(login_url="login")
+def viewrequirement(request, requirement_id=None, message=None):
     indexhead = "Requirement Description"
+    requirement = Requirement.objects.get(id=requirement_id)
     member = Member.objects.get(user=request.user)
-    if request.method == "POST":
+    comments = RequirementComment.objects.filter(requirement=requirement).order_by("-id")
+    requirementRate = RequirementRate.objects.filter(
+        requirement=requirement, star_rate__rated_by=member
+    )
+    rates = RequirementRate.objects.filter(requirement=requirement).order_by(
+        "-star_rate__number_of_stars"
+    )
+    total_rates = rates.count()
+    total_comments = comments.count()
+    if request.POST.get("requirement"):
         requirement = request.POST.get("requirement")
         requirement = Requirement.objects.get(id=requirement)
         goal = Goal.objects.get(requirement=requirement)
@@ -972,6 +1180,15 @@ def viewrequirement(request, requirement_id=None):
         project = Project.objects.get(id=viewpoint.project.id)
         viewpoints = Viewpoint.objects.filter(project=project)
         project_id = project.id
+        comments = RequirementComment.objects.filter(requirement=requirement).order_by("-id")
+        requirementRate = RequirementRate.objects.filter(
+            requirement=requirement, star_rate__rated_by=member
+        )
+        rates = RequirementRate.objects.filter(requirement=requirement).order_by(
+            "-star_rate__number_of_stars"
+        )
+        total_rates = rates.count()
+        total_comments = comments.count()
         return render(
             request,
             "projects/requirements/view_requirement.html",
@@ -982,13 +1199,17 @@ def viewrequirement(request, requirement_id=None):
                 "project_id": project_id,
                 "goal_id": goal.id,
                 "viewpoints": viewpoints,
+                'rates':rates,
+                'total_rates':total_rates,
+                'requirementRate':requirementRate,
+                'comments':comments,
+                'total_comments':total_comments,
                 "requirements": requirements,
                 "requirement": requirement,
                 "member": member,
                 "project": project,
             },
         )
-    requirement = Requirement.objects.get(id=requirement_id)
     goal = Goal.objects.get(requirement=requirement)
     viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
     requirements = Requirement.objects.filter(goal=goal).order_by("-id")
@@ -1006,14 +1227,21 @@ def viewrequirement(request, requirement_id=None):
             "project_id": project_id,
             "goal_id": goal.id,
             "viewpoints": viewpoints,
+            'rates':rates,
+            'total_rates':total_rates,
+            'comments':comments,
+            'total_comments':total_comments,
+            'requirementRate':requirementRate,
             "requirements": requirements,
             "requirement": requirement,
+            'message':message,
             "member": member,
             "project": project,
         },
     )
 
 
+@login_required(login_url="login")
 def createRequirement(request, goal_id):
     indexhead = "Create Requirement"
     member = Member.objects.get(user=request.user)
@@ -1075,6 +1303,7 @@ def createRequirement(request, goal_id):
     )
 
 
+@login_required(login_url="login")
 def scenarios(request, requirement_id):
     indexhead = "Requirement-Scenarios"
     member = Member.objects.get(user=request.user)
@@ -1137,11 +1366,22 @@ def scenarios(request, requirement_id):
     )
 
 
-def viewscenario(request, scenario_id):
+@login_required(login_url="login")
+def viewscenario(request, scenario_id=None, message=None):
     indexhead = "Scenario Description"
     member = Member.objects.get(user=request.user)
+    scenario = Scenario.objects.get(id=scenario_id)
+    comments = ScenarioComment.objects.filter(scenario=scenario).order_by("-id")
+    scenarioRate = ScenarioRate.objects.filter(
+            scenario=scenario, star_rate__rated_by=member
+        )
+    rates = ScenarioRate.objects.filter(scenario=scenario).order_by(
+        "-star_rate__number_of_stars"
+    )
+    total_rates = rates.count()
+    total_comments = comments.count()
 
-    if request.method == "POST":
+    if request.POST.get("scenario"):
         scenario_id = request.POST.get("scenario")
         scenario = Scenario.objects.get(id=scenario_id)
         requirement = Requirement.objects.get(id=scenario.requirement.id)
@@ -1153,6 +1393,15 @@ def viewscenario(request, scenario_id):
         project = Project.objects.get(id=viewpoint.project.id)
         viewpoints = Viewpoint.objects.filter(project=project)
         project_id = project.id
+        comments = ScenarioComment.objects.filter(scenario=scenario).order_by("-id")
+        scenarioRate = ScenarioRate.objects.filter(
+                scenario=scenario, star_rate__rated_by=member
+            )
+        rates = ScenarioRate.objects.filter(scenario=scenario).order_by(
+            "-star_rate__number_of_stars"
+        )
+        total_rates = rates.count()
+        total_comments = comments.count()
         return render(
             request,
             "projects/scenario/view_scenario.html",
@@ -1167,14 +1416,18 @@ def viewscenario(request, scenario_id):
                 "viewpoints": viewpoints,
                 "requirements": requirements,
                 "requirement_id": requirement.id,
+                'rates':rates,
+                'total_rates':total_rates,
+                'comments':comments,
+                'total_comments':comments,
+                'scenarioRate':scenarioRate,
                 "member": member,
                 "project": project,
             },
         )
-    scenario = Scenario.objects.get(id=scenario_id)
     requirement = Requirement.objects.get(id=scenario.requirement.id)
     scenarios = Scenario.objects.filter(requirement=requirement)
-    goal = Goal.objects.get(requirement=requirement)
+    goal = Goal.objects.get(id=requirement.goal.id)
     viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
     requirements = Requirement.objects.filter(goal=goal).order_by("-id")
     viewpoint_id = viewpoint.id
@@ -1195,12 +1448,19 @@ def viewscenario(request, scenario_id):
             "scenarios": scenarios,
             "requirements": requirements,
             "requirement_id": requirement.id,
+            'rates':rates,
+            'total_rates':total_rates,
+            'comments':comments,
+            'total_comments':total_comments,
+            'scenarioRate':scenarioRate,
+            'message':message,
             "member": member,
             "project": project,
         },
     )
 
 
+@login_required(login_url="login")
 def createScenario(request, requirement_id):
     indexhead = "Create Scenario"
     member = Member.objects.get(user=request.user)
@@ -1265,6 +1525,7 @@ def createScenario(request, requirement_id):
     )
 
 
+@login_required(login_url="login")
 def processes(request, scenario_id):
     indexhead = "Scenario-Processes"
     member = Member.objects.get(user=request.user)
@@ -1335,10 +1596,21 @@ def processes(request, scenario_id):
     )
 
 
-def viewprocess(request, process_id):
+@login_required(login_url="login")
+def viewprocess(request, process_id=None, message=None):
     indexhead = "Process Description"
     member = Member.objects.get(user=request.user)
-    if request.method == "POST":
+    process = Process.objects.get(id=process_id)
+    comments = ProcessComment.objects.filter(process=process).order_by("-id")
+    processRate = ProcessRate.objects.filter(
+            process=process, star_rate__rated_by=member
+        )
+    rates = ProcessRate.objects.filter(process=process).order_by(
+        "-star_rate__number_of_stars"
+    )
+    total_rates = rates.count()
+    total_comments = comments.count()
+    if request.POST.get("process"):
         process_id = request.POST.get("process")
         process = Process.objects.get(id=process_id)
         scenario = Scenario.objects.get(id=process.scenario.id)
@@ -1352,6 +1624,15 @@ def viewprocess(request, process_id):
         project = Project.objects.get(id=viewpoint.project.id)
         viewpoints = Viewpoint.objects.filter(project=project)
         project_id = project.id
+        comments = ProcessComment.objects.filter(process=process).order_by("-id")
+        processRate = ProcessRate.objects.filter(
+                process=process, star_rate__rated_by=member
+            )
+        rates = ProcessRate.objects.filter(process=process).order_by(
+            "-star_rate__number_of_stars"
+        )
+        total_rates = rates.count()
+        total_comments = comments.count()
         return render(
             request,
             "projects/process/view_process.html",
@@ -1364,6 +1645,11 @@ def viewprocess(request, process_id):
                 "goal_id": goal.id,
                 "process": process,
                 "scenarios": scenarios,
+                'rates':rates,
+                'total_rates':total_rates,
+                'processRate':processRate,
+                'comments':comments,
+                'total_comments':total_comments,
                 "processes": processes,
                 "viewpoints": viewpoints,
                 "requirements": requirements,
@@ -1372,7 +1658,7 @@ def viewprocess(request, process_id):
                 "project": project,
             },
         )
-    process = Process.objects.get(id=process_id)
+
     scenario = Scenario.objects.get(id=process.scenario.id)
     processes = Process.objects.filter(scenario=scenario).order_by("-id")
     requirement = Requirement.objects.get(id=scenario.requirement.id)
@@ -1400,12 +1686,18 @@ def viewprocess(request, process_id):
             "scenarios": scenarios,
             "requirements": requirements,
             "requirement_id": requirement.id,
+            'rates':rates,
+            'total_rates':total_rates,
+            'processRate':processRate,
+            'comments':comments,
+            'total_comments':total_comments,
             "member": member,
             "project": project,
         },
     )
 
 
+@login_required(login_url="login")
 def createProcess(request, scenario_id):
     indexhead = "Create Process"
     member = Member.objects.get(user=request.user)
@@ -1475,6 +1767,7 @@ def createProcess(request, scenario_id):
     )
 
 
+@login_required(login_url="login")
 def usecases(request, process_id):
     indexhead = "Process-Usecases"
     member = Member.objects.get(user=request.user)
@@ -1552,10 +1845,21 @@ def usecases(request, process_id):
     )
 
 
-def viewusecase(request, usecase_id):
+@login_required(login_url="login")
+def viewusecase(request, usecase_id=None, message=None):
     indexhead = "Usecase Description"
     member = Member.objects.get(user=request.user)
-    if request.method == "POST":
+    usecase = UseCase.objects.get(id=usecase_id)
+    comments = UseCaseComment.objects.filter(usecase=usecase).order_by("-id")
+    usecaseRate = UseCaseRate.objects.filter(
+            usecase=usecase, star_rate__rated_by=member
+        )
+    rates = UseCaseRate.objects.filter(usecase=usecase).order_by(
+        "-star_rate__number_of_stars"
+    )
+    total_rates = rates.count()
+    total_comments = comments.count()
+    if request.POST.get("usecase"):
         usecase_id = request.POST.get("usecase")
         usecase = UseCase.objects.get(id=usecase_id)
         process = Process.objects.get(id=usecase.process.id)
@@ -1591,11 +1895,15 @@ def viewusecase(request, usecase_id):
                 "viewpoints": viewpoints,
                 "requirements": requirements,
                 "requirement_id": requirement.id,
+                'rates':rates,
+                'total_rates':total_rates,
+                'usecaseRate':usecaseRate,
+                'comments':comments,
+                'total_comments':total_comments,
                 "member": member,
                 "project": project,
             },
         )
-    usecase = UseCase.objects.get(id=usecase_id)
     process = Process.objects.get(id=usecase.process.id)
     scenario = Scenario.objects.get(id=process.scenario.id)
     processes = Process.objects.filter(scenario=scenario).order_by("-id")
@@ -1620,6 +1928,7 @@ def viewusecase(request, usecase_id):
             "project_id": project_id,
             "goal_id": goal.id,
             "process": process,
+            'message':message,
             "viewpoints": viewpoints,
             "processes": processes,
             "scenarios": scenarios,
@@ -1629,12 +1938,18 @@ def viewusecase(request, usecase_id):
             "process_id": process.id,
             "requirements": requirements,
             "requirement_id": requirement.id,
+            'rates':rates,
+            'total_rates':total_rates,
+            'usecaseRate':usecaseRate,
+            'comments':comments,
+            'total_comments':total_comments,
             "member": member,
             "project": project,
         },
     )
 
 
+@login_required(login_url="login")
 def createUsecase(request, process_id):
     indexhead = "Create Usecase"
     member = Member.objects.get(user=request.user)
@@ -1711,6 +2026,7 @@ def createUsecase(request, process_id):
 # Rate
 
 
+@login_required(login_url="login")
 def projectRate(request, project_id):
     if request.POST.get("rate") != None:
 
@@ -1739,6 +2055,7 @@ def projectRate(request, project_id):
     return viewProject(request, project_id=project_id, message=message)
 
 
+@login_required(login_url="login")
 def viewpointRate(request, viewpoint_id):
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
     project = Project.objects.get(viewpoint=viewpoint)
@@ -1773,9 +2090,178 @@ def viewpointRate(request, viewpoint_id):
         request, project_id=project.id, viewpoint_id=viewpoint_id, message=message
     )
 
-    # resources functions for all from project to usecase
+@login_required(login_url="login")
+def goalRate(request, goal_id):
+    goal = Goal.objects.get(id=goal_id)
+    if request.POST.get("rate") != None:
+        member = Member.objects.get(user=request.user)
+        if not GoalRate.objects.filter(
+            goal=goal, star_rate__rated_by=member
+        ).exists():
+
+            rate = StarRate.objects.create(
+                rated_by=member, number_of_stars=request.POST.get("rate")
+            )
+            rate.save()
+            if rate:
+
+                goal_rate = GoalRate.objects.create(
+                    goal=goal, star_rate=rate
+                )
+                goal_rate.save()
+                if goal_rate:
+                    return viewGoal(
+                        request, goal_id=goal.id
+                    )
+
+        message = "sorry you have already rated this Goal you can not rate it again"
+        return viewGoal(
+            request, goal_id=goal.id, message=message
+        )
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewGoal(
+        request, goal_id=goal.id, message=message
+    )
 
 
+@login_required(login_url="login")
+def requirementRate(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    if request.POST.get("rate") != None:
+        member = Member.objects.get(user=request.user)
+        if not RequirementRate.objects.filter(
+            requirement=requirement, star_rate__rated_by=member
+        ).exists():
+
+            rate = StarRate.objects.create(
+                rated_by=member, number_of_stars=request.POST.get("rate")
+            )
+            rate.save()
+            if rate:
+
+                requirement_rate = RequirementRate.objects.create(
+                    requirement=requirement, star_rate=rate
+                )
+                requirement_rate.save()
+                if requirement_rate:
+                    return viewrequirement(
+                        request, requirement_id=requirement.id
+                    )
+
+        message = "sorry you have already rated this requirement you can not rate it again"
+        return viewrequirement(
+            request, requirement_id=requirement.id, message=message
+        )
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewrequirement(
+        request,requirement_id=requirement.id, message=message
+    )
+
+@login_required(login_url="login")
+def scenarioRate(request, scenario_id):
+    scenario = Scenario.objects.get(id=scenario_id)
+    if request.POST.get("rate") != None:
+        member = Member.objects.get(user=request.user)
+        if not ScenarioRate.objects.filter(
+            scenario=scenario, star_rate__rated_by=member
+        ).exists():
+
+            rate = StarRate.objects.create(
+                rated_by=member, number_of_stars=request.POST.get("rate")
+            )
+            rate.save()
+            if rate:
+
+                scenario_rate = ScenarioRate.objects.create(
+                    scenario=scenario, star_rate=rate
+                )
+                scenario_rate.save()
+                if scenario_rate:
+                    return viewscenario(
+                        request, scenario_id=scenario.id
+                    )
+
+        message = "sorry you have already rated this Scenario you can not rate it again"
+        return viewscenario(
+            request,scenario_id=scenario.id, message=message
+        )
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewscenario(
+        request, scenario_id=scenario.id, message=message
+    )
+
+@login_required(login_url="login")
+def processRate(request, process_id):
+    process = Process.objects.get(id=process_id)
+    # project = Project.objects.get(id=process.scenario.goal.requiremt.project.id)
+    if request.POST.get("rate") != None:
+        member = Member.objects.get(user=request.user)
+        if not ProcessRate.objects.filter(
+            process=process, star_rate__rated_by=member
+        ).exists():
+
+            rate = StarRate.objects.create(
+                rated_by=member, number_of_stars=request.POST.get("rate")
+            )
+            rate.save()
+            if rate:
+
+                process_rate = ProcessRate.objects.create(
+                    process=process, star_rate=rate
+                )
+                process_rate.save()
+                if process_rate:
+                    return viewprocess(
+                        request, process_id=process.id
+                    )
+
+        message = "sorry you have already rated this process you can not rate it again"
+        return viewprocess(
+            request,process_id=process.id, message=message
+        )
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewprocess(
+        request, process_id=process.id, message=message
+    )
+
+@login_required(login_url="login")
+def usecaseRate(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    # project = Project.objects.get(id=process.scenario.goal.requiremt.project.id)
+    if request.POST.get("rate") != None:
+        member = Member.objects.get(user=request.user)
+        if not UseCaseRate.objects.filter(
+            usecase=usecase, star_rate__rated_by=member
+        ).exists():
+
+            rate = StarRate.objects.create(
+                rated_by=member, number_of_stars=request.POST.get("rate")
+            )
+            rate.save()
+            if rate:
+
+                usecase_rate = UseCaseRate.objects.create(
+                    usecase=usecase, star_rate=rate
+                )
+                usecase_rate.save()
+                if usecase_rate:
+                    return viewusecase(
+                        request, usecase_id=usecase.id
+                    )
+
+        message = "sorry you have already rated this Usecase you can not rate it again"
+        return viewusecase(
+            request,usecase_id=usecase.id, message=message
+        )
+    message = "sorry you can not rate zero star, rate start from one star !!"
+    return viewusecase(
+        request, usecase_id=usecase.id, message=message
+    )
+
+# resources functions for all from project to usecase
+
+
+@login_required(login_url="login")
 def projectResources(request, project_id):
     indexhead = "Project Resources:"
     hidesearch = "hide"
@@ -1798,6 +2284,7 @@ def projectResources(request, project_id):
     )
 
 
+@login_required(login_url="login")
 def viewpointResources(request, viewpoint_id):
     indexhead = "Viewpoint Resources:"
     hidesearch = "hide"
@@ -1822,6 +2309,150 @@ def viewpointResources(request, viewpoint_id):
     )
 
 
+@login_required(login_url="login")
+def goalResources(request, goal_id):
+    indexhead = "Goal Resources:"
+    hidesearch = "hide"
+    goal = Goal.objects.get(id=goal_id)
+    viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
+    project = Project.objects.get(id=viewpoint.project.id)
+    resources = GoalRepository.objects.filter(goal=goal).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    project_id = project.id
+    return render(
+        request,
+        "projects/viewpoints/resources.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "viewpoints": viewpoints,
+            "resources": resources,
+            "goal_id":goal.id,
+            'goal':goal,
+            'viewpoint':viewpoint,
+            "member": member,
+            "project": project,
+        },
+    )
+
+@login_required(login_url="login")
+def requirementResources(request, requirement_id):
+    indexhead = "Requirement Resources:"
+    hidesearch = "hide"
+    requirement = Requirement.objects.get(id=requirement_id)
+    goal = Goal.objects.get(id=requirement.goal.id)
+    viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
+    project = Project.objects.get(id=viewpoint.project.id)
+    resources = RequirementRepository.objects.filter(requirement=requirement).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    project_id = project.id
+    return render(
+        request,
+        "projects/viewpoints/resources.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "viewpoints": viewpoints,
+            "resources": resources,
+            "requirement_id":requirement.id,
+            "requirement":requirement,
+            'viewpoint':viewpoint,
+            "member": member,
+            "project": project,
+        },
+    )
+
+@login_required(login_url="login")
+def scenarioResources(request, scenario_id):
+    indexhead = "Scenario Resources:"
+    hidesearch = "hide"
+    scenario = Scenario.objects.get(id=scenario_id)
+    requirement = Requirement.objects.get(id=scenario.requirement.id)
+    goal = Goal.objects.get(id=requirement.goal.id)
+    viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
+    project = Project.objects.get(id=viewpoint.project.id)
+    resources = ScenarioRepository.objects.filter(scenario=scenario).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    project_id = project.id
+    return render(
+        request,
+        "projects/viewpoints/resources.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "viewpoints": viewpoints,
+            "resources": resources,
+            "requirement":requirement,
+            "scenario_id":scenario.id,
+            'scenario':scenario,
+            "viewpoint":viewpoint,
+            "member": member,
+            "project": project
+        }
+    )
+
+@login_required(login_url="login")
+def processResources(request, process_id):
+    indexhead = "Process Resources:"
+    hidesearch = "hide"
+    process = Process.objects.get(id=process_id)
+    scenario = Scenario.objects.get(id=process.scenario.id)
+    requirement = Requirement.objects.get(id=scenario.requirement.id)
+    goal = Goal.objects.get(id=requirement.goal.id)
+    viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
+    project = Project.objects.get(id=viewpoint.project.id)
+    resources = ProcessRepository.objects.filter(process=process).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    project_id = project.id
+    return render(
+        request,
+        "projects/viewpoints/resources.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "viewpoints": viewpoints,
+            "resources": resources,
+            "requirement":requirement,
+            'viewpoint':viewpoint,
+            'process':process,
+            'process_id':process.id,
+            "member": member,
+            "project": project,
+        }
+    )
+@login_required(login_url="login")
+def usecaseResources(request, usecase_id):
+        indexhead = "Usecase Resources:"
+        hidesearch = "hide"
+        usecase = UseCase.objects.get(id=usecase_id)
+        process = Process.objects.get(id=usecase.process.id)
+        scenario = Scenario.objects.get(id=process.scenario.id)
+        requirement = Requirement.objects.get(id=scenario.requirement.id)
+        goal = Goal.objects.get(id=requirement.goal.id)
+        viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
+        project = Project.objects.get(id=viewpoint.project.id)
+        resources = UsecaseRepository.objects.filter(usecase=usecase).order_by("-id")
+        member = Member.objects.get(user=request.user)
+        project_id = project.id
+        return render(
+            request,
+            "projects/viewpoints/resources.html",
+            {
+                "indexhead": indexhead,
+                "hidesearch": hidesearch,
+                "viewpoints": viewpoints,
+                "resources": resources,
+                "requirement":requirement,
+                'usecase_id':usecase.id,
+                'usecase':usecase,
+                'viewpoint':viewpoint,
+                "member": member,
+                "project": project,
+            }
+        )
+
+
+@login_required(login_url="login")
 def addProjectResources(request, project_id):
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
@@ -1840,8 +2471,10 @@ def addProjectResources(request, project_id):
             projectrepository.save()
             if projectrepository:
                 return projectResources(request, project_id)
+    return projectResources(request, project_id)
 
 
+@login_required(login_url="login")
 def addViewpointResources(request, viewpoint_id):
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
     member = Member.objects.get(user=request.user)
@@ -1860,3 +2493,226 @@ def addViewpointResources(request, viewpoint_id):
             viewpointrepository.save()
             if viewpointrepository:
                 return viewpointResources(request, viewpoint_id)
+    return viewpointResources(request, viewpoint_id)
+
+@login_required(login_url="login")
+def addGoalResources(request, goal_id):
+    goal= Goal.objects.get(id=goal_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        docs = request.FILES.get("docs")
+        links = request.POST.get("links")
+        repository = Repository.objects.create(
+            added_by=member, image=image, links=links, docs=docs,
+        )
+        repository.save()
+        if repository:
+            goalrepository = GoalRepository.objects.create(
+                goal=goal, repository=repository
+            )
+            goalrepository.save()
+            if goalrepository:
+                return goalResources(request, goal_id)
+    return goalResources(request, goal_id)
+
+@login_required(login_url="login")
+def addRequirementResources(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        docs = request.FILES.get("docs")
+        links = request.POST.get("links")
+        repository = Repository.objects.create(
+            added_by=member, image=image, links=links, docs=docs,
+        )
+        repository.save()
+        if repository:
+            requirementrepository = RequirementRepository.objects.create(
+                requirement=requirement, repository=repository
+            )
+            requirementrepository.save()
+            if requirementrepository:
+                return requirementResources(request, requirement_id)
+    return requirementResources(request, requirement_id)
+
+
+@login_required(login_url="login")
+def addScenarioResources(request, scenario_id):
+    scenario = Scenario.objects.get(id=scenario_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        docs = request.FILES.get("docs")
+        links = request.POST.get("links")
+        repository = Repository.objects.create(
+            added_by=member, image=image, links=links, docs=docs,
+        )
+        repository.save()
+        if repository:
+            scenariorepository = ScenarioRepository.objects.create(
+                scenario=scenario, repository=repository
+            )
+            scenariorepository.save()
+            if scenariorepository:
+                return scenarioResources(request, scenario_id)
+    return scenarioResources(request, scenario_id)
+
+@login_required(login_url="login")
+def addProcessResources(request, process_id):
+    process = Process.objects.get(id=process_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        docs = request.FILES.get("docs")
+        links = request.POST.get("links")
+        repository = Repository.objects.create(
+            added_by=member, image=image, links=links, docs=docs,
+        )
+        repository.save()
+        if repository:
+            processrepository = ProcessRepository.objects.create(
+                process=process, repository=repository
+            )
+            processrepository.save()
+            if processrepository:
+                return processResources(request, process_id)
+    return processResources(request, process_id)
+
+@login_required(login_url="login")
+def addUsecaseResources(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        docs = request.FILES.get("docs")
+        links = request.POST.get("links")
+        repository = Repository.objects.create(
+            added_by=member, image=image, links=links, docs=docs,
+        )
+        repository.save()
+        if repository:
+            usecaserepository = UsecaseRepository.objects.create(
+                usecase=usecase, repository=repository
+            )
+            usecaserepository.save()
+            if usecaserepository:
+                return usecaseResources(request, usecase_id)
+    return usecaseResources(request, usecase_id)
+
+@login_required(login_url="login")
+def goalComment(request, goal_id):
+    goal = Goal.objects.get(id=goal_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        create_comment = Comment.objects.create(
+            comment=comment,
+            commented_by=member
+        )
+        create_comment.save()
+        goal_comment = GoalComment.objects.create(
+            comment=create_comment,
+            goal=goal
+        )
+        goal_comment.save()
+        return viewGoal(request,goal_id=goal_id)
+    return viewGoal(request,goal_id=goal_id)
+
+@login_required(login_url="login")
+def requirementComment(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        create_comment = Comment.objects.create(
+            comment=comment,
+            commented_by=member
+        )
+        create_comment.save()
+        requirement_comment = RequirementComment.objects.create(
+            comment=create_comment,
+            requirement=requirement
+        )
+        requirement_comment.save()
+        return viewrequirement(request,requirement_id=requirement_id)
+    return viewrequirement(request,requirement_id=requirement_id)
+
+
+@login_required(login_url="login")
+def scenarioComment(request, scenario_id):
+    scenario = Scenario.objects.get(id=scenario_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        create_comment = Comment.objects.create(
+            comment=comment,
+            commented_by=member
+        )
+        create_comment.save()
+        scenario_comment = ScenarioComment.objects.create(
+            comment=create_comment,
+            scenario=scenario
+        )
+        scenario_comment.save()
+        return viewscenario(request,scenario_id=scenario_id)
+    return viewscenario(request,scenario_id=scenario_id)
+
+@login_required(login_url="login")
+def processComment(request, process_id):
+    process = Process.objects.get(id=process_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        create_comment = Comment.objects.create(
+            comment=comment,
+            commented_by=member
+        )
+        create_comment.save()
+        process_comment = ProcessComment.objects.create(
+            comment=create_comment,
+            process=process
+        )
+        process_comment.save()
+        return viewprocess(request,process_id=process_id)
+    return viewprocess(request,process_id=process_id)
+
+@login_required(login_url="login")
+def usecaseComment(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        create_comment = Comment.objects.create(
+            comment=comment,
+            commented_by=member
+        )
+        create_comment.save()
+        usecase_comment = UseCaseComment.objects.create(
+            comment=create_comment,
+            usecase=create_comment
+        )
+        usecase_comment.save()
+        return viewusecase(request,usecase_id=usecase_id)
+    return viewusecase(request,usecase_id=usecase_id)
+
+
+@login_required(login_url="login")
+def usecaseComment(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        create_comment = Comment.objects.create(
+            comment=comment,
+            commented_by=member
+        )
+        create_comment.save()
+        usecase_comment = UseCaseComment.objects.create(
+            comment=create_comment,
+            usecase=usecase
+        )
+        usecase_comment.save()
+        return viewusecase(request,usecase_id=usecase_id)
+    return viewusecase(request,usecase_id=usecase_id)

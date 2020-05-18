@@ -19,12 +19,15 @@ from projects.views import *
 from django.conf.urls import handler404, handler500
 
 urlpatterns = [
-    path("", index, name="index"),
+    path("index", index, name="index"),
+    path("", indexs, name='web'),
     path("", include("authentication.urls")),
     path("", include("data_analysis.urls")),
     path("admin/", admin.site.urls),
     path("", include("projects.urls")),
     path("login", login, name="login"),
+    path('privacy-policy', privacyPolicy, name='privacy-policy'),
+    path('terms-conditions', termsConditions, name='terms-conditions'),
     path("registration", registration, name="registration"),
     path("forgetpassword", forgetpassword, name="forgetpassword"),
 ]

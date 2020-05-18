@@ -44,9 +44,15 @@
                                             window.location.assign('{% url "projects:approvemember" project_id=project_id membership_id=member.id %}')
                                             }
                                         </script>
-                                        <button class="btn btn-primary col-md-3 mr-md-3 ">View</button><button
-                                            class="btn btn-success col-md-3 mr-md-3 " onclick="acc()">Accept</button><button
-                                            class="btn btn-danger col-md-3 mr-md-3" onclick="rejection()">Reject</button>
+                                        <a href="{% url 'projects:memberdetails' member_id=member.member.id%}">
+                                        <button class="btn btn-primary col-md-3 mr-md-3 ">View</button></a>
+                                        <a
+                                            href="{% url 'projects:approvemember' project_id=project_id membership_id=member.id %}"></a><button
+                                            class="btn btn-success col-md-3 mr-md-3 " >Accept</button>
+                                            <a
+                                                href="{% url 'projects:membershiprejection' project_id=project_id membership_id=member.id %}"><button
+                                            class="btn btn-danger col-md-3 mr-md-3"
+                                            >Reject</button></a>
                                     </td>
                                     
                                 </tr>

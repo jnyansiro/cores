@@ -66,6 +66,9 @@
     <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
     
     <!-- /theme JS files -->
 
@@ -220,8 +223,8 @@
                 <li class="nav-item dropdown dropdown-user" style="color: white;">
                     <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown"
                         style="color: white;">
-                        <img src="../../../docs/{{member.profile_photo}}" class="rounded-circle mr-2"
-                            style="border-radius: 400px;" height="34" alt="">
+                        <img src="../../../docs/{{member.profile_photo}}" class="rounded-circle" width="40" height="40"
+                            alt="">
                         <span>
                             {% if user.is_authenticated %}
                             {{ user.username }}

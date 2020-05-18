@@ -8,8 +8,9 @@
     <title>Collaborative Requirement Engineering System</title>
 
     <!-- Global stylesheets -->
-{% load static %}
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
+        type="text/css">
     {% load static %}
     <link href="{% static 'global_assets/css/icons/icomoon/styles.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
@@ -20,12 +21,13 @@
     <link href="{% static 'assets/css/custome_css.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'assets/css/animate.css' %}" rel="stylesheet" type="text/css">
 
-   
+
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
     <script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
     <script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/widgets.min.js' %}"></script>
@@ -40,9 +42,10 @@
     <script src="{% static 'global_assets/js/plugins/pickers/daterangepicker.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/editors/ckeditor/ckeditor.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
-    
+
 
     <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/extra_sweetalert.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_pages/editor_ckeditor_default.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_pages/dashboard.js' %}"></script>
     <script src="{% static 'global_assets/js/demo_charts/pages/dashboard/light/streamgraph.js' %}"></script>
@@ -65,10 +68,15 @@
     <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
     <!-- /theme JS files -->
 
     <!-- JS for text area -->
-     <script src="{% static 'assets/textarea/scripts/widgEditor.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/chat_layouts.js' %}"></script>
+    <script src="{% static 'assets/textarea/scripts/widgEditor.js' %}"></script>
+    <script src="{% static 'global_assets/js/demo_pages/components_modals.js' %}"></script>
 
 </head>
 <body>
@@ -215,8 +223,8 @@
                     <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle"
                         data-toggle="dropdown" style="color: white;">
                         <img src="../docs/{{member.profile_photo}}"
-                            class=" mr-2" height="34" alt="" style="border-radius: 500px;">
-                        <span>
+                             class="rounded-circle" width="40" height="40">
+                        <span> 
                              {% if user.is_authenticated %}
                              {{ user.username }}
                              {% endif %}
@@ -282,7 +290,7 @@
     	    <div class="page-header-content header-elements-md-inline">
     	        <div class="page-title d-flex">
                     <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><a
-                                href="/">Home</a></span> -
+                                href="{% url 'index'%}">Home</a></span> -
                         {% if indexhead %}
                         {{ indexhead }}
                         {% endif %}
@@ -413,7 +421,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="icon-magazine"></i> <span>Recent Projects</span></a>
+                            <a href="{% url 'projects:projects'%}" class="nav-link"><i class="icon-magazine"></i> <span>Recent Projects</span></a>
                                
                         <li class="nav-item"><a href="" class="nav-link"><i
                                     class="icon-newspaper"></i><span>Project Reviews</span></a></li>

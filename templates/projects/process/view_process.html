@@ -1,4 +1,15 @@
+<script>
+    function showComments() {
+        document.getElementById('comments').style.display = 'block'
+
+    }
+
+    function closetab() {
+        document.getElementById('comments').style.display = 'none'
+    }
+</script>
 {% load static %}
+{% include '../rate_dependence.html'%}
 {% include '../viewpoints/viewpoint_header.html' %}
 <div class="content-wrapper">
 
@@ -155,8 +166,8 @@
                                             class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> 281</a></li>
                                 <li class="list-inline-item"><a href="#" class="text-muted"><i
                                             class="icon-thumbs-down2 font-size-base text-danger mr-2"></i> 281</a></li>
-                                <li class="list-inline-item col-md-3 float-right"><a href="#" class="text-muted"><i
-                                            class="icon-folder font-size-base text-blue mr-2"></i>Process docs</a>
+                                <li class="list-inline-item col-md-3 float-right"><a href="{% url 'projects:processresources' process_id=process.id%}" class="text-muted"><i
+                                            class="icon-folder font-size-base text-blue mr-2"></i>Process resources</a>
                                 </li>
                             </ul>
                         </div>
@@ -165,39 +176,323 @@
 
                         <div
                             class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
-                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
-                                <li class="list-inline-item"><a href="#" class="text-muted"><i
-                                            class="icon-star-full2 text-warning mr-2"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="text-muted"><i
-                                            class="icon-bubbles5 text-blue mr-2"></i>12 comments</a></li>
-                            </ul>
+                          <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+                              <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
+                                      data-target="#rates">
+                                      {{total_rates}} Rates
+                                  </a>
+
+                              <li class="list-inline-item"><a href="#" class="text-muted">
+                                      {% if not processRate %}
+                                      <i data-toggle="modal" data-target="#star" class="icon-star-full2  mr-2"></i>
+                                      {% endif %}
+                                      {% for processRate in processRate %}
+
+                                      {% if processRate.star_rate.number_of_stars == 1 %}
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      {% endif %}
+                                      {% if processRate.star_rate.number_of_stars == 2 %}
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      {% endif %}
+                                      {% if processRate.star_rate.number_of_stars == 3 %}
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      {% endif %}
+                                      {% if processRate.star_rate.number_of_stars == 4 %}
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2  mr-2"></i>
+                                      {% endif %}
+                                      {% if processRate.star_rate.number_of_stars == 5 %}
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      <i class="icon-star-full2 text-warning mr-2"></i>
+                                      {% endif %}
+
+                                      {% endfor %}
 
 
-                        </div>
 
-                        <div class="col-md-12 mb-10">
-                            <h5 class="text-semibold">
-                                Contents:
-                            </h5>
-                            <div>
-                                <ul class="list-group col-md-6">
+                                  </a>
 
-                
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
-                                        number of Usecase
-                                        <span class="badge badge-info float-right">
-                                            10
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                              </li>
 
-                    </div>
-                </div>
-                <!-- /mini size -->
 
+                              <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
+                                          class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a>
+                              </li>
+                          </ul>
+                          <div class="col-md-7">
+                              <button class="btn btn-primary float-right" data-toggle="modal"
+                                  data-target="#add_resources"> Contribute Resources</button>
+                          </div>
+
+
+                          </div>
+
+                          <br><br>
+<!-- Line content divider comments -->
+<div class="card " id="comments" style="display: block;">
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title"><a href="#">{{process.process_name}}</a>`s Comments:</h5>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
+                <a class="list-icons-item" data-action="remove" onclick="closetab()"></a>
             </div>
         </div>
     </div>
+
+    <div class="card-body">
+        <ul class="media-list media-chat-scrollable mb-3">
+            <li class="media content-divider justify-content-center text-muted mx-0">
+                <span class="px-2">{{ today }}</span>
+            </li>
+            {% for comment in comments %}
+            <li class="media">
+                <div class="mr-3"><img src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                        class="rounded-circle" width="40" height="40" alt=""></div>
+                <div class="media-body">
+                    <div class="media-title d-flex flex-nowrap">
+                        <a href="#" class="font-weight-semibold mr-3">{{comment.comment.commented_by}}</a>
+                        <span class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
+                            <a href="#"><i class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                    </div>
+                    {{ comment.comment|safe }}
+                </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+        <form method="post" action="{% url 'projects:processcomment' process_id=process.id %}">
+            {% csrf_token %}
+
+            <textarea name="comment" required class="form-control mb-3" rows="3" cols="1"
+                placeholder="Enter your comment..."></textarea>
+
+            <div class="d-flex align-items-center">
+                <div class="list-icons list-icons-extended">
+
+                </div>
+
+                <button class="btn bg-primary btn-labeled btn-labeled-right ml-auto"><b><i
+                            class="icon-paperplane"></i></b> Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /line content divider -->
+
+<!-- rate model -->
+
+<div id="star" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs">
+        <form method="POST" action="{% url 'projects:rateprocess' process_id=process.id %}">
+            {% csrf_token %}
+            <div class="modal-content bg-white-300" style="color:red">
+                <div class="modal-header">
+
+                    <h5 class="modal-title text-center">Rate Process</h5>
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="rate float-center" style="margin-left: 3rem;">
+                        <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="Best">5
+                            stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="Better">4
+                            stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="Good">3
+                            stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="Normal">2
+                            stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="Bad">1
+                            star</label>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer col-md-12">
+                    <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not now</button>
+                    <button type="submit" class="btn bg-primary ">Rate</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- /custom background color -->
+
+
+<!-- Process Rates -->
+
+<div id="rates" class="modal top " tabindex="-1">
+    <div class="modal-dialog ">
+        <div class="modal-content bg-white-300">
+            <div class="modal-header text-center">
+
+                <h5 class="modal-title text-success" style="margin-left: 6rem;">Process rates:
+                </h5>
+
+
+            </div>
+
+            <div class="modal-body">
+
+                {% for rate in rates %}
+                <li class="media">
+                    <div class="mr-3"><img src="../../../docs/{{ rate.star_rate.rated_by.profile_photo}}"
+                            class="rounded-circle" width="40" height="40" alt=""></div>
+                    <div class="media-body">
+                        <div class="media-title d-flex flex-nowrap">
+                            <a href="#" class="font-weight-semibold mr-3">{{rate.star_rate.rated_by}}</a>
+                            <span class="font-size-sm text-muted text-nowrap ml-auto">{{ rate.created_on }}
+                                <a href="#"><i class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                        </div>
+                        <label class="text-success">Rated:</label><a href="#" class="text-muted">
+                            {% if rate.star_rate.number_of_stars == 1 %}
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            {% endif %}
+                            {% if rate.star_rate.number_of_stars == 2 %}
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            {% endif %}
+                            {% if rate.star_rate.number_of_stars == 3 %}
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            {% endif %}
+                            {% if rate.star_rate.number_of_stars == 4 %}
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2  mr-2"></i>
+                            {% endif %}
+                            {% if rate.star_rate.number_of_stars == 5 %}
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            <i class="icon-star-full2 text-warning mr-2"></i>
+                            {% endif %}
+                        </a>
+
+                    </div>
+                </li>
+                {% endfor %}
+
+
+
+
+            </div>
+
+            <div class="modal-footer col-md-12">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /custom background color -->
+
+
+
+</div>
+</div>
+
+<!-- /mini size -->
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<!-- Vertical form modal -->
+<div id="add_resources" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <h6 class="text-center">You can add image, document or links</h6>
+
+            <form method="POST" action="{% url 'projects:addprocessresources' process_id=process.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Image</label>
+                                <input type="file" name="image" class="form-control-styled ">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Document</label>
+                                <input type="file" name="docs" title="can be pdf, docx or excell"
+                                    class="form-control-styled">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Links</label>
+                                <input type="text" name="links" placeholder="add link(s)" class="form-control">
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+</div>
+</div>
+</div>
 </div>

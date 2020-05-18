@@ -84,7 +84,7 @@
                         </div>
 
                         {{ project.project.description|safe|truncatewords:40 }}
-                        <a href="{% url 'projects:viewproject' project_id=project.id %}">[...]</a>
+                        <a href="{% url 'projects:viewproject' project_id=project.project.id %}">[...]</a>
 
                         <div
                             class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">

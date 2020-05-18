@@ -33,9 +33,14 @@
                         <td>{{ member.first_name }}</td>
                         <td>{{ member.surname }}</td>
                         <td>{{ member.user }}</td>
-                        <td><button class="btn btn-primary col-md-3 mr-md-3 ">View</button><button
-                                class="btn btn-success col-md-3 mr-md-3 ">invite</button>
-                        </td>
+
+                       
+                        <td> <a href="{% url 'projects:memberdetails' member_id=member.id%}"><button
+                                class="btn btn-primary col-md-3 mr-md-3 ">View</button></a>
+                            <a
+                                href="{% url 'projects:membershipinvitation' project_id=project_id member_id=member.id%}"><button
+                                class="btn btn-success col-md-3 mr-md-3 " >invite</button>
+                        </td></a>
                     </tr>
                     {% endfor %}
 

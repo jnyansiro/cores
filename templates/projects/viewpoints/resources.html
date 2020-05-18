@@ -38,8 +38,8 @@
                {% if viewpoint_id %} {{ viewpoint.viewpoint_name }} {% endif%}
                {% if project_id %} {{ project.project_title }} {% endif%}
                {% if goal_id %} {{ goal.goal_name }} {% endif%}
-               {% if requirement_id %} {{ requirement.requirement_name }} {% endif%}
-               {% if scenario_id %} {{ scenario.scenario_name }} {% endif%}
+               {% if requirement_id %} {{ requirement.name }} {% endif%}
+               {% if scenario_id %} {{ scenario.name }} {% endif%}
                {% if process_id %} {{ process.process_name }} {% endif%}
                {% if usecase_id %} {{ usecase.usecase_name }} {% endif%}` Resources
             </div>
@@ -82,7 +82,29 @@
                 
 
           <!-- div for docx  -->
-          <label id="back" style="display: none;"><a href=""><i class="icon-undo2 text-primary">Back</i></a></label>
+          <label id="back" style="display: none;">
+              {% if project_id %}<a href="{% url 'projects:projectresources' project_id=project_id%}"><i class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+              {% if viewpoint_id %}<a href="{% url 'projects:viewpointresources' viewpoint_id=viewpoint_id%}"><i
+                      class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+              {% if goal_id %}<a href="{% url 'projects:goalresources' goal_id=goal_id%}"><i
+                      class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+              {% if requirement_id %}<a href="{% url 'projects:requirementresources' requirement_id=requirement_id%}"><i
+                      class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+              {% if scenario_id %}<a href="{% url 'projects:scenarioresources' scenario_id=scenario_id%}"><i
+                      class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+              {% if process_id %}<a href="{% url 'projects:processresources' process_id=process_id%}"><i
+                      class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+              {% if usecase_id %}<a href="{% url 'projects:usecaseresources' usecase_id=usecase_id%}"><i
+                      class="icon-undo2 text-primary">Back</i></a>
+              {% endif %}
+            </label>
+
                 <div id="docs" style="display: none;">
                     <ul class="list-group">
                         <li class="text-center"><h4>Document Resources:</h4></li>
@@ -209,13 +231,13 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <label>Image</label>
-                                                <input type="file" name="image" class="form-control">
+                                                <input type="file" name="image" class="form-control-styled ">
                                             </div>
 
                                             <div class="col-sm-6">
                                                 <label>Document</label>
                                                 <input type="file" name="docs" title="can be pdf, docx or excell"
-                                                    class="form-control">
+                                                    class="form-control-styled">
                                             </div>
                                         </div>
                                     </div>

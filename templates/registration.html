@@ -32,12 +32,12 @@
 
 </head>
 
-<body>
+<body style="background: #093856;">
 
 	<!-- Main navbar -->
 	<div class="navbar navbar-expand-md bg-primary fixed-top" style="color:white;">
 		<div class="navbar-brand">
-			<a href="{% url 'index'%}" class="d-inline-block" style="color:white">
+			<a href="/" class="d-inline-block" style="color:white">
 				<h6>CORES</h6>
 			</a>
 		</div>
@@ -82,7 +82,11 @@
 							<div class="card mb-0">
 								<div class="card-body">
 									<div class="text-center mb-3">
-										<i class="icon-plus3 icon-2x text-success border-success border-3 rounded-round p-3 mb-3 mt-1"></i>
+										<i class="icon  text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1">
+											<img src="{% static 'images/logo.png'%}" height="40" width="100">
+										</i>
+										<br>
+										<br>
 										<h5 class="mb-0">Create account</h5>
 										<p style="color:red">
 											{% if message %}

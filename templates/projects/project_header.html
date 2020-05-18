@@ -66,6 +66,9 @@
     <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script src="{% static 'global_assets/js/plugins/forms/styling/switch.min.js' %}"></script>
     <!-- /theme JS files -->
 
     <!-- JS for text area -->
@@ -78,7 +81,7 @@
     <!-- Main navbar -->
     <div class="navbar navbar-expand-md bg-primary fixed-top">
         <div class="navbar-brand wmin-200">
-            <a href="{{ index }}" class="d-inline-block">
+            <a href="{% url 'index'%}" class="d-inline-block">
                 <img src="{% static 'global_assets/images/logo_light.png' %}" alt="">
             </a>
         </div>
@@ -214,7 +217,7 @@
                     <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown"
                         style="color: white;">
                         <img src="../../docs/{{member.profile_photo}}"
-                            class="rounded-circle mr-2" style="border-radius: 400px;" height="34" alt="">
+                            class="rounded-circle" width="40" height="40"alt="">
                         <span>
                             {% if user.is_authenticated %}
                             {{ user.username }}
@@ -283,7 +286,7 @@
         <div class="page-header-content header-elements-md-inline">
             <div class="page-title d-flex">
                 <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><a
-                            href="/">Home</a></span> -
+                            href="{% url 'index'%}">Home</a></span> -
                     {% if indexhead %}
                     {{ indexhead }}
                     {% endif %}
