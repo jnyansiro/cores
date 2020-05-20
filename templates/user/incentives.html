@@ -29,7 +29,7 @@
                                 {% for incentive in incentives%}
                                 <tr>
                                     
-                                    <td><a href="{% url 'projects:viewproject' project_id=incentive.project.project.id%}">{{ incentive.project }}</a> by {{incentive.project.created_by }}
+                                    <td><a href="{% url 'projects:viewproject' project_id=incentive.project.id%}">{{ incentive.project.project_title }}</a> by {{incentive.project.created_by }}
                                             </td>
                                     <td>{{ incentive.incentive.incentive_type }}
                                              </td>
