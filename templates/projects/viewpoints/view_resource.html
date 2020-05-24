@@ -1,0 +1,81 @@
+
+{% load static %}
+{% include './viewpoint_header.html' %}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="card blog-horizontal blog-horizontal-xs">
+            
+            <div class="card-header text-center bg-primary">
+                Resource Details
+
+            </div>
+           
+            <div class="card-body">
+
+                <div id="docs">
+                    <ul class="list-group text-black">
+                        
+                        
+                        {% for resource in resources %}
+                        {% if document and resource.docs %}
+                        
+                        <li class="list-group-item pl-10 pr-10 text-capitalize">
+                            <a href="../../../docs/{{resource.docs}}">{{ resource.docs}}</a>
+                            Added by {{resource.added_by}}, Added
+                            on:{{ resource.created_on}}
+                            <a href="../../../docs/{{resource.docs}}"
+                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                <i class="icon-enter3"></i>
+                            </a>
+                            
+                        </li>
+                        {% endif %}
+                         {% if  link %}
+                         <li class="list-group-item pl-10 pr-10 text-capitalize">
+                             <a href="../../../docs/{{resource.links}}">{{ resource.links}}</a>
+                             Added by {{resource.added_by}}, Added
+                             on:{{ resource.created_on}}
+                             <a href="../../../docs/{{resource.links}}"
+                                 class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                 data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                 <i class="icon-enter3"></i>
+                             </a>
+
+                         </li>
+                         {% endif %}
+                          {% if  image %}
+                          <li class="list-group-item pl-10 pr-10 text-capitalize">
+                              <a href="../../../docs/{{resource.image}}">{{ resource.image}}</a>
+                              Added by {{resource.added_by}}, Added
+                              on:{{ resource.created_on}}
+                              <a href="../../../docs/{{resource.image}}"
+                                  class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                  data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                  <i class="icon-enter3"></i>
+                              </a>
+
+                          </li>
+                          {% endif %}
+                          {% endfor %}
+                          {% for resource in resources %}
+                           {% if resource.description %}
+                           <label class="text-center text-primary" style="font-weight:bolder">Resource Descriptions:</label>
+                        <p>{{resource.description}}</p>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+
+              
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

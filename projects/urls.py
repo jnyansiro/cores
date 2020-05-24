@@ -101,6 +101,9 @@ urlpatterns = [
     url(r'^addscenarioresources/(?P<scenario_id>\d+)/$', addScenarioResources, name="addscenarioresources"),
     url(r'^addprocessresources/(?P<process_id>\d+)/$', addProcessResources, name="addprocessresources"),
     url(r'^addpusecaseresources/(?P<usecase_id>\d+)/$', addUsecaseResources, name="addusecaseresources"),
+    url(r'^viewlinkresource/(?P<resource_id>\d+)/$', viewLinkResource, name='viewlinkresource'),
+    url(r'^viewdocumentresource/(?P<resource_id>\d+)/$', viewDocumentResource, name='viewdocumentresource'),
+    url(r'^viewimageresource/(?P<resource_id>\d+)/$', viewImageResource, name='viewimageresource'),
 
     path("logout", logout, name="logout"),
         

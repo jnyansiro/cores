@@ -624,13 +624,13 @@ input[type='checkbox'] {
 	background-color: #4633af;
 	box-shadow: 0 0.0625rem 0.375rem 0 rgba(0, 0, 0, 0.1);
 	font: 700 0.75rem/2rem "Montserrat", sans-serif;
-	transition: all 0.2s;
+	transition: all 0.30s;
 }
 
 .navbar-custom .navbar-brand.logo-image img {
     width: 113px;
-	height: 34px;
-	margin-bottom: 1px;
+	/* height: 34px; */
+	/* margin-bottom: 1px; */
 	-webkit-backface-visibility: hidden;
 }
 
@@ -642,7 +642,7 @@ input[type='checkbox'] {
 }
 
 .navbar-custom .navbar-nav {
-	margin-top: 0.75rem;
+	/* margin-top: 0.75rem; */
 }
 
 .navbar-custom .nav-item .nav-link {
@@ -1535,11 +1535,11 @@ a:hover.back-to-top {
 
 
 	/* Navigation */
-	.navbar-custom {
+	/* .navbar-custom {
 		padding: 2.125rem 1.5rem 2.125rem 2rem;
 		box-shadow: none;
         background: transparent;
-	}
+	} */
 	
 	.navbar-custom .navbar-brand.logo-text {
 		color: #fff;
@@ -1929,13 +1929,13 @@ a:hover.back-to-top {
 @media (min-width: 1200px) {
 	
 	/* Navigation */
-	.navbar-custom {
+	/* .navbar-custom {
 		padding: 2.125rem 5rem 2.125rem 5rem;
 	}
 
 	.navbar-custom.top-nav-collapse {
         padding: 0.5rem 2rem 0.5rem 2rem;
-	}
+	} */
 	/* end of navigation */
 
 	

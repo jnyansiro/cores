@@ -142,10 +142,10 @@ class Project(models.Model):
 
     # TODO: Define fields here
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    project_title = models.CharField(max_length=50)
+    project_title = models.CharField(max_length=500)
     project_photo = models.ImageField(max_length=50,blank=True,null=True)
     project_files = models.FileField(max_length=50,blank=True,null=True)
-    description = models.CharField(max_length=5000,null=True,blank=True)
+    description = models.TextField(max_length=5000,null=True,blank=True)
     due_date = models.DateTimeField(auto_now=False)
     project_visibility = models.CharField(max_length=40,null=True,blank=True)
     is_public = models.BooleanField(default=False)
@@ -201,7 +201,7 @@ class ProjectIncentive(models.Model):
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     incentive = models.ForeignKey("Incentive", on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    description = models.CharField(max_length=800)
+    description = models.CharField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -262,11 +262,11 @@ class Viewpoint(models.Model):
     # TODO: Define fields here
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created_by = models.ForeignKey(Member, on_delete=models.CASCADE)
-    viewpoint_name = models.CharField(max_length=50)
+    viewpoint_name = models.CharField(max_length=500)
     viewpoint_links= models.CharField(max_length=600,blank=True,null=True)
     viewpoint_photo = models.ImageField(blank=True,null=True)
     viewpoint_docs = models.FileField(max_length=500,blank=True,null=True)
-    description = models.CharField(max_length=2300)
+    description = models.TextField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -286,11 +286,11 @@ class Goal(models.Model):
 
     # TODO: Define fields here
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
-    goal_name = models.CharField(max_length=50)
+    goal_name = models.CharField(max_length=500)
     goal_photo = models.ImageField(blank=True,null=True)
     goal_link = models.CharField(max_length=50,blank=True,null=True)
     goal_docs = models.FileField(blank=True,null=True)
-    description = models.CharField(max_length=2300, null=True, blank=True)
+    description = models.TextField(max_length=5000, null=True, blank=True)
     category = models.CharField(max_length=50,null=True)  # example comflict
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
@@ -313,10 +313,10 @@ class Requirement(models.Model):
     # TODO: Define fields here
     goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=500)
     requirement_photo = models.ImageField(blank=True,null=True)
     requirement_docs = models.FileField(max_length=500,blank=True,null=True)
-    description = models.CharField(max_length=2500 ,null=True, blank=True)
+    description = models.TextField(max_length=5000 ,null=True, blank=True)
     requirement_links = models.CharField(max_length=50,blank=True,null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -338,11 +338,11 @@ class Scenario(models.Model):
     # TODO: Define fields here
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=500)
     scenario_photo = models.ImageField(blank=True,null=True)
     scenario_docs = models.FileField(blank=True,null=True)
     scenario_links = models.CharField(max_length=1500,blank=True, null=True)
-    description = models.CharField(max_length=1500)
+    description = models.TextField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -363,11 +363,11 @@ class Process(models.Model):
     # TODO: Define fields here
     scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    process_name = models.CharField(max_length=60)
+    process_name = models.CharField(max_length=600)
     process_links = models.CharField(max_length=500, blank=True, null=True)
     process_photo = models.ImageField(blank=True,null=True)
     process_docs = models.FileField(max_length=500,blank=True,null=True)
-    description = models.CharField(max_length=1000)
+    description = models.TextField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -386,10 +386,10 @@ class UseCase(models.Model):
     """Model definition for UseCase."""
 
     # TODO: Define fields here
-    usecase_name = models.CharField(max_length=50)
+    usecase_name = models.CharField(max_length=500)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     process = models.ForeignKey("Process", on_delete=models.CASCADE)
-    description = models.CharField(max_length=500)
+    description = models.TextField(max_length=5000)
     usecase_link = models.CharField(max_length=500)
     usecase_photo = models.ImageField(blank=True,null=True)
     usecase_docs = models.FileField(max_length=500,blank=True,null=True)
@@ -415,6 +415,7 @@ class Repository(models.Model):
     image = models.ImageField(blank=True,null=True)
     docs = models.FileField(null=True,blank=True)
     links = models.CharField(max_length=500, null=True,blank=True)
+    description = models.TextField(max_length=5000, null=True, blank=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -491,7 +492,7 @@ class Comment(models.Model):
 
     # TODO: Define fields here
     commented_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    comment = models.CharField(max_length=2500)
+    comment = models.CharField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 

@@ -51,13 +51,12 @@
     
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-md bg-primary navbar-custom fixed-top">
-        <!-- Text Logo - Use this if you don't have a graphic logo -->
-        <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Leno</a> -->
+    <nav class="navbar navbar-default navbar-expand-md bg-primary navbar-custom  fixed-top " >
+        
 
-        <!-- Image Logo -->
-        <a class="navbar-brand logo-image bg-white" href=""><img src="{% static 'images/logo.png' %}"
-                alt="alternative"></a>
+        <!-- Logo -->
+        <a class="navbar-brand logo-image" href="" style="text-decoration: none;">
+                CORES</a>
         
         <!-- Mobile Menu Toggle Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +65,7 @@
         </button>
         <!-- end of mobile menu toggle button -->
 
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault" >
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link page-scroll" href="#header">HOME <span class="sr-only">(current)</span></a>
@@ -79,12 +78,10 @@
                 </li>
 
                 <!-- Dropdown Menu -->          
-                <li class="nav-item dropdown">
-                    <a class="nav-link  page-scroll" href="#counter" id="navbarDropdown" role="button"
+                <li class="nav-item">
+                    <a class="nav-link  page-scroll" href="#counter"
                         aria-haspopup="true" aria-expanded="false">DETAILS</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                       
-                    </div>
+                    
                 </li>
                 <!-- end of dropdown menu -->
 
@@ -103,18 +100,27 @@
         <div class="header-content">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6"">
                         <div class="text-container">
-                            <h3>Collaborative <br> <span id="js-rotating">Requirement Engineering</span></h3>
-                            <p class="p-large">Here is where Projects meet with people`s ideas to produce community/End users Product or Services.</p>
+                            <h3>For People, <br> <span id="js-rotating">by People</span></h3>
+                            <p class="p-large">CORES is an open community for anyone to innovate. We share and improve
+                                ideas to solve critical problems in our communities. We help Government get solutions to
+                                their people. </p>
                             <a class="btn-solid-lg page-scroll" href="{% url 'login'%}"><i class="fa fa-user"></i> Login</a>
                             <a class="btn-solid-lg page-scroll" href="{% url 'registration'%}"><i
                                     class="fa fa-user-plus"></i> Register</a>
+                           <h3> Collaborative Innovation and Design</h3>
+                            <p>Take innovation and solution design to the next level. Eliminate boundaries and collaborate
+                            beyond your organization.</p>
+
+                            <h3>A better way to work together</h3>
+                            <p>With Private project, CORES enable your analysts to work together in an efficient and
+                            effective manner.</p>
                         </div>
                     </div> <!-- end of col -->
                     <div class="col-lg-6">
                         <div class="image-container">
-                            <img class="img-fluid" src="{% static 'images/mobile.png' %}" alt="alternative">
+                            <img class="img-fluid" src="{% static 'images/mobile.png' %}" alt="alternative" height="">
                         </div> <!-- end of image-container -->
                     </div> <!-- end of col -->
                 </div> <!-- end of row -->
@@ -158,13 +164,19 @@
                             <div class="row">
                                 
                                 <!-- Icon Cards Pane -->
-                                <div class="col-lg-4">
+                                <div class="col-lg-5">
                                     <div class="card left-pane first">
                                         <div class="card-body">
                                             <div class="text-wrapper">
-                                                <h4 class="card-title">Projects</h4>
-                                                <p>Registered member can create Project which can be private or Public Project,
-                                                   then mambers can contribute on that project.
+                                                <h4 class="card-title">Create Projects</h4>
+                                                <p> Create a new requirement engineering project. Make you project
+                                                    public, discoverable or private. A public project is open for anyone
+                                                    in the community to subscribe and start contributing. A discoverable
+                                                    project is a semi-public project where people within the community
+                                                    can discover the project and request membership. The project
+                                                    administrator can accept or deny the request. Private project is not
+                                                    discoverable to the community. Only administrator can invite
+                                                    members.
                                                 </p>
                                             </div>
                                             <div class="card-icon">
@@ -175,9 +187,9 @@
                                     <div class="card left-pane">
                                         <div class="card-body">
                                             <div class="text-wrapper">
-                                                <h4 class="card-title">Viewpoint</h4>
-                                                <p>Project Member can Create Viewpoint based on a particular Project then other members 
-                                                    can contribute resources and comments on that viewpoint.
+                                                <h4 class="card-title">Organize your project</h4>
+                                                <p>Organize your requirement project in viewpoints, goals, requirements,
+                                                    scenarios, processes and use cases.
                                                 </p>
                                             </div>
                                             <div class="card-icon">
@@ -188,10 +200,12 @@
                                     <div class="card left-pane">
                                         <div class="card-body">
                                             <div class="text-wrapper">
-                                                <h4 class="card-title">Goals</h4>
+                                                <h4 class="card-title">Viewpoints </h4>
                                                 <p>
-                                                    Member of the Project can create Goals based on particular Viewpoint, where by other
-                                                    members can contribute resources and comments on that Goal, also Goals are category based.
+                                                     Describes possible diverse sources of requirements. They provide
+                                                     high level visualization of a system and mechanisms for
+                                                     identification, structuring, organization and classification of
+                                                     systems requirements.
 
                                                 </p>
                                             </div>
@@ -200,39 +214,47 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                     <div class="card left-pane">
+                                         <div class="card-body">
+                                             
+                                             <div class="text-wrapper">
+                                                 <h4 class="card-title">Goals</h4>
+                                                 <p>A goal is defined as a final decomposed desired outcome to be
+                                                     achieved or satisfied by a composite system. Goals are therefore
+                                                     identified and formulated in hierarchies using goal graph at
+                                                     different levels of abstraction from highest strategic level to
+                                                     lowest levels of operation.
+                                                 </p>
+                                             </div>
+                                             <div class="card-icon">
+                                                 <i class="far fa-file"></i>
+                                             </div>
+                                         </div>
+                                     </div>
                                 </div>
                                 <!-- end of icon cards pane -->
 
                                 <!-- Image Pane -->
-                                <div class="col-lg-4">
-                                    <img class="img-fluid" src="{% static 'images/features1.png' %}"
-                                        alt="alternative">
+                                <div class="col-lg-2">
+                                    <!-- <img class="img-fluid" src="{% static 'images/features1.png' %}"
+                                        alt="alternative"> -->
                                 </div>
                                 <!-- end of image pane -->
                                 
                                 <!-- Icon Cards Pane -->
                                 <div class="col-lg-4">
+                                   
                                     <div class="card right-pane first">
-                                        <div class="card-body">
-                                            <div class="card-icon">
-                                                <i class="far fa-file"></i>
-                                            </div>
-                                            <div class="text-wrapper">
-                                                <h4 class="card-title">Requirement</h4>
-                                                <p>Project Members can create, view, and contribute resources and comments on Requirement based on 
-                                                    particular Goal that Requirement belongs to.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card right-pane">
                                         <div class="card-body">
                                             <div class="card-icon">
                                                 <i class="far fa-music"></i>
                                             </div>
                                             <div class="text-wrapper">
-                                                <h4 class="card-title">Scenario</h4>
-                                                <p>Project Member can view, create and contribute resources and ideas on Scenario based on a perticular Requirement.</p>
+                                                <h4 class="card-title">Requirements</h4>
+                                                <p>is a description of features and functionalities of the target
+                                                    system. Requirements convey the expectations of users from the
+                                                    software product. </p>
                                             </div>
                                         </div>
                                     </div>
@@ -242,11 +264,43 @@
                                                 <i class="fas fa-cube"></i>
                                             </div>
                                             <div class="text-wrapper">
-                                                <h4 class="card-title">Process and Usecase</h4>
-                                                <p>Project members can create view, and contribute on Process also in Usecase of the project.</p>
+                                                <h4 class="card-title">Scenario</h4>
+                                                <p>A scenario is a scene that illustrates some interaction with a
+                                                    proposed system. A scenario is a tool used during requirements
+                                                    analysis to describe a specific use of a proposed system. Scenarios
+                                                    capture the system, as viewed from the outside, e.g, by a user,
+                                                    using specific examples.</p>
                                             </div>
                                         </div>
                                     </div>
+
+                                     <div class="card right-pane">
+                                         <div class="card-body">
+                                             <div class="card-icon">
+                                                 <i class="far fa-music"></i>
+                                             </div>
+                                             <div class="text-wrapper">
+                                                 <h4 class="card-title">Process</h4>
+                                                 <p>Is a set of connected activities performed in a defined order that
+                                                     will accomplish a specific organizational goal. It is a step by
+                                                     step procedures of doing something. </p>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <div class="card right-pane">
+                                         <div class="card-body">
+                                             <div class="card-icon">
+                                                 <i class="far fa-music"></i>
+                                             </div>
+                                             <div class="text-wrapper">
+                                                 <h4 class="card-title">Use case </h4>
+                                                 <p>Is a list of actions or event steps typically defining the
+                                                     interactions between a role and a system to achieve a goal. The
+                                                     actor can be a human or other external system. </p>
+                                             </div>
+                                         </div>
+                                     </div>
                                 </div>
                                 <!-- end of icon cards pane -->
 

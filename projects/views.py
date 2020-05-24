@@ -32,6 +32,7 @@ def index(request):
     members = Member.objects.all().count()
     member = Member.objects.get(user=request.user)
     request.session["userphoto"] = str(member.profile_photo)
+    profile_update = Member.objects.filter(user=request.user,profile_photo="").exists()
     profilephoto = request.session["userphoto"]
     print(request.session["userphoto"])
     hidesearch = "hide"
@@ -44,6 +45,7 @@ def index(request):
             "current_projects": current_projects,
             "profilephoto": profilephoto,
             "total_projects": total_projects,
+            'profile_update':profile_update,
             "member": member,
             "members": members,
         },
@@ -995,7 +997,7 @@ def viewGoal(request, goal_id,message=None):
                 "viewpoints": viewpoints,
                 'comments':comments,
                 'goalRate':goalRate,
-                'tota_rates':total_rates,
+                'total_rates':total_rates,
                 'total_comments':total_comments,
                 'message':message,
                 'rates':rates,
@@ -1024,7 +1026,7 @@ def viewGoal(request, goal_id,message=None):
             "viewpoints": viewpoints,
             'comments':comments,
             'goalRate':goalRate,
-            'tota_rates':total_rates,
+            'total_rates':total_rates,
             'total_comments':total_comments,
             'rates':rates,
             "goals": goals,
@@ -2259,7 +2261,65 @@ def usecaseRate(request, usecase_id):
     )
 
 # resources functions for all from project to usecase
+@login_required(login_url="login")
+def viewDocumentResource(request, resource_id):
+    indexhead = "Project Resources:"
+    hidesearch = "hide"
+    resources = Repository.objects.filter(id=resource_id).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    document="document"
+    return render(
+        request,
+        "projects/viewpoints/view_resource.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "resources": resources,
+            "member": member,
+            "document":document
+           
+        }
+    )
 
+@login_required(login_url="login")
+def viewImageResource(request, resource_id):
+    indexhead = "Project Resources:"
+    hidesearch = "hide"
+    resources = Repository.objects.filter(id=resource_id).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    image="image"
+    return render(
+        request,
+        "projects/viewpoints/view_resource.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "resources": resources,
+            "member": member,
+            "image":image
+           
+        }
+    )
+
+@login_required(login_url="login")
+def viewLinkResource(request, resource_id):
+    indexhead = "Project Resources:"
+    hidesearch = "hide"
+    resources = Repository.objects.filter(id=resource_id).order_by("-id")
+    member = Member.objects.get(user=request.user)
+    link='link'
+    return render(
+        request,
+        "projects/viewpoints/view_resource.html",
+        {
+            "indexhead": indexhead,
+            "hidesearch": hidesearch,
+            "resources": resources,
+            "member": member,
+            'link':link
+           
+        }
+    )
 
 @login_required(login_url="login")
 def projectResources(request, project_id):
@@ -2460,8 +2520,9 @@ def addProjectResources(request, project_id):
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
         links = request.POST.get("links")
+        description = request.POST.get('description')
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs,description=description
         )
         repository.save()
         if repository:
@@ -2482,8 +2543,9 @@ def addViewpointResources(request, viewpoint_id):
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
         links = request.POST.get("links")
+        description = request.POST.get('description')
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs,description=description
         )
         repository.save()
         if repository:
@@ -2503,8 +2565,9 @@ def addGoalResources(request, goal_id):
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
         links = request.POST.get("links")
+        description = request.POST.get('description')
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs,description=description
         )
         repository.save()
         if repository:
@@ -2524,8 +2587,9 @@ def addRequirementResources(request, requirement_id):
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
         links = request.POST.get("links")
+        description = request.POST.get('description')
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs,description=description
         )
         repository.save()
         if repository:
@@ -2545,9 +2609,10 @@ def addScenarioResources(request, scenario_id):
     if request.method == "POST":
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
+        description = request.POST.get('description')
         links = request.POST.get("links")
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs, description=description
         )
         repository.save()
         if repository:
@@ -2567,8 +2632,9 @@ def addProcessResources(request, process_id):
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
         links = request.POST.get("links")
+        description = request.POST.get('description')
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs,description=description,
         )
         repository.save()
         if repository:
@@ -2588,8 +2654,9 @@ def addUsecaseResources(request, usecase_id):
         image = request.FILES.get("image")
         docs = request.FILES.get("docs")
         links = request.POST.get("links")
+        description = request.POST.get('description')
         repository = Repository.objects.create(
-            added_by=member, image=image, links=links, docs=docs,
+            added_by=member, image=image, links=links, docs=docs,description=description
         )
         repository.save()
         if repository:

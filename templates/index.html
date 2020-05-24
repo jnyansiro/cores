@@ -3,6 +3,8 @@
 {% include 'projects/rate_dependence.html'%}
 {% include 'header.html' %}
 {% include 'projects/like_dependence.html'%}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<!-- /main navbar -->
 
 		<!-- Main content -->
@@ -87,6 +89,46 @@
 					</div>
 				</div>
 				<!-- /quick stats boxes -->
+
+         {% if profile_update %}				
+				<script>
+					$(document).ready(function(){
+						$('#update_profile').modal('show');
+					});
+
+				</script>
+
+
+				<div id="update_profile" class="modal top" tabindex="-1">
+					<div class="modal-dialog ">
+							<div class="modal-content bg-blue-300 text-red">
+								<div class="modal-header">
+
+									<h5 class="modal-title text-center">Notification</h5>
+
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+								</div>
+
+								<div class="modal-body">
+
+									
+										<p>Sorry Your Profile is not complete please Update your Profile</p>
+									
+
+
+								</div>
+
+								<div class="modal-footer col-md-12">
+									<button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not now</button>
+									<a href="{% url 'projects:profile'%}"><button type="submit" class="btn bg-primary ">Update</button></a>
+								</div>
+							</div>
+						
+					</div>
+				</div>
+{% endif %}
+				
 				
 				
 				

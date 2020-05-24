@@ -110,11 +110,12 @@
                         <li class="text-center"><h4>Document Resources:</h4></li>
                         {% for resource in resources %}
                         {% if  resource.repository.docs %}
-                        <li class="list-group-item pl-10 pr-10 text-capitalize">
-                            <a href="../../../docs/{{resource.repository.docs}}">{{ resource.repository.docs}}</a>
+                        <li class="list-group-item pl-10 pr-10 text-capitalize"  >
+                            <a href="{% url 'projects:viewdocumentresource' resource_id=resource.repository.id%}"
+                                class="text-primary">{{ resource.repository.docs}}</a>
                             Added by {{resource.repository.added_by}}, Added
                             on:{{ resource.created_on}}
-                            <a href="../../../docs/{{resource.repository.docs}}"
+                            <a href="{% url 'projects:viewdocumentresource' resource_id=resource.repository.id%}"
                                 class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                 data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                                 <i class="icon-enter3"></i>
@@ -134,10 +135,11 @@
                         {% for resource in resources %}
                         {% if  resource.repository.image %}
                         <li class="list-group-item pl-10 pr-10 text-capitalize">
-                            <a href="../../../docs/{{resource.repository.image}}">{{ resource.repository.image}}</a>
+                            <a href="{% url 'projects:viewimageresource' resource_id=resource.repository.id%}"
+                                class="text-primary">{{ resource.repository.image}}</a>
                             Added by {{resource.repository.added_by}}, Added on
                             on:{{ resource.created_on}}
-                            <a href="../../../docs/{{resource.repository.image}}"
+                            <a href="{% url 'projects:viewimageresource' resource_id=resource.repository.id%}"
                                 class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                 data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                                 <i class="icon-enter3"></i>
@@ -158,13 +160,14 @@
                         {% for resource in resources %}
                         {% if  resource.repository.links %}
                         <li class="list-group-item pl-10 pr-10 text-capitalize">
-                            <a href="{{resource.repository.links}}">{{ resource.repository.links}}</a>
+                            <a
+                                href="{% url 'projects:viewlinkresource' resource_id=resource.repository.id%}">{{ resource.repository.links}}</a>
                             Added by {{resource.repository.added_by}}, Added
                             on:{{ resource.created_on}}
-                            <a href="{{resource.repository.links}}"
+                            <a href="{% url 'projects:viewlinkresource' resource_id=resource.repository.id%}"
                                 class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
-                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
-                                <i class="icon-enter3"></i>
+                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;" >
+                                <i class="icon-enter3" ></i>
                             </a>
                         </li>
                         {% endif %}
@@ -251,6 +254,16 @@
                                             </div>
 
 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label>Description</label>
+                                                <textarea  name="description" placeholder="write here" class="form-control"></textarea>
+                                            </div>
+                                    
+                                    
                                         </div>
                                     </div>
 
