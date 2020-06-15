@@ -1,0 +1,244 @@
+
+
+{% load static %}
+{% include '../rate_dependence.html'%}
+{% include './viewpoint_header.html' %}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="card blog-horizontal blog-horizontal-xs">
+            <div class="card-body">
+                <div class="panel">
+
+                    <div class="panel-body">
+
+                       {% include '../projectfilter.html'%}
+                       {% include '../workspace_title.html'%}
+                        <div class="tabbable">
+                            <ul class="nav  nav-tabs nav-justified text-center">
+                                <style>
+                                    .viewpoint {
+
+                                        background-color:blue;
+
+                                    }
+
+                                    .requirement {
+                                        background: lightblue;
+                                    }
+
+                                    .scenario {
+                                        background: lightblue;
+                                    }
+
+                                    .goal {
+                                        background: lightblue;
+                                    }
+
+                                    .process {
+                                        background: lightblue;
+                                    }
+
+                                    .usecase {
+                                        background: lightblue;
+                                    }
+
+                                    #li a {
+                                        color: white;
+                                        width: 100%;
+                                        
+                                        
+                                    }
+
+                                    #li{
+                                        border: 2 solid black;
+                                        align-content: center;
+
+                                    }
+
+                                    #li1 {
+                                        width: auto;
+
+                                        background-color: grey;
+                                    }
+
+                                    #li1 :hover a {
+                                        background-color: white;
+                                        color: blue;
+                                    }
+                                </style>
+                                <li class="viewpoint col-md-2">
+                                    <a href="#" class="col-md-2" style="color: white;font-weight:bold">
+                                        ViewPoints
+                                    </a>
+                                </li>
+                                <li class="goal col-md-2">
+                                    
+                                    <a href="{% url 'projects:projectgoals' project_id=project_id%}" class="col-md-2"
+                                        style="color:black;font-weight:bold">
+                                        Goals
+                                    </a>
+                                   
+                                    
+                                </li>
+                                <li class=" requirement col-md-2">
+                                    <a href="{% url 'projects:projectrequirements' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Requirements
+                                    </a>
+                                </li>
+                                <li class=" scenario col-md-2">
+                                    <a href="{% url 'projects:projectscenarios' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Scenarios
+                                    </a>
+                                </li>
+                                <li class="process col-md-2">
+                                    <a href="{% url 'projects:projectprocesses' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Process
+                                    </a>
+                                </li>
+                                <li class="usecase col-md-2">
+                                    <a href="{% url 'projects:projectusecases' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Usecase
+                                    </a>
+                                </li>
+
+                            </ul>
+                            {% if project_id %}
+                            <li class="col-md-12 float-right" style="list-style: none;">
+                                <a href="{% url 'projects:createviewpoint' project_id=project_id %}"><button
+                                        class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                                        Add Viewpoint <i class="icon-add"></i>
+                                    </button></a>
+                            </li>
+                            {% endif %}
+
+                        </div>
+                        <strong style="color:green">Recent Viewpoints</strong>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+                      
+
+
+
+
+
+
+                        <div class="row">
+                              {% if viewpoint %}
+                              {% for viewpoint in viewpoint %}
+                            <div class="col-lg-6">
+
+                                <!-- Mini size -->
+                                <div class="card blog-horizontal blog-horizontal-xs">
+                                    <div class="card-body">
+                                        <div class="card-img-actions mr-3">
+                                            <img class="card-img img-fluid" src="../../../docs/{{ viewpoint.viewpoint_photo }}"
+                                                alt="">
+                                            <div class="card-img-actions-overlay card-img">
+
+                                                <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                                                    <i class="icon-link"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <h5 class="font-weight-semibold my-1">
+                                                <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}"
+                                                    class="text-default" style="color:blue">{{ viewpoint.viewpoint_name }}</a>
+                                            </h5>
+
+                                            <ul class="list-inline list-inline-dotted text-muted mb-0">
+                                                <li class="list-inline-item">By <a href="#"
+                                                        class="text-muted">{{ viewpoint.created_by }}</a></li>
+                                                <li class="list-inline-item">{{ viewpoint.created_on }}</li>
+                                               
+                                            </ul>
+                                        </div>
+                                           {{ viewpoint.description|safe|truncatewords:30 }}
+                                        <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}">[...]</a>
+
+                                        <div
+                                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+                                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+                                                
+                                                <li class="list-inline-item"><a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.id %}" class="text-muted"><i
+                                                            class="icon-bubbles5 text-blue mr-2"></i>comments</a>
+                                                </li>
+                                            </ul>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /mini size -->
+
+                            </div>
+
+
+
+
+<!-- delete model -->
+
+<div id="star" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs">
+         <form method="POST" action="{% url 'projects:rateviewpoint' viewpoint_id=viewpoint.id%}">
+             {% csrf_token %}
+        <div class="modal-content bg-white-300" style="color:red">
+            <div class="modal-header">
+
+                <h5 class="modal-title text-center">Rate Viewpoint</h5>
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+           
+                 <div
+                class="modal-body">
+
+                <div class="rate float-center" style="margin-left: 3rem;">
+                    <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="Best">5
+                        stars</label>
+                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="Better">4
+                        stars</label>
+                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="Good">3
+                        stars</label>
+                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="Normal">2
+                        stars</label>
+                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="Bad">1 star</label>
+                </div>
+
+
+        </div>
+
+        <div class="modal-footer col-md-12">
+            <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not now</button>
+            <button type="submit" class="btn bg-primary ">Rate</button>
+        </div>
+    </div>
+    </form>
+</div>
+</div>
+   
+<!-- /custom background color -->
+
+
+                            {% endfor %}
+                            {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

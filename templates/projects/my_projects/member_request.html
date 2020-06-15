@@ -1,0 +1,74 @@
+{% load static %}
+{% include './myproject_header.html'%}
+<br>
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+        <!-- Bordered card body table -->
+
+        <div class="row">
+            <div class="card col-xl-12">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">Proejct Membership Requests</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="card card-table table-responsive shadow-0 mb-0">
+                        <table class="table table-bordered">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, member in member_details %}
+                                <tr>
+                                    <td>{{ num }}</td>
+                                    <td>{{ member.member.first_name }}</td>
+                                    <td>{{ member.member.surname }}</td>
+                                    <td>{{ member.member.user }}</td>
+                                    <td>
+                                       
+                                        <a href="{% url 'projects:memberdetails' member_id=member.member.id%}">
+                                        <button class="btn btn-primary col-md-3 mr-md-3 ">View</button></a>
+                                        <a
+                                            href="{% url 'projects:approvemember' project_id=project_id membership_id=member.id %}"><button
+                                            class="btn btn-success col-md-3 mr-md-3 " >Accept</button></a>
+                                            <a
+                                                href="{% url 'projects:membershiprejection' project_id=project_id membership_id=member.id %}"><button
+                                            class="btn btn-danger col-md-3 mr-md-3"
+                                            >Reject</button></a>
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                            
+
+                                
+
+                            </tbody>
+                        </table>
+                            {% if not member_details %}
+                            
+                                <center>
+
+                                    <p class="text-danger">Currently there is no Project membership Request</p>
+                                </center>
+                            
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /bordered card body table -->
+
+    </div>
+</div>

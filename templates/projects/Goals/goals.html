@@ -1,0 +1,174 @@
+{% load static %}
+{% include '../viewpoints/viewpoint_header.html' %}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="card blog-horizontal blog-horizontal-xs">
+            <div class="card-body">
+                <div class="panel">
+                    {% include '../workspace_title.html'%}
+                    <div class="panel-body">
+                        <div class="tabbable">
+                            <ul class="nav  nav-tabs nav-justified text-center">
+                                 <style>
+                                     .viewpoint {
+
+                                         background-color: lightblue;
+
+                                     }
+
+                                     .requirement {
+                                         background: lightblue;
+                                     }
+
+                                     .scenario {
+                                         background: lightblue;
+                                     }
+
+                                     .goal {
+                                         background: blue;
+                                     }
+
+                                     .process {
+                                         background: lightblue;
+                                     }
+
+                                     .usecase {
+                                         background: lightblue;
+                                     }
+
+                                     #li a {
+                                         color: white;
+                                         width: 100%;
+
+
+                                     }
+
+                                     #li {
+                                         border: 2 solid black;
+                                         align-content: center;
+
+                                     }
+
+                                     #li1 {
+                                         width: auto;
+
+                                         background-color: grey;
+                                     }
+
+                                     #li1 :hover a {
+                                         background-color: white;
+                                         color: blue;
+                                     }
+                                 </style>
+                                <li class="viewpoint col-md-2">
+                                    <a href="{% url 'projects:viewpoints' project_id=project_id %}" class="col-md-2"
+                                        style="color: black;font-weight:bold">
+                                        ViewPoints
+                                    </a>
+                                </li>
+                                <li class="goal col-md-2">
+                                  
+                                    <a href="#" class="col-md-2" style="color:white;font-weight:bold">
+                                        Goals
+                                    </a>
+                                </li>
+                                <li class=" requirement col-md-2">
+                                    <a href="{% url 'projects:projectrequirements' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Requirements
+                                    </a>
+                                </li>
+                                <li class=" scenario col-md-2">
+                                    <a href="{% url 'projects:projectscenarios' project_id=project_id %}" style="color:black;font-weight:bold">
+                                        Scenarios
+                                    </a>
+                                </li>
+                                <li class="process col-md-2">
+                                    <a href="{% url 'projects:projectprocesses' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Processes
+                                    </a>
+                                </li>
+                                <li class="usecase col-md-2">
+                                    <a href="{% url 'projects:projectusecases' project_id=project_id%}" style="color:black;font-weight:bold">
+                                        Usecase
+                                    </a>
+                                </li>
+
+                            </ul>
+                       
+                    
+                        {% if viewpoint_id%}
+                    <li class="col-md-12 text-right" style="list-style: none;">
+                        <a href="{% url 'projects:creategoal' viewpoint_id %}" class="btn bg-primary btn-labeled  rounded-round text-right ">
+                                Add Goal <i class="icon-add"></i>
+                       </a>
+                    </li>
+                        {% endif %}
+                        
+                        </div>
+                          {% if viewpointiess %}
+                         <div class="form-group form-horizontal">
+                             <label class="col-lg-1 text-semibold control-label">
+                                 Filter:</label>
+                             <div class="col-md-3">
+                                 <form method="post" action="{% url 'projects:goals' viewpoint_id %}">
+                                     {% csrf_token %}
+                                 <div class="input-group">
+
+                                     
+                                     
+                                 <select name="viewpoint_id" data-placeholder="Select View point" class="form-control" id="">
+                                     {% for viewpointiess in viewpointiees%}
+                                     <option value="{{viewpointiess.id}}">
+                                         {{viewpointiess.viewpoint_name }}
+                                     </option>
+                                     {% endfor %}
+                                 </select>
+                                 <span class="input-group-append">
+                                 <span class="input-group-append"><button class="btn btn-primary"><i
+                                             class="icon-search4"></i></button></span>
+                                 </span>
+                                
+                                 </div>
+                                 </form>
+                             </div>
+                         </div>
+                         {% endif %}
+
+                          <div class="col-md-12 mb-10 mt-10">
+                              <h5 class="text-semibold">
+                                  Goals:
+                              </h5>
+                              <div>
+                                  <ul class="list-group">
+                                      {% for goal in goals %}
+                                      <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                          
+                                         <a
+                                             href="{% url 'projects:viewgoal' goal_id=goal.id %}">{{ goal.goal_name }}</a> By {{goal.created_by}}, Created On: {{goal.created_on}}
+                                         
+                                        
+                                          <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
+                                              class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                              data-popup="tooltip" data-placement="bottom" title="View"
+                                              style="margin-top: -6px;">
+                                              <i class="icon-enter3"></i>
+                                          </a>
+                                          
+                                      </li>
+                                      {% endfor %}
+                                  </ul>
+                              </div>
+                          </div>
+
+                    </div>
+                </div>
+                <!-- /mini size -->
+
+            </div>
+        </div>
+    </div>
+</div>

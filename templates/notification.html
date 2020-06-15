@@ -1,0 +1,367 @@
+<script>
+   
+
+</script>
+
+<li class="nav-item dropdown">
+    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
+        <i class="icon-bell2" style="color:white"></i>
+        <span class="d-md-none ml-2">Notification</span>
+        {% if total_notification %}
+        <span class="badge badge-danger-pill badge-pill bg-danger-400 border-danger-400 ml-auto
+                            ml-md-0">{{ total_notification }}</span>
+        {% endif %}
+
+    </a>
+
+    <div class="dropdown-menu dropdown-content wmin-md-350">
+        <div class="dropdown-content-header">
+            <span class="font-weight-semibold">Notifications</span>
+            <a href="#" class="text-default"><i class="icon-search4 font-size-base"></i></a>
+        </div>
+
+        <div class="dropdown-content-body dropdown-scrollable">
+            <ul class="media-list">
+                {% for notification in notification %}
+                {% if notification.status == "seen"%}
+                {% if notification.link == "contributed" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "invitations" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-user-plus"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="{% url 'projects:invitations'%}">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+
+                </li>
+                {% endif %}
+                {% if notification.link == "commented" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-bubbles6"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+
+                </li>
+                {% endif %}
+                {% if notification.link == "approved" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-checkmark"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+
+                </li>
+                {% endif %}
+                {% if notification.link == "incentives" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-gift"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="{% url 'projects:incentives'%}">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "suspended" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-warning-400 rounded-round btn-icon"><i
+                                class="icon-user-minus "></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "rejected" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i
+                                class="icon-user-cancel"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "removemember" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "accepted" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
+                                class="icon-user-check"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "activate" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-vcard"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "projectmembers" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
+                                class="icon-checkmark3"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "request" %}
+                <li class="media">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-question3"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% endif %}
+
+
+
+                    {% if notification.status != "seen" %}
+                    {% if notification.link == "commented" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-bubbles6"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+
+                </li>
+                {% endif %}
+                {% if notification.link == "activate" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-vcard"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "approved" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-checkmark"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+
+                </li>
+                {% endif %}
+
+                {% if notification.link == "request" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-question3"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if notification.link == "accepted" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
+                                class="icon-user-check"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if notification.link == "invitations" %}
+                <li class="media " style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-user-plus"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="{% url 'projects:invitations'%}">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+
+                </li>
+                {% endif %}
+                {% if notification.link == "projectmembers" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
+                                class="icon-user-check"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "incentives" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-gift"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="{% url 'projects:incentives'%}">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "suspended" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-warning-400 rounded-round btn-icon"><i
+                                class="icon-user-minus "></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "rejected" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i
+                                class="icon-user-cancel"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color: black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "removemember" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+                    {% if notification.link == "contributed" %}
+                <li class="media" style="background: lightblue;">
+                    <div class="mr-3">
+                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                    </div>
+
+                    <div class="media-body">
+
+                        <a href="#" style="color:black">{{ notification.activity}}</a>
+                        <div class="font-size-sm text-muted mt-1">{{ notification.created_on }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% endif %}
+
+
+
+                    {% endfor %}
+
+
+
+
+            </ul>
+        </div>
+
+        <div class="dropdown-content-footer bg-light">
+            <a href="#" class="text-grey mr-auto">All activity</a>
+            <div>
+                <a href="{% url 'projects:readnotifications'%}" class="text-grey" data-popup="tooltip"
+                    title="mark all seen"><i class="icon-checkmark3"></i></a>
+                <a href="#" class="text-grey ml-2" data-popup="tooltip" title="Settings"><i class="icon-gear"></i></a>
+            </div>
+        </div>
+    </div>
+</li>
+</ul>

@@ -1,0 +1,208 @@
+{% load static %}
+{% include  './myproject_header.html'%}
+
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+        <div class="row">
+            <div class="page-header page-header-default col-md-12">
+                <div class="breadcrumb-line col-md-12">
+                    <br>
+                    <ul class="breadcrumb breadcrumb-caret col-md-12">
+
+                        <li class="col-md-12 float-right">
+                            <a data-toggle="modal" data-target="#add_incentive"><button
+                                    class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                                    Provide Incentives <i class="icon-add"></i>
+                                </button></a>
+                        </li>
+                        <!-- <li class="active">Location</li> -->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card col-xl-12">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">{{ indexhead }}:</h5>
+
+                </div>
+
+                <div class="card-body">
+                    <div class="card card-table table-responsive shadow-0 mb-0">
+                        <table class="table table-bordered">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                     <th>#</th>
+                                    <th>Project</th>
+                                    <th>Incentive type</th>
+                                    <th>Provided To</th>
+                                    <th>Description</th>
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, incentive in project_incentives %}
+                                <tr>
+                                     <td>{{ num }}</td>
+                                    <td><a
+                                            href="{% url 'projects:viewproject' project_id=incentive.projectincentive.project.id %}">{{ incentive.projectincentive.project.project_title }}</a>
+                                        by {{incentive.projectincentive.project.created_by }}
+                                    </td>
+                                    <td>{{ incentive.projectincentive.incentive.incentive_type }}
+                                    </td>
+                                    <td>{{ incentive.member }}
+                                    </td>
+
+                                    <td>
+                                        {{ incentive.description }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'projects:removeincentive' incentive_id=incentive.id %}" class="btn btn-danger">Remove</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if not project_incentives %}
+                    <div class="col-lg-12 text-center">
+                        <center>
+                            <p style="color:red"> Cureently you have not Provide out Incentives</p>
+                        </center>
+                    </div>
+                    {% endif %}
+
+
+                    <!-- Vertical form modal -->
+                    <div id="add_incentive" class="modal fade" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <h6 class="text-center">Provide Incentive:</h6>
+
+                                <form method="POST"
+                                    action="{% url 'projects:projectincentives' project_id=project_id %}"
+                                    enctype="multipart/form-data">
+
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label>Select Member:</label>
+                                                    <select  name="member" class="form-control ">
+                                                        {% for member in project_members %}
+                                                        <option value="{{ member.member.id }}">{{member.member.full_name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-sm-6" >
+                                                    
+                                                    <label>Select Incentive Type</label>
+                                                    <div class="input-group">
+                                                    <select name="incentive_type" class="form-control ">
+                                                        {% for incentive_type in incentive_types %}
+                                                        <option value="{{ incentive_type.id }}">{{incentive_type.incentive.incentive_type}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-append"><i class="icon-add icon-2x text-green ml-1" data-toggle="modal" data-target="#add_incentive_type"></i></span>
+                                                    </span>
+                                                    </div>
+                                                   
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                       
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label>Description</label>
+                                                    <textarea name="description" placeholder="write here"
+                                                        class="form-control" required></textarea>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn bg-primary">Provide</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /vertical form modal -->
+
+
+                
+
+                    <!-- Vertical form modal -->
+                    <div id="add_incentive_type" class="modal fade" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                    
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <h6 class="text-center">Add Incentive Type:</h6>
+                    
+                                <form method="POST" action="{% url 'projects:addincentives' project_id=project_id %}"
+                                    enctype="multipart/form-data">
+                    
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label>Select Incentive Types:</label>
+                                                    <select class="form-control multiselect" name="incentives" multiple="multiple" data-fouc required>
+                                                        {% for type in types %}
+                                                        <option value="{{ type.id }}" > {{ type.incentive_type }}</option>
+                                                        {% endfor %}
+                                                    
+                                                    </select>
+                                                </div>
+                    
+                                                
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                    
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn bg-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /vertical form modal -->
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

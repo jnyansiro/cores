@@ -1,0 +1,62 @@
+<!-- default styles -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/css/star-rating.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- optionally if you need to use a theme, then include the theme CSS file as mentioned below -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- important mandatory libraries -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/js/star-rating.min.js"
+    type="text/javascript"></script>
+
+<!-- optionally if you need to use a theme, then include the theme JS file as mentioned below -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.js"></script>
+
+<!-- optionally if you need translation for your language then include locale file as mentioned below -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/js/locales/<lang>.js"></script>
+
+<style>
+*{
+margin: 0;
+padding: 0;
+}
+.rate {
+border: 1px solid #cccccc;
+float: left;
+height: 46px;
+padding: 0 10px;
+}
+.rate:not(:checked) > input {
+position:absolute;
+top:-9999px;
+}
+.rate:not(:checked) > label {
+float:right;
+width:1em;
+overflow:hidden;
+white-space:nowrap;
+cursor:pointer;
+font-size:30px;
+color:#ccc;
+}
+.rate:not(:checked) > label:before {
+content: '★ ';
+}
+.rate > input:checked ~ label {
+color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+color: #c59b08;
+}
+</style>

@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+gunicorn = "*"
+django-heroku = "*"
+psycopg2 = "==2.7.5"
+psycopg2-binary = "*"
+django-rest-framework = "*"
+requests = "*"
+django-rest-knox = "*"
+pillow = "*"
+django-select-multiple-field = "*"
+python-docx = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

@@ -1,0 +1,163 @@
+{% load static %}
+{% include '../rate_dependence.html'%}
+{% include '../like_dependence.html'%}
+{% include '../../header.html'%}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+        <div class="row">
+
+            {% if message %}
+            <script>
+                question = confirm('{{ message }}')
+                if (question) {
+
+                    window.location.assign('{% url "projects:membershiprequest" project_id=project_id %}')
+                }
+            </script>
+            {% endif %}
+            {% if requestmessage %}
+            <script>
+                alert('{{ requestmessage }}')
+            </script>
+            {% endif %}
+
+            <div class="page-header page-header-default col-md-12">
+                <div class="breadcrumb-line col-md-12">
+                    <br>
+                    <ul class="breadcrumb breadcrumb-caret col-md-12">
+
+                        <li class="col-md-12 float-right">
+                            <a href="{% url 'projects:createproject' %}"><button
+                                    class="btn bg-primary btn-labeled  rounded-round text-center float-right">
+                                    Add Project <i class="icon-add"></i>
+                                </button></a>
+                        </li>
+                        <!-- <li class="active">Location</li> -->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% if membershipprojects %}
+            {% for project in membershipprojects %}
+            <div class="col-lg-6">
+
+
+
+                <!-- Mini size -->
+                <div class="card blog-horizontal blog-horizontal-xs">
+                    <div class="card-body">
+                        <div class="card-img-actions mr-3">
+                            <img class="card-img img-fluid" src="../../../docs/{{ project.project.project_photo }}" alt="">
+                            <div class="card-img-actions-overlay card-img">
+                                <a href="{% url 'projects:viewproject' project_id=project.project.id %}"
+                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                                    <i class="icon-link"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h5 class="font-weight-semibold my-1">
+                                <a href="{% url 'projects:viewproject' project_id=project.project.id %}" class="text-default"
+                                    style="color:blue">{{ project.project.project_title }}</a>
+                            </h5>
+
+                            <ul class="list-inline list-inline-dotted text-muted mb-0">
+                                <li class="list-inline-item">By <a href="#"
+                                        class="text-muted">{{ project.project.created_by }}</a></li>
+                                <li class="list-inline-item">Created On: {{ project.created_on }}</li>
+                                <li class="list-inline-item">Due Date: {{ project.project.due_date }}</li>
+                                {% if project.project.project_visibility == "private"%}
+                                <li class="list-inline-item"><i class="icon-lock text-danger"> </i> private</li>
+                                {% endif %}
+
+                               
+                            </ul>
+                        </div>
+
+                        {{ project.project.description|safe|truncatewords:40 }}
+                        <a href="{% url 'projects:viewproject' project_id=project.project.id %}">[...]</a>
+
+                        <div
+                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+                                <li class="list-inline-item"><a
+                                        href="{% url 'projects:viewproject' project_id=project.project.id %}"
+                                        class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>comments</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /mini size -->
+
+            </div>
+
+
+
+
+            <!-- rate model -->
+
+            <div id="star" class="modal top" tabindex="-1">
+                <div class="modal-dialog modal-xs">
+                    <form method="POST" action="{% url 'projects:rateproject' project_id=project.id%}">
+                        {% csrf_token %}
+                        <div class="modal-content bg-white-300" style="color:red">
+                            <div class="modal-header">
+
+                                <h5 class="modal-title text-center">Rate Viewpoint</h5>
+
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="rate float-center" style="margin-left: 3rem;">
+                                    <input type="radio" id="star5" name="rate" value="5" /><label for="star5"
+                                        title="Best">5
+                                        stars</label>
+                                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4"
+                                        title="Better">4
+                                        stars</label>
+                                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3"
+                                        title="Good">3
+                                        stars</label>
+                                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2"
+                                        title="Normal">2
+                                        stars</label>
+                                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1"
+                                        title="Bad">1
+                                        star</label>
+                                </div>
+
+
+                            </div>
+
+                            <div class="modal-footer col-md-12">
+                                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not
+                                    now</button>
+                                <button type="submit" class="btn bg-primary ">Rate</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- /custom background color -->
+            {% endfor %}
+            {% endif %}
+            {% if not membershipprojects %}
+            <div class="col-lg-12 text-center">
+                <center>
+                    <p style="color:red"> Cureently  there is no Project</p>
+                </center>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>

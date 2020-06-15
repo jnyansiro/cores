@@ -1,0 +1,281 @@
+
+{% load static %}
+{% include 'projects/rate_dependence.html'%}
+{% include 'header.html' %}
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- /main navbar -->
+
+		<!-- Main content -->
+		<div class="content-wrapper">
+
+			<!-- Content area -->
+			<div class="content">
+
+				<!-- Main charts -->
+				<div class="row">
+					<div class="col-lg-4">
+						<!-- Members online -->
+						<div class="card bg-teal-400">
+							<div class="card-body">
+								<div class="d-flex">
+									<h3 class="font-weight-semibold mb-0"><span class="icon-users"></span>{{members}}</h3>
+									<span class="badge bg-teal-800 badge-pill align-self-center ml-auto"></span>
+								</div>
+				
+								<div>
+									Active Members
+									<div class="font-size-sm opacity-75">{{members}}</div>
+								</div>
+							</div>
+				
+							<div class="container-fluid">
+								<div id="members-online"></div>
+							</div>
+						</div>
+						<!-- /members online -->
+					</div>
+
+					<div class="col-lg-4">
+				
+						<!-- Current server load -->
+						<div class="card bg-pink">
+							<a href="{% url 'projects:projects'%}" style="color: white;">
+							<div class="card-body">
+								<div class="d-flex">
+									<h3 class="font-weight-semibold mb-0">{{total_projects}}</h3>
+				
+								</div>
+				
+								<div>
+									Total Projects
+									<div class="font-size-sm opacity-75">{{total_projects}}</div>
+								</div>
+							</div>
+							</a>
+				
+				
+						</div>
+						<!-- /current server load -->
+				
+					</div>
+				
+					<div class="col-lg-4">
+				
+						<!-- Today's revenue -->
+						<div class="card bg-blue">
+							<div class="card-body">
+								<div class="d-flex">
+									<h3 class="font-weight-semibold mb-0">18,390 People</h3>
+									<div class="list-icons ml-auto">
+										<a class="list-icons-item" data-action="reload"></a>
+									</div>
+								</div>
+				
+								<div>
+									Total Visitors
+									<div class="font-size-sm opacity-75">37,578 people</div>
+								</div>
+							</div>
+							
+						
+				
+				
+						</div>
+						<!-- /today's revenue -->
+				
+					</div>
+				</div>
+				<!-- /quick stats boxes -->
+
+         {% if profile_update %}				
+				<script>
+					$(document).ready(function(){
+						$('#update_profile').modal('show');
+					});
+
+				</script>
+
+
+				<div id="update_profile" class="modal top" tabindex="-1">
+					<div class="modal-dialog ">
+							<div class="modal-content bg-blue-300 text-red">
+								<div class="modal-header">
+
+									<h5 class="modal-title text-center">Notification</h5>
+
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+								</div>
+
+								<div class="modal-body">
+
+									
+										<p>Sorry Your Profile is not complete please Update your Profile</p>
+									
+
+
+								</div>
+
+								<div class="modal-footer col-md-12">
+									<button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not now</button>
+									<a href="{% url 'projects:profile'%}"><button type="submit" class="btn bg-primary ">Update</button></a>
+								</div>
+							</div>
+						
+					</div>
+				</div>
+{% endif %}
+				
+				
+				
+				
+				<div class="row">
+					<!-- <div class="card col-xl-7" > -->
+                        <div class=" card col-xl-12 text-center">
+							<span >
+								<label style="font-weight:bold;color:green">New Projects:</label>
+							</span>
+						</div>
+						<!-- Traffic sources -->
+						<!-- <div class="row"> -->
+							{% if current_projects %}
+							{% for current_project in current_projects %}
+							<div class="col-lg-6 d-flex align-items-stretch">
+								<!-- Mini size -->
+								<div class="card blog-horizontal blog-horizontal-xs " >
+									<div class="card-body">
+										<div class="card-img-actions mr-3">
+											<img class="card-img img-fluid" src="docs/{{ current_project.project_photo }}" alt="">
+											<div class="card-img-actions-overlay card-img">
+												<a href="{% url 'projects:viewproject' project_id=current_project.id %}"
+													class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+													<i class="icon-link"></i>
+												</a>
+											</div>
+										</div>
+
+										<div class="mb-3">
+											<h5 class="font-weight-semibold my-1">
+												<a href="{% url 'projects:viewproject' project_id=current_project.id %}" style="color:blue"
+													class="text-default">{{ current_project.project_title }}</a>
+											</h5>
+												{% include 'projects/like_dependence.html'%}
+											<ul class="list-inline list-inline-dotted text-muted mb-0">
+												<li class="list-inline-item">By <a href="#" class="text-muted">{{ current_project.created_by }}</a></li>
+												<li class="list-inline-item">Created On: {{ current_project.created_on }}</li>
+												<li class="list-inline-item">Due Date: {{ current_project.due_date }}</li>
+												{% if current_project.project_visibility == "private"%}
+												<li class="list-inline-item"><i class="icon-lock text-danger"> </i> private</li>
+												{% endif %}
+										
+											</ul>
+										</div>
+
+										{{ current_project.description|safe|truncatewords:40 }}
+										<a href="{% url 'projects:viewproject' project_id=current_project.id %}">[...]</a>
+
+										<!-- <div
+											class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+											<ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+												<li class="list-inline-item"><a href="#" class="text-muted"><i
+															class="icon-star-full2 mr-2" data-toggle="modal" data-target="#star"></i></a></li>
+												<li class="list-inline-item"><a href="{% url 'projects:viewproject' project_id=current_project.id %}"
+														class="text-muted"><i class="icon-bubbles5 text-blue mr-2"></i>comments</a></li>
+											</ul>
+
+
+										</div> -->
+									</div>
+								</div>
+								<!-- /mini size -->
+							</div>
+
+<!-- rate model -->
+
+<div id="star" class="modal top" tabindex="-1">
+	<div class="modal-dialog modal-xs">
+		<form method="POST" action="{% url 'projects:rateproject' project_id=current_project.id%}">
+			{% csrf_token %}
+			<div class="modal-content bg-white-300" style="color:red">
+				<div class="modal-header">
+
+					<h5 class="modal-title text-center">Rate Project</h5>
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+				</div>
+
+				<div class="modal-body">
+
+					<div class="rate float-center" style="margin-left: 3rem;">
+						<input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="Best">5
+							stars</label>
+						<input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="Better">4
+							stars</label>
+						<input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="Good">3
+							stars</label>
+						<input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="Normal">2
+							stars</label>
+						<input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="Bad">1
+							star</label>
+					</div>
+
+
+				</div>
+
+				<div class="modal-footer col-md-12">
+					<button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not now</button>
+					<button type="submit" class="btn bg-primary ">Rate</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- /custom background color -->
+
+
+
+
+							{% endfor %}
+							{% endif %}
+						<!-- </div> -->
+
+					</div>
+					<div class="col-xl-5">
+						<!-- Sales stats -->
+						<!-- <div class="card">
+							<h5 style="margin-left: 2rem;">Calendar</h5>
+							<div class="form-control-datepicker border-0"></div>
+						</div> -->
+						
+						<!-- <div class="card text-center">
+							<div class="card-body"> -->
+
+								<!-- Progress counter -->
+								<!-- <div class="svg-center position-relative" id="hours-available-progress"></div> -->
+								<!-- /progress counter -->
+
+
+								<!-- Bars -->
+								<div id="hours-available-bars"></div>
+								<!-- /bars -->
+
+							<!-- </div>
+						</div> -->
+					</div>
+					
+					</div>
+						
+
+							<!-- Progress counters -->
+							
+								
+
+								
+							
+		</div>
+</body>
+</html>

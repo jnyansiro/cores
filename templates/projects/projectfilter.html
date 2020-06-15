@@ -1,0 +1,22 @@
+ <div class="form-group form-horizontal">
+     <label class="col-lg-1 text-semibold control-label">
+         Filter Project:</label>
+     <form method="post" action="{% url 'projects:viewpoints' project_id%}">
+         {% csrf_token %}
+         <div class="col-md-3">
+             <div class="input-group">
+                 <select name="project" data-placeholder="Select View point" class="form-control" id="">
+                     {% for project in projects %}
+                     <option value="{{ project.id}}">
+                         {{ project.project_title }}
+                     </option>
+                     {% endfor %}
+                 </select>
+                 <span class="input-group-append">
+                     <span class="input-group-append"><button class="btn btn-primary"><i
+                                 class="icon-search4"></i></button></span>
+                 </span>
+             </div>
+     </form>
+ </div>
+ </div>

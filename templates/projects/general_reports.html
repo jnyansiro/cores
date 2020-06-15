@@ -1,0 +1,330 @@
+{% load static %}
+{% include '../header.html'%}
+
+<!-- Main content -->
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+
+
+        <div class="row">
+
+
+
+            <div class="col-md-6">
+
+                <!-- User details (with sample pattern) -->
+
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <center>
+                            <h5>General Project Reports </h5>
+                        </center>
+                    </div>
+                    
+                    
+                var Invitatinal = {{ member_reports.0 }};
+                var Discoverable = {{ member_reports.1 }};
+                var inv_disc = {{ member_reports.2 }};
+                var public = {{ member_reports.3 }};
+                    var public = '{{ member_reports.3 }}'
+                    var my_project = '{{ member_reports.4 }}'
+                    <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
+                    <script type="text/javascript">
+                        
+                        
+                        window.onload = function () {
+
+                            var project_chart = new CanvasJS.Chart("project_chart", {
+                                theme: "light1", // "light2", "dark1", "dark2"
+                                animationEnabled: true, // change to true		
+                                title: {
+                                    text: "projects Report"
+                                },
+                                data: [
+                                    {
+                                        // Change type to "bar", "area", "spline", "pie",etc.
+                                        type: "column",
+                                        dataPoints: [
+                                            { label: "Invitational", y: 23},
+                                            { label: "Discoverable", y: 12 },
+                                            { label: "Inv and Disc", y: 32 },
+                                            { label: "Public", y: 30 },
+                                            { label: "my project", y: 28 }
+                                        ]
+                                    }
+                                ]
+                            });
+                            project_chart.render();
+
+                        }
+                    </script>
+                    
+                        <div id="project_chart" style="height: 370px; width: 100%;"></div>
+                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+                            
+
+
+                    </div>
+
+                    
+
+                </div>
+                <!-- /user details (with sample pattern) -->
+
+
+
+
+
+            </div>
+
+            <div class="col-md-6">
+
+                <!-- User details (with sample pattern) -->
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <center>
+                            <h5>Members (Users) Reports</h5>
+                        </center>
+                    </div>
+
+                    <div class="card-body border-top-0">
+                        <script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	data: [{
+		type: "doughnut",
+		startAngle: 60,
+		//innerRadius: 60,
+		indexLabelFontSize: 17,
+		indexLabel: "{label} - #percent%",
+		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+		dataPoints: [
+			{ y: 67, label: "Male" },
+			{ y: 28, label: "Female" },
+			
+		]
+	}]
+});
+chart.render();
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+                         
+                    </div>
+                </div>
+                <!-- /user details (with sample pattern) -->
+
+                
+
+
+            </div>
+
+        </div>
+
+        <!-- Update Residence Details -->
+        <div id="update_job_details" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Job Details:</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <form method="post" action="{% url 'projects:updatejobdetails'%}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Professional:</label>
+                                        <input type="text" name="professonal" value="{{member_details.professional}}"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label>Job Title:</label>
+                                        <input type="text" name="job_title" value="{{member_details.job_title }}"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>Institute Name</label>
+                                        <input type="text" name="institution_name"
+                                            value="{{member_details.institution_name }}" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn bg-primary">Update</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /vertical form modal -->
+
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+<!-- models for updation -->
+
+<!-- Vertical form modal -->
+<div id="update_personal_details" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Personal Details:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:updatepersonaldetails'%}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>First name</label>
+                                <input type="text" name="first_name" value="{{member_details.first_name}}"
+                                    class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Middle Name</label>
+                                <input type="text" name="middle_name" value="{{member_details.middle_name }}"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Surname</label>
+                                <input type="text" name="surname" value="{{member_details.surname}}"
+                                    class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Gender</label>
+                                <select class="form-control" name="gender">
+                                    <option value="Male">
+                                        MALE
+                                    </option>
+                                    <option value="Female">
+                                        FEMALE
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Phone</label>
+                                <input type="number" name="phone" value="{{member_details.phone}}" class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label>personal Email</label>
+                                <input type="email" name="email" value="{{member_details.email}}" class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label>Job Email </label>
+                                <input type="email" name="job_email" value="{{member_details.job_email}}"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Profile Photo</label>
+                                <input type="file" name="profile_photo" class="form-control-styled">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Date of Birth</label>
+                                <input type="date" name="date_of_birth" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- Update Residence Details -->
+<div id="update_residence_details" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Residence Details:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:updateresidencedetails'%}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Country</label>
+                                <input type="text" name="country" value="{{member_details.country}}"
+                                    class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label>Regional</label>
+                                <input type="text" name="region" value="{{member_details.region }}"
+                                    class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>District</label>
+                                <input type="text" name="district" value="{{member_details.district }}"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn bg-primary">Update</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- /vertical form modal -->
