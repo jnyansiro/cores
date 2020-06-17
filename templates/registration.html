@@ -188,40 +188,22 @@
 											</div>
 
 									<div class="form-group">
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" name="test" class="form-input-styled" checked data-fouc>
-												Send me <a href="#">test account settings</a>
-											</label>
-										</div>
 
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" name="subscribe" class="form-input-styled" checked data-fouc>
-			 									Subscribe to monthly newsletter
-											</label>
-										</div>
-
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" name="terms" class="form-input-styled" data-fouc required>
-												Accept <a href="#">terms of service</a>
-											</label>
-										</div>
 									</div>
 
-									<button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right"><b><i class="icon-plus3"></i></b> Create account</button>
+									<center><button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right text-center"><b><i class="icon-plus3"></i></b> Create account</button></center>
 								</div>
 								<div class="form-group text-center text-muted content-divider">
 									<span class="px-2">or sign up with</span>
 								</div>
 
 								<div class="form-group text-center">
-									<button type="button" class="btn btn-outline bg-indigo border-indigo text-indigo btn-icon  border-2"
-										style="width: 4rem;"><i class="icon-facebook"></i></button>
-									<button type="button"
-										class="btn btn-outline bg-pink-300 border-pink-300 text-pink-300 btn-icon  border-2 ml-2"
-										style="width: 4rem;"><i class="icon-google"></i></button>
+									
+									<a href="{% url 'social:begin' 'google-oauth2' %}"><button type="button"
+											class="btn btn-outline bg-pink-300 border-pink-300 text-pink-300 btn-icon  border-2 ml-2"
+											style="width: 4rem;"><i class="icon-google"></i></button></a>
+											<button type="button" class="btn btn-outline bg-indigo border-indigo text-indigo btn-icon  border-2"
+												style="width: 4rem;"><i class="icon-facebook"></i></button>
 
 								</div>
 							</div>

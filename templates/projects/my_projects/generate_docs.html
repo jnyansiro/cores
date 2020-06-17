@@ -54,8 +54,8 @@
                                     </td>
                          
                                     <td>
-                                        <a href="" class="btn btn-success">Download</a>
-                                        <a href=""
+                                        <a href="/docs/{{ doc.docx }}" class="btn btn-success">Download</a>
+                                        <a href="{% url 'projects:deletefile' file_id=doc.id%}"
                                             class="btn btn-danger ml-1">Remove</a>
                                     </td>
                                 </tr>

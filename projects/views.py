@@ -405,6 +405,17 @@ def profile(request):
 # login function
 def login(request):
     if request.user.is_authenticated:
+        print(request.user.username)
+        if not Member.objects.filter(user=request.user).exists():
+            member = Member.objects.create(
+                user=request.user,
+                first_name=request.user.username,
+                middle_name=request.user.username,
+                surname=request.user.username
+            )
+            member.save()
+            return redirect("index")
+
         return redirect("index")
 
     if request.method == "POST":
@@ -2896,8 +2907,7 @@ def viewpointRate(request, viewpoint_id):
                     project_id = viewpoint.project.id
                     return redirect(
                         "projects:viewpoint",
-                        project_id=project_id,
-                        viewpoint_id=viewpoint_id,
+                        viewpoint_id=viewpoint_id
                     )
 
         message = "sorry you have already rated this Viewpoint you can not rate again"

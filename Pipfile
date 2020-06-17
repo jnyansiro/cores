@@ -16,6 +16,7 @@ django-rest-knox = "*"
 pillow = "*"
 django-select-multiple-field = "*"
 python-docx = "*"
+social-auth-app-django = "*"
 
 [requires]
 python_version = "3.7"

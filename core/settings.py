@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "knox",
     "gunicorn",
+    "social_django",
 ]
 
 REST_FRAMEWORK = {
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     
 ]
+
 
 ROOT_URLCONF = "core.urls"
 
@@ -79,6 +81,12 @@ TEMPLATES = [
         },
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 WSGI_APPLICATION = "core.wsgi.application"
 
@@ -158,3 +166,12 @@ MEDIA_URL = '/docs/'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '100246145407-pcf3ha9a48ue2ail1esnof56nv35en8r.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rd76pxZu_CVLLcOJQkk2YXSa'
+
+LOGIN_URL = '/auth/login/google-oauth2/'
+
+LOGIN_REDIRECT_URL = '/login'
+LOGOUT_REDIRECT_URL = '/login'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'

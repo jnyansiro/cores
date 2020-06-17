@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from projects.views import *
+from django.conf import settings
 from django.conf.urls import handler404, handler500
 
 urlpatterns = [
+    path('', include('social_django.urls', namespace='social')),
+    path('logout/', logout, {'next_page': settings.LOGOUT_REDIRECT_URL},name='logout'),
     path("index", index, name="index"),
     path("", indexs, name='web'),
     path("", include("authentication.urls")),
