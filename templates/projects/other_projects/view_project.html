@@ -125,6 +125,8 @@
 
                         {% if project.project_visibility == "private" and project_member.status == "active" %}
                         <li class="list-inline-item"><i class="icon-unlocked text-success" title="Private Project"> </i> private</li>
+                        {% elif project.project_visibility == "public"%}
+                        <li class="list-inline-item"><i class="icon-unlocked text-success" title="Private Project"> </i> private</li>
                         {% else %}
                         <li class="list-inline-item"><i class="icon-lock text-danger"> </i> private</li>
                         {% endif %}
@@ -209,11 +211,11 @@
                                     class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a></li>
                     </ul>
                       <div class="col-md-7">
-                          {% if project_membership %}
+                          {% if project_membership or project.project_visibility == "public" %}
                           <a href="{% url 'projects:viewpoints' project_id=project.id %}" class="btn float-right"> <button
                                   class="btn btn-success"> Project Workspace</button></a>
                             {% endif %}
-                        {% if not project_membership %}
+                        {% if not project_membership and project.project_visibility == "private" %}
                           <button
                                         class="btn btn-primary float-right" data-toggle="modal"
                                 data-target="#join"> Join a Project </button>
