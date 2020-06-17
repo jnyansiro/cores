@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from .models import *
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -956,6 +957,9 @@ def membershipProjects(request):
     membershipprojects = ProjectMembership.objects.filter(
         member=member, status="active", member_role="member"
     ).order_by("-id")
+    paginator = Paginator(membershipprojects, 6)
+    page_number = request.GET.get('page')
+    membershipprojects = paginator.get_page(page_number)
     return render(
         request,
         "projects/other_projects/membership_projects.html",
@@ -972,8 +976,13 @@ def membershipProjects(request):
 @login_required(login_url="login")
 def myProjects(request):
     indexhead = "Projects / My Project(s)"
+    placeholder = "search your project"
     member = Member.objects.get(user=request.user)
-    myProject = Project.objects.filter(created_by=member).order_by("-id")
+    if request.method == "POST":
+        keyword = request.POST.get('project_keyword')
+        myProject = Project.objects.filter(created_by=member,project_title__icontains=keyword).order_by("-id")
+    else:
+        myProject = Project.objects.filter(created_by=member).order_by("-id")
     return render(
         request,
         "projects/my_projects/myproject.html",
@@ -981,6 +990,7 @@ def myProjects(request):
             "indexhead": indexhead,
             "myProject": myProject,
             "member": member,
+            'placeholder':placeholder,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -1359,12 +1369,27 @@ def memberRequest(request, project_id):
 @login_required(login_url="login")
 def projects(request, project_id=None, message=None, requestmessage=None):
     indexhead = "Projects"
+    placeholder = "search project"
     member = Member.objects.get(user=request.user)
-    projects = (
-        Project.objects.all()
-        .order_by("-id")
-        .exclude(is_invitational=True, is_discoverable=False)
-    )
+
+    if request.method == "POST":
+        keyword = request.POST.get('project_keyword')
+        projects = (
+        Project.objects.filter(project_title__icontains=keyword)
+            .order_by("-id")
+            .exclude(is_invitational=True, is_discoverable=False)
+        )
+
+    else:
+        projects = (
+            Project.objects.all()
+            .order_by("-id")
+            .exclude(is_invitational=True, is_discoverable=False)
+        )
+
+    paginator = Paginator(projects, 6)
+    page_number = request.GET.get('page')
+    projects = paginator.get_page(page_number)
 
     return render(
         request,
@@ -1374,6 +1399,7 @@ def projects(request, project_id=None, message=None, requestmessage=None):
             "projects": projects,
             "member": member,
             "message": message,
+            'placeholder':placeholder,
             "project_id": project_id,
             "requestmessage": requestmessage,
             "notification": notification(request),
@@ -4220,37 +4246,46 @@ def general_usecase(request, project_id):
 
 
 # project reports 
-
-def user_reports(request, project_id):
+def my_project_reports(request,project_id):
+    indexhead = "Project Reports"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    def users_gender(request):
-        def female_gender(request):
-            female_members = Member.objects.filter(gender='Female').count()
+    def user_reports(request, project_id):
+        female_members = ProjectMembership.objects.filter(project=project, member__gender="Female").count()
+        male_members = ProjectMembership.objects.filter(project=project, member__gender="Male").count()
+        gender = [female_members,male_members]
+        return gender
             
 
-        def male_members(request):
-          male_members = Member.objects.filter(gender='Male').count()
-          
+    def contribution_reports(request,project_id):
 
-def contribution_report(request,project_id):
-    project = Project.objects.get(id=project_id)
-    viewpoints = Viewpoint.objects.filter(project=project).count()
-    goals = Goal.objects.filter(project=project).count()
-    requirements = Requirement.objects.filter(project=project).count()
-    scenarios = Scenario.objects.filter(project=project).count()
-    processes = Process.objects.filter(project=project).count()
-    usecases = UseCase.objects.filter(project=project).count()
+        viewpoints = Viewpoint.objects.filter(project=project).count()
+        goals = Goal.objects.filter(project=project).count()
+        requirements = Requirement.objects.filter(project=project).count()
+        scenarios = Scenario.objects.filter(project=project).count()
+        processes = Process.objects.filter(project=project).count()
+        usecases = UseCase.objects.filter(project=project).count()
+        contributions = [viewpoints,goals,requirements,scenarios,processes,usecases]
+        return contributions
 
-def reports(request,project_id):
-    contribution_report = contribution_report(request,project_id=project_id)
-    user_report = user_reports(request,project_id=project_id)
-    reports = {contribution_report,user_report}
-    return render(request,'reports.html',{'reports':reports})
+    return render(request,'projects/my_projects/general_reports.html',{
+        'user_reports':user_reports(request,project_id=project_id),
+        'contribution_reports':contribution_reports(request,project_id=project_id),
+        'hidesearch':hidesearch,
+        'project_id':project_id,
+        'project':project,
+        'member':member,
+        'indexhead':indexhead
+
+    })
+
 
 
 def general_report(request):
     indexhead = "General Reports"
     hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
     def member_report(request):
         female = Member.objects.filter(gender="Female").count()
         male = Member.objects.filter(gender="Male").count()
@@ -4260,7 +4295,7 @@ def general_report(request):
         return gender
     
     def Project_report(request):
-        member = Member.objects.get(user=request.user)
+        
         Invitational_projects = Project.objects.filter(is_invitational=True,is_discoverable=False).count()
         discoverable_projects = Project.objects.filter(is_discoverable=True,is_invitational=False).count()
         invitaional_and_discoverable = Project.objects.filter(is_invitational=True,is_discoverable=True).count()
@@ -4277,6 +4312,8 @@ def general_report(request):
         'member_reports':member_report(request),
         'project_reports':Project_report(request),
         'hidesearch':hidesearch,
+        'member':member,
         'indexhead':indexhead
 
     })
+

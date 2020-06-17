@@ -139,6 +139,7 @@ urlpatterns = [
 
     # Reports URLS
     url(r'^generalreports/$', general_report, name='generalreports'),
+    url(r'^myprojectreports/(?P<project_id>\d+)/$', my_project_reports, name='myprojectreports'),
     
     path('subscribe', subscribe, name="subscribe"),
 

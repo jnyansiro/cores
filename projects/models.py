@@ -1272,3 +1272,9 @@ class Subscriber(models.Model):
     def __str__(self):
         """Unicode representation of Subscribers."""
         return self.fullname
+
+
+class GeneratedDocs(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    docx = models.CharField(max_length=4000)
+    created_on = models.DateTimeField(auto_now=True)

@@ -182,8 +182,8 @@
 
         <div class="page-header-content header-elements-md-inline">
             <div class="page-title d-flex">
-                <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><a
-                            href="{% url 'index'%}">Home</a></span> -
+                <h4><h4><a href="{% url 'index'%}"><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Home</span>
+                    </a> -
                     {% if indexhead %}
                     {{ indexhead }}
                     {% endif %}
@@ -327,10 +327,7 @@
                             <li class="nav-item nav-item-submenu">
                                 <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
                                 <ul class="nav nav-group-sub" data-submenu-title="Layouts">
-                                    <li class="nav-item"><a href="#" class="nav-link">My
-                                            Projects Report</a></li>
-                                    <li class="nav-item"><a href="#" class="nav-link">Other
-                                            Contribution Reports</a></li>
+                                <li class="nav-item"><a href="{% url 'projects:generalreports'%}" class="nav-link">General Reports</a></li>
 
                                 </ul>
 

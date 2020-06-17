@@ -28,7 +28,6 @@
     <script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
-    <script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/extensions/jquery_ui/widgets.min.js' %}"></script>
     <script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
     <!-- /core JS files -->
@@ -181,8 +180,8 @@
 
         <div class="page-header-content header-elements-md-inline">
             <div class="page-title d-flex">
-                <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><a
-                            href="{% url 'index'%}">Home</a></span> -
+                <h4><h4><a href="{% url 'index'%}"><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Home</span>
+                    </a>-
                     {% if indexhead %}
                     {{ indexhead }}
                     {% endif %}
@@ -193,13 +192,19 @@
             <div class="col-lg-3">
                 {% if not hidesearch %}
                 <!-- {{ indexhead }} -->
+                <form method="post" action="{% url 'projects:projects'%}">
+                        {% csrf_token %}
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="search project">
+                    
+                    <input type="text" class="form-control" name="project_keyword" placeholder="search project" required>
+                    <input type="text" name="placeholder" value="{{ placeholder }}" hidden> 
                     <span class="input-group-append"></span>
-                    <span class="input-group-append"><button class="btn btn-primary"><i
+                    <span class="input-group-append"><button type="submit" class="btn btn-primary"><i
                                 class="icon-search4"></i></button></span>
                     </span>
+                    
                 </div>
+                </form>
                 {% endif %}
             </div>
 
@@ -293,13 +298,11 @@
 
                             </li>
                             
-                            <li class="nav-item nav-item-submenu">
+                            <!-- <li class="nav-item nav-item-submenu">
                                 <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Project Report</span></a>
                                  <ul class="nav nav-group-sub" data-submenu-title="Themes">
-                                     <li class="nav-item"><a href="" class="nav-link active">Project
-                                             report</a></li>
-                                     <li class="nav-item"><a href="" class="nav-link">Contributions Report</a></li>
-                                     <li class="nav-item"><a href="" class="nav-link">User Report</a></li>
+                                     -->
+                                     
 
                                  </ul>
    
