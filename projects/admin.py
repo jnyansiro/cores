@@ -29,3 +29,5 @@ admin.site.register(Incentive)
 admin.site.register(Category)
 admin.site.register(Comment)
 admin.site.register(Scenario)
+admin.site.site_header="CORES Administrator Panel"
+admin.site.site_title="CORES"

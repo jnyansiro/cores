@@ -46,22 +46,22 @@ def create_docx(request,project_id):
         
         # getting scenarios
        
-        scenarios = enumerate(Scenario.objects.filter(project=project), start=1)
-        if Scenario.objects.filter(project=project).exists():
-             document.add_heading(project.project_title+'` Scenarios', level=2)
-        for num, scenario in scenarios:
-            document.add_heading(str(num)+': ' + scenario.name, level=3)
-            document.add_paragraph('A Scenario from Requirement ' + str(scenario.requirement.goal) + " of Goal " +str(scenario.requirement.goal) + ' from Viewpoint ' +str(scenario.requirement.goal.viewpoint))
-            document.add_paragraph(''.join(xml.etree.ElementTree.fromstring(scenario.description).itertext()))
+        # scenarios = enumerate(Scenario.objects.filter(project=project), start=1)
+        # if Scenario.objects.filter(project=project).exists():
+        #      document.add_heading(project.project_title+'` Scenarios', level=2)
+        # for num, scenario in scenarios:
+        #     document.add_heading(str(num)+': ' + scenario.name, level=3)
+        #     document.add_paragraph('A Scenario from Requirement ' + str(scenario.requirement.goal) + " of Goal " +str(scenario.requirement.goal) + ' from Viewpoint ' +str(scenario.requirement.goal.viewpoint))
+        #     document.add_paragraph(''.join(xml.etree.ElementTree.fromstring(scenario.description).itertext()))
         
-        # getting processes
-        processes = enumerate(Process.objects.filter(project=project), start=1)
-        if Process.objects.filter(project=project).exists():
-            document.add_heading(project.project_title+'` Processes', level=2)
-        for num, process in processes:
-            document.add_heading(str(num)+': ' + process.process_name, level=3)
-            document.add_paragraph('A Process  from scenario'+ str(process.scenario) +  ' of  Requirement ' + str(process.scenario.requirement) + " from Goal " +str(process.scenario.requirement.goal) + ' of Viewpoint ' +str(process.scenario.requirement.goal.viewpoint))
-            document.add_paragraph(''.join(xml.etree.ElementTree.fromstring(process.description).itertext()))
+        # # getting processes
+        # processes = enumerate(Process.objects.filter(project=project), start=1)
+        # if Process.objects.filter(project=project).exists():
+        #     document.add_heading(project.project_title+'` Processes', level=2)
+        # for num, process in processes:
+        #     document.add_heading(str(num)+': ' + process.process_name, level=3)
+        #     document.add_paragraph('A Process  from scenario'+ str(process.scenario) +  ' of  Requirement ' + str(process.scenario.requirement) + " from Goal " +str(process.scenario.requirement.goal) + ' of Viewpoint ' +str(process.scenario.requirement.goal.viewpoint))
+        #     document.add_paragraph(''.join(xml.etree.ElementTree.fromstring(process.description).itertext()))
         now = datetime.now()
         filename = str(now)+project.project_title+'.docx'
         

@@ -122,8 +122,8 @@
                         {% if goal %}
 
                         <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
+                            <label class="col-lg-3 text-semibold control-label">
+                                Filter Viewpoint:</label>
                                 <form method="post" action="{% url 'projects:viewgoal' goal_id%}">
                                     {% csrf_token %}
                             <div class="col-md-3">
@@ -146,16 +146,7 @@
                             </div>
                         </div>
 
-                        <div class="card-img-actions mr-1">
-                            <img class="card-img img-fluid" src="../../../docs/{{goal.goal_photo}}" 
-                                alt="">
-                            <div class="card-img-actions-overlay card-img">
-                                <a href="#"
-                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                                    <i class="icon-link"></i>
-                                </a>
-                            </div>
-                        </div>
+                       
 
                         <div class="mb-4">
                             <h5 class="font-weight-semibold my-1">
@@ -177,9 +168,9 @@
 
                         {{ goal.description|safe}}
                     
-                        <div
-                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
-                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
+                        <div  class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3 row">
+                        <div class="col-md-12">
+                            <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 row">
                                 <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                         data-target="#rates">
                                         {{ total_rates }} Rates
@@ -236,12 +227,15 @@
                                 </li>
 
 
-                                <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
+                                <li class="list-inline-item" id=""><a href="#comments" class="text-muted"><i
                                             class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a>
                                 </li>
                             </ul>
-                            <div class="col-md-7">
-                                <a href="{% url 'projects:goalresources' goal_id=goal.id%}"><button class="btn btn-primary float-right" > Contribute Resources</button></a>
+                        </div>
+                            <div class="col-md-12 text-right">
+                             {% if creator == "me" %}  <a class="btn btn-primary text-white text-right" data-toggle="modal" data-target="#rates">Edit</a>
+                             <a data-toggle="modal" data-target="#delete" class="btn btn-danger text-white text-right ml-1">Delete</a> {% endif %} 
+                             <a href="{% url 'projects:requirements' goal_id=goal_id%}" class="ml-2"><button class="btn btn-primary text-right" > Requirements</button></a>
                             </div>
 
 
@@ -440,47 +434,35 @@
 
                         <!-- /custom background color -->
 
-
-
-
-
-<!-- 
-                        <div class="col-md-12 mb-10">
-                            <h5 class="text-semibold">
-                                Contents:
-                            </h5>
-                            <div>
-                                <ul class="list-group col-md-6">
-                                   
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
-                                        number of Requirements
-                                        <span class="badge badge-info float-right">
-                                            10
-                                        </span>
-                                    </li>
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
-                                        number of Scenarios
-                                        <span class="badge badge-info float-right">
-                                            10
-                                        </span>
-                                    </li>
-                                     <li class="list-group-item pl-10 pr-10 text-capitalize" title="">
-                                         number of Process
-                                         if its zero 
-                                         <span class="badge badge-warning float-right">
-                                             0
-                                         </span>
-                                     </li>
-                                      <li class="list-group-item pl-10 pr-10 text-capitalize" title="">
-                                          number of Usecases
-                                          if its zero 
-                                          <span class="badge badge-warning float-right">
-                                              0
-                                          </span>
-                                      </li>
-                                </ul>
+                        <!-- delete model -->
+                        
+                        <div id="delete" class="modal top" tabindex="-1">
+                            <div class="modal-dialog modal-xs ">
+                                <div class="modal-content bg-white-300" style="color:red">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Warning</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        
+                                    </div>
+                        
+                                    <div class="modal-body">
+                                        <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                                            <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                                        </center>
+                        
+                                    </div>
+                        
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                                        <a href="{% url 'projects:deletegoal' goal_id=goal.id %}"><button type="button"
+                                                class="btn bg-primary">Yes</button></a>
+                                    </div>
+                                </div>
                             </div>
-                        </div> -->
+                        </div>
+                        <!-- /custom background color -->
+
+
 
                         </div>
                         </div>

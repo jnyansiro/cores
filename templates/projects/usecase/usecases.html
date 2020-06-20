@@ -106,19 +106,19 @@
                             {% endif %}
 
                         </div>
-                      {% if processes%}
+                      {% if processes %}
                         <div class="form-group form-horizontal">
                             <label class="col-lg-2 text-semibold control-label">
-                                Filter Process:</label>
-                                 <form method="post" action="{% url 'projects:usecases' process_id%}">
+                                Filter Requirements:</label>
+                                 <form method="post" action="{% url 'projects:usecases' requirement_id=requirement.id %}">
                                      {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <select name="process" data-placeholder="Select View point" class="form-control"
                                         id="">
-                                        {% for process in processes%}
-                                        <option value="{{process.id}}">
-                                            {{ process.process_name}}
+                                        {% for requirement in requirements %}
+                                        <option value="{{requirement.id}}">
+                                            {{ requirement.name}}
                                         </option>
                                         {% endfor %}
                                     </select>
@@ -134,26 +134,14 @@
 
                         <div class="col-md-12 mb-10 mt-10">
                             <h5 class="text-semibold">
-                                Usecases:
+                                {{ requirement }} Use cases:
                             </h5>
                             <div>
                                 <ul class="list-group">
                                     {% for usecase in usecases %}
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                    <li class="list-group-item pl-10 pr-10 ">
                                          <a href="{% url 'projects:viewusecase' usecase_id=usecase.id %}">
-                                             {{ usecase.usecase_name}}</a>  By {{ usecase.created_by}} Created On: {{ usecase.created_on}}
-                                        <!-- <a href=""
-                                            class="btn float-right text-warning-600 btn-flat btn-icon btn-rounded btn-sm"
-                                            data-popup="tooltip" data-placement="bottom" title="Delete"
-                                            style="margin-top: -6px;">
-                                            <i class="icon-trash"></i>
-                                        </a>
-                                        <a href=""
-                                            class="btn float-right text-info-600 btn-flat btn-icon btn-rounded btn-sm"
-                                            data-popup="tooltip" data-placement="bottom" title="Edit"
-                                            style="margin-top: -6px;">
-                                            <i class="icon-pencil"></i>
-                                        </a> -->
+                                             {{ usecase.usecase.usecase_name}}</a>  By {{ usecase.usecase.created_by}} Created On: {{ usecase.usecase.created_on}}
                                         <a href="{% url 'projects:viewusecase' usecase_id=usecase.id %}"
                                             class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                             data-popup="tooltip" data-placement="bottom" title="View"

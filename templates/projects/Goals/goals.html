@@ -140,12 +140,12 @@
 
                           <div class="col-md-12 mb-10 mt-10">
                               <h5 class="text-semibold">
-                                  Goals:
+                                  {{ viewpoint }} Goals:
                               </h5>
                               <div>
                                   <ul class="list-group">
                                       {% for goal in goals %}
-                                      <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                      <li class="list-group-item pl-10 pr-10">
                                           
                                          <a
                                              href="{% url 'projects:viewgoal' goal_id=goal.id %}">{{ goal.goal_name }}</a> By {{goal.created_by}}, Created On: {{goal.created_on}}

@@ -96,10 +96,10 @@
                                 </li>
 
                             </ul>
-                            {% if requirement_id %}
+                            {% if requirement.id %}
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createscenario' requirement_id%}"><button
+                                <a href="{% url 'projects:createscenario' requirement_id=requirement.id%}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Scenario <i class="icon-add"></i>
                                     </button></a>
@@ -111,7 +111,7 @@
                         <div class="form-group form-horizontal">
                             <label class="col-lg-1 text-semibold control-label">
                                 Filter:</label>
-                                <form method="post" action="{% url 'projects:scenarios' requirement_id %}">
+                                <form method="post" action="{% url 'projects:scenarios' requirement_id=requirement.id %}">
                                     {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
@@ -134,15 +134,15 @@
 
                         <div class="col-md-12 mb-10 mt-10">
                             <h5 class="text-semibold">
-                                Scenarios:
+                                {{ requirement }} Scenarios:
                             </h5>
                             <div>
                                 <ul class="list-group">
                                     {% for scenario in scenarios %}
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                    <li class="list-group-item pl-10 pr-10 ">
                                         <a href="{% url 'projects:viewscenario' scenario_id=scenario.id %}"
-                                        >{{ scenario.name}}</a> by {{scenario.created_by}}, created
-                                        on:{{ scenario.created_on}}
+                                        >{{ scenario.scenario.name}}</a> by {{scenario.scenario.created_by}}, created
+                                        on:{{ scenario.scenario.created_on}}
                                         <a href="{% url 'projects:viewscenario' scenario_id=scenario.id %}"
                                             class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                             data-popup="tooltip" data-placement="bottom" title="View"

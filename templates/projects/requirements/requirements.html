@@ -133,12 +133,12 @@
 
                         <div class="col-md-12 mb-10 mt-10">
                             <h5 class="text-semibold">
-                                Requirements:
+                                {{goal}} Requirements:
                             </h5>
                             <div>
                                 <ul class="list-group">
                                     {% for requirement in requirements %}
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                    <li class="list-group-item pl-10 pr-10 ">
                                        
                                       <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id %}" style="color:blue">{{ requirement.name }}</a> By
                                       {{requirement.created_by}}, Created On: {{requirement.created_on}}
