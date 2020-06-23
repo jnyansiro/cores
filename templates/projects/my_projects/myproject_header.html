@@ -305,11 +305,14 @@
                             </li>
                             <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}" class="nav-link"><i class="icon-users"></i> <span>Project Member
                                         </span></a></li>
-                             <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}"
+                             <li class="nav-item"><a href="{% url 'projects:projectcontributions' project_id=project_id%}"
                                      class="nav-link"><i
-                                         class="icon-user"></i>
-                                                <span>Member
-                                                    Requests</span></a></li>
+                                         class="icon-stack"></i>
+                                                <span>Approve Contributions</span></a></li>
+                            <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}" class="nav-link"><i
+                                        class="icon-user"></i>
+                                    <span>Member
+                                        Requests</span></a></li>
                             <li class="nav-item"><a href="{% url 'projects:invitemembers' project_id=project.id %}" class="nav-link"><i class="icon-user-plus"></i>
                                     <span> Invite Member
                                         </span></a></li>
@@ -330,8 +333,8 @@
                                     <span> Generate Word Document
                                     </span></a></li>
                             <li class="nav-item nav-item-submenu">
-                                <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
-                                <ul class="nav nav-group-sub" data-submenu-title="Layouts">
+                                <a href="#" class="nav-link"><i class="icon-chart"></i> <span>Reports</span></a>
+                                <ul class="nav nav-group-sub" data-submenu-title="Reports">
 
                                 <li class="nav-item"><a href="{% url 'projects:myprojectreports' project_id=project.id%}" class="nav-link active">General
                                         Reports</a></li>

@@ -163,7 +163,8 @@
 											</h5>
 												{% include 'projects/like_dependence.html'%}
 											<ul class="list-inline list-inline-dotted text-muted mb-0">
-												<li class="list-inline-item">By <a href="#" class="text-muted">{{ current_project.created_by }}</a></li>
+												<li class="list-inline-item ">By <a class="text-primary"
+														href="{% url 'projects:memberdetails' member_id=current_project.created_by.id%}">{{ current_project.created_by }}</a>
 												<li class="list-inline-item">Created On: {{ current_project.created_on }}</li>
 												<li class="list-inline-item">Due Date: {{ current_project.due_date }}</li>
 												{% if current_project.project_visibility == "private"%}

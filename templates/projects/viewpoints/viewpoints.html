@@ -116,7 +116,7 @@
                             {% endif %}
 
                         </div>
-                        <strong style="color:green">Recent Viewpoints</strong>
+                        <strong style="color:green">Project Viewpoints</strong>
                     </div>
                     
                 </div>
@@ -133,7 +133,7 @@
                         <div class="row">
                               {% if viewpoint %}
                               {% for viewpoint in viewpoint %}
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 ">
 
                                 <!-- Mini size -->
                                 <div class="card blog-horizontal blog-horizontal-xs">
@@ -156,8 +156,9 @@
                                             </h5>
 
                                             <ul class="list-inline list-inline-dotted text-muted mb-0">
-                                                <li class="list-inline-item">By <a href="#"
-                                                        class="text-muted">{{ viewpoint.created_by }}</a></li>
+                                                <li class="list-inline-item ">By <a class="text-primary"
+                                                        href="{% url 'projects:memberdetails' member_id=viewpoint.created_by.id%}">{{ viewpoint.created_by }}</a>
+                                                </li>
                                                 <li class="list-inline-item">{{ viewpoint.created_on }}</li>
                                                
                                             </ul>
@@ -185,7 +186,8 @@
 
 
 
-<!-- delete model -->
+
+
 
 <div id="star" class="modal top" tabindex="-1">
     <div class="modal-dialog modal-xs">

@@ -139,7 +139,7 @@
                             </h5>
                             <div>
                                 <ul class="list-group">
-                                    {% for process in processes%}
+                                    {% for process in processes %}
                                     <li class="list-group-item pl-10 pr-10 ">
                                          <a href="{% url 'projects:viewprocess' process_id=process.id%}">
                                              {{process.process.process_name}}</a>, By {{process.process.created_by}}, Created On: {{ process.process.created_on }}

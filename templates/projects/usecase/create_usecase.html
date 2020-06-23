@@ -15,17 +15,31 @@
                 <div class="card">
                     {% include '../workspace_title.html'%}
                     <div class="card-header header-elements-inline">
-                        <h6 class="card-title">Create Usecase</h6>
+                        <h6 class="card-title">Create {{ requirement }}` Usecase</h6>
                         
                     </div>
 
                     <div class="card-body py-0">
-                        <form method="post" action="{% url 'projects:createusecase' process_id%}"
+                        <form method="post" action="{% url 'projects:createusecase' requirement_id=requirement.id%}"
                             enctype="multipart/form-data">
                             {% csrf_token %}
                         <div class="row">
+                            <div class="col-sm-4">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <div class="col-md-12">
+                                        <label>Requirements:</label>
+                                        <select class="form-control multiselect" name="requirement" multiple="multiple" data-fouc>
+                                            {% for requirement in requirements %}
+                                            <option value="{{ requirement.id }}"> {{ requirement }}</option>
+                                            {% endfor %}
+                            
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                            </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Usecase Title:</label>
@@ -36,30 +50,11 @@
 
                             </div>
 
-
-                            <div class="col-sm-3" hidden>
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Usecase Link</label>
-                                        <input type="text" name="link" class="form-control">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Usecase photo:</label>
-                                        <input class="form-control-styled" type="file" name="usecase_photo">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-3" hidden>
+                            <div class="col-sm-3" >
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Usecase Docs:</label>
-                                        <input class="form-control" type="file" name="usecase_docs" multiple>
+                                        <input class="form-control-styled" type="file" name="usecase_docs">
                                     </div>
                                 </div>
 

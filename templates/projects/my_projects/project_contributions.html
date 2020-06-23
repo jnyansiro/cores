@@ -1,0 +1,293 @@
+{% load static %}
+{% include './myproject_header.html'%}
+<div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content">
+        <!-- Bordered card body table -->
+
+        <div class="row">
+            <div class="card col-xl-12">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">Project Contributions:</h5>
+
+                </div>
+
+                <div class="card-body">
+                    
+                        {% if viewpoints %}
+                        <table class="table table-bordered table-responsive-xl table-hover">
+                            <div class="row mb-2 mt-1 ">
+                                <div class="col-md-6 text-left"><h5 class="ml-2">Viewpoints:</h5></div>
+                                <div class="col-md-6 text-right">
+                                   
+                        <button class="btn btn-success ">Approve</button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                            </div>
+                            </div>
+                            <thead class="bg-primary text-white" >
+                                <tr>
+                                    <th>#</th>
+                                    <th>Select</th>
+                                    <th>Contributed By</th>
+                                    <th>Viewpoint Title</th>
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, viewpoint in viewpoints %}
+                                <tr >
+                                    <td>{{num}}</td>
+                                    <td><input type="checkbox" value="{{viewpoint.id}}" class="form-control-styled"></td>
+                                    <td>{{ viewpoint.created_by }}</td>
+                                    <td>{{ viewpoint.viewpoint_name }}</td>
+            
+
+
+                                    <td> <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.id%}" class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                        <a
+                                            href="{% url 'projects:approveviewpoint' viewpoint_id=viewpoint.id%}" class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                            <a href="{% url 'projects:rejectviewpoint' viewpoint_id=viewpoint.id%}"
+                                                class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                        {% endif %}
+
+                        {% if goals %}
+                        <table class="table table-bordered mt-2 table-responsive-xl" >
+                            <div class="row mb-2 mt-2 ">
+                                <div class="col-md-6 text-left">
+                                    <h5 class="ml-2">Goals:</h5>
+                                </div>
+                                <div class="col-md-6 text-right">
+                        
+                                    <button class="btn btn-success ">Approve</button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                                </div>
+                            </div>
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Select</th>
+                                    <th>Contributed By</th>
+                                    <th>Goal Title</th>
+                                    <th>Options</th>
+                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, goal in goals %}
+                                <tr>
+                                    <td>{{num}}</td>
+                                    <td><input type="checkbox" value="{{goal.id}}" class="form-control-styled"></td>
+                                    <td>{{ goal.created_by }}</td>
+                                    <td>{{ goal.goal_name }}</td>
+                        
+                        
+                        
+                                    <td> <a href="{% url 'projects:viewgoal' goal_id=goal.id%}"
+                                            class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                        <a href="{% url 'projects:approvegoal' goal_id=goal.id%}"
+                                            class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                        <a href="{% url 'projects:rejectgoal' goal_id=goal.id%}"
+                                            class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                    </td>
+                        
+                                </tr>
+                                {% endfor %}
+                        
+                            </tbody>
+                        </table>
+                        {% endif %}
+
+                        {% if requirements %}
+                        <table class="table table-bordered mt-2 table-responsive-xl">
+                            <div class="row mb-2 mt-2 ">
+                                <div class="col-md-6 text-left">
+                                    <h5 class="ml-2">Requirements:</h5>
+                                </div>
+                                <div class="col-md-6 text-right">
+                        
+                                    <button class="btn btn-success ">Approve</button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                                </div>
+                            </div>
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Select</th>
+                                    <th>Contributed By</th>
+                                    <th>Requirement Title</th>
+                                    <th>Options</th>
+                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, requirement in requirements %}
+                                <tr>
+                                    <td>{{num}}</td>
+                                    <td><input type="checkbox" value="{{requirement.id}}" class="form-control-styled"></td>
+                                    <td>{{ requirement.created_by }}</td>
+                                    <td>{{ requirement.name }}</td>
+                        
+                        
+                        
+                                    <td> <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id%}"
+                                            class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                        <a href="{% url 'projects:approverequirement' requirement_id=requirement.id%}"
+                                            class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                        <a href="{% url 'projects:rejectrequirement' requirement_id=requirement.id%}"
+                                            class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                    </td>
+                        
+                                </tr>
+                                {% endfor %}
+                        
+                            </tbody>
+                        </table>
+                        {% endif %}
+
+                        {% if scenarios %}
+                        <table class="table table-bordered mt-2 table-responsive-xl">
+                            <div class="row mb-2 mt-2 ">
+                                <div class="col-md-6 text-left">
+                                    <h5 class="ml-2">Scenarios:</h5>
+                                </div>
+                                <div class="col-md-6 text-right">
+                        
+                                    <button class="btn btn-success ">Approve</button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                                </div>
+                            </div>
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Select</th>
+                                    <th>Contributed By</th>
+                                    <th>Scenario Title</th>
+                                    <th>Options</th>
+                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, scenario in scenarios %}
+                                <tr>
+                                    <td>{{num}}</td>
+                                    <td><input type="checkbox" value="{{scenario.scenario.id}}" class="form-control-styled"></td>
+                                    <td>{{ scenario.scenario.created_by }}</td>
+                                    <td>{{ scenario.scenario.name }}</td>
+                        
+                        
+                        
+                                    <td> <a href="{% url 'projects:viewscenario' scenario_id=scenario.id%}"
+                                            class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                        <a href="{% url 'projects:approvescenario' scenario_id=scenario.scenario.id%}"
+                                            class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                        <a href="{% url 'projects:rejectscenario' scenario_id=scenario.scenario.id%}"
+                                            class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                    </td>
+                        
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                                </table>
+                                {% endif %}
+
+
+                                {% if processes %}
+                                <table class="table table-bordered mt-2 table-responsive-xl">
+                                    <div class="row mb-2 mt-2 ">
+                                        <div class="col-md-6 text-left">
+                                            <h5 class="ml-2">Processes:</h5>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                
+                                            <button class="btn btn-success ">Approve</button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                                        </div>
+                                    </div>
+                                    <thead class="bg-primary text-white">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Select</th>
+                                            <th>Contributed By</th>
+                                            <th>Process Title</th>
+                                            <th>Options</th>
+                                
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for num, process in processes %}
+                                        <tr>
+                                            <td>{{num}}</td>
+                                            <td><input type="checkbox" value="{{process.process.id}}" class="form-control-styled"></td>
+                                            <td>{{ process.process.created_by }}</td>
+                                            <td>{{ process.process.process_name }}</td>
+                                
+                                
+                                
+                                            <td> <a href="{% url 'projects:viewprocess' process_id=process.id%}"
+                                                    class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                                <a href="{% url 'projects:approveprocess' process_id=process.process.id%}"
+                                                    class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                                <a href="{% url 'projects:rejectprocess' process_id=process.process.id%}"
+                                                    class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                            </td>
+                                
+                                        </tr>
+                                        {% endfor %}
+
+                            </tbody>
+                        </table>
+                        {% endif %}
+
+                        {% if usecases %}
+                        <table class="table table-bordered mt-2 table-responsive-xl">
+                            <div class="row mb-2 mt-2 ">
+                                <div class="col-md-6 text-left">
+                                    <h5 class="ml-2">Use Cases:</h5>
+                                </div>
+                                <div class="col-md-6 text-right">
+                        
+                                    <button class="btn btn-success ">Approve</button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                                </div>
+                            </div>
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Select</th>
+                                    <th>Contributed By</th>
+                                    <th>Use Cases Title</th>
+                                    <th>Options</th>
+                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for num, usecase in usecases %}
+                                <tr>
+                                    <td>{{num}}</td>
+                                    <td><input type="checkbox" value="{{usecase.usecase.id}}" class="form-control-styled"></td>
+                                    <td>{{ usecase.usecase.created_by }}</td>
+                                    <td>{{ usecase.usecase.usecase_name }}</td>
+                        
+                        
+                        
+                                    <td> <a href="{% url 'projects:viewusecase' usecase_id=usecase.id%}"
+                                            class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                        <a href="{% url 'projects:approveusecase' usecase_id=usecase.usecase.id%}"
+                                            class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                        <a href="{% url 'projects:rejectusecase' usecase_id=usecase.usecase.id%}"
+                                            class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                    </td>
+                        
+                                </tr>
+                                {% endfor %}
+                        
+                            </tbody>
+                        </table>
+                        {% endif %}
+                   
+                </div>
+            </div>
+            <!-- /bordered card body table -->
