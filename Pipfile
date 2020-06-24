@@ -17,6 +17,7 @@ pillow = "*"
 django-select-multiple-field = "*"
 python-docx = "*"
 social-auth-app-django = "*"
+django-social-share = "*"
 
 [requires]
 python_version = "3.7"

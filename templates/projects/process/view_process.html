@@ -120,8 +120,8 @@
                         </div>
 
                         <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
+                            <label class="col-lg-3 text-semibold control-label">
+                                Filter Scenario:</label>
                                 <form method="post" action="{% url 'projects:viewprocess' process_id=process.id%}">
                                     {% csrf_token %}
                             <div class="col-md-3">
@@ -143,16 +143,7 @@
                             </div>
                         </div>
 
-                        <div class="card-img-actions mr-1">
-                            <img class="card-img img-fluid" src="../../../docs/{{process.process_photo}}"
-                                alt="">
-                            <div class="card-img-actions-overlay card-img">
-                                <a href="#"
-                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                                    <i class="icon-link"></i>
-                                </a>
-                            </div>
-                        </div>
+                       
 
                         <div class="mb-4">
                             <h5 class="font-weight-semibold my-1">
@@ -237,8 +228,11 @@
                                           class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a>
                               </li>
                           </ul>
-                          <div class="col-md-7">
-                             <a href="{% url 'projects:processresources' process_id=process.id%}"> <button class="btn btn-primary float-right"> Contribute Resources</button></a>
+                          <div class="col-md-12 text-right">
+                                {% if creator == "me" %} <a class="btn btn-primary text-white text-right" data-toggle="modal"
+                                    data-target="#update_viewpoint">Edit</a>
+                                <a class="btn btn-danger text-white text-right ml-1">Delete</a> {% endif %}
+                             <a href="{% url 'projects:usecases' process_id=process.id%}"> <button class="btn btn-primary float-right"> Use Cases</button></a>
                           </div>
 
 

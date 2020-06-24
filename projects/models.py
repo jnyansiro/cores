@@ -9,6 +9,7 @@ from django.conf import settings
 from datetime import timezone
 from django.contrib.auth.models import PermissionsMixin
 
+
 # Create your models here.
 
 
@@ -100,7 +101,7 @@ class Member(models.Model):
     professional = models.CharField(max_length=50, blank=True)
     job_title = models.CharField(max_length=50, blank=True)
     institution_name = models.CharField(max_length=50, blank=True, null=True)
-    profile_photo = models.ImageField(max_length=50, default="logo.png")
+    profile_photo = models.ImageField(max_length=50, default="user.png")
     created_on = models.DateTimeField(auto_now=True)
     update_on = models.DateTimeField(auto_now=True)
 
@@ -289,6 +290,25 @@ class Viewpoint(models.Model):
         """Unicode representation of Viewpoint."""
         return self.viewpoint_name
 
+class DefaultViewpoint(models.Model):
+    """Model definition for Viewpoint."""
+
+    # TODO: Define fields here
+    viewpoint_name = models.CharField(max_length=500)
+    viewpoint_photo = models.ImageField(max_length=50,  default="logo.png")
+    description = models.TextField(max_length=5000)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Meta definition for DefailtViewpoint."""
+
+        verbose_name = "DefailtViewpoint"
+        verbose_name_plural = "DefailtViewpoints"
+
+    def __str__(self):
+        """Unicode representation of DefailtViewpoint."""
+        return self.viewpoint_name
 
 class Goal(models.Model):
     """Model definition for Goal."""
@@ -297,11 +317,7 @@ class Goal(models.Model):
     viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=500)
-    goal_photo = models.ImageField(default="logo.png")
-    goal_link = models.CharField(max_length=50, blank=True, null=True)
-    goal_docs = models.FileField(blank=True, null=True)
     description = models.TextField(max_length=5000, null=True, blank=True)
-    category = models.CharField(max_length=50, null=True)  # example comflict
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -343,17 +359,15 @@ class Requirement(models.Model):
         return self.name
 
 
+
+# Create your models here.
+
 class Scenario(models.Model):
     """Model definition for Scenario."""
-
     # TODO: Define fields here
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    requirement = models.ForeignKey("Requirement", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=500)
-    scenario_photo = models.ImageField(default="logo.png")
-    scenario_docs = models.FileField(blank=True, null=True)
-    scenario_links = models.CharField(max_length=1500, blank=True, null=True)
     description = models.TextField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -373,13 +387,9 @@ class Process(models.Model):
     """Model definition for Process."""
 
     # TODO: Define fields here
-    scenario = models.ForeignKey("Scenario", on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     process_name = models.CharField(max_length=600)
-    process_links = models.CharField(max_length=500, blank=True, null=True)
-    process_photo = models.ImageField(default="logo.png")
-    process_docs = models.FileField(max_length=500, blank=True, null=True)
     description = models.TextField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -401,12 +411,8 @@ class UseCase(models.Model):
     # TODO: Define fields here
     usecase_name = models.CharField(max_length=500)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
-    process = models.ForeignKey("Process", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     description = models.TextField(max_length=5000)
-    usecase_link = models.CharField(max_length=500)
-    usecase_photo = models.ImageField(default="logo.png")
-    usecase_docs = models.FileField(max_length=500, blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -420,6 +426,23 @@ class UseCase(models.Model):
         """Unicode representation of UseCase."""
         return self.usecase_name
 
+class RequirementScenario(models.Model):
+    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE)
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+class RequirementProcess(models.Model):
+    process = models.ForeignKey(Process, on_delete=models.CASCADE)
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+class RequirementUsecase(models.Model):
+    usecase = models.ForeignKey(UseCase, on_delete=models.CASCADE)
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
 class Repository(models.Model):
     """Model definition for Repository."""

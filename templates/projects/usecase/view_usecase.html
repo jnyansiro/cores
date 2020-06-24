@@ -124,7 +124,7 @@
 
                         <div class="form-group form-horizontal">
                             <label class="col-lg-2 text-semibold control-label">
-                                Filter Usecases:</label>
+                                Filter Process:</label>
                                 <form method="post" action="{% url 'projects:viewusecase' usecase_id%}">
                                     {% csrf_token %}
                             <div class="col-md-3">
@@ -241,9 +241,7 @@
                                             class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a>
                                 </li>
                             </ul>
-                            <div class="col-md-7">
-                                <a href="{% url 'projects:usecaseresources' usecase_id=usecase.id%}"><button class="btn btn-primary float-right" > Contribute Resources</button></a>
-                            </div>
+                            
 
 
                             </div>

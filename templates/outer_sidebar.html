@@ -1,0 +1,67 @@
+<div class="card-body p-0">
+    <ul class="nav nav-sidebar " data-nav-type="accordion">
+
+
+        <li class="nav-item">
+
+            {% url 'index' as index %}
+            <a href="{% url 'index' %}"
+                class="nav-link {% if request.get_full_path == index %} active {% endif %}">
+                <i class="icon-home4"></i>
+                <span>
+                    Dashboard
+
+                </span>
+            </a>
+        </li>
+
+        {% url 'projects:myprojects' as myprojects %}
+        {% url 'projects:membershipprojects' as membershipprojects %}
+        {% url 'projects:projects' as projects %}
+        <li
+            class="nav-item nav-item-submenu {% if request.get_full_path == myprojects or request.get_full_path == membershipprojects or request.get_full_path == projects %} nav-item-expanded   {% endif %}">
+            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Projects</span></a>
+
+            <ul class="nav nav-group-sub" data-submenu-title="Projects">
+                <li class="nav-item">
+                    <a href="{% url 'projects:myprojects' %}"
+                        class="nav-link {% if request.get_full_path == myprojects %} active {% endif %}">My
+                        Projects
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'projects:membershipprojects'%}"
+                        class="nav-link {% if request.get_full_path == membershipprojects %} active {% endif %}">
+                        Membership Projects
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'projects:projects'%}"
+                        class="nav-link {% if request.get_full_path == projects %} active {% endif %}">
+                        All
+                        Projects
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li class="nav-item nav-item-submenu nav-item-expanded">
+            <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
+
+            <ul class="nav nav-group-sub" data-submenu-title="Reports">
+
+                {% url 'projects:generalreports' as generalreports %}
+                <li class="nav-item"><a href="{% url 'projects:generalreports'%}"
+                        class="nav-link {% if request.get_full_path == generalreports %} active {% endif %}">General
+                        Reports</a></li>
+
+
+            </ul>
+        </li>
+
+        <!-- /main -->
+
+    </ul>
+</div>

@@ -3,10 +3,10 @@
 
 </script>
 
-<li class="nav-item dropdown">
+<li class="nav-item dropdown ">
     <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
         <i class="icon-bell2" style="color:white"></i>
-        <span class="d-md-none ml-2">Notification</span>
+        <span class="d-md-none ml-2 text-white">Notification</span>
         {% if total_notification %}
         <span class="badge badge-danger-pill badge-pill bg-danger-400 border-danger-400 ml-auto
                             ml-md-0">{{ total_notification }}</span>
@@ -14,20 +14,20 @@
 
     </a>
 
-    <div class="dropdown-menu dropdown-content wmin-md-350">
+    <div class="dropdown-menu dropdown-content wmin-md-350 animated fadeIn">
         <div class="dropdown-content-header">
             <span class="font-weight-semibold">Notifications</span>
-            <a href="#" class="text-default"><i class="icon-search4 font-size-base"></i></a>
+            <!-- <a href="#" class="text-default"><i class="icon-search4 font-size-base"></i></a> -->
         </div>
 
         <div class="dropdown-content-body dropdown-scrollable">
-            <ul class="media-list">
+            <ul class="media-list" style="padding-top: 10px;">
                 {% for notification in notification %}
                 {% if notification.status == "seen"%}
                 {% if notification.link == "contributed" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                        <span class=" text-danger" style="border: 1px solid #f44336; border-radius: 90px; padding: 8px;"><i class="icon-user-block"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -39,7 +39,7 @@
                     {% if notification.link == "invitations" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-user-plus"></i></a>
+                        <span class=" text-primary" style="border: 1px solid #42a5f5; border-radius: 90px; padding: 8px;"><i class="icon-user-plus"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -53,7 +53,7 @@
                 {% if notification.link == "commented" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-bubbles6"></i></a>
+                        <span class=" text-primary" style="border: 1px solid #42a5f5; border-radius: 90px; padding: 8px;"><i class="icon-bubbles6"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -67,7 +67,8 @@
                 {% if notification.link == "approved" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-checkmark"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-checkmark"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -81,7 +82,8 @@
                 {% if notification.link == "incentives" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-gift"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-gift"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -93,8 +95,8 @@
                     {% if notification.link == "suspended" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-warning-400 rounded-round btn-icon"><i
-                                class="icon-user-minus "></i></a>
+                        <span class=" text-warning-400" style="border: 1px solid #ff7043; border-radius: 90px; padding: 8px;"><i class="icon-user-minus "></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -106,8 +108,8 @@
                     {% if notification.link == "rejected" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i
-                                class="icon-user-cancel"></i></a>
+                        <span class=" text-danger-400" style="border: 1px solid #ef5350; border-radius: 90px; padding: 8px;"><i class="icon-user-cancel"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -119,7 +121,7 @@
                     {% if notification.link == "removemember" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                        <span class=" text-danger-400" style="border: 1px solid #ef5350; border-radius: 90px; padding: 8px;"><i class="icon-user-block"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -131,8 +133,8 @@
                     {% if notification.link == "accepted" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
-                                class="icon-user-check"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-user-check"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -144,7 +146,7 @@
                     {% if notification.link == "activate" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-vcard"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-vcard"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -156,8 +158,7 @@
                     {% if notification.link == "projectmembers" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
-                                class="icon-checkmark3"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-checkmark3"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -169,7 +170,7 @@
                     {% if notification.link == "request" %}
                 <li class="media">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-question3"></i></a>
+                        <span class=" text-primary" style="border: 1px solid #42a5f5; border-radius: 90px; padding: 8px;"><i class="icon-question3"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -187,7 +188,7 @@
                     {% if notification.link == "commented" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-bubbles6"></i></a>
+                        <span class=" text-primary" style="border: 1px solid #42a5f5; border-radius: 90px; padding: 8px;"><i class="icon-bubbles6"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -201,7 +202,7 @@
                 {% if notification.link == "activate" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-vcard"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-vcard"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -213,7 +214,7 @@
                     {% if notification.link == "approved" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-checkmark"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-checkmark"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -228,7 +229,7 @@
                 {% if notification.link == "request" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-question3"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-question3"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -241,8 +242,8 @@
                     {% if notification.link == "accepted" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
-                                class="icon-user-check"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-user-check"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -255,7 +256,8 @@
                     {% if notification.link == "invitations" %}
                 <li class="media " style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-primary-400 rounded-round btn-icon"><i class="icon-user-plus"></i></a>
+                        <span class=" text-primary-400" style="border: 1px solid #42a5f5; border-radius: 90px; padding: 8px;"><i class="icon-user-plus"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -269,8 +271,8 @@
                 {% if notification.link == "projectmembers" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i
-                                class="icon-user-check"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-user-check"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -282,7 +284,7 @@
                     {% if notification.link == "incentives" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-gift"></i></a>
+                        <span class=" text-success" style="border: 1px solid #66bb6a; border-radius: 90px; padding: 8px;"><i class="icon-gift"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -294,8 +296,8 @@
                     {% if notification.link == "suspended" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-warning-400 rounded-round btn-icon"><i
-                                class="icon-user-minus "></i></a>
+                        <span class=" text-warning-400" style="border: 1px solid #ff7043; border-radius: 90px; padding: 8px;"><i class="icon-user-minus"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -307,8 +309,8 @@
                     {% if notification.link == "rejected" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i
-                                class="icon-user-cancel"></i></a>
+                        <span class=" text-danger-400" style="border: 1px solid #ef5350; border-radius: 90px; padding: 8px;"><i class="icon-user-cancel"></i></span>
+                        
                     </div>
 
                     <div class="media-body">
@@ -320,7 +322,7 @@
                     {% if notification.link == "removemember" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                        <span class=" text-danger-400" style="border: 1px solid #ef5350; border-radius: 90px; padding: 8px;"><i class="icon-user-block"></i></span>
                     </div>
 
                     <div class="media-body">
@@ -332,7 +334,8 @@
                     {% if notification.link == "contributed" %}
                 <li class="media" style="background: lightblue;">
                     <div class="mr-3">
-                        <a href="#" class="btn bg-danger-400 rounded-round btn-icon"><i class="icon-user-block"></i></a>
+                        <span class=" text-danger-400" style="border: 1px solid #ef5350; border-radius: 90px; padding: 8px;"><i class="icon-user-block"></i></span>
+                        
                     </div>
 
                     <div class="media-body">

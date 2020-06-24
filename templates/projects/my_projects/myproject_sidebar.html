@@ -1,0 +1,62 @@
+<div class="card-body p-0">
+    <ul class="nav nav-sidebar" data-nav-type="accordion">
+
+        <li class="nav-item">
+            <a href="{% url 'index' %}" class="nav-link active">
+                <i class="icon-home4"></i>
+                <span>
+                   Main Dashboard
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item nav-item">
+            <a href="{% url 'projects:myprojects'%}" class="nav-link"><i class="icon-copy"></i>
+                <span>Projects</span></a>
+
+        </li>
+        <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}"
+                class="nav-link"><i class="icon-users"></i> <span>Project Member
+                </span></a></li>
+        <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}"
+                class="nav-link"><i class="icon-user"></i>
+                <span>Member
+                    Requests</span></a></li>
+        <li class="nav-item"><a href="{% url 'projects:invitemembers' project_id=project.id %}"
+                class="nav-link"><i class="icon-user-plus"></i>
+                <span> Invite Member
+                </span></a></li>
+
+        <li class="nav-item nav-item">
+
+            {% if project %}
+            <a href="{% url 'projects:projectincentives' project_id=project.id %}"
+                class="nav-link"><i class="icon-gift"></i>
+                <span>Project Incentives</span></a>
+            {% endif%}
+
+
+
+
+        </li>
+        <li class="nav-item"><a href="{% url 'projects:generatedocs' project_id=project.id %}"
+                class="nav-link"><i class="icon-magazine"></i>
+                <span> Generate Word Document
+                </span></a></li>
+        <li class="nav-item nav-item-submenu">
+            <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
+            <ul class="nav nav-group-sub" data-submenu-title="Layouts">
+
+                <li class="nav-item"><a
+                        href="{% url 'projects:myprojectreports' project_id=project.id%}"
+                        class="nav-link ">General
+                        Reports</a></li>
+
+            </ul>
+
+        </li>
+
+        <!-- /main -->
+
+    </ul>
+</div>

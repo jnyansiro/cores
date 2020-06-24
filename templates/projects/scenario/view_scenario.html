@@ -98,12 +98,12 @@
                                     </a>
                                 </li>
                                 <li class="process col-md-2">
-                                    <a href="{% url 'projects:processes' scenario_id=scenario.id%}" style="color:black;font-weight:bold">
+                                    <a href="{% url 'projects:processes' requirement_id=requirement.id%}" style="color:black;font-weight:bold">
                                         Process
                                     </a>
                                 </li>
                                 <li class="usecase col-md-2">
-                                    <a href="{% url 'projects:projectusecases' project_id=project_id%}" style="color:black;font-weight:bold">
+                                    <a href="{% url 'projects:projectusecases' project_id=project.id%}" style="color:black;font-weight:bold">
                                         Usecase
                                     </a>
                                 </li>
@@ -111,7 +111,7 @@
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createscenario' requirement_id %}"><button
+                                <a href="{% url 'projects:createscenario' requirement_id=requirement.id %}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Scenario <i class="icon-add"></i>
                                     </button></a>
@@ -120,8 +120,8 @@
                         </div>
 
                         <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
+                            <label class="col-lg-3 text-semibold control-label">
+                                Filter Scenario:</label>
                                 <form method="post" action="{% url 'projects:viewscenario' scenario_id=scenario.id%}">
                                     {% csrf_token %}
                             <div class="col-md-3">
@@ -129,7 +129,7 @@
                                     <select name="scenario" data-placeholder="Select View point" class="form-control" id="">
                                         {% for scenario in scenarios %}
                                         <option value="{{ scenario.id}}">
-                                            {{ scenario.name }}
+                                            {{ scenario.scenario.name }}
                                         </option>
                                         {% endfor%}
                                        
@@ -143,25 +143,16 @@
                             </div>
                         </div>
 
-                        <div class="card-img-actions mr-1">
-                            <img class="card-img img-fluid" src="../../../docs/{{scenario.scenario_photo}}"
-                                alt="">
-                            <div class="card-img-actions-overlay card-img">
-                                <a href="#"
-                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                                    <i class="icon-link"></i>
-                                </a>
-                            </div>
-                        </div>
+                       
 
                         <div class="mb-4">
                             <h5 class="font-weight-semibold my-1">
-                                <a href="#" class="text-default">{{ scenario.name}}</a>
+                                <a href="#" class="text-default">{{ scenario.scenario.name}}</a>
                             </h5>
 
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
-                                <li class="list-inline-item">By <a href="#" class="text-muted">{{ scenario.created_by }}</a></li>
-                                <li class="list-inline-item">{{ scenario.created_on}}</li>
+                                <li class="list-inline-item">By <a href="#" class="text-muted">{{ scenario.scenario.created_by }}</a></li>
+                                <li class="list-inline-item">{{ scenario.scenario.created_on}}</li>
                                 <li class="list-inline-item"><a href="{% url 'projects:scenariolike' scenario_id=scenario.id%}" class="text-muted"><i
                                             class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> {{ likes }}</a></li>
                                 <li class="list-inline-item"><a href="{% url 'projects:scenariodislike' scenario_id=scenario.id %}" class="text-muted"><i
@@ -172,7 +163,7 @@
                             </ul>
                         </div>
 
-                        {{ scenario.description|safe}} 
+                        {{ scenario.scenario.description|safe}} 
 
                         <div
                             class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
@@ -241,7 +232,7 @@
 
 
                             <div class="col-md-7">
-                              <a href="{% url 'projects:scenarioresources' scenario_id=scenario.id%}"> <button class="btn btn-primary float-right" > Contribute Resources</button></a>
+                              <a href="{% url 'projects:processes' requirement_id=requirement.id%}"> <button class="btn btn-primary float-right" > Process</button></a>
                             </div>
                             </div>
                             <br><br>

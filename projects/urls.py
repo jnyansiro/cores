@@ -69,13 +69,13 @@ urlpatterns = [
     url(r'^viewscenario/(?P<scenario_id>\d+)/$', viewscenario, name='viewscenario'),
     url(r'^createscenario/(?P<requirement_id>\d+)/$', createScenario, name='createscenario'),
         # PROCESS URLS
-    url(r'^processes/(?P<scenario_id>\d+)/$', processes, name="processes"),
+    url(r'^processes/(?P<requirement_id>\d+)/$', processes, name="processes"),
     url(r'^viewprocess/(?P<process_id>\d+)/$', viewprocess, name="viewprocess"),
-    url(r'^createprocess/(?P<scenario_id>\d+)/$', createProcess, name="createprocess"),
+    url(r'^createprocess/(?P<requirement_id>\d+)/$', createProcess, name="createprocess"),
         # USECASE URLS
-    url(r'^usecases/(?P<process_id>\d+)/$', usecases, name="usecases"),
+    url(r'^usecases/(?P<requirement_id>\d+)/$', usecases, name="usecases"),
     url(r'^viewusecase/(?P<usecase_id>\d+)/$', viewusecase, name="viewusecase"),
-    url(r'^createusecase/(?P<process_id>\d+)/$', createUsecase, name="createusecase"),
+    url(r'^createusecase/(?P<requirement_id>\d+)/$', createUsecase, name="createusecase"),
     
     # Creating word docs URL
     url(r'^generatedocs/(?P<project_id>\d+)/$', create_docx, name='generatedocs'),
@@ -141,6 +141,23 @@ urlpatterns = [
     # Reports URLS
     url(r'^generalreports/$', general_report, name='generalreports'),
     url(r'^myprojectreports/(?P<project_id>\d+)/$', my_project_reports, name='myprojectreports'),
+
+    # update from viewpoint to usecase links
+    url(r'^updateviewpoint/(?P<viewpoint_id>\d+)/$', update_viewpoint, name="updateviewpoint"),
+    url(r'^updategoal/(?P<goal_id>\d+)/$', update_goal, name="updategoal"),
+    url(r'^updaterequirement/(?P<requirement_id>\d+)/$', update_requirement, name="updaterequirement"),
+    url(r'^updatescenario/(?P<scenario_id>\d+)/$', update_scenario, name="updatescenario"),
+    url(r'^updatepeocess/(?P<process_id>\d+)/$', update_process, name="updateprocess"),
+    url(r'^updateusecase/(?P<usecase_id>\d+)/$', update_usecase, name="updateusecase"),
+    
+
+    # detele form viewpoint to usecase
+    url(r'^deleteviewpoint/(?P<viewpoint_id>\d+)/$', delete_viewpoint, name="deleteviewpoint"),
+    url(r'^deletegoal/(?P<goal_id>\d+)/$', delete_goal, name="deletegoal"),
+    url(r'^deleterequirement/(?P<requirement_id>\d+)/$', delete_requirement, name="deleterequirement"),
+    url(r'^deletescenario/(?P<scenario_id>\d+)/$', delete_scenario, name="deletescenario"),
+    url(r'^deleteprocess/(?P<process_id>\d+)/$', delete_process, name="deleteprocess"),
+    url(r'^deleteusecase/(?P<usecase_id>\d+)/$', delete_usecase, name="deleteusecase"),
     
     path('subscribe', subscribe, name="subscribe"),
 

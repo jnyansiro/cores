@@ -5,7 +5,3 @@ from datetime import date, timedelta
 from django.apps import apps
 from django.conf import settings
 import requests
-
-# Create your models here.
-
-

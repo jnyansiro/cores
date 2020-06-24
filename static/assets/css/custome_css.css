@@ -1,6 +1,6 @@
 /* SYSTEM CSS */
 /* scroll css */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 13px !important;
 }
 
@@ -17,7 +17,7 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(53, 53, 53, 0.8) !important;
-} */
+}
 /* scroll css end*/
 
 html,
@@ -106,7 +106,20 @@ body {
 .jconfirm-closeIcon {
     color: red !important
 }
-
+.sys-logo{
+    position: absolute; top:2px; background-color: rgba(255, 255, 255, .5); border-radius: 6px; padding: 0 3px 0 3px;
+}
+.sys-logo img{
+    height: 50px;
+}
+.sidebar-light .nav-sidebar>.nav-item-open>.nav-link:not(.disabled), .sidebar-light .nav-sidebar>.nav-item>.nav-link.active{
+    background-color: #42a5f5;
+    color: white;
+}
+.sidebar-light .nav-sidebar .nav-item>.nav-link.active{
+    background-color: #42a5f5;
+    color: white;
+}
 /* END SYSTEM CSS */
 /* MODIFIED BOOTSTRAP CODES */
 
@@ -122,6 +135,9 @@ body {
 .sidebar-default .navigation>li.active>a:focus {
     background-color: rgb(2, 149, 218);
     color: white;
+}
+.card{
+    border-radius: 6px;
 }
 
 /* END MODIFIED BOOTSTRAP CODES */
@@ -315,6 +331,12 @@ body {
 @media (max-width:768px) {
     .view_points.nav-tabs:before {
         content: '';
+    }
+    .sys-logo{
+        position: absolute; top:6px; border-radius: 6px; padding: 0 3px 0 3px;
+    }
+    .sys-logo img{
+        height: 30px;
     }
 }
 

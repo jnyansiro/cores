@@ -14,6 +14,7 @@
 
                 <!-- Traffic sources -->
                 <div class="card">
+                    {% include '../workspace_title.html'%}
                     <div class="card-header header-elements-inline">
                         <h6 class="card-title">Create Goal</h6>
                         <div class="header-elements">
@@ -26,8 +27,21 @@
                             enctype="multipart/form-data">
                             {% csrf_token %}
                         <div class="row">
-
-                            <div class="col-sm-5">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                                <div class="col-md-12">
+                                    <label>Filter Requirement</label>
+                                    <select name="requirement" class="form-control">
+                                        {% for requirement in requirements %}
+                                        <option value="{{requirement.id}}">{{ requirement }}</option>
+                                        {% endfor %}
+                        
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                            
+                            <div class="col-sm-6">
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Goal Title:</label>
@@ -37,18 +51,7 @@
                                 </div>
 
                             </div>
-                             <div class="col-sm-3">
-                                 <div class="d-flex align-items-center justify-content-center mb-2">
-                                     <div class="col-md-12">
-                                         <label>Goal Category</label>
-                                         <select name="category" class="form-control">
-                                             {% for category in categories %}
-                                             <option>{{ category }}</option>
-                                             {% endfor %}
-
-                                         </select>
-                                     </div>
-                                 </div>
+                            
 
                              </div>
 
@@ -63,7 +66,7 @@
 
                             </div>
                            
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" hidden>
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Goal photo:</label>
@@ -81,11 +84,6 @@
                                 </div>
 
                             </div>
-
-
-
-
-                        </div>
                         <div className="form-group col-md-6 float-left">
                             <label>Goal Descriptions:</label>
                             <textarea class="form-control" name="description" id="editor-full" rows="4"

@@ -1,175 +1,172 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include '../header.html'%}
 
-{% load static %}
-<script src="{% static 'js/graphs.js' %}"></script>
+{% block sidebar %}
+{% include '../outer_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
 
-                <script>
-                   
-
-                    window.onload = function () {
-                            var male = {{ member_reports.0}}
-                            var female = {{ member_reports.1}}
-                            var invitational = {{ project_reports.0 }}
-                            var discoverable = {{ project_reports.1 }}
-                            var inv_dis = {{ project_reports.2 }}
-                            var public = {{ project_reports.3 }}
-                            var my_project = {{ project_reports.4 }}
+<script src="{% static 'js/graphs.js' %}">
+</script>
+<script>
 
 
-                        var chart1 = new CanvasJS.Chart("chartContainer1", {
-                            theme: "light2", // "light1", "light2", "dark1", "dark2"
-                            exportEnabled: true,
-                            animationEnabled: true,
-                            
-                        
-                            data: [{
-                                type: "pie",
-                                startAngle: 25,
-                                toolTipContent: "<b>{label}</b>: {y}",
-                                showInLegend: "true",
-                                legendText: "{label}",
-                                indexLabelFontSize: 14,
-                                indexLabel: "{label} - {y}",
-                                dataPoints: [{
-                                    label: "Male",
-                                    y: male
-
-                                },
-                                {
-                                    label: "Female",
-                                    y: female,
-
-                                }
-                                ]
-                            }]
-                        });
-
-   
-
-                        //This for Bar Graph to display at the lest side of the Page
-                        var chart = new CanvasJS.Chart("chartContainer2", {
-                            exportEnabled: true,
-
-                            animationEnabled: true,
-                            theme: "light2", // "light1", "light2", "dark1", "dark2"
-                           
-                            axisY: {
-                                title: "Number of Projects",
-                                includeZero: false
-                            },
-
-                            data: [{
-                                type: "column",
-                                yValueFormatString: "#,##0.0#\"\"",
-                                dataPoints: [
-                                   {
-                                        label: "Invitational ",
-                                        y: invitational
-
-                                    },
-                                    {
-                                        label: "Discoverable",
-                                        y: discoverable,
-
-                                    },
-                                    {
-                                        label: "Inv and Disc",
-                                        y: inv_dis
-
-                                    },
-                                    {
-                                        label: "Public",
-                                        y: public
-
-                                    },
-                                    {
-                                        label: "My Projects",
-                                        y: my_project
-
-                                    }
+    window.onload = function () {
+        var male = {{ member_reports.0}}
+    var female = {{ member_reports.1}}
+    var invitational = {{ project_reports.0 }}
+    var discoverable = {{ project_reports.1 }}
+    var inv_dis = {{ project_reports.2 }}
+    var public = {{ project_reports.3 }}
+    var my_project = {{ project_reports.4 }}
 
 
-                                ]
-                            }]
-                        });
-                        chart.render();
+    var chart1 = new CanvasJS.Chart("chartContainer1", {
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        exportEnabled: true,
+        animationEnabled: true,
 
-                        chart1.render();
+
+        data: [{
+            type: "pie",
+            startAngle: 25,
+            toolTipContent: "<b>{label}</b>: {y}",
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 14,
+            indexLabel: "{label} - {y}",
+            dataPoints: [{
+                label: "Male",
+                y: male
+
+            },
+            {
+                label: "Female",
+                y: female,
+
+            }
+            ]
+        }]
+    });
+
+
+
+    //This for Bar Graph to display at the lest side of the Page
+    var chart = new CanvasJS.Chart("chartContainer2", {
+        exportEnabled: true,
+
+        animationEnabled: true,
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+
+        axisY: {
+            title: "Number of Projects",
+            includeZero: false
+        },
+
+        data: [{
+            type: "column",
+            yValueFormatString: "#,##0.0#\"\"",
+            dataPoints: [
+                {
+                    label: "Invitational ",
+                    y: invitational
+
+                },
+                {
+                    label: "Discoverable",
+                    y: discoverable,
+
+                },
+                {
+                    label: "Inv and Disc",
+                    y: inv_dis
+
+                },
+                {
+                    label: "Public",
+                    y: public
+
+                },
+                {
+                    label: "My Projects",
+                    y: my_project
+
+                }
+
+
+            ]
+        }]
+    });
+    chart.render();
+
+    chart1.render();
 
 
                     }
-                </script>
-
-<!-- Main content -->
-<div class="content-wrapper">
-
-    <!-- Content area -->
-    <div class="content">
-
-
-        <div class="row">
+</script>
+<!-- Content area -->
+<div class="content">
+    <div class="row">
 
 
 
-            <div class="col-md-6">
+        <div class="col-md-6">
 
-                <!-- User details (with sample pattern) -->
+            <!-- User details (with sample pattern) -->
 
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>General Project Reports </h5>
-                        </center>
-                    </div>
-                    
-                    
-                
-                    
-                    <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
+            <div class="card">
+                <div class="card-header bg-primary-400">
+                    <center>
+                        <h5>General Project Reports </h5>
+                    </center>
+                </div>
 
-                        <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
 
-                    </div>
 
-                    
+
+                <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
+
+                    <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
 
                 </div>
-                <!-- /user details (with sample pattern) -->
-
-
 
 
 
             </div>
-
-            <div class="col-md-6">
-
-                <!-- User details (with sample pattern) -->
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>Members (Users) Reports</h5>
-                        </center>
-                    </div>
-
-                    <div class="card-body border-top-0">
-
-                        
-<div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+            <!-- /user details (with sample pattern) -->
 
 
-                         
-                    </div>
-                </div>
-                <!-- /user details (with sample pattern) -->
-
-                
 
 
-            </div>
 
         </div>
 
-        
-<!-- /vertical form modal -->
+        <div class="col-md-6">
+
+            <!-- User details (with sample pattern) -->
+            <div class="card">
+                <div class="card-header bg-primary-400">
+                    <center>
+                        <h5>Members (Users) Reports</h5>
+                    </center>
+                </div>
+
+                <div class="card-body border-top-0">
+
+
+                    <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+
+
+
+                </div>
+            </div>
+            <!-- /user details (with sample pattern) -->
+
+
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

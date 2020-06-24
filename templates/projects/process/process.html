@@ -96,9 +96,9 @@
                                 </li>
 
                             </ul>
-                          {% if scenario_id %}
+                          {% if requirement.id %}
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createprocess' scenario_id%}"><button
+                                <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Process <i class="icon-add"></i>
                                     </button></a>
@@ -106,18 +106,18 @@
                             {% endif %}
 
                         </div>
-                         {% if scenarios %}
+                         {% if requirements %}
                         <div class="form-group form-horizontal">
                             <label class="col-lg-1 text-semibold control-label">
                                 Filter:</label>
-                                <form method="post" action="{% url 'projects:processes' scenario_id%}">
+                                <form method="post" action="{% url 'projects:processes' requirement_id=requirement.id %}">
                                     {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <select name="scenario" data-placeholder="Select View point" class="form-control" id="">
-                                      {% for scenario in scenarios %}
-                                        <option value="{{ scenario.id}}">
-                                            {{ scenario.name}}
+                                    <select name="requirement" data-placeholder="Select View point" class="form-control" id="">
+                                      {% for requirement in requirements %}
+                                        <option value="{{ trequirement.id}}">
+                                            {{ requirement.name}}
                                         </option>
                                         {% endfor %}
                                         
@@ -135,14 +135,14 @@
 
                         <div class="col-md-12 mb-10 mt-10">
                             <h5 class="text-semibold">
-                                Processes:
+                               {{ requirement }} Processes:
                             </h5>
                             <div>
                                 <ul class="list-group">
                                     {% for process in processes%}
-                                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                                    <li class="list-group-item pl-10 pr-10 ">
                                          <a href="{% url 'projects:viewprocess' process_id=process.id%}">
-                                             {{process.process_name}}</a>, By {{process.created_by}}, Created On: {{ process.created_on }}
+                                             {{process.process.process_name}}</a>, By {{process.process.created_by}}, Created On: {{ process.process.created_on }}
                                        
                                         <a href="{% url 'projects:viewprocess' process_id=process.id%}"
                                             class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
