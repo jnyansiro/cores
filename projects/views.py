@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import authenticate
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
@@ -11,6 +12,7 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
+from random import randint
 
 
 # Create your views here.
@@ -803,32 +805,43 @@ def logout(request):
     return redirect("login")
 
 
-def recovery(request, user_id=None):
+def recovery(request):
 
     if request.method == "POST":
+        generated_key = request.POST.get('key')
         password = request.POST.get("password")
         password1 = request.POST.get("password1")
+        user_reset = ResetPassword.objects.filter(generated_key=generated_key).order_by('-id')[0]
         if password == password1:
-            user_account = User.objects.filter(id=user_id).update(password=password)
+            if (user_reset.status == "active"):
+                user_account = User.objects.get(id=user_reset.user.id)
+                user_account.set_password(password )
+                user_account.save()
+                update_session_auth_hash(request, user_account)
 
-            if user_account:
-                message = "Your password has been successfull Reseted, now you can login with new password"
+                if user_account:
+                    message = "Your password has been successfull Reseted, now you can login with new password"
+                    return render(
+                        request,
+                        "login.html",
+                        {"reg_message": message },
+                    )
+                
+                message1 = "Sorry failed to reset password try again"
                 return render(
                     request,
                     "password_reset.html",
-                    {"message": message, "user_id": user_id},
+                    {"message1": message1},
                 )
-            message1 = "Sorry failed to reset password try again"
-            return render(
-                request,
-                "password_reset.html",
-                {"message1": message1, "user_id": user_id},
-            )
+            message1 = "Your entered key has been expired go and generate again"
+            return  render(
+            request, "password_reset.html", {"message1": message1}
+               )
         message1 = "Password did not match, please enter correctly"
         return render(
-            request, "password_reset.html", {"message1": message1, "user_id": user_id}
+            request, "password_reset.html", {"message1": message1}
         )
-    return render(request, "password_reset.html", {"user_id": user_id})
+    return render(request, "password_reset.html", {})
 
 
 def registration(request):
@@ -891,18 +904,21 @@ def forgetpassword(request):
         email = request.POST.get("email")
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
-            link = "127.0.0.1:8000/reset-password/" + str(user.id)
+            random_number = randint(10000, 99999)
+            create_entry = ResetPassword.objects.create(user=user,generated_key=random_number, status="active")
+            create_entry.save()
+            print(random_number)
             message = (
                 "Dear "
                 + user.username
-                + " You can reset your account password by click on this link: "
-                + link
+                + " You can reset your account password by Using this key: "
+                + str(random_number)
                 + ""
             )
 
             # then sending email
             send_email = send_mail(
-                "CORES Password Reset",
+                "CORES PASSWORD REST KEY",
                 message,
                 settings.EMAIL_HOST_USER,
                 [email],
@@ -910,9 +926,9 @@ def forgetpassword(request):
             )
             print(send_email)
             if send_email:
-                result = "password recovery link as been sent to " + email
-                return render(request, "password_recover.html", {"message": result})
-            result = "sorry failed to send a link try again"
+                result = "password Reset key has been sent to " + email 
+                return render(request, "password_reset.html", {"message": result})
+            result = "sorry failed to send a Key try again"
             return render(request, "password_recover.html", {"message1": result})
         result = "sorry there is no account with this email address"
         return render(request, "password_recover.html", {"message1": result})

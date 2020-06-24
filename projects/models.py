@@ -1304,3 +1304,9 @@ class GeneratedDocs(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     docx = models.CharField(max_length=4000)
     created_on = models.DateTimeField(auto_now=True)
+
+class ResetPassword(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    generated_key = models.CharField(max_length=8)
+    status = models.CharField(max_length=56)
+    created_on = models.DateTimeField(auto_now=True)

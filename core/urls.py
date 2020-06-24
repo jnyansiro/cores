@@ -34,7 +34,7 @@ urlpatterns = [
     path('terms-conditions', termsConditions, name='terms-conditions'),
     path("registration", registration, name="registration"),
     path("forgetpassword", forgetpassword, name="forgetpassword"),
-    url(r'^reset-password/(?P<user_id>\d+)/$', recovery, name="reset-password")
+    url(r'^reset-password/$', recovery, name="reset-password")
 ]
 handler404 = pagenotfound
 handler500 = servererror
