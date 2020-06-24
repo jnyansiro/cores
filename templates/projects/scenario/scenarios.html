@@ -109,8 +109,8 @@
                         </div>
                     {% if requirements %}
                         <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
+                            <label class="col-lg-3 text-semibold control-label">
+                                Filter Requirement:</label>
                                 <form method="post" action="{% url 'projects:scenarios' requirement_id=requirement.id %}">
                                     {% csrf_token %}
                             <div class="col-md-3">

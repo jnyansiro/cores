@@ -9,6 +9,7 @@ from .docx_generation import *
 
 app_name = "projects"
 urlpatterns = [
+
     # PROJECT URLS
     path("createproject", createProject, name="createproject"),
     path("myprojects", myProjects, name="myprojects"),
@@ -56,22 +57,27 @@ urlpatterns = [
     url(r'^viewpoint/(?P<viewpoint_id>\d+)/$', viewPoint, name="viewpoint"),
     url(r'^viewpoints/(?P<project_id>\d+)/$', viewpoints, name="viewpoints"),
     url(r'^createviewpoint/(?P<project_id>\d+)/$', createViewpoint, name="createviewpoint"),
+
         # GOAL URLS
     url(r'^goals/(?P<viewpoint_id>\d+)/$', goals, name="goals"),
     url(r'^viewgoal/(?P<goal_id>\d+)/$', viewGoal, name="viewgoal"),
     url(r'^creategoal/(?P<viewpoint_id>\d+)/$', createGoal, name="creategoal"),
+
         # REQUIREMENT URLS
     url(r'^requirements/(?P<goal_id>\d+)/$', requirements, name="requirements"),
     url(r'^viewrequirement/(?P<requirement_id>\d+)/$', viewrequirement, name="viewrequirement"),
     url(r'^createrequirement/(?P<goal_id>\d+)/$', createRequirement, name="createrequirement"),
+
         # SCENARIO URLS
     url(r'^scenarios/(?P<requirement_id>\d+)/$', scenarios, name='scenarios'),
     url(r'^viewscenario/(?P<scenario_id>\d+)/$', viewscenario, name='viewscenario'),
     url(r'^createscenario/(?P<requirement_id>\d+)/$', createScenario, name='createscenario'),
         # PROCESS URLS
+
     url(r'^processes/(?P<requirement_id>\d+)/$', processes, name="processes"),
     url(r'^viewprocess/(?P<process_id>\d+)/$', viewprocess, name="viewprocess"),
     url(r'^createprocess/(?P<requirement_id>\d+)/$', createProcess, name="createprocess"),
+
         # USECASE URLS
     url(r'^usecases/(?P<requirement_id>\d+)/$', usecases, name="usecases"),
     url(r'^viewusecase/(?P<usecase_id>\d+)/$', viewusecase, name="viewusecase"),
@@ -129,6 +135,7 @@ urlpatterns = [
     url(r'^processlike/(?P<process_id>\d+)/$', process_like, name="processlike"),
     url(r'^usecaselike/(?P<usecase_id>\d+)/$', usecase_like, name="usecaselike"),
 
+     # dislikes
     url(r'^myprojectdislike/(?P<project_id>\d+)/$', my_project_dislike, name="myprojectdislike"),   
     url(r'^projectdislike/(?P<project_id>\d+)/$', project_dislike, name="projectdislike"),
     url(r'^viewpointdislike/(?P<viewpoint_id>\d+)/$', viewpoint_dislike, name="viewpointdislike"),
@@ -158,6 +165,34 @@ urlpatterns = [
     url(r'^deletescenario/(?P<scenario_id>\d+)/$', delete_scenario, name="deletescenario"),
     url(r'^deleteprocess/(?P<process_id>\d+)/$', delete_process, name="deleteprocess"),
     url(r'^deleteusecase/(?P<usecase_id>\d+)/$', delete_usecase, name="deleteusecase"),
+
+    #approval of contributions URLS
+    url(r'^projectcontributions/(?P<project_id>\d+)/$', project_contributions, name="projectcontributions"),
+    url(r'^approveviewpoint/(?P<viewpoint_id>\d+)/$', approve_viewpoint, name="approveviewpoint"),
+    url(r'^approvegoal/(?P<goal_id>\d+)/$', approve_goal, name="approvegoal"),
+    url(r'^approverequirement/(?P<requirement_id>\d+)/$', approve_requirement, name="approverequirement"),
+    url(r'^approvescenario/(?P<scenario_id>\d+)/$', approve_scenario, name="approvescenario"),
+    url(r'^approveprocess/(?P<process_id>\d+)/$', approve_process, name="approveprocess"),
+    url(r'^approveusecase/(?P<usecase_id>\d+)/$', approve_usecase, name="approveusecase"),
+        
+
+    #Reject contributions URLS
+    url(r'^rejectviewpoint/(?P<viewpoint_id>\d+)/$', reject_viewpoint, name="rejectviewpoint"),
+    url(r'^rejectgoal/(?P<goal_id>\d+)/$', reject_goal, name="rejectgoal"),
+    url(r'^rejectrequirement/(?P<requirement_id>\d+)/$', reject_requirement, name="rejectrequirement"),
+    url(r'^rejectscenario/(?P<scenario_id>\d+)/$', reject_scenario, name="rejectscenario"),
+    url(r'^rejectprocess/(?P<process_id>\d+)/$', reject_process, name="rejectprocess"),
+    url(r'^rejectusecase/(?P<usecase_id>\d+)/$', reject_usecase, name="rejectusecase"),
+
+
+
+    #Block contributions URLS
+    url(r'^blockviewpoint/(?P<viewpoint_id>\d+)/$', block_viewpoint, name="blockviewpoint"),
+    url(r'^blockgoal/(?P<goal_id>\d+)/$', block_goal, name="blockgoal"),
+    url(r'^blockrequirement/(?P<requirement_id>\d+)/$', block_requirement, name="blockrequirement"),
+    url(r'^blockscenario/(?P<scenario_id>\d+)/$', block_scenario, name="blockscenario"),
+    url(r'^blockprocess/(?P<process_id>\d+)/$', block_process, name="blockprocess"),
+    url(r'^blockusecase/(?P<usecase_id>\d+)/$', block_usecase, name="blockusecase"),
     
     path('subscribe', subscribe, name="subscribe"),
 

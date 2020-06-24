@@ -5,7 +5,7 @@
             <a href="{% url 'index' %}" class="nav-link active">
                 <i class="icon-home4"></i>
                 <span>
-                   Main Dashboard
+                    Main Dashboard
 
                 </span>
             </a>
@@ -15,23 +15,26 @@
                 <span>Projects</span></a>
 
         </li>
-        <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}"
-                class="nav-link"><i class="icon-users"></i> <span>Project Member
+        <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}" class="nav-link"><i
+                    class="icon-users"></i> <span>Project Member
                 </span></a></li>
-        <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}"
-                class="nav-link"><i class="icon-user"></i>
+        <li class="nav-item"><a href="{% url 'projects:projectcontributions' project_id=project_id%}"
+                class="nav-link"><i class="icon-stack"></i>
+                <span>Approve Contributions</span></a></li>
+        <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}" class="nav-link"><i
+                    class="icon-user"></i>
                 <span>Member
                     Requests</span></a></li>
-        <li class="nav-item"><a href="{% url 'projects:invitemembers' project_id=project.id %}"
-                class="nav-link"><i class="icon-user-plus"></i>
+        <li class="nav-item"><a href="{% url 'projects:invitemembers' project_id=project.id %}" class="nav-link"><i
+                    class="icon-user-plus"></i>
                 <span> Invite Member
                 </span></a></li>
 
         <li class="nav-item nav-item">
 
             {% if project %}
-            <a href="{% url 'projects:projectincentives' project_id=project.id %}"
-                class="nav-link"><i class="icon-gift"></i>
+            <a href="{% url 'projects:projectincentives' project_id=project.id %}" class="nav-link"><i
+                    class="icon-gift"></i>
                 <span>Project Incentives</span></a>
             {% endif%}
 
@@ -39,16 +42,15 @@
 
 
         </li>
-        <li class="nav-item"><a href="{% url 'projects:generatedocs' project_id=project.id %}"
-                class="nav-link"><i class="icon-magazine"></i>
+        <li class="nav-item"><a href="{% url 'projects:generatedocs' project_id=project.id %}" class="nav-link"><i
+                    class="icon-magazine"></i>
                 <span> Generate Word Document
                 </span></a></li>
         <li class="nav-item nav-item-submenu">
             <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
             <ul class="nav nav-group-sub" data-submenu-title="Layouts">
 
-                <li class="nav-item"><a
-                        href="{% url 'projects:myprojectreports' project_id=project.id%}"
+                <li class="nav-item"><a href="{% url 'projects:myprojectreports' project_id=project.id%}"
                         class="nav-link ">General
                         Reports</a></li>
 

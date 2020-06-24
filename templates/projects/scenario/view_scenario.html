@@ -151,7 +151,9 @@
                             </h5>
 
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
-                                <li class="list-inline-item">By <a href="#" class="text-muted">{{ scenario.scenario.created_by }}</a></li>
+                            <li class="list-inline-item ">By <a class="text-primary"
+                                    href="{% url 'projects:memberdetails' member_id=scenario.scenario.created_by.id%}">{{ scenario.scenario.created_by }}</a>
+                            </li>
                                 <li class="list-inline-item">{{ scenario.scenario.created_on}}</li>
                                 <li class="list-inline-item"><a href="{% url 'projects:scenariolike' scenario_id=scenario.id%}" class="text-muted"><i
                                             class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> {{ likes }}</a></li>
@@ -166,7 +168,8 @@
                         {{ scenario.scenario.description|safe}} 
 
                         <div
-                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3 row">
+                            <div class="row">
                             <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                                 <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                         data-target="#rates">
@@ -224,21 +227,26 @@
                                 </li>
 
 
-                                <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
+                                <li class="list-inline-item" ><a href="#comments" class="text-muted"><i
                                             class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a>
                                 </li>
                             </ul>
 
+                        </div>
 
-
-                            <div class="col-md-7">
-                              <a href="{% url 'projects:processes' requirement_id=requirement.id%}"> <button class="btn btn-primary float-right" > Process</button></a>
+                            <div class="col-md-12 text-right">
+                                {% if creator == "me" %} <a class="btn btn-primary text-white text-right" data-toggle="modal"
+                                    data-target="#update_scenario">Edit</a>
+                                <a data-toggle="modal"
+                                    data-target="#delete"class="btn btn-danger text-white text-right ml-1">Delete</a> {% endif %}
+                                <a href="{% url 'projects:processes' requirement_id=requirement.id %}" class="ml-2"> <button
+                                        class="btn btn-primary float-right"> Processes</button></a>
                             </div>
                             </div>
                             <br><br>
 <div class="card " id="comments" style="display: block;">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><a href="#">{{scenario.name}}</a>`s Comments:</h5>
+        <h5 class="card-title"><a href="#">{{scenario.scenario.name}}</a>`s Comments:</h5>
         <div class="header-elements">
             <div class="list-icons">
                 <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
@@ -286,6 +294,77 @@
     </div>
 </div>
 <!-- /line content divider -->
+
+
+<!-- delete model -->
+
+<div id="delete" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs ">
+        <div class="modal-content bg-white-300" style="color:red">
+            <div class="modal-header">
+                <h5 class="modal-title">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+                <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                    <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                </center>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'projects:deletescenario' scenario_id=scenario.id %}"><button type="button"
+                        class="btn bg-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /custom background color -->
+
+<!-- Update scenario -->
+<div id="update_scenario" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Scenario:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:updatescenario' scenario_id=scenario.id%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Scenario Title:</label>
+                                <input type="text" name="scenario_name" value="{{ scenario.scenario.name}}"
+                                    class="form-control">
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <label>Descriptions:</label>
+                                <textarea class="form-control" name="description" id="editor-full" rows="4"
+                                    bottom="4">{{scenario.scenario.description|safe }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn bg-primary">Update</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+                </div>
+<!-- /vertical form modal -->
+
 
 <!-- rate model -->
 

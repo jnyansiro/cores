@@ -20,13 +20,18 @@
         <div class="col-lg-12">
 
             <!-- Mini size -->
-            <div class="card blog-horizontal blog-horizontal-xs">
+            <div class="card">
                 <div class="card-body row">
-                    <div class="card-img-actions col-md-4">
+                    <div class="card-img-actions col-md-3">
                         <img class="card-img img-fluid" src="../../../docs/{{ project.project_photo }}" alt="">
                     </div>
 
-                    <div class="col-md-8 ">
+                    <div class="col-md-9 ">
+                        {% load social_share %}
+                            <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip" data-placement="bottom" style="position: absolute;top: 0;right: 0;">
+                                
+                                {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share on WhatsApp</span>'%}
+                            </span>
                         <h5 class="font-weight-semibold my-1">
                             <a href="{% url 'projects:viewmyproject' project_id=project.id %}"
                                 class="text-primary">{{ project.project_title }}</a>
@@ -43,6 +48,7 @@
                                 <span class="font-weight-semibold">Due Date:</span>
                                 <span class="text-warning-300">{{ project.due_date }}</span>
                             </li>
+                            
                             <li class="list-inline-item  font-size-sm col-md-12  ">
                                 <div class="col-sm-">
                                     <i class=" icon-medal-star text-orange" title="Earn appreciation letter"

@@ -96,9 +96,9 @@
                                 </li>
 
                             </ul>
-                            {% if process_id %}
+                            {% if requirement %}
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createusecase'  process_id%}"><button
+                                <a href="{% url 'projects:createusecase'  requirement_id=requirement.id%}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Usecase <i class="icon-add"></i>
                                     </button></a>
@@ -106,7 +106,7 @@
                             {% endif %}
 
                         </div>
-                      {% if processes %}
+                      {% if requirements %}
                         <div class="form-group form-horizontal">
                             <label class="col-lg-2 text-semibold control-label">
                                 Filter Requirements:</label>

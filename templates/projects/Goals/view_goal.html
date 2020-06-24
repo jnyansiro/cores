@@ -123,15 +123,15 @@
 
                         <div class="form-group form-horizontal">
                             <label class="col-lg-3 text-semibold control-label">
-                                Filter Viewpoint:</label>
+                                Filter Goal:</label>
                                 <form method="post" action="{% url 'projects:viewgoal' goal_id%}">
                                     {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <select name="goal" data-placeholder="Select View point" class="form-control" id="">
-                                        {% for goal in goals %}
-                                        <option value="{{goal.id}}">
-                                           {{ goal.goal_name }}
+                                    <select name="goal"  class="form-control" id="">
+                                        {% for goal_ in goals %}
+                                        <option value="{{ goal_.id }}">
+                                           {{ goal_ }}
                                         </option>
                                         {% endfor %}
                                         
@@ -169,7 +169,7 @@
                         {{ goal.description|safe}}
                     
                         <div  class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3 row">
-                        <div class="col-md-12">
+                        <div class="row">
                             <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 row">
                                 <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                         data-target="#rates">
@@ -232,13 +232,11 @@
                                 </li>
                             </ul>
                         </div>
-                            <div class="col-md-12 text-right">
-                             {% if creator == "me" %}  <a class="btn btn-primary text-white text-right" data-toggle="modal" data-target="#rates">Edit</a>
+                            <div class="row text-right">
+                             {% if creator == "me" %}  <a class="btn btn-primary text-white text-right" data-toggle="modal" data-target="#update_goal">Edit</a>
                              <a data-toggle="modal" data-target="#delete" class="btn btn-danger text-white text-right ml-1">Delete</a> {% endif %} 
                              <a href="{% url 'projects:requirements' goal_id=goal_id%}" class="ml-2"><button class="btn btn-primary text-right" > Requirements</button></a>
                             </div>
-
-
                         </div>
         
                         <br><br>
@@ -461,6 +459,47 @@
                             </div>
                         </div>
                         <!-- /custom background color -->
+
+
+                        <!-- Update goal -->
+                        <div id="update_goal" class="modal fade" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Update Goal:</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                        
+                                    <form method="post" action="{% url 'projects:updategoal' goal_id=goal.id%}"
+                                        enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Goal Title:</label>
+                                                        <input type="text" name="goal_name" value="{{goal.goal_name}}"
+                                                            class="form-control">
+                                                    </div>
+                        
+                        
+                                                    <div class="col-sm-12">
+                                                        <label>Descriptions:</label>
+                                                        <textarea class="form-control" name="description" id="editor-full" rows="4"
+                                                            bottom="4">{{goal.description|safe }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn bg-primary">Update</button>
+                                            </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /vertical form modal -->
 
 
 

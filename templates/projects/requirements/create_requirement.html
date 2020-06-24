@@ -25,8 +25,23 @@
                             enctype="multipart/form-data">
                              {% csrf_token %}
                         <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <div class="col-md-12">
+                                        <label>Goals:</label>
+                                        <select class="form-control" name="goal" title="option" >
+                                            <option value="select">select Goal</option>
+                                            {% for goal_ in goals %}
+                                            <option value="{{ goal_.id }}"> {{ goal_ }}</option>
+                                            {% endfor %}
+                            
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                            </div>
 
-                            <div class="col-sm-5">
+                            <div class="col-sm-6">
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Requirement Title:</label>
@@ -38,33 +53,7 @@
                             </div>
 
 
-                            <div class="col-sm-3" hidden>
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Requirement Link</label>
-                                        <input type="text" name="link" class="form-control">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Requirement photo:</label>
-                                        <input class="form-control-styled" type="file" name="requirement_photo">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-3" hidden>
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Requirement Docs:</label>
-                                        <input class="form-control" type="file" name="requirement_docs" multiple>
-                                    </div>
-                                </div>
-
-                            </div>
+                        
 
 
 

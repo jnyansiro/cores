@@ -88,21 +88,21 @@
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:viewrequirement' requirement_id%}"
+                                    <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id%}"
                                         style="color:black;font-weight:bold">
                                         Requirement Description
                                     </a>
                                 </li>
                                 <li class=" scenario col-md-2">
-                                    <a href="{% url 'projects:viewscenario' scenario_id%}"
+                                    <a href="{% url 'projects:scenarios' requirement_id=requirement.id%}"
                                         style="color:black;font-weight:bold">
-                                        Scenario Description
+                                        Scenarios
                                     </a>
                                 </li>
                                 <li class="process col-md-2">
-                                    <a href="{% url 'projects:viewprocess' process_id %}"
+                                    <a href="{% url 'projects:processes' requirement_id=requirement.id %}"
                                         style="color:black;font-weight:bold">
-                                        Process Description
+                                        Processes
                                     </a>
                                 </li>
                                 <li class="usecase col-md-2">
@@ -114,7 +114,7 @@
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createusecase' process_id %}"><button
+                                <a href="{% url 'projects:createusecase' requirement_id=requirement.id %}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Usecase <i class="icon-add"></i>
                                     </button></a>
@@ -145,25 +145,18 @@
                             </div>
                         </div>
 
-                        <div class="card-img-actions mr-1">
-                            <img class="card-img img-fluid" src="../../../docs/{{usecase.usecase_photo}}"
-                                alt="">
-                            <div class="card-img-actions-overlay card-img">
-                                <a href="#"
-                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                                    <i class="icon-link"></i>
-                                </a>
-                            </div>
-                        </div>
+            
 
                         <div class="mb-4">
                             <h5 class="font-weight-semibold my-1">
-                                <a href="#" class="text-default">{{usecase.usecase_name}}</a>
+                                <a href="#" class="text-default">{{usecase.usecase.usecase_name}}</a>
                             </h5>
 
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
-                                <li class="list-inline-item">By <a href="#" class="text-muted">{{usecase.created_by}}</a></li>
-                                <li class="list-inline-item">{{usecase.created_on}}</li>
+                                <li class="list-inline-item ">By <a class="text-primary"
+                                        href="{% url 'projects:memberdetails' member_id=usecase.usecase.created_by.id%}">{{ usecase.usecase.created_by }}</a>
+                                </li>
+                                <li class="list-inline-item">{{usecase.usecase.created_on}}</li>
                                 <li class="list-inline-item"><a href="{% url 'projects:usecaselike' usecase_id=usecase.id %}" class="text-muted"><i
                                             class="icon-thumbs-up2 font-size-base text-blue mr-2"></i> {{ likes }}</a></li>
                                 <li class="list-inline-item"><a href="{% url 'projects:usecasedislike' usecase_id=usecase.id %}" class="text-muted"><i
@@ -176,10 +169,11 @@
                             </ul>
                         </div>
 
-                       {{usecase.description|safe}}
+                       {{usecase.usecase.description|safe}}
 
                         <div
-                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3">
+                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3 row">
+                            <div class="row">
                             <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                                 <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                         data-target="#rates">
@@ -237,10 +231,18 @@
                                 </li>
 
 
-                                <li class="list-inline-item" onclick="showComments()"><a href="#" class="text-muted"><i
+                                <li class="list-inline-item" ><a href="#comments" class="text-muted"><i
                                             class="icon-bubbles5 text-blue mr-2"></i>{{total_comments}} comments</a>
                                 </li>
                             </ul>
+                        </div>
+                            <div class="col-md-12 text-right">
+                                {% if creator == "me" %} <a class="btn btn-primary text-white text-right" data-toggle="modal"
+                                    data-target="#update_usecase">Edit</a>
+                                <a data-toggle="modal"
+                                    data-target="#delete" class="btn btn-danger text-white text-right ml-1">Delete</a> {% endif %}
+                               
+                            </div>
                             
 
 
@@ -250,7 +252,7 @@
                             <!-- Line content divider comments -->
                             <div class="card " id="comments" style="display: block;">
                                 <div class="card-header header-elements-inline">
-                                    <h5 class="card-title"><a href="#">{{usecase.usecase_name}}</a>`s Comments:</h5>
+                                    <h5 class="card-title"><a href="#">{{usecase.usecase.usecase_name}}</a>`s Comments:</h5>
                                     <div class="header-elements">
                                         <div class="list-icons">
                                             <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
@@ -303,6 +305,80 @@
                                 </div>
                             </div>
                             <!-- /line content divider -->
+
+
+
+<!-- delete model -->
+
+<div id="delete" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs ">
+        <div class="modal-content bg-white-300" style="color:red">
+            <div class="modal-header">
+                <h5 class="modal-title">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+                <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                    <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                </center>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'projects:deleteusecase' usecase_id=usecase.id %}"><button type="button"
+                        class="btn bg-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /custom background color -->
+
+
+
+
+<!-- Update usecase -->
+<div id="update_usecase" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Usecase:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:updateusecase' usecase_id=usecase.id%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Usecase Title:</label>
+                                <input type="text" name="usecase_name" value="{{usecase.usecase.usecase_name}}"
+                                    class="form-control">
+                            </div>
+
+                           
+                            <div class="col-sm-12">
+                                <label>Descriptions:</label>
+                                <textarea class="form-control" name="description" id="editor-full" rows="4"
+                                    bottom="4">{{usecase.usecase.description|safe }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn bg-primary">Update</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+                </div>
+<!-- /vertical form modal -->
 
                             <!-- rate model -->
 
