@@ -1,182 +1,173 @@
-<script>
-       function public_view(){
-       document.getElementById('participation').style.display= 'none';
-       }
-       function private_view() {
-        document.getElementById('participation').style.display = 'block';
-       }
-
-       
-</script>
-
+{% extends 'header.html' %}
 {% load static %}
-{% include '../../header.html'%}
 
-<!-- Main content -->
-<div class="content-wrapper">
+{% block sidebar %}
+{% include '../../outer_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
+    <div class="row">
+        <script>
+            function public_view() {
+                document.getElementById('participation').style.display = 'none';
+            }
+            function private_view() {
+                document.getElementById('participation').style.display = 'block';
+            }
 
-    <!-- Content area -->
-    <div class="content">
 
-        <!-- Main charts -->
-        <div class="row">
-        <div class="col-xl-12">
+        </script>
+        <div class="card">
+            <div class="card-header bg-primary header-elements-inline">
+                <h6 class="card-title">
+                    <i class="icon-plus2"></i>
+                    Create Project
+                </h6>
+            
+            </div>
 
-            <!-- Traffic sources -->
-            <div class="card">
-                <div class="card-header header-elements-inline">
-                    <h6 class="card-title">Create Project</h6>
-                    <div class="header-elements">
-                       
-                    </div>
-                </div>
-
-                <div class="card-body py-0">
-                    <form method="post" action="{% url 'projects:createproject'%}" enctype="multipart/form-data">
-                        {% csrf_token %}
+            <div class="card-body py-0 pt-2">
+                <form method="post" action="{% url 'projects:createproject'%}" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row">
-                        
-                        <div class="col-sm-3">
-                            <div class="d-flex align-items-center justify-content-center mb-2">
-                              <div class="col-md-12">
-                                  <label>Project Title:</label>
-                                  <input class="form-control" type="text" name="project_title" required placeholder="Enter project title">
-                              </div>
-                            </div>
-                    
-                        </div>
 
                         <div class="col-sm-3">
                             <div class="d-flex align-items-center justify-content-center mb-2">
-                               <div class="col-md-12">
-                                   <label>Sector:</label>
-                                   <select class="form-control multiselect" name="sector" multiple="multiple"
-                                       data-fouc>
-                                       {% if sectors %}
-                                       {% for sector in sectors %}
-                                       <option value="{{ sector.id }}">{{ sector.sector_name }} </option>
-                                       {% endfor %}
-                                       {% endif %}
-                                        
-
-                                   </select>
-                                   
-                               </div>
+                                <div class="col-md-12">
+                                    <label class="font-weight-semibold">Project Title:</label>
+                                    <input class="form-control" type="text" name="project_title" required
+                                        placeholder="Enter project title">
+                                </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="col-sm-3">
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="col-md-12">
-                                <label>Due Date</label>
-                                <input type="date" class="form-control" name="due_date" required>
+                                    <label class="font-weight-semibold">Sector:</label>
+                                    <select class="form-control multiselect" name="sector" multiple="multiple"
+                                        data-fouc>
+                                        {% if sectors %}
+                                        {% for sector in sectors %}
+                                        <option value="{{ sector.id }}">{{ sector.sector_name }} </option>
+                                        {% endfor %}
+                                        {% endif %}
+
+
+                                    </select>
+
                                 </div>
                             </div>
-                            
+
                         </div>
-                         <div class="col-sm-3">
-                             <div class="d-flex align-items-center justify-content-center mb-2">
-                                 <div class="col-md-12">
-                                     <label>Project photo:</label>
-                                     <input class="form-control-styled" type="file" name="project_photo"
-                                         placeholder="Enter project title">
-                                 </div>
-                             </div>
-                            
-                         </div>
-                         <div class="col-sm-3" hidden>
-                             <div class="d-flex align-items-center justify-content-center mb-2">
-                                 <div class="col-md-12">
-                                     <label>Project Docs:</label>
-                                     <input class="form-control-styled" type="file" name="project_docs"
-                                         multiple>
-                                 </div>
-                             </div>
 
-                         </div>
-                      
-                         <div class="col-sm-3">
-                             <div class="d-flex align-items-center justify-content-center mb-2">
-                                 <div class="col-md-12">
-                                     <label>Project Visibility:</label>
-                                     <br><br>
-                                     <!-- <div class="form-control append"> -->
-                                         <label style="display: inline-block; width:auto">
-                                         <span class="input-group-append float-right ml-3">
-                                     <input class="form-input-styled " type="radio" onclick="public_view()"
-                                         name="visibility" value="public"> public </>
-                                         </span>
-                                         <span class="input-group-append ml-3 mr-1 text-center">
-                                     <input class="form-input-styled " type="radio"
-                                         onclick="private_view()" name="visibility" value="private" > private </>
-                                         </span>
-                                         </label>
-                                         
-                                         </div>
-                                 <!-- </div> -->
-                             </div>
-
-                         </div>
-                       
-                         <div class="col-sm-4" id="participation">
-                             <div class="d-flex align-items-center justify-content-center mb-2">
-                               
-                                     <div class="form-group col-md-12">
-                                         <label>Project Participation:</label>
-                                             <select class="form-control multiselect" name="participation" multiple="multiple" data-fouc >
-                                                 
-                                                 <option value="Invitational" id="invitational"> Invitational </option>
-                                                 <option value="Discoverable" id="discoverable"> Discoverable </option>
-                                                
-                                             </select>
-                                         </div>
-                                     </div> 
-                                 </div>
-                           
-
-
-
-                            <div class="col-sm-4" >
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                            
-                                    <div class="form-group col-md-12">
-                                        <label>Project Incentive Types:</label>
-                                        <select class="form-control multiselect" name="incentives" multiple="multiple" data-fouc>
-                                            {% for incentive in incentives %}
-                                            <option value="{{ incentive.id }}" id="invitational"> {{ incentive }}</option>
-                                            {% endfor %}
-                            
-                                        </select>
-                                    </div>
+                        <div class="col-sm-3">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                                <div class="col-md-12">
+                                    <label class="font-weight-semibold">Due Date</label>
+                                    <input type="date" class="form-control" name="due_date" required>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                                <div class="col-md-12">
+                                    <label class="font-weight-semibold">Project photo:</label>
+                                    <input class="form-control" type="file" name="project_photo"
+                                        placeholder="Enter project title">
+                                </div>
                             </div>
-                             <div className="form-group col-md-6 float-left">
-                                 <label>Project Descriptions:</label>
-                                 <textarea class="form-control" name="project_descriptions" id="editor-full" rows="4"
-                                     bottom="4"></textarea><br>
-                                 <button class="btn btn-primary float-right"><span class="fa fa-facebook">create</span></button>
-                             </div>
 
-                             
-                             
+                        </div>
+                        <div class="col-sm-3" hidden>
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                                <div class="col-md-12">
+                                    <label class="font-weight-semibold">Project Docs:</label>
+                                    <input class="form-control-styled" type="file" name="project_docs" multiple>
+                                </div>
+                            </div>
 
-                         </div>
+                        </div>
 
-                         
+                        <div class="col-sm-3">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                                <div class="col-md-12">
+                                    <label class="font-weight-semibold">Project Visibility:</label>
+                                    <br><br>
+                                    <!-- <div class="form-control append"> -->
+                                    <label style="display: inline-block; width:auto">
+                                        <span class="input-group-append float-right ml-3">
+                                            <input class="form-input-styled " type="radio" onclick="public_view()"
+                                                name="visibility" value="public"> public </>
+                                        </span>
+                                        <span class="input-group-append ml-3 mr-1 text-center">
+                                            <input class="form-input-styled " type="radio" onclick="private_view()"
+                                                name="visibility" value="private"> private </>
+                                        </span>
+                                    </label>
+
+                                </div>
+                                <!-- </div> -->
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-3" id="participation">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-semibold">Project Participation:</label>
+                                    <select class="form-control multiselect" name="participation" multiple="multiple"
+                                        data-fouc>
+
+                                        <option value="Invitational" id="invitational"> Invitational </option>
+                                        <option value="Discoverable" id="discoverable"> Discoverable </option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-sm-3">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-semibold">Project Incentive Types:</label>
+                                    <select class="form-control multiselect" name="incentives" multiple="multiple"
+                                        data-fouc>
+                                        {% for incentive in incentives %}
+                                        <option value="{{ incentive.id }}" id="invitational"> {{ incentive }}
+                                        </option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                     </form>
-                </div>
+                    <div className="form-group col-md-6 float-left">
+                        <label class="font-weight-semibold">Project Descriptions:</label>
+                        <textarea class="form-control" name="project_descriptions" id="editor-full" rows="4"
+                            bottom="4"></textarea><br>
+                            
+                        <button class="btn bg-success-400 float-right btn-labeled btn-labeled-right rounded-round  btn-sm">
+                            <b>
+                                <i class="icon-check"></i>
+                            </b>
+                            Create
 
-                <div class="chart position-relative" id="traffic-sources"></div>
+                            </button>
+                    </div>
+                </form>
             </div>
-            <!-- /traffic sources -->
+
 
         </div>
     </div>
-    </div>
-    </div>
-
-  
-    <!-- /main charts --
+</div>
+{% endblock content %}

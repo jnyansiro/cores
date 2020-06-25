@@ -49,8 +49,13 @@
                                 <span class="text-warning-300">{{ project.due_date }}</span>
                             </li>
                             
-                            <li class="list-inline-item  font-size-sm col-md-12  ">
-                                <div class="col-sm-">
+                            {% if project.project_visibility == "private"%}
+                            <li class="list-inline-item  font-size-sm col-md-12 row ">
+                                <div class="col-sm-6">
+                                    <i class="icon-lock2 text-danger-400" style="font-size: 13px;"> </i>
+                                    Private
+                                </div>
+                                <div class="col-sm-6 text-right">
                                     <i class=" icon-medal-star text-orange" title="Earn appreciation letter"
                                         data-placement="bottom" data-popup="tooltip" style="font-size: 14px;">
                                     </i>
@@ -64,6 +69,27 @@
                                     </i>
                                 </div>
                             </li>
+                            {% else %}
+                            <li class="list-inline-item row  col-md-12 font-size-sm">
+                                <div class="col-sm-6">
+                                    <i class=" icon-folder-open text-primary-400" style="font-size: 13px;"> </i>
+                                    Public
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <i class=" icon-medal-star text-orange" title="Earn appreciation letter"
+                                        data-placement="bottom" data-popup="tooltip" style="font-size: 14px;">
+                                    </i>
+
+                                    <i class=" icon-certificate text-slate" title="Earn a certificate"
+                                        data-placement="bottom" data-popup="tooltip" style="font-size: 14px;">
+                                    </i>
+
+                                    <i class=" icon-cash3 text-success-400" title="Earn cash prize"
+                                        data-placement="bottom" data-popup="tooltip" style="font-size: 14px;">
+                                    </i>
+                                </div>
+                            </li>
+                            {% endif %}
                             <li class="list-inline-item col-md-12 mt-1">
                                 <a href="{% url 'projects:projectresources' project_id=project.id %}"
                                     class="bg-primary-400 p-1" style="border-radius: 4px;"><i
@@ -157,7 +183,7 @@
                             <li class="list-inline-item">
                                 <a href="{% url 'projects:viewpoints' project_id=project.id %}" 
                                     class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
-                                    <b><i class="icon-trash"></i></b>
+                                    <b><i class="icon-enlarge7"></i></b>
                                     Project Workspace
                                 </a>
                             </li>

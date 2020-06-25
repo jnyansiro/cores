@@ -1218,6 +1218,7 @@ def editProject(request, project_id):
             "hidesearch": hidesearch,
             "sectors": sectors,
             "project": project,
+            "project_id": project.id,
             "member": member,
             "notification": notification(request),
             "total_notification": total_notification(request),
