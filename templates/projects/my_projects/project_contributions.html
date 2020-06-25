@@ -287,6 +287,55 @@
                             </tbody>
                         </table>
                         {% endif %}
+
+
+
+                                {% if comments %}
+                                <table class="table table-bordered mt-2 table-responsive-xl">
+                                    <div class="row mb-2 mt-2 ">
+                                        <div class="col-md-6 text-left">
+                                            <h5 class="ml-2">Comments:</h5>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                
+                                            <button class="btn btn-success "> Approve </button><button class="btn btn-danger ml-1 mr-2 ">Reject</button>
+                                        </div>
+                                    </div>
+                                    <thead class="bg-primary text-white">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Select</th>
+                                            <th>Contributed By</th>
+                                            <th>Process Title</th>
+                                            <th>Options</th>
+                                
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for num, process in processes %}
+                                        <tr>
+                                            <td>{{num}}</td>
+                                            <td><input type="checkbox" value="{{process.process.id}}" class="form-control-styled"></td>
+                                            <td>{{ process.process.created_by }}</td>
+                                            <td>{{ process.process.process_name }}</td>
+                                
+                                
+                                
+                                            <td> <a href="{% url 'projects:viewprocess' process_id=process.id%}"
+                                                    class="btn btn-primary col-md-3 mr-md-1 ">View</a>
+                                                <a href="{% url 'projects:approveprocess' process_id=process.process.id%}"
+                                                    class="btn btn-success col-md-3 mr-md-1 ">Approve</a>
+                                                <a href="{% url 'projects:rejectprocess' process_id=process.process.id%}"
+                                                    class="btn btn-danger col-md-3 mr-md-1 ">Reject</a>
+                                            </td>
+                                
+                                        </tr>
+                                        {% endfor %}
+                                
+                                    </tbody>
+                                </table>
+                                {% endif %}
+
                    
                 </div>
             </div>

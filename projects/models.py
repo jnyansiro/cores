@@ -536,6 +536,7 @@ class Comment(models.Model):
     # TODO: Define fields here
     commented_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     comment = models.CharField(max_length=5000)
+    status = models.CharField(max_length=40, default="pending")
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 

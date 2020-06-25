@@ -808,39 +808,29 @@ def logout(request):
 def recovery(request):
 
     if request.method == "POST":
-        generated_key = request.POST.get('key')
+        generated_key = request.POST.get("key")
         password = request.POST.get("password")
         password1 = request.POST.get("password1")
-        user_reset = ResetPassword.objects.filter(generated_key=generated_key).order_by('-id')[0]
+        user_reset = ResetPassword.objects.filter(generated_key=generated_key).order_by(
+            "-id"
+        )[0]
         if password == password1:
-            if (user_reset.status == "active"):
+            if user_reset.status == "active":
                 user_account = User.objects.get(id=user_reset.user.id)
-                user_account.set_password(password )
+                user_account.set_password(password)
                 user_account.save()
                 update_session_auth_hash(request, user_account)
 
                 if user_account:
                     message = "Your password has been successfull Reseted, now you can login with new password"
-                    return render(
-                        request,
-                        "login.html",
-                        {"reg_message": message },
-                    )
-                
+                    return render(request, "login.html", {"reg_message": message},)
+
                 message1 = "Sorry failed to reset password try again"
-                return render(
-                    request,
-                    "password_reset.html",
-                    {"message1": message1},
-                )
+                return render(request, "password_reset.html", {"message1": message1},)
             message1 = "Your entered key has been expired go and generate again"
-            return  render(
-            request, "password_reset.html", {"message1": message1}
-               )
+            return render(request, "password_reset.html", {"message1": message1})
         message1 = "Password did not match, please enter correctly"
-        return render(
-            request, "password_reset.html", {"message1": message1}
-        )
+        return render(request, "password_reset.html", {"message1": message1})
     return render(request, "password_reset.html", {})
 
 
@@ -905,7 +895,9 @@ def forgetpassword(request):
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
             random_number = randint(10000, 99999)
-            create_entry = ResetPassword.objects.create(user=user,generated_key=random_number, status="active")
+            create_entry = ResetPassword.objects.create(
+                user=user, generated_key=random_number, status="active"
+            )
             create_entry.save()
             print(random_number)
             message = (
@@ -926,7 +918,7 @@ def forgetpassword(request):
             )
             print(send_email)
             if send_email:
-                result = "password Reset key has been sent to " + email 
+                result = "password Reset key has been sent to " + email
                 return render(request, "password_reset.html", {"message": result})
             result = "sorry failed to send a Key try again"
             return render(request, "password_recover.html", {"message1": result})
@@ -1470,7 +1462,10 @@ def viewMyproject(request, project_id):
     indexhead = "Projects / My Project Details"
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
-    comments = ProjectComment.objects.filter(project=project).order_by("-id")
+    comments = ProjectComment.objects.filter(
+        Q(project=project, comment__status="accepted")
+        | Q(project=project, comment__commented_by=member)
+    ).order_by("-id")
     projectRate = ProjectRate.objects.filter(
         project=project, star_rate__rated_by=member
     )
@@ -1522,7 +1517,10 @@ def viewProject(request, project_id, message=None):
         project_member = ProjectMembership.objects.get(
             member=member, project=project, project__project_visibility="private"
         )
-    comments = ProjectComment.objects.filter(project=project).order_by("-id")
+    comments = ProjectComment.objects.filter(
+        Q(project=project, comment__status="accepted")
+        | Q(project=project, comment__commented_by=member)
+    ).order_by("-id")
     tags = enumerate(ProjectSector.objects.filter(project=project), start=1)
     likes = ProjectLike.objects.filter(project=project).count()
     dislikes = ProjectDislike.objects.filter(project=project).count()
@@ -1884,7 +1882,10 @@ def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
     member = Member.objects.get(user=request.user)
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
     project = Project.objects.get(id=viewpoint.project.id)
-    comments = ViewPointComment.objects.filter(viewpoint=viewpoint).order_by("-id")
+    comments = ViewPointComment.objects.filter(
+        Q(viewpoint=viewpoint, comment__status="accepted")
+        | Q(viewpoint=viewpoint, comment__commented_by=member)
+    ).order_by("-id")
     total_comments = comments.count()
     likes = ViewpointLike.objects.filter(view_point=viewpoint).count()
     dislikes = ViewpointDislike.objects.filter(view_point=viewpoint).count()
@@ -2204,7 +2205,10 @@ def viewGoal(request, goal_id, message=None):
     indexhead = "Goal Description"
     goal = Goal.objects.get(id=goal_id)
     member = Member.objects.get(user=request.user)
-    comments = GoalComment.objects.filter(goal=goal).order_by("-id")
+    comments = GoalComment.objects.filter(
+        Q(goal=goal, comment__status="accepted")
+        | Q(goal=goal, comment__commented_by=member)
+    ).order_by("-id")
     goalRate = GoalRate.objects.filter(goal=goal, star_rate__rated_by=member)
     rates = GoalRate.objects.filter(goal=goal).order_by("-star_rate__number_of_stars")
     total_rates = rates.count()
@@ -2226,6 +2230,10 @@ def viewGoal(request, goal_id, message=None):
             | Q(project=project, created_by=member)
         )
         project_id = project.id
+        comments = GoalComment.objects.filter(
+            Q(goal=goal, comment__status="accepted")
+            | Q(goal=goal, comment__commented_by=member)
+        ).order_by("-id")
         rate_data = goal_rates(request, goal_id=goal_id)
         if goal.created_by == member or goal.viewpoint.project.created_by == member:
             creator = "me"
@@ -2442,9 +2450,10 @@ def viewrequirement(request, requirement_id=None, message=None):
     indexhead = "Requirement Description"
     requirement = Requirement.objects.get(id=requirement_id)
     member = Member.objects.get(user=request.user)
-    comments = RequirementComment.objects.filter(requirement=requirement).order_by(
-        "-id"
-    )
+    comments = RequirementComment.objects.filter(
+        Q(requirement=requirement, comment__status="accepted")
+        | Q(requirement=requirement, comment__commented_by=member)
+    ).order_by("-id")
     requirementRate = RequirementRate.objects.filter(
         requirement=requirement, star_rate__rated_by=member
     )
@@ -2470,9 +2479,10 @@ def viewrequirement(request, requirement_id=None, message=None):
             | Q(project=project, created_by=member)
         )
         project_id = project.id
-        comments = RequirementComment.objects.filter(requirement=requirement).order_by(
-            "-id"
-        )
+        RequirementComment.objects.filter(
+            Q(requirement=requirement, comment__status="accepted")
+            | Q(requirement=requirement, comment__commented_by=member)
+        ).order_by("-id")
         requirementRate = RequirementRate.objects.filter(
             requirement=requirement, star_rate__rated_by=member
         )
@@ -2715,9 +2725,10 @@ def viewscenario(request, scenario_id=None, message=None):
     indexhead = "Scenario Description"
     member = Member.objects.get(user=request.user)
     scenario = RequirementScenario.objects.get(id=scenario_id)
-    comments = ScenarioComment.objects.filter(scenario=scenario.scenario).order_by(
-        "-id"
-    )
+    comments = ScenarioComment.objects.filter(
+        Q(scenario=scenario.scenario, comment__status="ccepted")
+        | Q(scenario=scenario.scenario, comment__commented_by=member)
+    ).order_by("-id")
     scenarioRate = ScenarioRate.objects.filter(
         scenario=scenario.scenario, star_rate__rated_by=member
     )
@@ -2748,9 +2759,10 @@ def viewscenario(request, scenario_id=None, message=None):
             | Q(project=project, created_by=member)
         )
         project_id = project.id
-        comments = ScenarioComment.objects.filter(scenario=scenario.scenario).order_by(
-            "-id"
-        )
+        comments = ScenarioComment.objects.filter(
+            Q(scenario=scenario.scenario, comment__status="ccepted")
+            | Q(scenario=scenario.scenario, comment__commented_by=member)
+        ).order_by("-id")
         scenarioRate = ScenarioRate.objects.filter(
             scenario=scenario.scenario, star_rate__rated_by=member
         )
@@ -3026,7 +3038,10 @@ def viewprocess(request, process_id=None, message=None):
     indexhead = "Process Description"
     member = Member.objects.get(user=request.user)
     process = RequirementProcess.objects.get(id=process_id)
-    comments = ProcessComment.objects.filter(process=process.process).order_by("-id")
+    comments = ProcessComment.objects.filter(
+        Q(process=process.process, comment__status="accepted")
+        | Q(process=process.process, comment__commented_by=member)
+    ).order_by("-id")
     processRate = ProcessRate.objects.filter(
         process=process.process, star_rate__rated_by=member
     )
@@ -3061,7 +3076,10 @@ def viewprocess(request, process_id=None, message=None):
             | Q(project=project, created_by=member)
         )
         project_id = project.id
-        comments = ProcessComment.objects.filter(process=process).order_by("-id")
+        comments = ProcessComment.objects.filter(
+            Q(process=process.process, comment__status="accepted")
+            | Q(process=process.process, comment__commented_by=member)
+        ).order_by("-id")
         processRate = ProcessRate.objects.filter(
             process=process, star_rate__rated_by=member
         )
@@ -3339,7 +3357,10 @@ def viewusecase(request, usecase_id=None, message=None):
     indexhead = "Usecase Description"
     member = Member.objects.get(user=request.user)
     usecase = RequirementUsecase.objects.get(id=usecase_id)
-    comments = UseCaseComment.objects.filter(usecase=usecase.usecase).order_by("-id")
+    comments = UseCaseComment.objects.filter(
+        Q(usecase=usecase.usecase, comment__status="accepted")
+        | Q(usecase=usecase.usecase, comment__commented_by=member)
+    ).order_by("-id")
     usecaseRate = UseCaseRate.objects.filter(
         usecase=usecase.usecase, star_rate__rated_by=member
     )
@@ -3371,9 +3392,10 @@ def viewusecase(request, usecase_id=None, message=None):
         likes = UseCaseLike.objects.filter(use_case=usecase.usecase).count()
         dislikes = UseCaseDislike.objects.filter(use_case=usecase.usecase).count()
         project_id = project.id
-        comments = UseCaseComment.objects.filter(usecase=usecase.usecase).order_by(
-            "-id"
-        )
+        comments = UseCaseComment.objects.filter(
+            Q(usecase=usecase.usecase, comment__status="accepted")
+            | Q(usecase=usecase.usecase, comment__commented_by=member)
+        ).order_by("-id")
         usecaseRate = UseCaseRate.objects.filter(
             usecase=usecase.usecase, star_rate__rated_by=member
         )
@@ -5331,6 +5353,50 @@ def project_contributions(request, project_id):
         ).order_by("-id"),
         start=1,
     )
+
+
+    def comments(request,project_id):
+        project = Project.objects.get(id=project_id)
+        def project_comments(request):
+            comments = enumerate(
+             ProjectComment.objects.filter(project=project,status="pending").order_by("-id"), start=1,
+            )
+            return comments
+        def viewpoint_comments(request):
+            comments = enumerate(
+             ViewPointComment.objects.filter(viewpoint__project=project,status="pending").order_by("-id"), start=1,
+            )
+            return comments
+
+        def goal_comments(request):
+            comments = enumerate(
+             GoalComment.objects.filter(goal__project=project,status="pending").order_by("-id"), start=1,
+             )
+            return comments
+
+        def requirement_comments(request):
+            comments = enumerate(
+             requirementComment.objects.filter(requirement__project=project,status="pending").order_by("-id"), start=1,
+             )
+            return comments
+        def scenario_comments(request):
+            comments = enumerate(
+             ScenarioComment.objects.filter(scenario__project=project,status="pending").order_by("-id"), start=1,
+             )
+            return comments
+        
+        def process_comments(request):
+            comments = enumerate(
+             ProcessComment.objects.filter(process__project=project,status="pending").order_by("-id"), start=1,
+             )
+            return comments
+
+        def usecase_comments(request):
+            comments = enumerate(
+             UseCaseComment.objects.filter(usecase__project=project,status="pending").order_by("-id"), start=1,
+            )
+            return comments
+
     return render(
         request,
         "projects/my_projects/project_contributions.html",
@@ -5343,6 +5409,7 @@ def project_contributions(request, project_id):
             "project": project,
             "project_id": project.id,
             "processes": processes,
+            "comments": comments(request,project_id),
             "member": member,
             "notification": notification(request),
             "total_notification": total_notification(request),
@@ -5410,6 +5477,71 @@ def approve_usecase(request, usecase_id):
     return redirect("projects:projectcontributions", project_id=usecase.project.id)
 
 
+@login_required(login_url="login")
+def approve_project_comment(request, comment_id):
+    project_comment = ProjectComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions", project_id=project_comment.project.id
+    )
+
+
+@login_required(login_url="login")
+def approve_viewpoint_comment(request, comment_id):
+    viewpoint_comment = ViewpointComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions",
+        project_id=viewpoint_comment.viewpoint.project.id,
+    )
+
+
+@login_required(login_url="login")
+def approve_goal_comment(request, comment_id):
+    goal_comment = GoalComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions", project_id=goal_comment.goal.project.id
+    )
+
+
+@login_required(login_url="login")
+def approve_requirement_comment(request, comment_id):
+    requirement_comment = RequirementComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions",
+        project_id=requirement_comment.requirement.project.id,
+    )
+
+
+@login_required(login_url="login")
+def approve_scenario_comment(request, comment_id):
+    scenario_comment = ScenarioComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions", project_id=scenario_comment.scenario.project.id
+    )
+
+
+@login_required(login_url="login")
+def approve_process_comment(request, comment_id):
+    process_comment = ProcessComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions", project_id=process_comment.process.project.id
+    )
+
+
+@login_required(login_url="login")
+def approve_usecase_comment(request, comment_id):
+    usecase_comment = UseCaseComment.objects.get(comment__id=comment_id)
+    approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
+    return redirect(
+        "projects:projectcontributions", project_id=usecase_comment.usecase.project.id
+    )
+
+
 # Rejecting contributions
 @login_required(login_url="login")
 def reject_viewpoint(request, viewpoint_id):
@@ -5457,6 +5589,71 @@ def reject_usecase(request, usecase_id):
     return redirect("projects:projectcontributions", project_id=usecase.project.id)
 
 
+@login_required(login_url="login")
+def reject_project_comment(request, comment_id):
+    project_comment = ProjectComment.objects.get(comment__id=comment_id)
+    reject_comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions", project_id=project_comment.project.id
+    )
+
+
+@login_required(login_url="login")
+def reject_viewpoint_comment(request, comment_id):
+    viewpoint_comment = ViewpointComment.objects.get(comment__id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions",
+        project_id=viewpoint_comment.viewpoint.project.id,
+    )
+
+
+@login_required(login_url="login")
+def reject_goal_comment(request, comment_id):
+    goal_comment = GoalComment.objects.get(comment__id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions", project_id=goal_comment.goal.project.id
+    )
+
+
+@login_required(login_url="login")
+def reject_requirement_comment(request, comment_id):
+    requirement_comment = RequirementComment.objects.get(comment__id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions",
+        project_id=requirement_comment.requirement.project.id,
+    )
+
+
+@login_required(login_url="login")
+def reject_scenario_comment(request, comment_id):
+    scenario_comment = ScenarioComment.objects.get(comment__id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions", project_id=scenario_comment.scenario.project.id
+    )
+
+
+@login_required(login_url="login")
+def reject_process_comment(request, comment_id):
+    process_comment = ProcessComment.objects.get(comment__id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions", project_id=process_comment.process.project.id
+    )
+
+
+@login_required(login_url="login")
+def reject_usecase_comment(request, comment_id):
+    usecase_comment = UseCaseComment.objects.get(comment__id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).update(status="rejected")
+    return redirect(
+        "projects:projectcontributions", project_id=usecase_comment.usecase.project.id
+    )
+
+
 # Block contributions
 @login_required(login_url="login")
 def block_viewpoint(request, viewpoint_id):
@@ -5500,6 +5697,7 @@ def block_usecase(request, usecase_id):
     usecase = UseCase.objects.get(id=usecase_id)
     block_usecase = UseCase.objects.filter(id=usecase_id).update(status="blocked")
     return redirect("projects:projectcontributions", project_id=usecase.project.id)
+
 
 def shared_link(request, project_id):
     pass
