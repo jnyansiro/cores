@@ -13,6 +13,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
 from random import randint
+import time
+import datetime
 
 
 # Create your views here.
@@ -815,6 +817,7 @@ def recovery(request):
             "-id"
         )[0]
         if password == password1:
+            
             if user_reset.status == "active":
                 user_account = User.objects.get(id=user_reset.user.id)
                 user_account.set_password(password)
@@ -822,6 +825,7 @@ def recovery(request):
                 update_session_auth_hash(request, user_account)
 
                 if user_account:
+                    ResetPassword.objects.filter(generated_key=generated_key).update(status="expired")
                     message = "Your password has been successfull Reseted, now you can login with new password"
                     return render(request, "login.html", {"reg_message": message},)
 
@@ -1210,6 +1214,7 @@ def editProject(request, project_id):
             "hidesearch": hidesearch,
             "sectors": sectors,
             "project": project,
+            "project_id": project.id,
             "member": member,
             "notification": notification(request),
             "total_notification": total_notification(request),
@@ -4466,6 +4471,7 @@ def subscribe(request):
         subscribe = Subscriber.objects.create(
             fullname=name, email=email, message=message
         )
+
         subscribe.save()
         if subscribe:
             message = (

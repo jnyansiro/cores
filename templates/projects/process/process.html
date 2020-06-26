@@ -1,166 +1,174 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include '../viewpoints/viewpoint_header.html' %}
-<div class="content-wrapper">
 
-    <!-- Content area -->
-    <div class="content">
+{% block sidebar %}
+
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
+    <div class="card blog-horizontal blog-horizontal-xs">
+        <div class="card-body">
+            <div class="panel">
+                {% include '../workspace_title.html'%}
+                <div class="panel-body">
+                    <div class="tabbable">
+                        <ul class="nav  nav-tabs nav-justified text-center">
+                            <style>
+                                .viewpoint {
+
+                                    background-color: lightblue;
+
+                                }
+
+                                .requirement {
+                                    background: lightblue;
+                                }
+
+                                .scenario {
+                                    background: lightblue;
+                                }
+
+                                .goal {
+                                    background: lightblue;
+                                }
+
+                                .process {
+                                    background: #2196f3;
+                                }
+
+                                .usecase {
+                                    background: lightblue;
+                                }
+
+                                #li a {
+                                    color: white;
+                                    width: 100%;
 
 
-        <div class="card blog-horizontal blog-horizontal-xs">
-            <div class="card-body">
-                <div class="panel">
-                    {% include '../workspace_title.html'%}
-                    <div class="panel-body">
-                        <div class="tabbable">
-                            <ul class="nav  nav-tabs nav-justified text-center">
-                                <style>
-                                    .viewpoint {
+                                }
 
-                                        background-color: lightblue;
+                                #li {
+                                    border: 2 solid black;
+                                    align-content: center;
 
-                                    }
+                                }
 
-                                    .requirement {
-                                        background: lightblue;
-                                    }
+                                #li1 {
+                                    width: auto;
 
-                                    .scenario {
-                                        background: lightblue;
-                                    }
+                                    background-color: grey;
+                                }
 
-                                    .goal {
-                                        background: lightblue;
-                                    }
-
-                                    .process {
-                                        background: blue;
-                                    }
-
-                                    .usecase {
-                                        background: lightblue;
-                                    }
-
-                                    #li a {
-                                        color: white;
-                                        width: 100%;
-
-
-                                    }
-
-                                    #li {
-                                        border: 2 solid black;
-                                        align-content: center;
-
-                                    }
-
-                                    #li1 {
-                                        width: auto;
-
-                                        background-color: grey;
-                                    }
-
-                                    #li1 :hover a {
-                                        background-color: white;
-                                        color: blue;
-                                    }
-                                </style>
-                                <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoints' project_id=project_id %}" class="col-md-2" style="color: black;font-weight:bold">
-                                        ViewPoints
-                                    </a>
-                                </li>
-                                <li class="goal col-md-2">
-                                    <a href="{% url 'projects:projectgoals' project_id=project_id %}" class="col-md-2" style="color:black;font-weight:bold">
-                                        Goals
-                                    </a>
-                                </li>
-                                <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:projectrequirements' project_id=project_id %}" style="color:black;font-weight:bold">
-                                        Requirements
-                                    </a>
-                                </li>
-                                <li class=" scenario col-md-2">
-                                    <a href="{% url 'projects:projectscenarios' project_id=project_id %}" style="color:black;font-weight:bold">
-                                        Scenarios
-                                    </a>
-                                </li>
-                                <li class="process col-md-2">
-                                    <a href="#" style="color:white;font-weight:bold">
-                                        Processs
-                                    </a>
-                                </li>
-                                <li class="usecase col-md-2">
-                                    <a href="{% url 'projects:projectusecases' project_id=project_id %}" style="color:black;font-weight:bold">
-                                        Usecases
-                                    </a>
-                                </li>
-
-                            </ul>
-                          {% if requirement.id %}
-                            <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"><button
-                                        class="btn bg-primary btn-labeled  rounded-round text-center float-right">
-                                        Add Process <i class="icon-add"></i>
-                                    </button></a>
+                                #li1 :hover a {
+                                    background-color: white;
+                                    color: #2196f3;
+                                }
+                            </style>
+                            <li class="viewpoint col-md-2 p-2">
+                                <a href="{% url 'projects:viewpoints' project_id=project_id %}" class="col-md-2"
+                                    style="color: black;font-weight:bold">
+                                    ViewPoints
+                                </a>
                             </li>
-                            {% endif %}
+                            <li class="goal col-md-2 p-2">
+                                <a href="{% url 'projects:projectgoals' project_id=project_id %}" class="col-md-2"
+                                    style="color:black;font-weight:bold">
+                                    Goals
+                                </a>
+                            </li>
+                            <li class=" requirement col-md-2 p-2">
+                                <a href="{% url 'projects:projectrequirements' project_id=project_id %}"
+                                    style="color:black;font-weight:bold">
+                                    Requirements
+                                </a>
+                            </li>
+                            <li class=" scenario col-md-2 p-2">
+                                <a href="{% url 'projects:projectscenarios' project_id=project_id %}"
+                                    style="color:black;font-weight:bold">
+                                    Scenarios
+                                </a>
+                            </li>
+                            <li class="process col-md-2 p-2">
+                                <a href="#" style="color:white;font-weight:bold">
+                                    Processs
+                                </a>
+                            </li>
+                            <li class="usecase col-md-2 p-2">
+                                <a href="{% url 'projects:projectusecases' project_id=project_id %}"
+                                    style="color:black;font-weight:bold">
+                                    Usecases
+                                </a>
+                            </li>
 
-                        </div>
-                         {% if requirements %}
-                        <div class="form-group form-horizontal">
-                            <label class="col-lg-1 text-semibold control-label">
-                                Filter:</label>
-                                <form method="post" action="{% url 'projects:processes' requirement_id=requirement.id %}">
-                                    {% csrf_token %}
+                        </ul>
+                        {% if requirement.id %}
+                        <li class="col-md-12 float-right" style="list-style: none;">
+
+                            <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"
+                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
+                                        class="icon-plus3"></i></b>
+                                Add Process
+                            </a>
+                        </li>
+                        {% endif %}
+
+                    </div>
+                    {% if requirements %}
+                    <div class="form-group form-horizontal">
+                        <label class="col-lg-1 text-semibold control-label">
+                            Filter:</label>
+                        <form method="post" action="{% url 'projects:processes' requirement_id=requirement.id %}">
+                            {% csrf_token %}
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <select name="requirement" data-placeholder="Select View point" class="form-control" id="">
-                                      {% for requirement in requirements %}
+                                    <select name="requirement" data-placeholder="Select View point"
+                                        class="form-control" id="">
+                                        {% for requirement in requirements %}
                                         <option value="{{ trequirement.id}}">
                                             {{ requirement.name}}
                                         </option>
                                         {% endfor %}
-                                        
+
                                     </select>
                                     <span class="input-group-append">
                                         <span class="input-group-append"><button class="btn btn-primary"><i
                                                     class="icon-search4"></i></button></span>
                                     </span>
                                 </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        {% endif %}
-
-                        <div class="col-md-12 mb-10 mt-10">
-                            <h5 class="text-semibold">
-                               {{ requirement }} Processes:
-                            </h5>
-                            <div>
-                                <ul class="list-group">
-                                    {% for process in processes %}
-                                    <li class="list-group-item pl-10 pr-10 ">
-                                         <a href="{% url 'projects:viewprocess' process_id=process.id%}">
-                                             {{process.process.process_name}}</a>, By {{process.process.created_by}}, Created On: {{ process.process.created_on }}
-                                       
-                                        <a href="{% url 'projects:viewprocess' process_id=process.id%}"
-                                            class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
-                                            data-popup="tooltip" data-placement="bottom" title="View"
-                                            style="margin-top: -6px;">
-                                            <i class="icon-enter3"></i>
-                                        </a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-
+                        </form>
                     </div>
                 </div>
-                <!-- /mini size -->
+
+                {% endif %}
+
+                <div class="col-md-12 mb-10 mt-10">
+                    <h5 class="font-weight-semibold">
+                        {{ requirement }} Processes:
+                    </h5>
+                    <div>
+                        <ul class="list-group">
+                            {% for process in processes %}
+                            <li class="list-group-item pl-10 pr-10 ">
+                                <a href="{% url 'projects:viewprocess' process_id=process.id%}">
+                                    {{process.process.process_name}}</a>, By {{process.process.created_by}}, Created
+                                On: {{ process.process.created_on }}
+
+                                <a href="{% url 'projects:viewprocess' process_id=process.id%}"
+                                    class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                    data-popup="tooltip" data-placement="bottom" title="View"
+                                    style="margin-top: -6px;">
+                                    <i class="icon-enter3"></i>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
 
             </div>
         </div>
+        <!-- /mini size -->
+
     </div>
 </div>
+{% endblock content %}

@@ -18,8 +18,10 @@
         {% url 'projects:myprojects' as myprojects %}
         {% url 'projects:membershipprojects' as membershipprojects %}
         {% url 'projects:projects' as projects %}
+        {% url 'projects:generalreports' as generalreports %}
+        {% url 'projects:createproject' as createproject %}
         <li
-            class="nav-item nav-item-submenu {% if request.get_full_path == myprojects or request.get_full_path == membershipprojects or request.get_full_path == projects %} nav-item-expanded   {% endif %}">
+            class="nav-item nav-item-submenu {% if request.get_full_path == myprojects or request.get_full_path == membershipprojects or request.get_full_path == projects or request.get_full_path == createproject %} nav-item-expanded   {% endif %}">
             <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Projects</span></a>
 
             <ul class="nav nav-group-sub" data-submenu-title="Projects">
@@ -47,12 +49,11 @@
 
             </ul>
         </li>
-        <li class="nav-item nav-item-submenu nav-item-expanded">
+        <li class="nav-item nav-item-submenu {% if request.get_full_path == generalreports %} nav-item-expanded {% endif %}">
             <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
 
             <ul class="nav nav-group-sub" data-submenu-title="Reports">
 
-                {% url 'projects:generalreports' as generalreports %}
                 <li class="nav-item"><a href="{% url 'projects:generalreports'%}"
                         class="nav-link {% if request.get_full_path == generalreports %} active {% endif %}">General
                         Reports</a></li>

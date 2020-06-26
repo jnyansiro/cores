@@ -268,13 +268,25 @@
                                                 src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
                                                 class="rounded-circle" width="40" height="40" alt=""></div>
                                         <div class="media-body">
-                                            <div class="media-title d-flex flex-nowrap">
+                                            <div class="media-title">
                                                 <a href="#"
                                                     class="font-weight-semibold mr-3">{{comment.comment.commented_by}}</a>
                                                 <span
-                                                    class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
+                                                    class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.comment.created_on }}
                                                     <a href="#"><i
                                                             class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                                            status:
+                                                            {% if comment.comment.status == "pending" %}
+                                                            <label class="btn btn-danger btn-labeled  rounded-round  btn-sm text-center"
+                                                                title="you are the only one who can see this comment till when is accepted">
+                                                                {{comment.comment.status}}
+                                                            </label>
+                                                            {% else %}
+                                                            <label class="btn btn-success btn-labeled  rounded-round  btn-sm text-center mr-2"
+                                                                title="This comment is visible to all project members">
+                                                                {{comment.comment.status}}
+                                                            </label>
+                                                            {% endif %}
                                             </div>
                                             {{ comment.comment|safe }}
                                         </div>
