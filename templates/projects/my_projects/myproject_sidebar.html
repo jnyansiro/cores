@@ -2,7 +2,7 @@
     <ul class="nav nav-sidebar" data-nav-type="accordion">
 
         <li class="nav-item">
-            <a href="{% url 'index' %}" class="nav-link active">
+            <a href="{% url 'index' %}" class="nav-link">
                 <i class="icon-home4"></i>
                 <span>
                     Main Dashboard
@@ -11,47 +11,56 @@
             </a>
         </li>
         <li class="nav-item nav-item">
-            <a href="{% url 'projects:myprojects'%}" class="nav-link"><i class="icon-copy"></i>
+            {% url 'projects:myprojects' as  myprojects%}
+            {% url 'projects:projectmembers' project_id=project_id as projectmembers %}
+            {% url 'projects:projectcontributions' project_id=project_id as projectcontributions %}
+            {% url 'projects:memberrequest' project_id=project_id as memberrequest %}
+            {% url 'projects:invitemembers' project_id=project.id as invitemembers %}
+            {% url 'projects:projectincentives' project_id=project.id as projectincentives %}
+            {% url 'projects:generatedocs' project_id=project.id  as generatedocs %}
+            {% url 'projects:myprojectreports' project_id=project.id as myprojectreports %}
+            
+            <a href="{% url 'projects:myprojects'%}" class="nav-link {% if request.get_full_path == myprojects %} active {% endif %}"><i class="icon-copy"></i>
                 <span>Projects</span></a>
 
         </li>
-        <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}" class="nav-link"><i
+        <li class="nav-item"><a href="{% url 'projects:projectmembers' project_id=project_id %}" class="nav-link {% if request.get_full_path ==  projectmembers %} active {% endif %}"><i
                     class="icon-users"></i> <span>Project Member
-                </span></a></li>
+                </span></a>
+        </li>
         <li class="nav-item"><a href="{% url 'projects:projectcontributions' project_id=project_id%}"
-                class="nav-link"><i class="icon-stack"></i>
-                <span>Approve Contributions</span></a></li>
-        <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}" class="nav-link"><i
+                class="nav-link {% if request.get_full_path == projectcontributions %} active {% endif %}"><i class="icon-stack"></i>
+                <span>Approve Contributions</span></a>
+        </li>
+        <li class="nav-item"><a href="{% url 'projects:memberrequest' project_id=project_id%}" class="nav-link {% if request.get_full_path == memberrequest %} active {% endif %}"><i
                     class="icon-user"></i>
                 <span>Member
-                    Requests</span></a></li>
-        <li class="nav-item"><a href="{% url 'projects:invitemembers' project_id=project.id %}" class="nav-link"><i
+                    Requests</span></a>
+        </li>
+        <li class="nav-item"><a href="{% url 'projects:invitemembers' project_id=project.id %}" class="nav-link {% if request.get_full_path == invitemembers %} active {% endif %}"><i
                     class="icon-user-plus"></i>
                 <span> Invite Member
-                </span></a></li>
+                </span></a>
+        </li>
 
         <li class="nav-item nav-item">
 
             {% if project %}
-            <a href="{% url 'projects:projectincentives' project_id=project.id %}" class="nav-link"><i
+            <a href="{% url 'projects:projectincentives' project_id=project.id %}" class="nav-link {% if request.get_full_path == projectincentives %} active {% endif %}"><i
                     class="icon-gift"></i>
                 <span>Project Incentives</span></a>
             {% endif%}
-
-
-
-
         </li>
-        <li class="nav-item"><a href="{% url 'projects:generatedocs' project_id=project.id %}" class="nav-link"><i
+        <li class="nav-item"><a href="{% url 'projects:generatedocs' project_id=project.id %}" class="nav-link {% if request.get_full_path == generatedocs %} active {% endif %}"><i
                     class="icon-magazine"></i>
                 <span> Generate Word Document
                 </span></a></li>
-        <li class="nav-item nav-item-submenu">
+        <li class="nav-item nav-item-submenu {% if request.get_full_path == myprojectreports %} nav-item-expanded {% endif %}">
             <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
             <ul class="nav nav-group-sub" data-submenu-title="Layouts">
 
                 <li class="nav-item"><a href="{% url 'projects:myprojectreports' project_id=project.id%}"
-                        class="nav-link ">General
+                        class="nav-link {% if request.get_full_path == myprojectreports %} active {% endif %}">General
                         Reports</a></li>
 
             </ul>
