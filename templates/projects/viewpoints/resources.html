@@ -1,76 +1,79 @@
-
-<script>
-    function docx() {
-        document.getElementById('buttons').style.display = 'none'
-        document.getElementById('docs').style.display = 'block'
-        document.getElementById('links').style.display = 'none'
-        document.getElementById('image').style.display = 'none'
-        document.getElementById('back').style.display = 'block'
-
-    }
-
-    function lin() {
-        document.getElementById('buttons').style.display = 'none'
-        document.getElementById('docs').style.display = 'none'
-        document.getElementById('links').style.display = 'block'
-        document.getElementById('image').style.display = 'none'
-        document.getElementById('back').style.display = 'block'
-    }
-
-    function imag() {
-         document.getElementById('buttons').style.display = 'none'
-         document.getElementById('docs').style.display = 'none'
-         document.getElementById('links').style.display = 'none'
-         document.getElementById('image').style.display = 'block'
-         document.getElementById('back').style.display = 'block'
-    }
-</script>
+{% extends 'header.html' %}
 {% load static %}
-{% include './viewpoint_header.html' %}
-<div class="content-wrapper">
 
-    <!-- Content area -->
-    <div class="content">
+{% block sidebar %}
 
+{% endblock sidebar %}
+{% block content %}
 
-        <div class="card blog-horizontal blog-horizontal-xs">
-            <div class="card-header text-center bg-primary">
-               {% if viewpoint_id %} {{ viewpoint.viewpoint_name }} {% endif%}
-               {% if project_id %} {{ project.project_title }} {% endif%}
-               {% if goal_id %} {{ goal.goal_name }} {% endif%}
-               {% if requirement_id %} {{ requirement.name }} {% endif%}
-               {% if scenario_id %} {{ scenario.name }} {% endif%}
-               {% if process_id %} {{ process.process_name }} {% endif%}
-               {% if usecase_id %} {{ usecase.usecase_name }} {% endif%}` Resources
-            </div>
-            <div class="card-body">
-                <div class="row text-center" id="buttons">
-                    
-                <div class="card icon-5x col-md-4 ml-2" onclick="docx()" style="cursor:pointer" title="includes pdf,word docx,excel,CSV">
-                    
-                    <div class="card-header icon-5x" >
+<!-- Content area -->
+<div class="content">
+    <script>
+        function docx() {
+            document.getElementById('buttons').style.display = 'none'
+            document.getElementById('docs').style.display = 'block'
+            document.getElementById('links').style.display = 'none'
+            document.getElementById('image').style.display = 'none'
+            document.getElementById('back').style.display = 'block'
+
+        }
+
+        function lin() {
+            document.getElementById('buttons').style.display = 'none'
+            document.getElementById('docs').style.display = 'none'
+            document.getElementById('links').style.display = 'block'
+            document.getElementById('image').style.display = 'none'
+            document.getElementById('back').style.display = 'block'
+        }
+
+        function imag() {
+            document.getElementById('buttons').style.display = 'none'
+            document.getElementById('docs').style.display = 'none'
+            document.getElementById('links').style.display = 'none'
+            document.getElementById('image').style.display = 'block'
+            document.getElementById('back').style.display = 'block'
+        }
+    </script>
+
+    <div class="card blog-horizontal blog-horizontal-xs">
+        <div class="card-header text-center bg-primary-400">
+            {% if viewpoint_id %} {{ viewpoint.viewpoint_name }} {% endif%}
+            {% if project_id %} {{ project.project_title }} {% endif%}
+            {% if goal_id %} {{ goal.goal_name }} {% endif%}
+            {% if requirement_id %} {{ requirement.name }} {% endif%}
+            {% if scenario_id %} {{ scenario.name }} {% endif%}
+            {% if process_id %} {{ process.process_name }} {% endif%}
+            {% if usecase_id %} {{ usecase.usecase_name }} {% endif%}` Resources
+        </div>
+        <div class="card-body">
+            <div class="row text-center" id="buttons">
+
+                <div class="card icon-5x col-md-4 ml-2" onclick="docx()" style="cursor:pointer"
+                    title="includes pdf,word docx,excel,CSV">
+
+                    <div class="card-header icon-5x">
                         <h5 style="font-weight: bold;">Documents</h5>
                     </div>
-                <i class="icon-file-text text-primary icon-5x mb-3 mt-1 col-md-12 "></i>
-                
+                    <i class="icon-file-text text-primary icon-5x mb-3 mt-1 col-md-12 "></i>
+
                 </div>
-                 <div class="card icon-5x col-md-4 ml-2" onclick="imag()" style="cursor:pointer"
-                     title="includes png,jpg and other image format">
-                     <div class="card-header icon-5x">
-                         <h5 style="font-weight: bold;">images</h5>
-                     </div>
-                     <i class="icon-images3 text-primary icon-5x mb-3 mt-1 col-md-12 "></i>
-                 </div>
+                <div class="card icon-5x col-md-4 ml-2" onclick="imag()" style="cursor:pointer"
+                    title="includes png,jpg and other image format">
+                    <div class="card-header icon-5x">
+                        <h5 style="font-weight: bold;">images</h5>
+                    </div>
+                    <i class="icon-images3 text-primary icon-5x mb-3 mt-1 col-md-12 "></i>
+                </div>
 
-                 <div class="card icon-5x col-md-3 ml-2 " onclick="lin()" style="cursor:pointer"
-                     title="includes all links">
-                     <div class="card-header icon-5x">
-                         <h5 style="font-weight: bold;">Links</h5>
-                     </div>
-                     <i class="icon-link icon-5x mb-3 mt-1 col-md-12 text-primary "></i>
-                 </div>
+                <div class="card icon-5x col-md-3 ml-2 " onclick="lin()" style="cursor:pointer"
+                    title="includes all links">
+                    <div class="card-header icon-5x">
+                        <h5 style="font-weight: bold;">Links</h5>
+                    </div>
+                    <i class="icon-link icon-5x mb-3 mt-1 col-md-12 text-primary "></i>
+                </div>
 
-                 <!-- <div class="card icon-5x col-md-2 ml-2 float-right" style="cursor:pointer" data-toggle="modal"
+                <!-- <div class="card icon-5x col-md-2 ml-2 float-right" style="cursor:pointer" data-toggle="modal"
                      data-target="#add_resources">
                      <div class="card-header icon-5x">
                          <h5 style="font-weight: bold;">Add resources</h5>
@@ -78,549 +81,532 @@
                      <i class="icon-plus3 icon-5x mb-3 mt-1 col-md-12 text-primary "></i>
                  </div> -->
 
-                 </div>
-                
+            </div>
 
-          <!-- div for docx  -->
-          <label id="back" style="display: none;">
-              {% if project_id %}
-              <a href="{% url 'projects:projectresources' project_id=project_id%}"><i class="icon-undo2 text-primary">Back</i></a>
-              
-              {% endif %}
-              {% if viewpoint_id %}
-              <a href="{% url 'projects:viewpointresources' viewpoint_id=viewpoint_id%}"><i
-                      class="icon-undo2 text-primary">Back</i></a>
-              {% endif %}
-              {% if goal_id %}
-              <a href="{% url 'projects:goalresources' goal_id=goal_id%}"><i
-                      class="icon-undo2 text-primary">Back</i></a>
-              {% endif %}
-              {% if requirement_id %}
-              <a href="{% url 'projects:requirementresources' requirement_id=requirement_id%}"><i
-                      class="icon-undo2 text-primary">Back</i></a>
-              {% endif %}
-              {% if scenario_id %}
-              <a href="{% url 'projects:scenarioresources' scenario_id=scenario_id%}"><i
-                      class="icon-undo2 text-primary">Back</i></a>
-              {% endif %}
-              {% if process_id %}
-              <a href="{% url 'projects:processresources' process_id=process_id%}"><i
-                      class="icon-undo2 text-primary">Back</i></a>
-              {% endif %}
-              {% if usecase_id %}
-              <a href="{% url 'projects:usecaseresources' usecase_id=usecase_id%}"><i
-                      class="icon-undo2 text-primary">Back</i></a>
-              {% endif %}
+
+            <!-- div for docx  -->
+            <label id="back" style="display: none;">
+                {% if project_id %}
+                <a href="{% url 'projects:projectresources' project_id=project_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+
+                {% endif %}
+                {% if viewpoint_id %}
+                <a href="{% url 'projects:viewpointresources' viewpoint_id=viewpoint_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+                {% endif %}
+                {% if goal_id %}
+                <a href="{% url 'projects:goalresources' goal_id=goal_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+                {% endif %}
+                {% if requirement_id %}
+                <a href="{% url 'projects:requirementresources' requirement_id=requirement_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+                {% endif %}
+                {% if scenario_id %}
+                <a href="{% url 'projects:scenarioresources' scenario_id=scenario_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+                {% endif %}
+                {% if process_id %}
+                <a href="{% url 'projects:processresources' process_id=process_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+                {% endif %}
+                {% if usecase_id %}
+                <a href="{% url 'projects:usecaseresources' usecase_id=usecase_id%}"><i
+                        class="icon-undo2 text-primary">Back</i></a>
+                {% endif %}
             </label>
 
-                <div id="docs" style="display: none;">
-                    <ul class="list-group">
-                        <li class="content-right" style="list-style: none;"> <button class="btn btn-primary float-right" data-toggle="modal"
-                     data-target="#add_document">Add Document</button></li>
-                        <li class="text-center"  style="list-style: none;"><h4>Document Resources:</h4></li>
-                        {% for resource in resources %}
-                        {% if  resource.repository.docs %}
-                        <li class="list-group-item pl-10 pr-10 text-capitalize"  >
-                            <a href="{% url 'projects:viewdocumentresource' resource_id=resource.repository.id%}"
-                                class="text-primary">{{ resource.repository.docs}}</a>
-                            Added by {{resource.repository.added_by}}, Added
-                            on:{{ resource.created_on}}
-                            <a href="{% url 'projects:viewdocumentresource' resource_id=resource.repository.id%}"
-                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
-                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
-                                <i class="icon-enter3"></i>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-             
-                <!-- div for image  -->
-                <div id="image" style="display: none;">
-                    <ul class="list-group">
-                        <li class="content-right" style="list-style: none;"> <button class="btn btn-primary float-right" data-toggle="modal"
-                     data-target="#add_image">Add Image</button></li>
-                        <li class="text-center">
-                            <h4>Image Resources:</h4>
-                        </li>
-                        {% for resource in resources %}
-                        {% if  resource.repository.image %}
-                        <li class="list-group-item pl-10 pr-10 text-capitalize">
-                            <a href="{% url 'projects:viewimageresource' resource_id=resource.repository.id%}"
-                                class="text-primary">{{ resource.repository.image}}</a>
-                            Added by {{resource.repository.added_by}}, Added on
-                            on:{{ resource.created_on}}
-                            <a href="{% url 'projects:viewimageresource' resource_id=resource.repository.id%}"
-                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
-                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
-                                <i class="icon-enter3"></i>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+            <div id="docs" style="display: none;">
+                <ul class="list-group">
+                    <li class="content-right" style="list-style: none;"> <button class="btn btn-primary float-right"
+                            data-toggle="modal" data-target="#add_document">Add Document</button></li>
+                    <li class="text-center" style="list-style: none;">
+                        <h4>Document Resources:</h4>
+                    </li>
+                    {% for resource in resources %}
+                    {% if  resource.repository.docs %}
+                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                        <a href="{% url 'projects:viewdocumentresource' resource_id=resource.repository.id%}"
+                            class="text-primary">{{ resource.repository.docs}}</a>
+                        Added by {{resource.repository.added_by}}, Added
+                        on:{{ resource.created_on}}
+                        <a href="{% url 'projects:viewdocumentresource' resource_id=resource.repository.id%}"
+                            class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                            data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                            <i class="icon-enter3"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- div for image  -->
+            <div id="image" style="display: none;">
+                <ul class="list-group">
+                    <li class="content-right" style="list-style: none;"> <button class="btn btn-primary float-right"
+                            data-toggle="modal" data-target="#add_image">Add Image</button></li>
+                    <li class="text-center">
+                        <h4>Image Resources:</h4>
+                    </li>
+                    {% for resource in resources %}
+                    {% if  resource.repository.image %}
+                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                        <a href="{% url 'projects:viewimageresource' resource_id=resource.repository.id%}"
+                            class="text-primary">{{ resource.repository.image}}</a>
+                        Added by {{resource.repository.added_by}}, Added on
+                        on:{{ resource.created_on}}
+                        <a href="{% url 'projects:viewimageresource' resource_id=resource.repository.id%}"
+                            class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                            data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                            <i class="icon-enter3"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
 
 
-                <!-- div for links -->
-                <div id="links" style="display: none;">
-                    <ul class="list-group">
-                        <li class="content-right" style="list-style: none;"> <button class="btn btn-primary float-right" data-toggle="modal"
-                     data-target="#add_link">Add Link</button></li>
-                        <li class="text-center">
-                            <h4>Links Resources:</h4>
-                        </li>
-                        {% for resource in resources %}
-                        {% if  resource.repository.links %}
-                        <li class="list-group-item pl-10 pr-10 text-capitalize">
-                            <a
-                                href="{% url 'projects:viewlinkresource' resource_id=resource.repository.id%}">{{ resource.repository.links}}</a>
-                            Added by {{resource.repository.added_by}}, Added
-                            on:{{ resource.created_on}}
-                            <a href="{% url 'projects:viewlinkresource' resource_id=resource.repository.id%}"
-                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
-                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;" >
-                                <i class="icon-enter3" ></i>
-                            </a>
-                        </li>
+            <!-- div for links -->
+            <div id="links" style="display: none;">
+                <ul class="list-group">
+                    <li class="content-right" style="list-style: none;"> <button class="btn btn-primary float-right"
+                            data-toggle="modal" data-target="#add_link">Add Link</button></li>
+                    <li class="text-center">
+                        <h4>Links Resources:</h4>
+                    </li>
+                    {% for resource in resources %}
+                    {% if  resource.repository.links %}
+                    <li class="list-group-item pl-10 pr-10 text-capitalize">
+                        <a
+                            href="{% url 'projects:viewlinkresource' resource_id=resource.repository.id%}">{{ resource.repository.links}}</a>
+                        Added by {{resource.repository.added_by}}, Added
+                        on:{{ resource.created_on}}
+                        <a href="{% url 'projects:viewlinkresource' resource_id=resource.repository.id%}"
+                            class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                            data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                            <i class="icon-enter3"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> <!-- Vertical form modal -->
+<div id="add_documentio" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <h6 class="text-center">You can add any Image formats such as png, jpg, jpeg and others</h6>
+            {% if project_id %}
+            <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
+                enctype="multipart/form-data">
+                {% endif %}
+                {% if viewpoint_id %}
+                <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
+                    enctype="multipart/form-data">
+                    {% endif %}
+                    {% if goal_id %}
+                    <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
+                        enctype="multipart/form-data">
                         {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-                </div>
+
+                        {% if requirement_id %}
+                        <form method="POST"
+                            action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
+                            enctype="multipart/form-data">
+                            {% endif %}
+
+                            {% if scenario_id %}
+                            <form method="POST"
+                                action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
+                                enctype="multipart/form-data">
+                                {% endif %}
+
+                                {% if process_id %}
+                                <form method="POST"
+                                    action="{% url 'projects:addprocessresources' process_id=process_id %}"
+                                    enctype="multipart/form-data">
+                                    {% endif %}
+
+                                    {% if usecase_id %}
+                                    <form method="POST"
+                                        action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
+                                        enctype="multipart/form-data">
+                                        {% endif %}
+
+
+
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12" hidden>
+                                                        <label>Image</label>
+                                                        <input type="file" name="image" class="form-control-styled "
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <label>Document</label>
+                                                        <input type="file" name="docs"
+                                                            title="can be pdf, docx or excell"
+                                                            class="form-control-styled" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" hidden>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Links</label>
+                                                        <input type="text" name="links" placeholder="add link(s)"
+                                                            class="form-control">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Description</label>
+                                                        <textarea name="description" placeholder="write here"
+                                                            class="form-control"></textarea>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-link"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn bg-primary">Add</button>
+                                        </div>
+                                    </form>
         </div>
     </div>
 </div>
+<!-- /vertical form modal -->
+
+<!-- Vertical form modal -->
+<div id="add_document" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <h6 class="text-center">You can add any Image formats such as png, jpg, jpeg and others</h6>
+            {% if project_id %}
+            <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
+                enctype="multipart/form-data">
+                {% endif %}
+                {% if viewpoint_id %}
+                <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
+                    enctype="multipart/form-data">
+                    {% endif %}
+                    {% if goal_id %}
+                    <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
+                        enctype="multipart/form-data">
+                        {% endif %}
+
+                        {% if requirement_id %}
+                        <form method="POST"
+                            action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
+                            enctype="multipart/form-data">
+                            {% endif %}
+
+                            {% if scenario_id %}
+                            <form method="POST"
+                                action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
+                                enctype="multipart/form-data">
+                                {% endif %}
+
+                                {% if process_id %}
+                                <form method="POST"
+                                    action="{% url 'projects:addprocessresources' process_id=process_id %}"
+                                    enctype="multipart/form-data">
+                                    {% endif %}
+
+                                    {% if usecase_id %}
+                                    <form method="POST"
+                                        action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
+                                        enctype="multipart/form-data">
+                                        {% endif %}
 
 
 
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12" hidden>
+                                                        <label>Image</label>
+                                                        <input type="file" name="image" class="form-control-styled ">
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <label>Document</label>
+                                                        <input type="file" name="docs"
+                                                            title="can be pdf, docx or excell"
+                                                            class="form-control-styled" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" hidden>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Links</label>
+                                                        <input type="text" name="links" placeholder="add link(s)"
+                                                            class="form-control">
+                                                    </div>
 
 
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Description</label>
+                                                        <textarea name="description" placeholder="write here"
+                                                            class="form-control"></textarea>
+                                                    </div>
 
 
+                                                </div>
+                                            </div>
 
-                            <!-- Vertical form modal -->
-                            <div id="add_documentio" class="modal fade" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                            
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                                         </div>
-                                        <h6 class="text-center">You can add any Image formats such as png, jpg, jpeg and others</h6>
-                                        {% if project_id %}
-                                        <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
-                                            enctype="multipart/form-data">
-                                            {% endif %}
-                                            {% if viewpoint_id %}
-                                            <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
-                                                enctype="multipart/form-data">
-                                                {% endif %}
-                                                {% if goal_id %}
-                                                <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
-                                                    enctype="multipart/form-data">
-                                                    {% endif %}
-                            
-                                                    {% if requirement_id %}
-                                                    <form method="POST"
-                                                        action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
-                                                        enctype="multipart/form-data">
-                                                        {% endif %}
-                            
-                                                        {% if scenario_id %}
-                                                        <form method="POST"
-                                                            action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
-                                                            enctype="multipart/form-data">
-                                                            {% endif %}
-                            
-                                                            {% if process_id %}
-                                                            <form method="POST"
-                                                                action="{% url 'projects:addprocessresources' process_id=process_id %}"
-                                                                enctype="multipart/form-data">
-                                                                {% endif %}
-                            
-                                                                {% if usecase_id %}
-                                                                <form method="POST"
-                                                                    action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
-                                                                    enctype="multipart/form-data">
-                                                                    {% endif %}
-                            
-                            
-                            
-                                                                    {% csrf_token %}
-                                                                    <div class="modal-body">
-                                                                        <div class="form-group">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-12" hidden>
-                                                                                    <label>Image</label>
-                                                                                    <input type="file" name="image" class="form-control-styled "
-                                                                                        required>
-                                                                                </div>
-                            
-                                                                                <div class="col-sm-12" >
-                                                                                    <label>Document</label>
-                                                                                    <input type="file" name="docs"
-                                                                                        title="can be pdf, docx or excell"
-                                                                                        class="form-control-styled" required>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                            
-                                                                        <div class="form-group" hidden>
-                                                                            <div class="row">
-                                                                                <div class="col-sm-12">
-                                                                                    <label>Links</label>
-                                                                                    <input type="text" name="links" placeholder="add link(s)"
-                                                                                        class="form-control">
-                                                                                </div>
-                            
-                            
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-12">
-                                                                                    <label>Description</label>
-                                                                                    <textarea name="description" placeholder="write here"
-                                                                                        class="form-control"></textarea>
-                                                                                </div>
-                            
-                            
-                                                                            </div>
-                                                                        </div>
-                            
-                            
-                                                                    </div>
-                            
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-link"
-                                                                            data-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn bg-primary">Add</button>
-                                                                    </div>
-                                                                </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /vertical form modal -->
 
-
-
-                    <!-- Vertical form modal -->
-                    <div id="add_document" class="modal fade" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                    
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <h6 class="text-center">You can add any Image formats such as png, jpg, jpeg and others</h6>
-                                {% if project_id %}
-                                <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
-                                    enctype="multipart/form-data">
-                                    {% endif %}
-                                    {% if viewpoint_id %}
-                                    <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
-                                        enctype="multipart/form-data">
-                                        {% endif %}
-                                        {% if goal_id %}
-                                        <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
-                                            enctype="multipart/form-data">
-                                            {% endif %}
-                    
-                                            {% if requirement_id %}
-                                            <form method="POST"
-                                                action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
-                                                enctype="multipart/form-data">
-                                                {% endif %}
-                    
-                                                {% if scenario_id %}
-                                                <form method="POST"
-                                                    action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
-                                                    enctype="multipart/form-data">
-                                                    {% endif %}
-                    
-                                                    {% if process_id %}
-                                                    <form method="POST"
-                                                        action="{% url 'projects:addprocessresources' process_id=process_id %}"
-                                                        enctype="multipart/form-data">
-                                                        {% endif %}
-                    
-                                                        {% if usecase_id %}
-                                                        <form method="POST"
-                                                            action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
-                                                            enctype="multipart/form-data">
-                                                            {% endif %}
-                    
-                    
-                    
-                                                            {% csrf_token %}
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12" hidden>
-                                                                            <label>Image</label>
-                                                                            <input type="file" name="image" class="form-control-styled "
-                                                                                >
-                                                                        </div>
-                    
-                                                                        <div class="col-sm-12">
-                                                                            <label>Document</label>
-                                                                            <input type="file" name="docs"
-                                                                                title="can be pdf, docx or excell"
-                                                                                class="form-control-styled" required>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                    
-                                                                <div class="form-group" hidden>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12">
-                                                                            <label>Links</label>
-                                                                            <input type="text" name="links" placeholder="add link(s)"
-                                                                                class="form-control">
-                                                                        </div>
-                    
-                    
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12">
-                                                                            <label>Description</label>
-                                                                            <textarea name="description" placeholder="write here"
-                                                                                class="form-control"></textarea>
-                                                                        </div>
-                    
-                    
-                                                                    </div>
-                                                                </div>
-                    
-                    
-                                                            </div>
-                    
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-link"
-                                                                    data-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn bg-primary">Add</button>
-                                                            </div>
-                                                        </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /vertical form modal -->
-
-
-
-
-                <!-- Vertical form modal -->
-                <div id="add_image" class="modal fade" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <h6 class="text-center">You can add any Image formats such as png, jpg, jpeg and others</h6>
-                            {% if project_id %}
-                            <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
-                                enctype="multipart/form-data">
-                                {% endif %}
-                                {% if viewpoint_id %}
-                                <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
-                                    enctype="multipart/form-data">
-                                    {% endif %}
-                                    {% if goal_id %}
-                                    <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
-                                        enctype="multipart/form-data">
-                                        {% endif %}
-                
-                                        {% if requirement_id %}
-                                        <form method="POST"
-                                            action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
-                                            enctype="multipart/form-data">
-                                            {% endif %}
-                
-                                            {% if scenario_id %}
-                                            <form method="POST"
-                                                action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
-                                                enctype="multipart/form-data">
-                                                {% endif %}
-                
-                                                {% if process_id %}
-                                                <form method="POST"
-                                                    action="{% url 'projects:addprocessresources' process_id=process_id %}"
-                                                    enctype="multipart/form-data">
-                                                    {% endif %}
-                
-                                                    {% if usecase_id %}
-                                                    <form method="POST"
-                                                        action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
-                                                        enctype="multipart/form-data">
-                                                        {% endif %}
-                
-                
-                
-                                                        {% csrf_token %}
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label>Image</label>
-                                                                        <input type="file" name="image" class="form-control-styled " required>
-                                                                    </div>
-                
-                                                                    <div class="col-sm-6" hidden>
-                                                                        <label>Document</label>
-                                                                        <input type="file" name="docs"
-                                                                            title="can be pdf, docx or excell"
-                                                                            class="form-control-styled">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                
-                                                            <div class="form-group" hidden>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label>Links</label>
-                                                                        <input type="text" name="links" placeholder="add link(s)"
-                                                                            class="form-control">
-                                                                    </div>
-                
-                
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label>Description</label>
-                                                                        <textarea name="description" placeholder="write here"
-                                                                            class="form-control"></textarea>
-                                                                    </div>
-                
-                
-                                                                </div>
-                                                            </div>
-                
-                
-                                                        </div>
-                
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-link"
-                                                                data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn bg-primary">Add</button>
-                                                        </div>
-                                                    </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /vertical form modal -->
-
-
-
-                <!-- Vertical form modal -->
-                <div id="add_link" class="modal fade" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <h6 class="text-center">You can add any link starting with http</h6>
-                            {% if project_id %}
-                            <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
-                                enctype="multipart/form-data">
-                                {% endif %}
-                                {% if viewpoint_id %}
-                                <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
-                                    enctype="multipart/form-data">
-                                    {% endif %}
-                                    {% if goal_id %}
-                                    <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
-                                        enctype="multipart/form-data">
-                                        {% endif %}
-                
-                                        {% if requirement_id %}
-                                        <form method="POST"
-                                            action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
-                                            enctype="multipart/form-data">
-                                            {% endif %}
-                
-                                            {% if scenario_id %}
-                                            <form method="POST"
-                                                action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
-                                                enctype="multipart/form-data">
-                                                {% endif %}
-                
-                                                {% if process_id %}
-                                                <form method="POST"
-                                                    action="{% url 'projects:addprocessresources' process_id=process_id %}"
-                                                    enctype="multipart/form-data">
-                                                    {% endif %}
-                
-                                                    {% if usecase_id %}
-                                                    <form method="POST"
-                                                        action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
-                                                        enctype="multipart/form-data">
-                                                        {% endif %}
-                
-                
-                
-                                                        {% csrf_token %}
-                                                        <div class="modal-body">
-                                                            <div class="form-group" hidden>
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <label>Image</label>
-                                                                        <input type="file" name="image" class="form-control-styled ">
-                                                                    </div>
-                
-                                                                    <div class="col-sm-6">
-                                                                        <label>Document</label>
-                                                                        <input type="file" name="docs"
-                                                                            title="can be pdf, docx or excell"
-                                                                            class="form-control-styled">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label>Links</label>
-                                                                        <input type="text" name="links" placeholder="add link(s)"
-                                                                            class="form-control" required>
-                                                                    </div>
-                
-                
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label>Description</label>
-                                                                        <textarea name="description" placeholder="write here"
-                                                                            class="form-control"></textarea>
-                                                                    </div>
-                
-                
-                                                                </div>
-                                                            </div>
-                
-                
-                                                        </div>
-                
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-link"
-                                                                data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn bg-primary">Add</button>
-                                                        </div>
-                                                    </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /vertical form modal -->
-             
-           </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-link"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn bg-primary">Add</button>
+                                        </div>
+                                    </form>
+        </div>
     </div>
 </div>
+<!-- /vertical form modal -->
+
+<!-- Vertical form modal -->
+<div id="add_image" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <h6 class="text-center">You can add any Image formats such as png, jpg, jpeg and others</h6>
+            {% if project_id %}
+            <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
+                enctype="multipart/form-data">
+                {% endif %}
+                {% if viewpoint_id %}
+                <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
+                    enctype="multipart/form-data">
+                    {% endif %}
+                    {% if goal_id %}
+                    <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
+                        enctype="multipart/form-data">
+                        {% endif %}
+
+                        {% if requirement_id %}
+                        <form method="POST"
+                            action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
+                            enctype="multipart/form-data">
+                            {% endif %}
+
+                            {% if scenario_id %}
+                            <form method="POST"
+                                action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
+                                enctype="multipart/form-data">
+                                {% endif %}
+
+                                {% if process_id %}
+                                <form method="POST"
+                                    action="{% url 'projects:addprocessresources' process_id=process_id %}"
+                                    enctype="multipart/form-data">
+                                    {% endif %}
+
+                                    {% if usecase_id %}
+                                    <form method="POST"
+                                        action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
+                                        enctype="multipart/form-data">
+                                        {% endif %}
+
+
+
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Image</label>
+                                                        <input type="file" name="image" class="form-control-styled "
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-sm-6" hidden>
+                                                        <label>Document</label>
+                                                        <input type="file" name="docs"
+                                                            title="can be pdf, docx or excell"
+                                                            class="form-control-styled">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" hidden>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Links</label>
+                                                        <input type="text" name="links" placeholder="add link(s)"
+                                                            class="form-control">
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Description</label>
+                                                        <textarea name="description" placeholder="write here"
+                                                            class="form-control"></textarea>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-link"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn bg-primary">Add</button>
+                                        </div>
+                                    </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+<!-- Vertical form modal -->
+<div id="add_link" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <h6 class="text-center">You can add any link starting with http</h6>
+            {% if project_id %}
+            <form method="POST" action="{% url 'projects:addprojectresources' project_id=project_id %}"
+                enctype="multipart/form-data">
+                {% endif %}
+                {% if viewpoint_id %}
+                <form method="POST" action="{% url 'projects:addviewpointresources' viewpoint_id=viewpoint_id %}"
+                    enctype="multipart/form-data">
+                    {% endif %}
+                    {% if goal_id %}
+                    <form method="POST" action="{% url 'projects:addgoalresources' goal_id=goal_id %}"
+                        enctype="multipart/form-data">
+                        {% endif %}
+
+                        {% if requirement_id %}
+                        <form method="POST"
+                            action="{% url 'projects:addrequirementresources' requirement_id=requirement_id %}"
+                            enctype="multipart/form-data">
+                            {% endif %}
+
+                            {% if scenario_id %}
+                            <form method="POST"
+                                action="{% url 'projects:addscenarioresources' scenario_id=scenario_id %}"
+                                enctype="multipart/form-data">
+                                {% endif %}
+
+                                {% if process_id %}
+                                <form method="POST"
+                                    action="{% url 'projects:addprocessresources' process_id=process_id %}"
+                                    enctype="multipart/form-data">
+                                    {% endif %}
+
+                                    {% if usecase_id %}
+                                    <form method="POST"
+                                        action="{% url 'projects:addusecaseresources' usecase_id=usecase_id %}"
+                                        enctype="multipart/form-data">
+                                        {% endif %}
+
+
+
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group" hidden>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>Image</label>
+                                                        <input type="file" name="image" class="form-control-styled ">
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <label>Document</label>
+                                                        <input type="file" name="docs"
+                                                            title="can be pdf, docx or excell"
+                                                            class="form-control-styled">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Links</label>
+                                                        <input type="text" name="links" placeholder="add link(s)"
+                                                            class="form-control" required>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Description</label>
+                                                        <textarea name="description" placeholder="write here"
+                                                            class="form-control"></textarea>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-link"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn bg-primary">Add</button>
+                                        </div>
+                                    </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+{% endblock content %}
