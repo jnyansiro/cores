@@ -23,6 +23,15 @@
         var scenarios = {{ contribution_reports.3 }}
         var processes = {{ contribution_reports.4 }}
         var usecases = {{ contribution_reports.5 }}
+        var accepted_viewpoints = {{ all_viewpoints.0 }}
+        var rejected_viewpoints = {{ all_viewpoints.1 }}
+        var pending_viewpoints = {{ all_viewpoints.2 }}
+        
+        var accepted_process = {{ all_process.0 }}
+        var rejected_process = {{ all_process.1 }}
+        var pending_process = {{ all_process.2 }}
+        var accepted_usecases = {{ all_usecases.0 }}
+        var rejected_usecases = {{ all_usecases.1 }}
     
         var chart1 = new CanvasJS.Chart("chartContainer1", {
             theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -50,6 +59,72 @@
                 ]
             }]
         });
+
+        var chart3 = new CanvasJS.Chart("chartContainer3", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            exportEnabled: true,
+            animationEnabled: true,
+    
+            data: [{
+                type: "line",
+                startAngle: 25,
+                toolTipContent: "<b>{label}</b>: {y}",
+                showInLegend: "true",
+                legendText: "{label}",
+                indexLabelFontSize: 14,
+                indexLabel: "{label} - {y}",
+                dataPoints: [{
+                    label: "accepted",
+                    y: accepted_viewpoints
+    
+                },
+                {
+                    label: "Reject",
+                    y: rejected_viewpoints,
+    
+                },
+                {
+                 label: "Pending",
+                 y: pending_viewpoints,
+
+                    }
+                   
+                ]
+            }]
+        });
+
+        var chart4 = new CanvasJS.Chart("chartContainer4", {
+                theme: "light2", // "light1", "light2", "dark1", "dark2"
+                exportEnabled: true,
+                animationEnabled: true,
+
+                data: [{
+                    type: "doughnut",
+                    startAngle: 25,
+                    toolTipContent: "<b>{label}</b>: {y}",
+                    showInLegend: "true",
+                    legendText: "{label}",
+                    indexLabelFontSize: 14,
+                    indexLabel: "{label} - {y}",
+                    dataPoints: [{
+                        label: "accepted",
+                        y: accepted_process
+
+                    },
+                    {
+                        label: "Reject",
+                        y: rejected_process,
+
+                    },
+                   {
+                            label: "Reject",
+                            y: pending_process,
+
+                        },
+
+                    ]
+                }]
+            });
     
     
     
@@ -108,6 +183,8 @@
         chart.render();
     
         chart1.render();
+        chart3.render();
+        chart4.render();
         }
     </script>
     
@@ -168,6 +245,68 @@
 
 
 
+        </div>
+
+        <div class="col-md-6">
+        
+            <!-- User details (with sample pattern) -->
+        
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <center>
+                        <h5>Viewpoints Report </h5>
+                    </center>
+                </div>
+        
+        
+        
+        
+                <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
+        
+                    <div id="chartContainer3" style="height: 370px; width: 100%;"></div>
+        
+                </div>
+        
+        
+        
+            </div>
+            <!-- /user details (with sample pattern) -->
+        
+        
+        
+        
+        
+        </div>
+
+        <div class="col-md-6">
+        
+            <!-- User details (with sample pattern) -->
+        
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <center>
+                        <h5>Processes Report </h5>
+                    </center>
+                </div>
+        
+        
+        
+        
+                <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
+        
+                    <div id="chartContainer4" style="height: 370px; width: 100%;"></div>
+        
+                </div>
+        
+        
+        
+            </div>
+            <!-- /user details (with sample pattern) -->
+        
+        
+        
+        
+        
         </div>
 
     </div>

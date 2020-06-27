@@ -1968,6 +1968,9 @@ def viewpoints(request, project_id):
             Q(project=project, status="accepted")
             | Q(project=project, created_by=member)
         ).order_by("-id")
+        paginator = Paginator(viewpoints, 6)
+        page_number = request.GET.get("page")
+        viewpoints = paginator.get_page(page_number)
         project_id = project_id
         return render(
             request,
@@ -2035,6 +2038,9 @@ def viewpoints(request, project_id):
                 Q(project=project, status="accepted")
                 | Q(project=project, created_by=member)
             ).order_by("-id")
+            paginator = Paginator(viewpoints, 6)
+            page_number = request.GET.get("page")
+            viewpoints = paginator.get_page(page_number)
             return render(
                 request,
                 "projects/viewpoints/viewpoints.html",
@@ -2068,6 +2074,9 @@ def viewpoints(request, project_id):
             Q(project=project, status="accepted")
             | Q(project=project, created_by=member)
         ).order_by("-id")
+        paginator = Paginator(viewpoints, 6)
+        page_number = request.GET.get("page")
+        viewpoints = paginator.get_page(page_number)
         return render(
             request,
             "projects/viewpoints/viewpoints.html",
@@ -5109,6 +5118,43 @@ def my_project_reports(request, project_id):
             usecases,
         ]
         return contributions
+    def viewpoint_contributions(request,project_id):
+        accepted_viewpoints = Viewpoint.objects.filter(project__id=project_id, status="accepted").count()
+        rejected_viewpoints = Viewpoint.objects.filter(project__id=project_id, status="accepted").count()
+        pending_viewpoints = Viewpoint.objects.filter(project__id=project_id, status="pending").count()
+        allviewpoints = [accepted_viewpoints,rejected_viewpoints,pending_viewpoints]
+        return allviewpoints
+    def goals_contributions(request,project_id):
+        accepted_goals = Goal.objects.filter(project__id=project_id, status="accepted").count()
+        rejected_goals = Goal.objects.filter(project__id=project_id, status="rejected").count()
+        all_goals = [accepted_goals, rejected_goals]
+        return all_goals
+
+    def requirement_contributions(request,project_id):
+        accepted_requirements = Requirement.objects.filter(project__id=project_id, status="accepted").count()
+        rejected_requirements = Requirement.objects.filter(project__id=project_id, status="rejected").count()
+        all_requirements = [accepted_requirements, rejected_requirements]
+        return all_requirements
+    
+    def scenario_contributions(request,project_id):
+        accepted_scenarios = Scenario.objects.filter(project__id=project_id, status="accepted").count()
+        rejected_scenarios = Scenario.objects.filter(project__id=project_id, status="rejected").count()
+        all_scenarios = [accepted_scenarios, rejected_scenarios]
+        return all_scenarios
+    
+    def process_contributions(request,project_id):
+        accepted_process = Process.objects.filter(project__id=project_id, status="accepted").count()
+        rejected_process = Process.objects.filter(project__id=project_id, status="rejected").count()
+        pending_process = Process.objects.filter(project__id=project_id, status="pending").count()
+        all_process = [accepted_process,rejected_process,pending_process]
+        return all_process
+
+    def usecase_contributions(request,project_id):
+        accepted_usecase = UseCase.objects.filter(project__id=project_id, status="accepted").count()
+        rejected_usecase = UseCase.objects.filter(project__id=project_id, status="rejected").count()
+        pending_usecase = UseCase.objects.filter(project__id=project_id, status="pending").count()
+        all_usecases = [accepted_usecase, rejected_usecase,pending_usecase]
+        return all_usecases
 
     return render(
         request,
@@ -5118,6 +5164,12 @@ def my_project_reports(request, project_id):
             "contribution_reports": contribution_reports(
                 request, project_id=project_id
             ),
+            'all_viewpoints':viewpoint_contributions(request,project_id),
+            'all_goals':goal_contributions(request,project_id),
+            'all_requirements':requirement_contributions(request,project_id),
+            'all_scenarios':scenario_contributions(request,project_id),
+            'all_process':process_contributions(request,project_id),
+            'all_usecases':usecase_contributions(request,project_id),
             "hidesearch": hidesearch,
             "project_id": project_id,
             "project": project,
@@ -5401,7 +5453,7 @@ def viewpoint_contributions(request, project_id):
         },
     )
 
-
+@login_required(login_url="login")
 def goal_contributions(request, project_id):
     indexhead = "Goals Contribution Requests"
     hidesearch = "hide"
@@ -5438,7 +5490,7 @@ def goal_contributions(request, project_id):
         },
     )
 
-
+@login_required(login_url="login")
 def requirement_contributions(request, project_id):
     indexhead = "Requirement Contribution Requests"
     hidesearch = "hide"
@@ -5476,7 +5528,7 @@ def requirement_contributions(request, project_id):
         },
     )
 
-
+@login_required(login_url="login")
 def scenario_contributions(request, project_id):
     indexhead = "Scenario Contribution Requests"
     hidesearch = "hide"
@@ -5516,7 +5568,7 @@ def scenario_contributions(request, project_id):
         },
     )
 
-
+@login_required(login_url="login")
 def process_contributions(request, project_id):
     indexhead = "Process Contribution Requests"
     hidesearch = "hide"
@@ -5556,7 +5608,7 @@ def process_contributions(request, project_id):
         },
     )
 
-
+@login_required(login_url="login")
 def usecase_contributions(request, project_id):
     indexhead = "Use Case Contribution Requests"
     hidesearch = "hide"

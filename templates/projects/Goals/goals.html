@@ -124,13 +124,13 @@
                         <div class="form-group form-horizontal" >
                             <label class="col-md-6 font-weight-semibold control-label">
                                 Filter:</label>
-                            <form method="post" action="{% url 'projects:viewpoints' project_id%}">
+                            <form method="post" action="{% url 'projects:goals' viewpoint_id%}">
                                 {% csrf_token %}
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <select name="project" data-placeholder="Select View point" class="form-control" id="">
+                                        <select name="viewpoint_id" data-placeholder="Select View point" class="form-control" id="">
                                             {% for viewpointiess in viewpointiees%}
-                                            <option value="{{ project.id}}" {% if viewpoint_id|add:'0' == viewpointiess.id %} selected {% endif %}>
+                                            <option value="{{ viewpointiess.id}}" {% if viewpoint_id|add:'0' == viewpointiess.id %} selected {% endif %}>
                                                 {{viewpointiess.viewpoint_name }}
                                             </option>
                                             {% endfor %}

@@ -227,7 +227,30 @@
                         </form>
                     </div>
                 </div>
+
+                
                 {% endfor %}
+                <div class="col-md-12 text-center">
+                    <span class="step-links">
+                        {% if viewpoints.has_previous %}
+                        <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                        <a href="?page={{ viewpoints.previous_page_number }}" class="">Back</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ viewpoints.number }} of {{ viewpoints.paginator.num_pages }}.
+                        </span>
+                
+                        {% if viewpoints.has_next %}
+                        <a href="?page={{ viewpoints.next_page_number }}" class="">next</a>
+                        <a href="?page={{ viewpoints.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+                {% else %}
+                <div class="alert alert-info text-center col-md-12">
+                    No Viewpoint(s) to display!
+                </div>
                 {% endif %}
 
             </div>

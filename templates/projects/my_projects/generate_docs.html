@@ -28,9 +28,9 @@
                         <thead class="bg-primary-400 text-white">
                             <tr>
                                 <th>#</th>
-                                
+
                                 <th>Document</th>
-            
+
                                 <th>Options</th>
 
                             </tr>
@@ -39,14 +39,15 @@
                             {% for num, doc in docs %}
                             <tr>
                                 <td>{{ num }}</td>
-                              
+
                                 <td>{{ doc.docx }}
                                 </td>
-                     
+
                                 <td>
-                                    <a href="/docs/{{ doc.docx }}" class="btn btn-success">Download</a>
-                                    <a href="{% url 'projects:deletefile' file_id=doc.id%}"
-                                        class="btn btn-danger ml-1">Remove</a>
+                                    <a title="Download" href="/docs/{{ doc.docx }}" class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm"
+                                        ><i class="icon-download"></i></a>
+                                    <a title="Delete" href="{% url 'projects:deletefile' file_id=doc.id%}" class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm"
+                                        ><i class="icon-trash"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -73,13 +74,12 @@
                             </div>
                             <h6 class="text-center">Generate Document:</h6>
 
-                            <form method="POST"
-                                action="{% url 'projects:generatedocs' project_id=project.id %}"
+                            <form method="POST" action="{% url 'projects:generatedocs' project_id=project.id %}"
                                 enctype="multipart/form-data">
 
                                 {% csrf_token %}
                                 <div class="modal-body">
-                                    
+
                                     <p>Do you want to generate a new Document?</p>
 
                                 </div>
