@@ -1,72 +1,92 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include './myproject_header.html'%}
-		<div class="content-wrapper">
 
-		    <!-- Content area -->
-		    <div class="content">
-<!-- Bordered card body table -->
+{% block sidebar %}
+{% include './myproject_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
+    <!-- Bordered card body table -->
 
-<div class="row">
-<div class="card col-xl-12">
-    <div class="card-header header-elements-inline">
-        <h5 class="card-title"> Project Members </h5>
-        
-    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary-400 header-elements-inline">
+                <h5 class="card-title font-weight-semibold"> Project Members </h5>
 
-    <div class="card-body">
+            </div>
 
-        <div class="card card-table table-responsive shadow-0 mb-0">
-            <table class="table table-bordered">
-                <thead class="bg-primary text-white">
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Options</th>
+            <div class="card-body">
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for num, member in project_member %}
-                    <tr>
-                        <td>{{ num }}</td>
-                        <td>{{ member.member.first_name }}</td>
-                        <td>{{ member.member.surname }}</td>
-                        <td>{{ member.member.user }}</td>
-                        <td>{{ member.member_role }}</td>
-                        <td>{{ member.status }}</td>
+                <div class="card card-table table-responsive shadow-0 mb-0">
+                    <table class="table table-bordered">
+                        <thead class="bg-primary-400 text-white">
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Options</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for num, member in project_member %}
+                            <tr>
+                                <td>{{ num }}</td>
+                                <td>{{ member.member.first_name }}</td>
+                                <td>{{ member.member.surname }}</td>
+                                <td>{{ member.member.user }}</td>
+                                <td>{{ member.member_role }}</td>
+                                <td>{{ member.status }}</td>
 
 
-                   
+                                <td class="text-center">
+                                    <a href="{% url 'projects:memberdetails' member_id=member.member.id%}"
+                                        title="View" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm">
+                                        <i class="icon-enlarge7"></i>
+                                    </a>
 
-                        <td><a href="{% url 'projects:memberdetails' member_id=member.member.id%}"><button
-                                    class="btn btn-primary col-md-3 mr-md-3 ">View</button></a>
-                            {% if member.status == 'active' %}
-                            <a href="{% url 'projects:suspendmembership' membership_id=member.id %}"><button
-                                class="btn bg-orange col-md-3 mr-md-3" >Suspend</button></a>
-                            {% endif %}
-                            {% if member.status == 'suspended' %}
-                           <a href="{% url 'projects:activatemembership' membership_id=member.id %}"><button class="btn bg-success col-md-3 mr-md-3" >Activate</button></a>
-                            {% endif %}
-                            {% if member.status == 'rejected' %}
-                            <a href="{% url 'projects:approvemember' project_id=project_id membership_id=member.id %}"><button class="btn bg-success col-md-3 mr-md-3" >Accept</button></a>
-                            {% endif %}
-                                <a href="{% url 'projects:removemember' membership_id=member.id %}"><button
-                                    class="btn btn-danger col-md-3 mr-md-3" >Remove</button></a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                  
-                </tbody>
-            </table>
+                                    {% if member.status == 'active' %}
+                                    <a href="{% url 'projects:suspendmembership' membership_id=member.id %}"
+                                        title="Suspend" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-orange-400 border-orange-400 text-orange btn-icon rounded-round btn-sm">
+                                        <i class="icon-lock2"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if member.status == 'suspended' %}
+                                    <a href="{% url 'projects:activatemembership' membership_id=member.id %}"
+                                        title="Activate" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                        <i class="icon-unlocked2"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if  member.status == 'rejected' %}
+                                    <a href="{% url 'projects:approvemember' project_id=project_id membership_id=member.id %}"
+                                        title="Approve" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                        <i class="icon-check"></i>
+                                    </a>
+                                    {% endif %}
+
+                                    <a href="{% url 'projects:removemember' membership_id=member.id %}" title="Remove"
+                                        data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm"><i
+                                            class="icon-trash"></i></a>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
-<!-- /bordered card body table -->
+    <!-- /bordered card body table -->
 
 </div>
-</div>
+{% endblock content %}

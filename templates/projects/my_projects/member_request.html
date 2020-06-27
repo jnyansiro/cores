@@ -1,74 +1,84 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include './myproject_header.html'%}
-<br>
-<div class="content-wrapper">
 
-    <!-- Content area -->
-    <div class="content">
-        <!-- Bordered card body table -->
+{% block sidebar %}
+{% include './myproject_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
+    <!-- Bordered card body table -->
 
-        <div class="row">
-            <div class="card col-xl-12">
-                <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Proejct Membership Requests</h5>
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header bg-primary-400 header-elements-inline">
+                <h5 class="card-title font-weight-semibold">Proejct Membership Requests</h5>
 
-                </div>
+            </div>
 
-                <div class="card-body">
+            <div class="card-body">
 
-                    <div class="card card-table table-responsive shadow-0 mb-0">
-                        <table class="table table-bordered">
-                            <thead class="bg-primary text-white">
-                                <tr>
-                                    <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
-                                    <th>Options</th>
+                <div class="card card-table table-responsive shadow-0 mb-0">
+                    <table class="table table-bordered">
+                        <thead class="bg-primary-400 text-white">
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Options</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for num, member in member_details %}
-                                <tr>
-                                    <td>{{ num }}</td>
-                                    <td>{{ member.member.first_name }}</td>
-                                    <td>{{ member.member.surname }}</td>
-                                    <td>{{ member.member.user }}</td>
-                                    <td>
-                                       
-                                        <a href="{% url 'projects:memberdetails' member_id=member.member.id%}">
-                                        <button class="btn btn-primary col-md-3 mr-md-3 ">View</button></a>
-                                        <a
-                                            href="{% url 'projects:approvemember' project_id=project_id membership_id=member.id %}"><button
-                                            class="btn btn-success col-md-3 mr-md-3 " >Accept</button></a>
-                                            <a
-                                                href="{% url 'projects:membershiprejection' project_id=project_id membership_id=member.id %}"><button
-                                            class="btn btn-danger col-md-3 mr-md-3"
-                                            >Reject</button></a>
-                                    </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for num, member in member_details %}
+                            <tr>
+                                <td>{{ num }}</td>
+                                <td>{{ member.member.first_name }}</td>
+                                <td>{{ member.member.surname }}</td>
+                                <td>{{ member.member.user }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'projects:memberdetails' member_id=member.member.id%}" title="View"
+                                        data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm">
+                                        <i class="icon-enlarge7"></i>
+                                    </a>
+
+                                    <a href="{% url 'projects:approvemember' project_id=project_id membership_id=member.id %}"
+                                        title="Accept" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                        <i class="icon-check"></i>
+                                    </a>
+
+                                    <a href="{% url 'projects:membershiprejection' project_id=project_id membership_id=member.id %}"
+                                        title="Reject" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                        <i class="icon-cross"></i>
+                                    </a>
+
                                     
-                                </tr>
-                                {% endfor %}
-                            
+                                </td>
 
-                                
+                            </tr>
+                            {% endfor %}
 
-                            </tbody>
-                        </table>
-                            {% if not member_details %}
-                            
-                                <center>
 
-                                    <p class="text-danger">Currently there is no Project membership Request</p>
-                                </center>
-                            
-                            {% endif %}
-                    </div>
+
+
+                        </tbody>
+                    </table>
+                    {% if not member_details %}
+
+                    <center>
+
+                        <p class="text-danger">Currently there is no Project membership Request</p>
+                    </center>
+
+                    {% endif %}
                 </div>
             </div>
         </div>
-        <!-- /bordered card body table -->
-
     </div>
+    <!-- /bordered card body table -->
+
 </div>
+{% endblock content %}

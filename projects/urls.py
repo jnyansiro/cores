@@ -168,12 +168,25 @@ urlpatterns = [
 
     #approval of contributions URLS
     url(r'^projectcontributions/(?P<project_id>\d+)/$', project_contributions, name="projectcontributions"),
+    url(r'^viewpointcontributions/(?P<project_id>\d+)/$',viewpoint_contributions, name="viewpointcontributions"),
+    url(r'^goalcontributions/(?P<project_id>\d+)/$',goal_contributions, name="goalcontributions"),
+    url(r'^requirementcontributions/(?P<project_id>\d+)/$',requirement_contributions, name="requirementcontributions"),
+    url(r'^scenariocontributions/(?P<project_id>\d+)/$',scenario_contributions, name="scenariocontributions"),
+    url(r'^processcontributions/(?P<project_id>\d+)/$',process_contributions, name="processcontributions"),
+    url(r'^usecasecontributions/(?P<project_id>\d+)/$',usecase_contributions, name="usecasecontributions"),
     url(r'^approveviewpoint/(?P<viewpoint_id>\d+)/$', approve_viewpoint, name="approveviewpoint"),
     url(r'^approvegoal/(?P<goal_id>\d+)/$', approve_goal, name="approvegoal"),
     url(r'^approverequirement/(?P<requirement_id>\d+)/$', approve_requirement, name="approverequirement"),
     url(r'^approvescenario/(?P<scenario_id>\d+)/$', approve_scenario, name="approvescenario"),
     url(r'^approveprocess/(?P<process_id>\d+)/$', approve_process, name="approveprocess"),
     url(r'^approveusecase/(?P<usecase_id>\d+)/$', approve_usecase, name="approveusecase"),
+    url(r'^approveprojectcomment/(?P<comment_id>\d+)/$', approve_project_comment, name="approveprojectcomment"),
+    url(r'^approveviewpointcomment/(?P<comment_id>\d+)/$', approve_viewpoint_comment, name="approveviewpointcomment"),
+    url(r'^approvegoalcomment/(?P<comment_id>\d+)/$', approve_goal_comment, name="approvegoalcomment"),
+    url(r'^approverequirementcomment/(?P<comment_id>\d+)/$', approve_requirement_comment, name="approverequirementcomment"),
+    url(r'^approvescenariocomment/(?P<comment_id>\d+)/$', approve_scenario_comment, name="approvescenariocomment"),
+    url(r'^approveprocesscomment/(?P<comment_id>\d+)/$', approve_process_comment, name="approveprocesscomment"),
+    url(r'^approveusecasecomment/(?P<comment_id>\d+)/$', approve_usecase_comment, name="approveusecasecomment"),
         
 
     #Reject contributions URLS
@@ -183,6 +196,13 @@ urlpatterns = [
     url(r'^rejectscenario/(?P<scenario_id>\d+)/$', reject_scenario, name="rejectscenario"),
     url(r'^rejectprocess/(?P<process_id>\d+)/$', reject_process, name="rejectprocess"),
     url(r'^rejectusecase/(?P<usecase_id>\d+)/$', reject_usecase, name="rejectusecase"),
+    url(r'^rejectprojectcomment/(?P<comment_id>\d+)/$', reject_project_comment, name="rejectprojectcomment"),
+    url(r'^rejectviewpointcomment/(?P<comment_id>\d+)/$', reject_viewpoint_comment, name="rejectviewpointcomment"),
+    url(r'^rejectgoalcomment/(?P<comment_id>\d+)/$', reject_goal_comment, name="rejectgoalcomment"),
+    url(r'^rejectrequirementcomment/(?P<comment_id>\d+)/$', reject_requirement_comment, name="rejectrequirementcomment"),
+    url(r'^rejectscenariocomment/(?P<comment_id>\d+)/$', reject_scenario_comment, name="rejectscenariocomment"),
+    url(r'^rejectprocesscomment/(?P<comment_id>\d+)/$', reject_process_comment, name="rejectprocesscomment"),
+    url(r'^rejectusecasecomment/(?P<comment_id>\d+)/$', reject_usecase_comment, name="rejectusecasecomment"),
 
 
 

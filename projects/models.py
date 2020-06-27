@@ -632,16 +632,6 @@ class ProjectComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ProjectComment."""
-
-        verbose_name = "ProjectComment"
-        verbose_name_plural = "ProjectComments"
-
-    def __str__(self):
-        """Unicode representation of ProjectComment."""
-        pass
-
 
 class ArtifactComment(models.Model):
     """Model definition for ArtifactComment."""
@@ -654,16 +644,6 @@ class ArtifactComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ArtifactComment."""
-
-        verbose_name = "ArtifactComment"
-        verbose_name_plural = "ArtifactComments"
-
-    def __str__(self):
-        """Unicode representation of ArtifactComment."""
-        pass
-
 
 class ViewPointComment(models.Model):
     """Model definition for ViewPointComment."""
@@ -674,15 +654,6 @@ class ViewPointComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ViewPointComment."""
-
-        verbose_name = "ViewPointComment"
-        verbose_name_plural = "ViewPointComments"
-
-    def __str__(self):
-        """Unicode representation of ViewPointComment."""
-        pass
 
 
 class GoalComment(models.Model):
@@ -694,15 +665,6 @@ class GoalComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for GoalComment."""
-
-        verbose_name = "GoalComment"
-        verbose_name_plural = "GoalComments"
-
-    def __str__(self):
-        """Unicode representation of GoalComment."""
-        pass
 
 
 class RequirementComment(models.Model):
@@ -714,16 +676,6 @@ class RequirementComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for RequirementComment."""
-
-        verbose_name = "RequirementComment"
-        verbose_name_plural = "RequirementComments"
-
-    def __str__(self):
-        """Unicode representation of RequirementComment."""
-        pass
-
 
 class ScenarioComment(models.Model):
     """Model definition for ScenarioComment."""
@@ -734,17 +686,6 @@ class ScenarioComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ScenarioComment."""
-
-        verbose_name = "ScenarioComment"
-        verbose_name_plural = "ScenarioComments"
-
-    def __str__(self):
-        """Unicode representation of ScenarioComment."""
-        pass
-
-
 class ProcessComment(models.Model):
     """Model definition for ProcessComment."""
 
@@ -754,15 +695,6 @@ class ProcessComment(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        """Meta definition for ProcessComment."""
-
-        verbose_name = "ProcessComment"
-        verbose_name_plural = "ProcessComments"
-
-    def __str__(self):
-        """Unicode representation of ProcessComment."""
-        pass
 
 
 class UseCaseComment(models.Model):
@@ -773,16 +705,6 @@ class UseCaseComment(models.Model):
     comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        """Meta definition for UseCaseComment."""
-
-        verbose_name = "UseCaseComment"
-        verbose_name_plural = "UseCaseComments"
-
-    def __str__(self):
-        """Unicode representation of UseCaseComment."""
-        pass
 
 
 class ProjectRate(models.Model):

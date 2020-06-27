@@ -1,231 +1,219 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include './myproject_header.html'%}
 
-<script src="{% static 'js/graphs.js' %}"></script>
-
-<script>
-
-
-    window.onload = function () {
-
-    var male = {{ user_reports.1 }}
-    var female = {{ user_reports.0 }}
-    var viewpoints = {{ contribution_reports.0 }}
-    var goals = {{ contribution_reports.1 }}
-    var requirements = {{ contribution_reports.2 }}
-    var scenarios = {{ contribution_reports.3 }}
-    var processes = {{ contribution_reports.4 }}
-    var usecases = {{ contribution_reports.5 }}
-
-    var chart1 = new CanvasJS.Chart("chartContainer1", {
-        theme: "light2", // "light1", "light2", "dark1", "dark2"
-        exportEnabled: true,
-        animationEnabled: true,
-
-        data: [{
-            type: "pie",
-            startAngle: 25,
-            toolTipContent: "<b>{label}</b>: {y}",
-            showInLegend: "true",
-            legendText: "{label}",
-            indexLabelFontSize: 14,
-            indexLabel: "{label} - {y}",
-            dataPoints: [{
-                label: "Male",
-                y: male
-
-            },
-            {
-                label: "Female",
-                y: female,
-
-            }
-            ]
-        }]
-    });
+{% block sidebar %}
+{% include './myproject_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
 
 
+    <script src="{% static 'js/graphs.js' %}"></script>
 
-    //This for Bar Graph to display at the lest side of the Page
-    var chart = new CanvasJS.Chart("chartContainer2", {
-        exportEnabled: true,
-
-        animationEnabled: true,
-        theme: "light2", // "light1", "light2", "dark1", "dark2"
-
-        axisY: {
-            title: "Number of Contributions ",
-            includeZero: false
-        },
-
-        data: [{
-            type: "column",
-            yValueFormatString: "#,##0.0#\"\"",
-            dataPoints: [
-                {
-                    label: "ViewPoints ",
-                    y: viewpoints
-
+    <script>
+    
+    
+        window.onload = function () {
+    
+        var male = {{ user_reports.1 }}
+        var female = {{ user_reports.0 }}
+        var viewpoints = {{ contribution_reports.0 }}
+        var goals = {{ contribution_reports.1 }}
+        var requirements = {{ contribution_reports.2 }}
+        var scenarios = {{ contribution_reports.3 }}
+        var processes = {{ contribution_reports.4 }}
+        var usecases = {{ contribution_reports.5 }}
+    
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            exportEnabled: true,
+            animationEnabled: true,
+    
+            data: [{
+                type: "pie",
+                startAngle: 25,
+                toolTipContent: "<b>{label}</b>: {y}",
+                showInLegend: "true",
+                legendText: "{label}",
+                indexLabelFontSize: 14,
+                indexLabel: "{label} - {y}",
+                dataPoints: [{
+                    label: "Male",
+                    y: male
+    
                 },
                 {
-                    label: "Goals",
-                    y: goals,
-
-                },
-                {
-                    label: "Requirements",
-                    y: requirements
-
-                },
-                {
-                    label: "Scenarios",
-                    y: scenarios
-
-                },
-                {
-                    label: "Processes",
-                    y: processes
-
-                },
-                {
-                    label: "Use Cases",
-                    y: usecases
-
+                    label: "Female",
+                    y: female,
+    
                 }
+                ]
+            }]
+        });
+    
+    
+    
+        //This for Bar Graph to display at the lest side of the Page
+        var chart = new CanvasJS.Chart("chartContainer2", {
+            exportEnabled: true,
+    
+            animationEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+    
+            axisY: {
+                title: "Number of Contributions ",
+                includeZero: false
+            },
+    
+            data: [{
+                type: "column",
+                yValueFormatString: "#,##0.0#\"\"",
+                dataPoints: [
+                    {
+                        label: "ViewPoints ",
+                        y: viewpoints
+    
+                    },
+                    {
+                        label: "Goals",
+                        y: goals,
+    
+                    },
+                    {
+                        label: "Requirements",
+                        y: requirements
+    
+                    },
+                    {
+                        label: "Scenarios",
+                        y: scenarios
+    
+                    },
+                    {
+                        label: "Processes",
+                        y: processes
+    
+                    },
+                    {
+                        label: "Use Cases",
+                        y: usecases
+    
+                    }
+    
+    
+    
+                ]
+            }]
+        });
+        chart.render();
+    
+        chart1.render();
+        }
+    </script>
+    
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <!-- User details (with sample pattern) -->
+
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <center>
+                        <h5>Contribution Reports </h5>
+                    </center>
+                </div>
 
 
 
-            ]
-        }]
-    });
-    chart.render();
 
-    chart1.render();
-    }
-</script>
+                <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
 
-<!-- Main content -->
-<div class="content-wrapper">
-
-    <!-- Content area -->
-    <div class="content">
-
-
-        <div class="row">
-
-
-
-            <div class="col-md-6">
-
-                <!-- User details (with sample pattern) -->
-
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>Contribution Reports </h5>
-                        </center>
-                    </div>
-
-
-
-
-                    <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
-
-                        <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
-
-                    </div>
-
-
+                    <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
 
                 </div>
-                <!-- /user details (with sample pattern) -->
-
-
 
 
 
             </div>
-
-            <div class="col-md-6">
-
-                <!-- User details (with sample pattern) -->
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>Project Members Reports</h5>
-                        </center>
-                    </div>
-
-                    <div class="card-body border-top-0">
-
-
-                        <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
-
-
-
-                    </div>
-                </div>
-                <!-- /user details (with sample pattern) -->
+            <!-- /user details (with sample pattern) -->
 
 
 
 
-            </div>
 
         </div>
 
-        <!-- Update Residence Details -->
-        <div id="update_job_details" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Update Job Details:</h5>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
+        <div class="col-md-6">
 
-                    <form method="post" action="{% url 'projects:updatejobdetails'%}">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Professional:</label>
-                                        <input type="text" name="professonal" value="{{member_details.professional}}"
-                                            class="form-control">
-                                    </div>
+            <!-- User details (with sample pattern) -->
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <center>
+                        <h5>Project Members Reports</h5>
+                    </center>
+                </div>
 
-                                    <div class="col-sm-4">
-                                        <label>Job Title:</label>
-                                        <input type="text" name="job_title" value="{{member_details.job_title }}"
-                                            class="form-control">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label>Institute Name</label>
-                                        <input type="text" name="institution_name"
-                                            value="{{member_details.institution_name }}" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card-body border-top-0">
 
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn bg-primary">Update</button>
-                            </div>
-                    </form>
+                    <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+
+
+
                 </div>
             </div>
+            <!-- /user details (with sample pattern) -->
+
+
+
+
         </div>
-        <!-- /vertical form modal -->
-
-
-
-
-
 
     </div>
+
+    <!-- Update Residence Details -->
+    <div id="update_job_details" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Job Details:</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <form method="post" action="{% url 'projects:updatejobdetails'%}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Professional:</label>
+                                    <input type="text" name="professonal" value="{{member_details.professional}}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label>Job Title:</label>
+                                    <input type="text" name="job_title" value="{{member_details.job_title }}"
+                                        class="form-control">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Institute Name</label>
+                                    <input type="text" name="institution_name"
+                                        value="{{member_details.institution_name }}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn bg-primary">Update</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
-
-
-
-<!-- /vertical form modal -->
+{% endblock content %}

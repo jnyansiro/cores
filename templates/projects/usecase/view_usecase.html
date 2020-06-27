@@ -281,6 +281,11 @@
                                                                 class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
                                                                 status:
                                                                 {% if comment.comment.status == "pending" %}
+                                                                <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
+                                                                    title="you are the only one who can see this comment till when is accepted">
+                                                                    {{comment.comment.status}}
+                                                                </label>
+                                                                {% elif comment.comment.status == "rejected" %}
                                                                 <label class="btn btn-danger btn-labeled  rounded-round  btn-sm text-center"
                                                                     title="you are the only one who can see this comment till when is accepted">
                                                                     {{comment.comment.status}}

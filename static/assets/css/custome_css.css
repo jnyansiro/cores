@@ -139,7 +139,9 @@ body {
 .card{
     border-radius: 6px;
 }
-
+.nav-tabs-bottom .nav-link.active:before {
+    background-color: #42a5f5;
+}
 /* END MODIFIED BOOTSTRAP CODES */
 /* MEDIA QUERIES */
 

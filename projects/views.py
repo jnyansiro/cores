@@ -817,7 +817,7 @@ def recovery(request):
             "-id"
         )[0]
         if password == password1:
-            
+
             if user_reset.status == "active":
                 user_account = User.objects.get(id=user_reset.user.id)
                 user_account.set_password(password)
@@ -825,7 +825,9 @@ def recovery(request):
                 update_session_auth_hash(request, user_account)
 
                 if user_account:
-                    ResetPassword.objects.filter(generated_key=generated_key).update(status="expired")
+                    ResetPassword.objects.filter(generated_key=generated_key).update(
+                        status="expired"
+                    )
                     message = "Your password has been successfull Reseted, now you can login with new password"
                     return render(request, "login.html", {"reg_message": message},)
 
@@ -1272,6 +1274,7 @@ def createProjectComment(request, project_id):
                             link=link,
                         )
                         return redirect("projects:viewproject", project_id=project_id)
+                    return redirect("projects:viewmyproject", project_id=project_id)
         return redirect("projects:viewproject", project_id=project_id)
     message = "sorry you can not comment on this Project, you are not active member of this project"
     return viewProject(request, project_id=project_id, message=message)
@@ -3598,6 +3601,10 @@ def projectRate(request, project_id):
                     )
                     project_rate.save()
                     if project_rate:
+                        if project.created_by == member:
+                            return redirect(
+                                "projects:viewmyproject", project_id=project_id
+                            )
                         return redirect("projects:viewproject", project_id=project_id)
             message = (
                 "sorry you have already rated this project you can not rate this again"
@@ -5326,7 +5333,39 @@ def delete_usecase(request, usecase_id):
 # Contribution approval, rejections and blocks
 @login_required(login_url="login")
 def project_contributions(request, project_id):
-    indexhead = "Project Contribution Requests"
+    indexhead = "Project Comments Contribution Requests"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    project = Project.objects.get(id=project_id)
+    comments = enumerate(
+        ProjectComment.objects.filter(
+            project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
+
+    return render(
+        request,
+        "projects/my_projects/project_contributions.html",
+        {
+            "project": project,
+            "project_id": project.id,
+            "member": member,
+            "project_comments": comments,
+            "total_comments": ProjectComment.objects.filter(
+                project=project, comment__status="pending"
+            ).count(),
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+            "hidesearch": hidesearch,
+            "indexhead": indexhead,
+        },
+    )
+
+
+@login_required(login_url="login")
+def viewpoint_contributions(request, project_id):
+    indexhead = "Viewpoint Contribution Requests"
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
@@ -5334,88 +5373,221 @@ def project_contributions(request, project_id):
         Viewpoint.objects.filter(project=project, status="pending").order_by("-id"),
         start=1,
     )
+    comments = enumerate(
+        ViewPointComment.objects.filter(
+            viewpoint__project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
+    return render(
+        request,
+        "projects/my_projects/project_contributions.html",
+        {
+            "viewpoints": viewpoints,
+            "project": project,
+            "project_id": project.id,
+            "viewpoint_comments": comments,
+            "total_comments": ViewPointComment.objects.filter(
+                viewpoint__project=project, comment__status="pending"
+            ).count(),
+            "member": member,
+            "total_viewpoints": Viewpoint.objects.filter(
+                project=project, status="pending"
+            ).count(),
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+            "hidesearch": hidesearch,
+            "indexhead": indexhead,
+        },
+    )
+
+
+def goal_contributions(request, project_id):
+    indexhead = "Goals Contribution Requests"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    project = Project.objects.get(id=project_id)
     goals = enumerate(
         Goal.objects.filter(project=project, status="pending").order_by("-id"), start=1
     )
+    comments = enumerate(
+        GoalComment.objects.filter(
+            goal__project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
+    return render(
+        request,
+        "projects/my_projects/project_contributions.html",
+        {
+            "goals": goals,
+            "total_goals": Goal.objects.filter(
+                project=project, status="pending"
+            ).count(),
+            "project": project,
+            "project_id": project.id,
+            "goal_comments": comments,
+            "total_comments": GoalComment.objects.filter(
+                goal__project=project, comment__status="pending"
+            ).count(),
+            "member": member,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+            "hidesearch": hidesearch,
+            "indexhead": indexhead,
+        },
+    )
+
+
+def requirement_contributions(request, project_id):
+    indexhead = "Requirement Contribution Requests"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    project = Project.objects.get(id=project_id)
     requirements = enumerate(
         Requirement.objects.filter(project=project, status="pending").order_by("-id"),
         start=1,
     )
+    comments = enumerate(
+        RequirementComment.objects.filter(
+            requirement__project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
+    return render(
+        request,
+        "projects/my_projects/project_contributions.html",
+        {
+            "requirements": requirements,
+            "total_requirements": Requirement.objects.filter(
+                project=project, status="pending"
+            ).count(),
+            "project": project,
+            "project_id": project.id,
+            "requirement_comments": comments,
+            "total_comments": RequirementComment.objects.filter(
+                requirement__project=project, comment__status="pending"
+            ).count(),
+            "member": member,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+            "hidesearch": hidesearch,
+            "indexhead": indexhead,
+        },
+    )
+
+
+def scenario_contributions(request, project_id):
+    indexhead = "Scenario Contribution Requests"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    project = Project.objects.get(id=project_id)
     scenarios = enumerate(
         RequirementScenario.objects.filter(
             requirement__project=project, scenario__status="pending"
         ).order_by("-id"),
         start=1,
     )
+    comments = enumerate(
+        ScenarioComment.objects.filter(
+            scenario__project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
+    return render(
+        request,
+        "projects/my_projects/project_contributions.html",
+        {
+            "scenarios": scenarios,
+            "total_scenarios": RequirementScenario.objects.filter(
+                requirement__project=project, scenario__status="pending"
+            ).count(),
+            "project": project,
+            "project_id": project.id,
+            "scenario_comments": comments,
+            "total_comments": ScenarioComment.objects.filter(
+                scenario__project=project, comment__status="pending"
+            ).count(),
+            "member": member,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+            "hidesearch": hidesearch,
+            "indexhead": indexhead,
+        },
+    )
+
+
+def process_contributions(request, project_id):
+    indexhead = "Process Contribution Requests"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    project = Project.objects.get(id=project_id)
     processes = enumerate(
         RequirementProcess.objects.filter(
             requirement__project=project, process__status="pending"
         ).order_by("-id"),
         start=1,
     )
+    comments = enumerate(
+        ProcessComment.objects.filter(
+            process__project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
+    return render(
+        request,
+        "projects/my_projects/project_contributions.html",
+        {
+            "processes": processes,
+            "total_processes": RequirementProcess.objects.filter(
+                requirement__project=project, process__status="pending"
+            ).count(),
+            "project": project,
+            "project_id": project.id,
+            "process_comments": comments,
+            "total_comments": ProcessComment.objects.filter(
+                process__project=project, comment__status="pending"
+            ).count(),
+            "member": member,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+            "hidesearch": hidesearch,
+            "indexhead": indexhead,
+        },
+    )
+
+
+def usecase_contributions(request, project_id):
+    indexhead = "Use Case Contribution Requests"
+    hidesearch = "hide"
+    member = Member.objects.get(user=request.user)
+    project = Project.objects.get(id=project_id)
     usecases = enumerate(
         RequirementUsecase.objects.filter(
             requirement__project=project, usecase__status="pending"
         ).order_by("-id"),
         start=1,
     )
-
-
-    def comments(request,project_id):
-        project = Project.objects.get(id=project_id)
-        def project_comments(request):
-            comments = enumerate(
-             ProjectComment.objects.filter(project=project,status="pending").order_by("-id"), start=1,
-            )
-            return comments
-        def viewpoint_comments(request):
-            comments = enumerate(
-             ViewPointComment.objects.filter(viewpoint__project=project,status="pending").order_by("-id"), start=1,
-            )
-            return comments
-
-        def goal_comments(request):
-            comments = enumerate(
-             GoalComment.objects.filter(goal__project=project,status="pending").order_by("-id"), start=1,
-             )
-            return comments
-
-        def requirement_comments(request):
-            comments = enumerate(
-             requirementComment.objects.filter(requirement__project=project,status="pending").order_by("-id"), start=1,
-             )
-            return comments
-        def scenario_comments(request):
-            comments = enumerate(
-             ScenarioComment.objects.filter(scenario__project=project,status="pending").order_by("-id"), start=1,
-             )
-            return comments
-        
-        def process_comments(request):
-            comments = enumerate(
-             ProcessComment.objects.filter(process__project=project,status="pending").order_by("-id"), start=1,
-             )
-            return comments
-
-        def usecase_comments(request):
-            comments = enumerate(
-             UseCaseComment.objects.filter(usecase__project=project,status="pending").order_by("-id"), start=1,
-            )
-            return comments
-
+    comments = enumerate(
+        UseCaseComment.objects.filter(
+            usecase__project=project, comment__status="pending"
+        ).order_by("-id"),
+        start=1,
+    )
     return render(
         request,
         "projects/my_projects/project_contributions.html",
         {
-            "viewpoints": viewpoints,
-            "goals": goals,
-            "requirements": requirements,
-            "scenarios": scenarios,
             "usecases": usecases,
+            "total_usecases": RequirementUsecase.objects.filter(
+                requirement__project=project, usecase__status="pending"
+            ).count(),
             "project": project,
             "project_id": project.id,
-            "processes": processes,
-            "comments": comments(request,project_id),
+            "usecase_comments": comments,
+            "total_comments": UseCaseComment.objects.filter(
+                usecase__project=project, comment__status="pending"
+            ).count(),
             "member": member,
             "notification": notification(request),
             "total_notification": total_notification(request),
@@ -5438,19 +5610,19 @@ def approve_viewpoint(request, viewpoint_id):
                 status="accepted"
             )
         return redirect(
-            "projects:projectcontributions", project_id=viewpoint.project.id
+            "projects:viewpointcontributions", project_id=viewpoint.project.id
         )
 
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
     approve = Viewpoint.objects.filter(id=viewpoint_id).update(status="accepted")
-    return redirect("projects:projectcontributions", project_id=viewpoint.project.id)
+    return redirect("projects:viewpointcontributions", project_id=viewpoint.project.id)
 
 
 @login_required(login_url="login")
 def approve_goal(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
     approve_goal = Goal.objects.filter(id=goal_id).update(status="accepted")
-    return redirect("projects:projectcontributions", project_id=goal.project.id)
+    return redirect("projects:goalcontributions", project_id=goal.project.id)
 
 
 @login_required(login_url="login")
@@ -5459,28 +5631,30 @@ def approve_requirement(request, requirement_id):
     approve_requirement = Requirement.objects.filter(id=requirement_id).update(
         status="accepted"
     )
-    return redirect("projects:projectcontributions", project_id=requirement.project.id)
+    return redirect(
+        "projects:requirementcontributions", project_id=requirement.project.id
+    )
 
 
 @login_required(login_url="login")
 def approve_scenario(request, scenario_id):
     scenario = Scenario.objects.get(id=scenario_id)
     approve_scenario = Scenario.objects.filter(id=scenario_id).update(status="accepted")
-    return redirect("projects:projectcontributions", project_id=scenario.project.id)
+    return redirect("projects:scenariocontributions", project_id=scenario.project.id)
 
 
 @login_required(login_url="login")
 def approve_process(request, process_id):
     process = Process.objects.get(id=process_id)
     approve_process = Process.objects.filter(id=process_id).update(status="accepted")
-    return redirect("projects:projectcontributions", project_id=process.project.id)
+    return redirect("projects:processcontributions", project_id=process.project.id)
 
 
 @login_required(login_url="login")
 def approve_usecase(request, usecase_id):
     usecase = UseCase.objects.get(id=usecase_id)
     approve_usecase = UseCase.objects.filter(id=usecase_id).update(status="accepted")
-    return redirect("projects:projectcontributions", project_id=usecase.project.id)
+    return redirect("projects:usecasecontributions", project_id=usecase.project.id)
 
 
 @login_required(login_url="login")
@@ -5494,10 +5668,10 @@ def approve_project_comment(request, comment_id):
 
 @login_required(login_url="login")
 def approve_viewpoint_comment(request, comment_id):
-    viewpoint_comment = ViewpointComment.objects.get(comment__id=comment_id)
+    viewpoint_comment = ViewPointComment.objects.get(comment__id=comment_id)
     approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
     return redirect(
-        "projects:projectcontributions",
+        "projects:viewpointcontributions",
         project_id=viewpoint_comment.viewpoint.project.id,
     )
 
@@ -5507,7 +5681,7 @@ def approve_goal_comment(request, comment_id):
     goal_comment = GoalComment.objects.get(comment__id=comment_id)
     approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
     return redirect(
-        "projects:projectcontributions", project_id=goal_comment.goal.project.id
+        "projects:goalcontributions", project_id=goal_comment.goal.project.id
     )
 
 
@@ -5516,7 +5690,7 @@ def approve_requirement_comment(request, comment_id):
     requirement_comment = RequirementComment.objects.get(comment__id=comment_id)
     approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
     return redirect(
-        "projects:projectcontributions",
+        "projects:requirementcontributions",
         project_id=requirement_comment.requirement.project.id,
     )
 
@@ -5526,7 +5700,8 @@ def approve_scenario_comment(request, comment_id):
     scenario_comment = ScenarioComment.objects.get(comment__id=comment_id)
     approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
     return redirect(
-        "projects:projectcontributions", project_id=scenario_comment.scenario.project.id
+        "projects:scenariocontributions",
+        project_id=scenario_comment.scenario.project.id,
     )
 
 
@@ -5535,7 +5710,7 @@ def approve_process_comment(request, comment_id):
     process_comment = ProcessComment.objects.get(comment__id=comment_id)
     approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
     return redirect(
-        "projects:projectcontributions", project_id=process_comment.process.project.id
+        "projects:processcontributions", project_id=process_comment.process.project.id
     )
 
 
@@ -5544,7 +5719,7 @@ def approve_usecase_comment(request, comment_id):
     usecase_comment = UseCaseComment.objects.get(comment__id=comment_id)
     approve_comment = Comment.objects.filter(id=comment_id).update(status="accepted")
     return redirect(
-        "projects:projectcontributions", project_id=usecase_comment.usecase.project.id
+        "projects:usecasecontributions", project_id=usecase_comment.usecase.project.id
     )
 
 
@@ -5555,14 +5730,14 @@ def reject_viewpoint(request, viewpoint_id):
     reject_viewpoint = Viewpoint.objects.filter(id=viewpoint_id).update(
         status="rejected"
     )
-    return redirect("projects:projectcontributions", project_id=viewpoint.project.id)
+    return redirect("projects:viewpointcontributions", project_id=viewpoint.project.id)
 
 
 @login_required(login_url="login")
 def reject_goal(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
     reject_goal = Goal.objects.filter(id=goal_id).update(status="rejected")
-    return redirect("projects:projectcontributions", project_id=goal.project.id)
+    return redirect("projects:goalcontributions", project_id=goal.project.id)
 
 
 @login_required(login_url="login")
@@ -5571,28 +5746,30 @@ def reject_requirement(request, requirement_id):
     reject_requirement = Requirement.objects.filter(id=requirement_id).update(
         status="rejected"
     )
-    return redirect("projects:projectcontributions", project_id=requirement.project.id)
+    return redirect(
+        "projects:requirementcontributions", project_id=requirement.project.id
+    )
 
 
 @login_required(login_url="login")
 def reject_scenario(request, scenario_id):
     scenario = Scenario.objects.get(id=scenario_id)
     reject_scenario = Scenario.objects.filter(id=scenario_id).update(status="rejected")
-    return redirect("projects:projectcontributions", project_id=scenario.project.id)
+    return redirect("projects:scenariocontributions", project_id=scenario.project.id)
 
 
 @login_required(login_url="login")
 def reject_process(request, process_id):
     process = Process.objects.get(id=process_id)
     reject_process = Process.objects.filter(id=process_id).update(status="rejected")
-    return redirect("projects:projectcontributions", project_id=process.project.id)
+    return redirect("projects:processcontributions", project_id=process.project.id)
 
 
 @login_required(login_url="login")
 def reject_usecase(request, usecase_id):
     usecase = UseCase.objects.get(id=usecase_id)
     reject_usecase = UseCase.objects.filter(id=usecase_id).update(status="rejected")
-    return redirect("projects:projectcontributions", project_id=usecase.project.id)
+    return redirect("projects:usecasecontributions", project_id=usecase.project.id)
 
 
 @login_required(login_url="login")
@@ -5606,10 +5783,10 @@ def reject_project_comment(request, comment_id):
 
 @login_required(login_url="login")
 def reject_viewpoint_comment(request, comment_id):
-    viewpoint_comment = ViewpointComment.objects.get(comment__id=comment_id)
+    viewpoint_comment = ViewPointComment.objects.get(comment__id=comment_id)
     comment = Comment.objects.filter(id=comment_id).update(status="rejected")
     return redirect(
-        "projects:projectcontributions",
+        "projects:viewpointcontributions",
         project_id=viewpoint_comment.viewpoint.project.id,
     )
 
@@ -5619,7 +5796,7 @@ def reject_goal_comment(request, comment_id):
     goal_comment = GoalComment.objects.get(comment__id=comment_id)
     comment = Comment.objects.filter(id=comment_id).update(status="rejected")
     return redirect(
-        "projects:projectcontributions", project_id=goal_comment.goal.project.id
+        "projects:goalcontributions", project_id=goal_comment.goal.project.id
     )
 
 
@@ -5628,7 +5805,7 @@ def reject_requirement_comment(request, comment_id):
     requirement_comment = RequirementComment.objects.get(comment__id=comment_id)
     comment = Comment.objects.filter(id=comment_id).update(status="rejected")
     return redirect(
-        "projects:projectcontributions",
+        "projects:requirementcontributions",
         project_id=requirement_comment.requirement.project.id,
     )
 
@@ -5638,7 +5815,8 @@ def reject_scenario_comment(request, comment_id):
     scenario_comment = ScenarioComment.objects.get(comment__id=comment_id)
     comment = Comment.objects.filter(id=comment_id).update(status="rejected")
     return redirect(
-        "projects:projectcontributions", project_id=scenario_comment.scenario.project.id
+        "projects:scenariocontributions",
+        project_id=scenario_comment.scenario.project.id,
     )
 
 
@@ -5647,7 +5825,7 @@ def reject_process_comment(request, comment_id):
     process_comment = ProcessComment.objects.get(comment__id=comment_id)
     comment = Comment.objects.filter(id=comment_id).update(status="rejected")
     return redirect(
-        "projects:projectcontributions", project_id=process_comment.process.project.id
+        "projects:processcontributions", project_id=process_comment.process.project.id
     )
 
 
@@ -5656,7 +5834,7 @@ def reject_usecase_comment(request, comment_id):
     usecase_comment = UseCaseComment.objects.get(comment__id=comment_id)
     comment = Comment.objects.filter(id=comment_id).update(status="rejected")
     return redirect(
-        "projects:projectcontributions", project_id=usecase_comment.usecase.project.id
+        "projects:usecasecontributions", project_id=usecase_comment.usecase.project.id
     )
 
 
@@ -5703,7 +5881,3 @@ def block_usecase(request, usecase_id):
     usecase = UseCase.objects.get(id=usecase_id)
     block_usecase = UseCase.objects.filter(id=usecase_id).update(status="blocked")
     return redirect("projects:projectcontributions", project_id=usecase.project.id)
-
-
-def shared_link(request, project_id):
-    pass
