@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^addincentives/(?P<project_id>\d+)/$', add_incentive, name="addincentives"),
     url(r'^removeincentive/(?P<incentive_id>\d+)/$', remove_incentive, name="removeincentive"),
     url(r'^readnotifications/$', readNotifications, name='readnotifications'),
+    url(r'^deletenotifications/$', deleteNotifications, name='deletenotifications'),
     url(r'^membershiprejection/(?P<membership_id>\w+)/(?P<project_id>\d+)/$', membershipRejection, name='membershiprejection'),
     url(r'^projectmembers/(?P<project_id>\d+)/$', projectMembers, name="projectmembers"),
     url(r'^suspendmembership/(?P<membership_id>\d+)/$', suspendMembership, name="suspendmembership"),

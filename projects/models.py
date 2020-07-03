@@ -7,6 +7,7 @@ from django.conf import settings
 import requests
 from django.conf import settings
 from datetime import timezone
+from datetime import datetime
 from django.contrib.auth.models import PermissionsMixin
 
 
@@ -55,10 +56,9 @@ class LoginLog(models.Model):
     """Model definition for LoginLog."""
 
     # TODO: Define fields here
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    login_time = models.DateTimeField(auto_now=True)
-    logout_time = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(default=datetime.now, blank=True)
+    logout_time = models.DateTimeField(auto_now=False, null=True, blank=True)
 
     class Meta:
         """Meta definition for LoginLog."""
@@ -68,7 +68,11 @@ class LoginLog(models.Model):
 
     def __str__(self):
         """Unicode representation of LoginLog."""
-        return self.login_time
+        return self.user.username
+
+class Visitor(models.Model):
+    ip_address = models.CharField(max_length=90, null=True)
+
 
 
 class Sector(models.Model):

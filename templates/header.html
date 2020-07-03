@@ -129,6 +129,9 @@
                     {% if placeholder == "search your project" %}
                     <form method="post" action="{% url 'projects:myprojects'%}">
                         {% endif %}
+                    {% if placeholder == "search Members"%}
+                    <form method="post" action="{% url 'projects:invitemembers' project_id=project.id%}">
+                    {% endif %}
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" class="form-control" name="project_keyword"

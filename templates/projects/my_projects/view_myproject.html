@@ -376,6 +376,20 @@
                                                 class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                                 <a href="#"><i
                                                         class=" icon-watch2 font-size-base text-muted ml-2"></i></a></span>
+                                                        {% if comment.comment.commented_by != member %}
+                                                        status:
+                                                        {% if comment.comment.status == "pending" %}
+                                                        <label class="btn btn-danger btn-labeled  rounded-round  btn-sm text-center"
+                                                            title="you are the only one who can see this comment till when is accepted">
+                                                            {{comment.comment.status}}
+                                                        </label>
+                                                        {% else %}
+                                                        <label class="btn btn-success btn-labeled  rounded-round  btn-sm text-center mr-2"
+                                                            title="This comment is visible to all project members">
+                                                            {{comment.comment.status}}
+                                                        </label>
+                                                        {% endif %}
+                                                        {% endif %}
                                         </div>
                                         {{ comment.comment }}
                                     </div>

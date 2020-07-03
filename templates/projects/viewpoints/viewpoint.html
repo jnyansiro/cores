@@ -293,6 +293,7 @@
                                     <span class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                         <a href="#"><i
                                                 class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                                {% if comment.comment.commented_by == member %}
                                                 status:
                                                 {% if comment.comment.status == "pending" %}
                                                 <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
@@ -309,6 +310,7 @@
                                                     title="This comment is visible to all project members">
                                                     {{comment.comment.status}}
                                                 </label>
+                                                {% endif %}
                                                 {% endif %}
                                 </div>
                                 {{ comment.comment|safe }}
