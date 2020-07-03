@@ -5385,7 +5385,7 @@ def delete_usecase(request, usecase_id):
 # Contribution approval, rejections and blocks
 @login_required(login_url="login")
 def project_contributions(request, project_id):
-    indexhead = "Project Comments Contribution Requests"
+    indexhead = "Project Comments Requests"
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
@@ -5433,7 +5433,7 @@ def viewpoint_contributions(request, project_id):
     )
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/viewpoint_contributions.html",
         {
             "viewpoints": viewpoints,
             "project": project,
@@ -5470,7 +5470,7 @@ def goal_contributions(request, project_id):
     )
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/goal_contributions.html",
         {
             "goals": goals,
             "total_goals": Goal.objects.filter(
@@ -5508,7 +5508,7 @@ def requirement_contributions(request, project_id):
     )
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/requirement_contributions.html",
         {
             "requirements": requirements,
             "total_requirements": Requirement.objects.filter(
@@ -5548,7 +5548,7 @@ def scenario_contributions(request, project_id):
     )
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/scenerio_contributions.html",
         {
             "scenarios": scenarios,
             "total_scenarios": RequirementScenario.objects.filter(
@@ -5588,7 +5588,7 @@ def process_contributions(request, project_id):
     )
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/process_contributios.html",
         {
             "processes": processes,
             "total_processes": RequirementProcess.objects.filter(
@@ -5628,7 +5628,7 @@ def usecase_contributions(request, project_id):
     )
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/usecase_contributions.html",
         {
             "usecases": usecases,
             "total_usecases": RequirementUsecase.objects.filter(

@@ -1,90 +1,64 @@
-
+{% extends 'header.html' %}
 {% load static %}
-{% include '../viewpoints/viewpoint_header.html' %}
 
-<!-- Main content -->
-<div class="content-wrapper">
+{% block sidebar %}
 
-    <!-- Content area -->
-    <div class="content">
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
+    <div class="card">
+        <div class="card-header bg-primary-400 header-elements-inline">
+            <h6 class="card-title">
+                <i class="icon-plus3"></i>
+                Create Requirement for: <a href="{% url 'projects:viewproject' project_id=project.id%}"
+                    class="font-weight-semibold text-white">{{ project.project_title}}</a> </h6>
 
-        <!-- Main charts -->
-        <div class="row">
-            <div class="col-xl-12">
+        </div>
 
-                <!-- Traffic sources -->
-                <div class="card">
-                    {% include '../workspace_title.html'%}
-                    <div class="card-header header-elements-inline">
-                        <h6 class="card-title">Create Requirement</h6>
-                        
+        <div class="card-body py-0">
+            <form method="post" action="{% url 'projects:createrequirement' goal_id%}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row mt-2">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Goals:</label>
+                                <select class="form-control" name="goal" title="option">
+                                    <option value="select">select Goal:</option>
+                                    {% for goal_ in goals %}
+                                    <option value="{{ goal_.id }}"> {{ goal_ }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="card-body py-0">
-                        <form method="post" action="{% url 'projects:createrequirement' goal_id%}"
-                            enctype="multipart/form-data">
-                             {% csrf_token %}
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Goals:</label>
-                                        <select class="form-control" name="goal" title="option" >
-                                            <option value="select">select Goal</option>
-                                            {% for goal_ in goals %}
-                                            <option value="{{ goal_.id }}"> {{ goal_ }}</option>
-                                            {% endfor %}
-                            
-                                        </select>
-                                    </div>
-                                </div>
-                            
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Requirement Title:</label>
+                                <input class="form-control" type="text" name="requirement_title" required
+                                    placeholder="Enter Requirement title">
                             </div>
-
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Requirement Title:</label>
-                                        <input class="form-control" type="text" name="requirement_title" required
-                                            placeholder="Enter Requirement title">
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                        
-
-
-
-
                         </div>
-                        <div className="form-group col-md-6 float-left">
-                            <label>Requirement Descriptions:</label>
-                            <textarea class="form-control" name="requirement_descriptions" id="editor-full" rows="4"
-                                bottom="4"></textarea><br>
-                            <button class="btn btn-primary float-right"><span
-                                    class="fa fa-facebook">create</span></button>
-                        </div>
-
-
-
 
                     </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="font-weight-semibold">Requirement Descriptions:</label>
+                        <textarea class="form-control" name="requirement_descriptions" id="editor-full" rows="4"
+                            bottom="4"></textarea><br>
+                        <button class="btn btn-primary float-right"><span class="fa fa-facebook">create</span></button>
+                    </div>
+
+
+
 
 
                 </div>
-                </form>
-            </div>
-
-            <div class="chart position-relative" id="traffic-sources"></div>
+            </form>
         </div>
-        <!-- /traffic sources -->
-
     </div>
 </div>
-</div>
-</div>
-
-
-<!-- /main charts --
+{% endblock content %}

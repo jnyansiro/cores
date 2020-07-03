@@ -1,95 +1,77 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include '../viewpoints/viewpoint_header.html' %}
 
-<!-- Main content -->
-<div class="content-wrapper">
+{% block sidebar %}
 
-    <!-- Content area -->
-    <div class="content">
+{% endblock sidebar %}
+{% block content %}
 
-        <!-- Main charts -->
-        <div class="row">
-            <div class="col-xl-12">
+<script src="{% static 'global_assets/js/demo_pages/form_multiselect.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/forms/selects/bootstrap_multiselect.js' %}"></script>
+<div class="content">
+    <div class="card">
+        <div class="card-header bg-primary-400 header-elements-inline">
+            <h6 class="card-title">
+                <i class="icon-plus3"></i>
+                Create Usecase for: <a href="{% url 'projects:viewproject' project_id=project.id%}"
+                    class="font-weight-semibold text-white">{{ project.project_title}}</a> </h6>
+        </div>
+        <div class="card-body py-0">
+            <form method="post" action="{% url 'projects:createusecase' requirement_id=requirement.id%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row mt-2">
+                    <div class="col-sm-4">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Requirements:</label>
+                                <select class="form-control multiselect" name="requirement" multiple="multiple"
+                                    data-fouc>
+                                    {% for requirement in requirements %}
+                                    <option value="{{ requirement.id }}"> {{ requirement }}</option>
+                                    {% endfor %}
 
-                <!-- Traffic sources -->
-                <div class="card">
-                    {% include '../workspace_title.html'%}
-                    <div class="card-header header-elements-inline">
-                        <h6 class="card-title">Create {{ requirement }}` Usecase</h6>
-                        
-                    </div>
-
-                    <div class="card-body py-0">
-                        <form method="post" action="{% url 'projects:createusecase' requirement_id=requirement.id%}"
-                            enctype="multipart/form-data">
-                            {% csrf_token %}
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Requirements:</label>
-                                        <select class="form-control multiselect" name="requirement" multiple="multiple" data-fouc>
-                                            {% for requirement in requirements %}
-                                            <option value="{{ requirement.id }}"> {{ requirement }}</option>
-                                            {% endfor %}
-                            
-                                        </select>
-                                    </div>
-                                </div>
-                            
+                                </select>
                             </div>
-
-                            <div class="col-sm-5">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Usecase Title:</label>
-                                        <input class="form-control" type="text" name="usecase_title" required
-                                            placeholder="Enter usecase title">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-sm-3" >
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Usecase Docs:</label>
-                                        <input class="form-control-styled" type="file" name="usecase_docs">
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-
-
-                        </div>
-                        <div className="form-group col-md-6 float-left">
-                            <label>Usecase Descriptions:</label>
-                            <textarea class="form-control" name="usecase_descriptions" id="editor-full" rows="4"
-                                bottom="4"></textarea><br>
-                            <button class="btn btn-primary float-right"><span
-                                    class="fa fa-facebook">create</span></button>
                         </div>
 
+                    </div>
 
-
+                    <div class="col-sm-4">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Usecase Title:</label>
+                                <input class="form-control" type="text" name="usecase_title" required
+                                    placeholder="Enter usecase title">
+                            </div>
+                        </div>
 
                     </div>
+
+                    <div class="col-sm-4">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Usecase Docs:</label>
+                                <input class="form-control-styled" type="file" name="usecase_docs">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="font-weight-semibold">Usecase Descriptions:</label>
+                        <textarea class="form-control" name="usecase_descriptions" id="editor-full" rows="4"
+                            bottom="4"></textarea><br>
+                        <button class="btn btn-primary float-right"><span class="fa fa-facebook">create</span></button>
+                    </div>
+
 
 
                 </div>
-                </form>
-            </div>
-
-            <div class="chart position-relative" id="traffic-sources"></div>
+               
+            </form>
         </div>
-        <!-- /traffic sources -->
+
 
     </div>
 </div>
-</div>
-</div>
-
-
-<!-- /main charts --
+{% endblock content %}

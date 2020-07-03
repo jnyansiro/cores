@@ -101,45 +101,49 @@
                             </li>
 
                         </ul>
-                        {% if requirement.id %}
-                        <li class="col-md-12 float-right" style="list-style: none;">
 
-                            <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"
-                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
-                                        class="icon-plus3"></i></b>
-                                Add Process
-                            </a>
-                        </li>
-                        {% endif %}
 
                     </div>
-                    {% if requirements %}
-                    <div class="form-group form-horizontal">
-                        <label class="col-lg-1 text-semibold control-label">
-                            Filter:</label>
-                        <form method="post" action="{% url 'projects:processes' requirement_id=requirement.id %}">
-                            {% csrf_token %}
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <select name="requirement" data-placeholder="Select View point"
-                                        class="form-control" id="">
-                                        {% for requirement in requirements %}
-                                        <option value="{{ trequirement.id}}">
-                                            {{ requirement.name}}
-                                        </option>
-                                        {% endfor %}
+                    <div class="form-group form-horizontal pb-1 row" style="border-bottom: 1px solid #ddd;">
+                        <div class="col-md-6">
+                            {% if requirements %}
+                            <label class="col-md-12 font-weight-semibold control-label">
+                                Filter:</label>
+                            <form method="post" action="{% url 'projects:processes' requirement_id=requirement.id %}">
+                                {% csrf_token %}
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <select name="requirement" data-placeholder="Select View point"
+                                            class="form-control" id="">
+                                            {% for requirement in requirements %}
+                                            <option value="{{ trequirement.id}}">
+                                                {{ requirement.name}}
+                                            </option>
+                                            {% endfor %}
 
-                                    </select>
-                                    <span class="input-group-append">
-                                        <span class="input-group-append"><button class="btn btn-primary"><i
-                                                    class="icon-search4"></i></button></span>
-                                    </span>
+                                        </select>
+                                        <span class="input-group-append">
+                                            <span class="input-group-append"><button class="btn btn-primary"><i
+                                                        class="icon-search4"></i></button></span>
+                                        </span>
+                                    </div>
+
                                 </div>
-                        </form>
+                            </form>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 text-right">
+                            {% if requirement.id %}
+                            <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"
+                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
+                                Add Process
+                                <b><i class="icon-plus3"></i></b>
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
+                  
                 </div>
-
-                {% endif %}
 
                 <div class="col-md-12 mb-10 mt-10">
                     <h5 class="font-weight-semibold">
@@ -149,19 +153,23 @@
                         <ul class="list-group">
                             {% for process in processes %}
                             <li class="list-group-item pl-10 pr-10 ">
-                                <a href="{% url 'projects:viewprocess' process_id=process.id%}">
-                                    {{process.process.process_name}}</a>, By {{process.process.created_by}}, Created
-                                On: {{ process.process.created_on }}
+
+                                <a href="{% url 'projects:viewprocess' process_id=process.id%}"
+                                    class="text-primary">{{ process.process.process_name }}</a>
+                                <br>
+                                <span class="font-weight-semibold">By:</span>
+                                {{ process.process.created_by }}, <span class="text-muted"> Created On:
+                                    {{ process.process.created_on }}</span>
 
                                 <a href="{% url 'projects:viewprocess' process_id=process.id%}"
                                     class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
-                                    data-popup="tooltip" data-placement="bottom" title="View"
-                                    style="margin-top: -6px;">
+                                    data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                                     <i class="icon-enter3"></i>
                                 </a>
                             </li>
                             {% endfor %}
                         </ul>
+
                     </div>
                 </div>
 
