@@ -40,7 +40,7 @@
                     <li class="nav-item dropdown dropdown-user" style="color: white;">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle"
                             data-toggle="dropdown" style="color: white;">
-                            <img src="{% if member.profile_photo %}../docs/{{member.profile_photo}} {% else %} {% static 'images/user.png' %} {% endif %}"
+                            <img src="{% if member.profile_photo %}/docs/{{member.profile_photo}} {% else %} {% static 'images/user.png' %} {% endif %}"
                                 class="rounded-circle" width="40" height="40">
                             <span>
                                 {% if user.is_authenticated %}
@@ -131,12 +131,21 @@
                         {% endif %}
                     {% if placeholder == "search Members"%}
                     <form method="post" action="{% url 'projects:invitemembers' project_id=project.id%}">
-                    {% endif %}
+                        {% endif %}
+                    {% if placeholder == "search membership project"%}
+                    <form method="post" action="{% url 'projects:membershipprojects'%}">
+                        {% endif %}
+                    {% if placeholder == "search member"%}
+                    <form method="post" action="{% url 'projects:projectmembers' project_id=project.id %}">
+                        {% endif %}
+                    {% if placeholder == "search by name"%}
+                    <form method="post" action="{% url 'projects:memberrequest' project_id=project.id %}">
+                        {% endif %}
+                   
                         {% csrf_token %}
-                        <div class="input-group">
+                        <div class="input-group mb-2 mt-2">
                             <input type="text" class="form-control" name="project_keyword"
                                 placeholder="{{ placeholder }}" required>
-                            <input type="text" name="placeholder" value="{{ placeholder}}" hidden>
                             <span class="input-group-append"></span>
                             <span class="input-group-append"><button class="btn btn-primary"><i
                                         class="icon-search4"></i></button></span>
@@ -198,7 +207,7 @@
 
                                 <div class="media-body">
                                     <div class="media-title font-weight-semibold">
-                                        <img src="{% if member.profile_photo %}../docs/{{member.profile_photo}} {% else %} {% static 'images/user.png' %} {% endif %}"
+                                        <img src="{% if member.profile_photo %}/docs/{{member.profile_photo}} {% else %} {% static 'images/user.png' %} {% endif %}"
                                             class="rounded-circle" width="30" height="30">
                                         {{member.first_name}} {{ member.surname}}
                                     </div>

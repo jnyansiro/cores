@@ -23,14 +23,14 @@
             <div class="card">
                 <div class="card-body row">
                     <div class="card-img-actions col-md-3">
-                        <img class="card-img img-fluid" src="../../../docs/{{ project.project_photo }}" alt="">
+                        <img class="card-img img-fluid" src="/docs/{{ project.project_photo }}" alt="">
                     </div>
 
                     <div class="col-md-9 ">
                         {% load social_share %}
                             <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip" data-placement="bottom" style="position: absolute;top: 0;right: 0;">
                                 
-                                {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share on WhatsApp</span>'%}
+                                {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share</span>'%}
                             </span>
                         <h5 class="font-weight-semibold my-1">
                             <a href="{% url 'projects:viewmyproject' project_id=project.id %}"

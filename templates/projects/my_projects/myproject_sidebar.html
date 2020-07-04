@@ -35,7 +35,7 @@
                 </span></a>
         </li>
 
-        <li class="nav-item nav-item-submenu {% if request.get_full_path == projectcontributions%} nav-item-expanded {% endif %}">
+        <li class="nav-item nav-item-submenu {% if request.get_full_path == projectcontributions or request.get_full_path == viewpointcontributions or request.get_full_path == goalcontributions or request.get_full_path == requirementcontributions or request.get_full_path ==  scenariocontributions or request.get_full_path == processcontributions or request.get_full_path == usecasecontributions %} nav-item-expanded {% endif %}">
             <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Approve Contributions</span></a>
         
             <ul class="nav nav-group-sub" data-submenu-title="Approve Contributions">

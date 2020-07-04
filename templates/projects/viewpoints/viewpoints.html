@@ -122,14 +122,13 @@
             <h6 class="text-primary font-weight-semibold col-md-2" style="border-bottom: 1px solid #ddd;">Project Viewpoints:</h6>
 
             <div class="row project_card">
-                {% if viewpoint %}
                 {% for viewpoint in viewpoint %}
                 <div class="col-lg-6 ">
 
                     <div class="card blog-horizontal blog-horizontal-xs">
                         <div class="card-body row">
                             <div class="card-img-actions col-md-4">
-                                <img class="card-img img-fluid" src="../../../docs/{{ viewpoint.viewpoint_photo }}"
+                                <img class="card-img img-fluid" src="/docs/{{ viewpoint.viewpoint_photo }}"
                                     alt="">
                                 <div class="card-img-actions-overlay card-img">
                                     <a href="{% url 'projects:viewpoint' viewpoint_id=viewpoint.pk %}"
@@ -182,56 +181,12 @@
                     </div>
 
                 </div>
-                <div id="star" class="modal top" tabindex="-1">
-                    <div class="modal-dialog modal-xs">
-                        <form method="POST" action="{% url 'projects:rateviewpoint' viewpoint_id=viewpoint.id%}">
-                            {% csrf_token %}
-                            <div class="modal-content bg-white-300" style="color:red">
-                                <div class="modal-header">
-
-                                    <h5 class="modal-title text-center">Rate Viewpoint</h5>
-
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <div class="rate float-center" style="margin-left: 3rem;">
-                                        <input type="radio" id="star5" name="rate" value="5" /><label for="star5"
-                                            title="Best">5
-                                            stars</label>
-                                        <input type="radio" id="star4" name="rate" value="4" /><label for="star4"
-                                            title="Better">4
-                                            stars</label>
-                                        <input type="radio" id="star3" name="rate" value="3" /><label for="star3"
-                                            title="Good">3
-                                            stars</label>
-                                        <input type="radio" id="star2" name="rate" value="2" /><label for="star2"
-                                            title="Normal">2
-                                            stars</label>
-                                        <input type="radio" id="star1" name="rate" value="1" /><label for="star1"
-                                            title="Bad">1
-                                            star</label>
-                                    </div>
-
-
-                                </div>
-
-                                <div class="modal-footer col-md-12">
-                                    <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Not
-                                        now</button>
-                                    <button type="submit" class="btn bg-primary ">Rate</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 
                 {% endfor %}
+            </div>
                 <div class="col-md-12 text-center">
                     <span class="step-links">
+                        {% if viewpoints %}
                         {% if viewpoints.has_previous %}
                         <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
                         <a href="?page={{ viewpoints.previous_page_number }}" class="">Back</a>
@@ -245,13 +200,15 @@
                         <a href="?page={{ viewpoints.next_page_number }}" class="">next</a>
                         <a href="?page={{ viewpoints.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
                         {% endif %}
+                        {% endif %}
+                        {% if not viewpoints %}
+                        <div class="alert alert-info text-center col-md-12">
+                            No Viewpoint(s) to display!
+                        </div>
+                        {% endif %}
                     </span>
                 </div>
-                {% else %}
-                <div class="alert alert-info text-center col-md-12">
-                    No Viewpoint(s) to display!
-                </div>
-                {% endif %}
+                
 
             </div>
         </div>

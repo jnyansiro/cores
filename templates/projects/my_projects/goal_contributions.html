@@ -1,0 +1,242 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block sidebar %}
+{% include './myproject_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
+    <!-- Bordered card body table -->
+
+    <div class="col-xl-12">
+        <div class="card ">
+            <div class="card-header bg-primary-400 header-elements-inline">
+                <h5 class="card-title font-weight-semibold">{{project}} Project goals:</h5>
+
+            </div>
+ 
+            <div class="card-body">
+                <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                    <li class="nav-item"><a href="#goal" class="nav-link active font-weight-semibold"
+                            data-toggle="tab">Goals</a></li>
+                    <li class="nav-item"><a href="#comments" class="nav-link font-weight-semibold"
+                            data-toggle="tab">Comments</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="goal">
+
+                        <div class="row mb-2 mt-1 ">
+                            <div class="col-md-6 text-left">
+                                <h5 class="ml-2">Goals: <span
+                                        class="badge badge-primary badge-pill">{{total_goals}}</span></h5>
+                            </div>
+                            <div class="col-md-6 text-right">
+
+                                <div class="text-right">
+                                    <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                        <i class="icon-check"></i>
+                                    </a>
+                                    <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                        <i class="icon-trash"></i>
+                                    </a>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered table-responsive-xl table-hover">
+
+                            <thead class="bg-primary text-white">
+                                <tr>
+                    
+                                    <th>Select</th>
+                                    <th>Contributed By</th>
+                                    <th>Goal Title</th>
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for goal in goals %}
+                                <tr>
+                                    
+                                    <td><input type="checkbox" value="{{goal.id}}" class="form-control-styled">
+                                    </td>
+                                    <td>{{ goal.created_by }}</td>
+                                    <td>{{ goal.goal_name }}</td>
+
+
+
+                                    <td> <a href="{% url 'projects:viewgoal' goal_id=goal.id%}" title="view"
+                                            data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm"><i
+                                                class="icon-enlarge7"></i></a>
+
+                                        <a href="{% url 'projects:approvegoal' goal_id=goal.id%}"
+                                            title="Accept" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm"><i
+                                                class="icon-check"></i></a>
+                                        <a href="{% url 'projects:rejectgoal' goal_id=goal.id%}"
+                                            title="Reject" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm"><i
+                                                class="icon-trash"></i></a>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                        <div class="col-md-12 text-center">
+                            {% if goals %}
+                            <span class="step-links">
+                                {% if goals.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ goals.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ goals.number }} of {{ goals.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if goals.has_next %}
+                                <a href="?page={{ goals.next_page_number }}" class="">next</a>
+                                <a href="?page={{ goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                            {% endif %}
+                            {% if not goals  %}
+                            <div class="text-center alert alert-info mt-2">
+                                There is no pending Goals!
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="comments">
+                        <div class="row mb-2 mt-1 ">
+                            <div class="col-md-6 text-left">
+                                <h5 class="ml-2">Comments: <span
+                                        class="badge badge-primary badge-pill">{{total_comments}}</span></h5>
+                            </div>
+                            <div class="col-md-6 text-right">
+
+                                <div class="text-right">
+                                    <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                        <i class="icon-check"></i>
+                                    </a>
+                                    <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                        <i class="icon-trash"></i>
+                                    </a>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-responsive-xl table-hover">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                   
+                                    <th>Select</th>
+                                    <th>Commented By</th>
+                                    <th>Commented Goal</th>
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for comment in goal_comments %}
+                                <tr>
+                                    
+                                    <td><input type="checkbox" value="{{comment.comment.id}}"
+                                            class="form-control-styled"></td>
+                                    <td>{{ comment.comment.commented_by }}</td>
+                                    <td>{{ comment.goal.goal_name }}</td>
+                                    <td> <a title="view" data-popup="tooltip" data-placement="bottom"
+                                            data-toggle="modal" data-target="#view_comment{{num}}"
+                                            class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm"><i
+                                                class="icon-enlarge7"></i></a>
+
+                                        <a href="{% url 'projects:approvegoalcomment' comment_id=comment.comment.id%}"
+                                            title="Accept" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm"><i
+                                                class="icon-check"></i></a>
+                                        <a href="{% url 'projects:rejectgoalcomment' comment_id=comment.comment.id%}"
+                                            title="Reject" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm"><i
+                                                class="icon-trash"></i></a>
+                                    </td>
+
+                                </tr>
+
+                                <div id="view_comment{{num}}" class="modal fade" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Comment Details:</h5>
+                                                <button type="button" class="close"
+                                                    data-dismiss="modal">&times;</button>
+                                            </div>
+
+
+                                            <div class="modal-body">
+                                                {{comment.comment.comment}}
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-link"
+                                                    data-dismiss="modal">Close</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="col-md-12 text-center">
+                            {% if goal_comments %}
+                            <span class="step-links">
+                                {% if goal_comments.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ goal_comments.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ goal_comments.number }} of {{ goal_comments.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if goal_comments.has_next %}
+                                <a href="?page={{ goal_comments.next_page_number }}" class="">next</a>
+                                <a href="?page={{ goal_comments.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                            {% endif %}
+                            {% if not goal_comments %}
+                            <div class="text-center alert alert-info mt-2">
+                                There is no pending Comments!
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <!--end loop this as one comment -->
+                </div>
+            </div>
+
+          
+        </div>
+    </div>
+</div>
+{% endblock content %}

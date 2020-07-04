@@ -175,7 +175,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rd76pxZu_CVLLcOJQkk2YXSa'
 LOGIN_URL = '/auth/login/google-oauth2/'
 
 LOGIN_REDIRECT_URL = '/login'
-LOGOUT_REDIRECT_URL = '/login'
+LOGOUT_REDIRECT_URL = '/logout'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 

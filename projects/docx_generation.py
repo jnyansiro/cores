@@ -44,8 +44,9 @@ def create_docx(request,project_id):
             document.add_heading(str(num)+': ' + goal.goal_name, level=3)
             document.add_paragraph('A Goal from ' + str(goal.viewpoint))
             document.add_paragraph(re.sub(cleanr, '',  goal.description))
+
+
         # getting requirements
-        
         requirements = enumerate(Requirement.objects.filter(project=project,status="accepted"), start=1)
         if Requirement.objects.filter(project=project).exists():
             document.add_heading(project.project_title+'` Requirements', level=2)
@@ -55,7 +56,6 @@ def create_docx(request,project_id):
             document.add_paragraph(re.sub(cleanr, '', requirement.description))
         
         # getting scenarios
-       
         scenarios = enumerate(Scenario.objects.filter(project=project, status="accepted"), start=1)
         if Scenario.objects.filter(project=project).exists():
              document.add_heading(project.project_title+'` Scenarios', level=2)
@@ -63,7 +63,6 @@ def create_docx(request,project_id):
             document.add_heading(str(num)+': ' + scenario.name, level=3)
             document.add_paragraph('A Scenario from Requirement ' + str(scenario.requirement.goal) + " of Goal " +str(scenario.requirement.goal) + ' from Viewpoint ' +str(scenario.requirement.goal.viewpoint))
             document.add_paragraph(re.sub(cleanr, '', scenario.description))
-        
         
         # getting processes
         processes = enumerate(Process.objects.filter(project=project,status="accepted"), start=1)
@@ -76,7 +75,7 @@ def create_docx(request,project_id):
         now = datetime.now()
         filename = str(now)+project.project_title+'.docx'
         
-        path = working_directory + '/docs/'+filename
+        path = working_directory + '/docs/generated_docs/'+filename
         print(path)
         document.save(path)
         notification(request)
@@ -97,7 +96,10 @@ def create_docx(request,project_id):
         'member':member
     })
 
+
 def delete_file(request,file_id):
     file = GeneratedDocs.objects.get(id=file_id)
+    # deleteing file from the drive
+    os.remove(working_directory + '/docs/generated_docs/' + file.docx )
     delete = GeneratedDocs.objects.filter(id=file_id).delete()
     return redirect('projects:generatedocs',project_id=file.project.id)

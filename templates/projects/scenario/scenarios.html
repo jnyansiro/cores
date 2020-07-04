@@ -65,17 +65,20 @@
                                 }
                             </style>
                             <li class="viewpoint col-md-2 p-2">
-                                <a href="{% url 'projects:viewpoints' project_id=project_id %}" class="col-md-2" style="color: black;font-weight:bold">
+                                <a href="{% url 'projects:viewpoints' project_id=project_id %}" class="col-md-2"
+                                    style="color: black;font-weight:bold">
                                     ViewPoints
                                 </a>
                             </li>
                             <li class="goal col-md-2 p-2">
-                                <a href="{% url 'projects:projectgoals' project_id=project_id %}" class="col-md-2" style="color:black;font-weight:bold">
+                                <a href="{% url 'projects:projectgoals' project_id=project_id %}" class="col-md-2"
+                                    style="color:black;font-weight:bold">
                                     Goals
                                 </a>
                             </li>
                             <li class=" requirement col-md-2 p-2">
-                                <a href="{% url 'projects:projectrequirements' project_id=project_id %}" style="color:black;font-weight:bold">
+                                <a href="{% url 'projects:projectrequirements' project_id=project_id %}"
+                                    style="color:black;font-weight:bold">
                                     Requirements
                                 </a>
                             </li>
@@ -85,54 +88,64 @@
                                 </a>
                             </li>
                             <li class="process col-md-2 p-2">
-                                <a href="{% url 'projects:projectprocesses' project_id=project_id%}" style="color:black;font-weight:bold">
+                                <a href="{% url 'projects:projectprocesses' project_id=project_id%}"
+                                    style="color:black;font-weight:bold">
                                     Processes
                                 </a>
                             </li>
                             <li class="usecase col-md-2 p-2">
-                                <a href="{% url 'projects:projectusecases' project_id=project_id%}" style="color:black;font-weight:bold">
+                                <a href="{% url 'projects:projectusecases' project_id=project_id%}"
+                                    style="color:black;font-weight:bold">
                                     Usecase
                                 </a>
                             </li>
 
                         </ul>
-                        {% if requirement.id %}
 
-                        <li class="col-md-12 float-right" style="list-style: none;">
-                            <a href="{% url 'projects:createscenario' requirement_id=requirement.id%}"
-                            class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
-                                    class="icon-plus3"></i></b>
-                            Add Scenario
-                        </a>
-                            
-                        </li>
-                        {% endif %}
 
                     </div>
-                {% if requirements %}
-                    <div class="form-group form-horizontal">
-                        <label class="col-lg-3 text-semibold control-label">
-                            Filter Requirement:</label>
+
+                    <div class="form-group form-horizontal pb-1 row" style="border-bottom: 1px solid #ddd;">
+                        <div class="col-md-6">
+
+                            {% if goals %}
+                            <label class="col-md-12 font-weight-semibold control-label">
+                                Filter Requirement:</label>
                             <form method="post" action="{% url 'projects:scenarios' requirement_id=requirement.id %}">
                                 {% csrf_token %}
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <select name="requirement" data-placeholder="Select View point" class="form-control" id="">
-                                    {% for requirement in requirements %}
-                                    <option value="{{ requirement.id}}">
-                                        {{ requirement.name }}
-                                    </option>
-                                    {% endfor %}
-                        
-                                </select>
-                                <span class="input-group-append">
-                                    <span class="input-group-append"><button class="btn btn-primary"><i
-                                                class="icon-search4"></i></button></span>
-                                </span>
-                            </div>
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <select name="goal" class="form-control" id="">
+                                            {% for requirement in requirements %}
+                                            <option value="{{ requirement.id}}">
+                                                {{ requirement.name }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="input-group-append">
+                                            <span class="input-group-append"><button class="btn btn-primary"><i
+                                                        class="icon-search4"></i></button></span>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </form>
+                            {% endif %}
+                        </div>
+
+
+                        <div class="col-md-6 text-right">
+
+                            {% if requirement.id %}
+                            <a href="{% url 'projects:createscenario' requirement_id=requirement.id%}"
+                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
+                                <b><i class="icon-plus3"></i></b>
+                                Add Scenario
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
-                    {% endif %}
+
 
                     <div class="col-md-12 mb-2 mt-2">
                         <h5 class="font-weight-semibold">
@@ -142,9 +155,14 @@
                             <ul class="list-group">
                                 {% for scenario in scenarios %}
                                 <li class="list-group-item pl-10 pr-10 ">
+
                                     <a href="{% url 'projects:viewscenario' scenario_id=scenario.id %}"
-                                    >{{ scenario.scenario.name}}</a> by {{scenario.scenario.created_by}}, created
-                                    on:{{ scenario.scenario.created_on}}
+                                        class="text-primary">{{ scenario.scenario.name }}</a>
+                                    <br>
+                                    <span class="font-weight-semibold">By:</span>
+                                    {{ scenario.scenario.created_by }}, <span class="text-muted"> Created On:
+                                        {{ scenario.scenario.created_on }}</span>
+
                                     <a href="{% url 'projects:viewscenario' scenario_id=scenario.id %}"
                                         class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                         data-popup="tooltip" data-placement="bottom" title="View"
@@ -154,6 +172,7 @@
                                 </li>
                                 {% endfor %}
                             </ul>
+                           
                         </div>
                     </div>
 

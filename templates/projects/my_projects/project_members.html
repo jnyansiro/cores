@@ -43,6 +43,7 @@
 
 
                                 <td class="text-center">
+                                    {% if member.member_role != "Admin"%}
                                     <a href="{% url 'projects:memberdetails' member_id=member.member.id%}"
                                         title="View" data-popup="tooltip" data-placement="bottom"
                                         class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm">
@@ -75,7 +76,7 @@
                                         data-popup="tooltip" data-placement="bottom"
                                         class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm"><i
                                             class="icon-trash"></i></a>
-
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}

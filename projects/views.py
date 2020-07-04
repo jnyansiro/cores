@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import authenticate
@@ -782,15 +782,18 @@ def profile(request):
 
 # login function
 def login(request):
+    redirect_to = request.GET.get('next', '')
+    print(redirect_to)
     if request.user.is_authenticated:
-        print(request.user.username)
+
         if not Member.objects.filter(user=request.user).exists():
             member = Member.objects.create(
                 user=request.user,
-                first_name=request.user.username,
+                first_name=request.user.name,
                 middle_name=request.user.username,
                 surname=request.user.username,
                 email=request.user.email,
+                gender=request.user.gender
             )
             member.save()
             login_log = LoginLog.objects.create(
@@ -812,6 +815,10 @@ def login(request):
         if user:
             if user.is_active:
                 auth_login(request, user)
+                if redirect_to != '/login':
+                   print(redirect_to)
+                   return HttpResponseRedirect(redirect_to)
+                auth_login(request, user)
                 login_log = LoginLog.objects.create(
                 user=request.user
                  )
@@ -821,7 +828,7 @@ def login(request):
             return render(request, "login.html", {"message": message})
         message = "Soory you have entered incorrect credentials"
         return render(request, "login.html", {"message": message})
-    return render(request, "login.html", {})
+    return render(request, "login.html", {'path':redirect_to})
 
 
 # user logout
@@ -1504,8 +1511,15 @@ def remove_incentive(request, incentive_id):
 @login_required(login_url="login")
 def membershipProjects(request):
     indexhead = "Projects / Membership Project(s)"
+    placeholder = "search membership project"
     member = Member.objects.get(user=request.user)
-    membershipprojects = ProjectMembership.objects.filter(
+    if request.method == "POST":
+        keyword = request.POST.get('project_keyword')
+        membershipprojects = ProjectMembership.objects.filter(
+        Q(member=member, status="active", member_role="member", project__project_title__icontains=keyword) | Q(member=member, status="active", member_role="member", project__description__icontains=keyword)
+    ).order_by("-id")
+    else:
+        membershipprojects = ProjectMembership.objects.filter(
         member=member, status="active", member_role="member"
     ).order_by("-id")
     paginator = Paginator(membershipprojects, 6)
@@ -1518,6 +1532,7 @@ def membershipProjects(request):
             "indexhead": indexhead,
             "membershipprojects": membershipprojects,
             "member": member,
+            'placeholder':placeholder,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -1532,7 +1547,7 @@ def myProjects(request):
     if request.method == "POST":
         keyword = request.POST.get("project_keyword")
         myProject = Project.objects.filter(
-            created_by=member, project_title__icontains=keyword
+            Q(created_by=member, project_title__icontains=keyword) | Q(created_by=member, description__icontains=keyword)
         ).order_by("-id")
     else:
         myProject = Project.objects.filter(created_by=member).order_by("-id")
@@ -1658,12 +1673,13 @@ def projectMembers(request, project_id=None):
     indexhead = "Projects / Project-Members"
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
-    project_member = enumerate(
-        ProjectMembership.objects.filter(project=project)
-        .exclude(status__in=["removed", "rejected", "invited"])
-        .order_by("-id"),
-        start=1,
-    )
+
+    if request.method == "POST":
+        name = request.POST.get("project_keyword")
+        project_member = ProjectMembership.objects.filter( Q(project=project, member__first_name__icontains=name) | Q(project=project, member__middle_name__icontains=name) | Q(project=project, member__surname__icontains=name)).exclude(status__in=["removed", "rejected", "invited"]).order_by("-id")
+    else:
+       project_member = ProjectMembership.objects.filter(project=project).exclude(status__in=["removed", "rejected", "invited"]).order_by("-id")
+    project_member = enumerate(project_member,start=1)
     placeholder = "search member"
 
     return render(
@@ -1901,10 +1917,16 @@ def activateMembership(request, membership_id):
 @login_required(login_url="login")
 def memberRequest(request, project_id):
     indexhead = "Project / Member Requests"
+    placeholder = "search by name"
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        name = request.POST.get('project_keyword')
+        member_details = ProjectMembership.objects.filter( Q(project=project, status="request", member__first_name__icontains=name) | Q(project=project, status="request", member__middle_name__icontains=name) | Q(project=project, status="request", member__surname__icontains=name))
+    else:
+        member_details = ProjectMembership.objects.filter(project=project, status="request")
     member_details = enumerate(
-        ProjectMembership.objects.filter(project=project, status="request"), start=1
+        member_details, start=1
     )
 
     return render(
@@ -1917,6 +1939,7 @@ def memberRequest(request, project_id):
             "project": project,
             "member_details": member_details,
             "project_id": project_id,
+            'placeholder':placeholder,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -2051,9 +2074,9 @@ def viewpoints(request, project_id):
             Q(project=project, status="accepted")
             | Q(project=project, created_by=member)
         ).order_by("-id")
-        paginator = Paginator(viewpoints, 6)
+        paginate = Paginator(viewpoints, 6)
         page_number = request.GET.get("page")
-        viewpoints = paginator.get_page(page_number)
+        viewpoints = paginate.get_page(page_number)
         project_id = project_id
         return render(
             request,
@@ -2158,8 +2181,8 @@ def viewpoints(request, project_id):
             | Q(project=project, created_by=member)
         ).order_by("-id")
         paginator = Paginator(viewpoints, 6)
-        page_number = request.GET.get("page")
-        viewpoints = paginator.get_page(page_number)
+        view_page_number = request.GET.get("page")
+        viewpoints = paginator.get_page(view_page_number)
         return render(
             request,
             "projects/viewpoints/viewpoints.html",
@@ -3766,14 +3789,12 @@ def projectRate(request, project_id):
                                 "projects:viewmyproject", project_id=project_id
                             )
                         return redirect("projects:viewproject", project_id=project_id)
-            message = (
-                "sorry you have already rated this project you can not rate this again"
-            )
+            
             return redirect(
-                "projects:viewproject", project_id=project_id, message=message
+                "projects:viewproject", project_id=project_id
             )
         message = "sorry you can not rate zero star, rate start from one star !!"
-        return redirect("projects:viewproject", project_id=project_id, message=message)
+        return viewProject(request, project_id=project_id, message=message)
     message = "sorry you can not Rate on this project now,you are not a active member of this project"
     return viewProject(request, project_id=project_id, message=message)
 
@@ -5541,16 +5562,17 @@ def delete_usecase(request, usecase_id):
 # Contribution approval, rejections and blocks
 @login_required(login_url="login")
 def project_contributions(request, project_id):
-    indexhead = "Project Comments Contribution Requests"
+    indexhead = "Project Comments Requests"
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    comments = enumerate(
-        ProjectComment.objects.filter(
+    comments = ProjectComment.objects.filter(
             project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginator = Paginator(comments, 10)
+    page_number = request.GET.get("page")
+    comments = paginator.get_page(page_number)
+    
 
     return render(
         request,
@@ -5577,19 +5599,21 @@ def viewpoint_contributions(request, project_id):
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    viewpoints = enumerate(
-        Viewpoint.objects.filter(project=project, status="pending").order_by("id"),
-        start=1,
-    )
-    comments = enumerate(
-        ViewPointComment.objects.filter(
+    viewpoints = Viewpoint.objects.filter(project=project, status="pending").order_by("id")
+    paginator = Paginator(viewpoints, 10)
+    page_number = request.GET.get("page")
+    viewpoints = paginator.get_page(page_number)
+  
+    comments = ViewPointComment.objects.filter(
             viewpoint__project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginate = Paginator(comments, 10)
+    comment_page_number = request.GET.get("page")
+    comments = paginate.get_page(comment_page_number)
+
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/viewpoint_contributions.html",
         {
             "viewpoints": viewpoints,
             "project": project,
@@ -5615,18 +5639,20 @@ def goal_contributions(request, project_id):
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    goals = enumerate(
-        Goal.objects.filter(project=project, status="pending").order_by("id"), start=1
-    )
-    comments = enumerate(
-        GoalComment.objects.filter(
+    goals = Goal.objects.filter(project=project, status="pending").order_by("id")
+    paginator = Paginator(goals,10)
+    page_number = request.GET.get("page")
+    goals = paginator.get_page(page_number)
+
+    comments =  GoalComment.objects.filter(
             goal__project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginate = Paginator(comments, 10)
+    comment_page_number = request.GET.get("page")
+    comments = paginate.get_page(comment_page_number)
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/goal_contributions.html",
         {
             "goals": goals,
             "total_goals": Goal.objects.filter(
@@ -5652,19 +5678,20 @@ def requirement_contributions(request, project_id):
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    requirements = enumerate(
-        Requirement.objects.filter(project=project, status="pending").order_by("id"),
-        start=1,
-    )
-    comments = enumerate(
-        RequirementComment.objects.filter(
+    requirements = Requirement.objects.filter(project=project, status="pending").order_by("id")
+    paginator = Paginator(requirements,10)
+    page_number = request.GET.get("page")
+    requirements = paginator.get_page(page_number)
+
+    comments = RequirementComment.objects.filter(
             requirement__project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginate = Paginator(comments, 10)
+    comment_page_number = request.GET.get("page")
+    comments = paginate.get_page(comment_page_number)
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/requirement_contributions.html",
         {
             "requirements": requirements,
             "total_requirements": Requirement.objects.filter(
@@ -5690,21 +5717,22 @@ def scenario_contributions(request, project_id):
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    scenarios = enumerate(
-        RequirementScenario.objects.filter(
+    scenarios = RequirementScenario.objects.filter(
             requirement__project=project, scenario__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
-    comments = enumerate(
-        ScenarioComment.objects.filter(
+        ).order_by("id")
+    paginator = Paginator(scenarios,10)
+    page_number = request.GET.get("page")
+    scenarios = paginator.get_page(page_number)
+
+    comments = ScenarioComment.objects.filter(
             scenario__project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginate = Paginator(comments, 10)
+    comment_page_number = request.GET.get("page")
+    comments = paginate.get_page(comment_page_number)
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/scenerio_contributions.html",
         {
             "scenarios": scenarios,
             "total_scenarios": RequirementScenario.objects.filter(
@@ -5730,21 +5758,22 @@ def process_contributions(request, project_id):
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    processes = enumerate(
-        RequirementProcess.objects.filter(
+    processes = RequirementProcess.objects.filter(
             requirement__project=project, process__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
-    comments = enumerate(
-        ProcessComment.objects.filter(
+        ).order_by("id")
+    paginator = Paginator(processes,10)
+    page_number = request.GET.get("page")
+    processes = paginator.get_page(page_number)
+
+    comments = ProcessComment.objects.filter(
             process__project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginate = Paginator(comments, 10)
+    comment_page_number = request.GET.get("page")
+    comments = paginate.get_page(comment_page_number)
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/process_contributios.html",
         {
             "processes": processes,
             "total_processes": RequirementProcess.objects.filter(
@@ -5770,21 +5799,22 @@ def usecase_contributions(request, project_id):
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    usecases = enumerate(
-        RequirementUsecase.objects.filter(
+    usecases = RequirementUsecase.objects.filter(
             requirement__project=project, usecase__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
-    comments = enumerate(
-        UseCaseComment.objects.filter(
+        ).order_by("id")
+    paginator = Paginator(usecases,10)
+    page_number = request.GET.get("page")
+    usecases = paginator.get_page(page_number)
+
+    comments = UseCaseComment.objects.filter(
             usecase__project=project, comment__status="pending"
-        ).order_by("id"),
-        start=1,
-    )
+        ).order_by("id")
+    paginate = Paginator(comments, 10)
+    comment_page_number = request.GET.get("page")
+    comments = paginate.get_page(comment_page_number)
     return render(
         request,
-        "projects/my_projects/project_contributions.html",
+        "projects/my_projects/usecase_contributions.html",
         {
             "usecases": usecases,
             "total_usecases": RequirementUsecase.objects.filter(

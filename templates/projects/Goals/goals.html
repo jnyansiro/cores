@@ -152,11 +152,14 @@
                         <div>
                             <ul class="list-group">
                                 {% for goal in goals %}
-                                <li class="list-group-item pl-10 pr-10">
+                                <li class="list-group-item pl-10 pr-10 ">
 
-                                    <a href="{% url 'projects:viewgoal' goal_id=goal.id %}">{{ goal.goal_name }}</a>
-                                    By {{goal.created_by}}, Created On: {{goal.created_on}}
-
+                                    <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
+                                        class="text-primary">{{ goal.goal_name }}</a>
+                                    <br>
+                                    <span class="font-weight-semibold">By:</span>
+                                    {{goal.created_by}}, <span class="text-muted"> Created On:
+                                        {{goal.created_on}}</span>
 
                                     <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
                                         class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
@@ -164,7 +167,6 @@
                                         style="margin-top: -6px;">
                                         <i class="icon-enter3"></i>
                                     </a>
-
                                 </li>
                                 {% endfor %}
                             </ul>

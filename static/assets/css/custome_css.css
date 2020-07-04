@@ -142,6 +142,15 @@ body {
 .nav-tabs-bottom .nav-link.active:before {
     background-color: #42a5f5;
 }
+.nav-link i{
+    color: #42a5f5;
+}
+.nav-link.active i{
+    color: white;
+}
+.nav-item-open .nav-link i{
+    color: white;
+}
 /* END MODIFIED BOOTSTRAP CODES */
 /* MEDIA QUERIES */
 

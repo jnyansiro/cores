@@ -24,10 +24,10 @@
                         {% if document and resource.docs %}
                         
                         <li class="list-group-item pl-10 pr-10 text-capitalize">
-                            <a href="../../../docs/{{resource.docs}}">{{ resource.docs}}</a>
+                            <a href="/docs/{{resource.docs}}">{{ resource.docs}}</a>
                             Added by {{resource.added_by}}, Added
                             on:{{ resource.created_on}}
-                            <a href="../../../docs/{{resource.docs}}"
+                            <a href="/docs/{{resource.docs}}"
                                 class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                 data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                                 <i class="icon-enter3"></i>
@@ -37,10 +37,10 @@
                         {% endif %}
                          {% if  link %}
                          <li class="list-group-item pl-10 pr-10 text-capitalize">
-                             <a href="../../../docs/{{resource.links}}">{{ resource.links}}</a>
+                             <a href="/docs/{{resource.links}}">{{ resource.links}}</a>
                              Added by {{resource.added_by}}, Added
                              on:{{ resource.created_on}}
-                             <a href="../../../docs/{{resource.links}}"
+                             <a href="/docs/{{resource.links}}"
                                  class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                  data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                                  <i class="icon-enter3"></i>
@@ -50,10 +50,10 @@
                          {% endif %}
                           {% if  image %}
                           <li class="list-group-item pl-10 pr-10 text-capitalize">
-                              <a href="../../../docs/{{resource.image}}">{{ resource.image}}</a>
+                              <a href="/docs/{{resource.image}}">{{ resource.image}}</a>
                               Added by {{resource.added_by}}, Added
                               on:{{ resource.created_on}}
-                              <a href="../../../docs/{{resource.image}}"
+                              <a href="/docs/{{resource.image}}"
                                   class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                                   data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                                   <i class="icon-enter3"></i>

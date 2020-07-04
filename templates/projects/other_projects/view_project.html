@@ -95,7 +95,7 @@
             <div class="card">
                 <div class="card-body row">
                     <div class="card-img-actions col-md-3">
-                        <img class="card-img img-fluid" src="../../../docs/{{ project.project_photo }}" alt="">
+                        <img class="card-img img-fluid" src="/docs/{{ project.project_photo }}" alt="">
                     </div>
 
                     <div class="col-md-9 ">
@@ -172,7 +172,7 @@
                                 <span class="float-right">
 
                                     <span class="text-primary-400">
-                                        <a href="{% url 'projects:myprojectlike' project_id=project.id %}"
+                                        <a href="{% url 'projects:projectlike' project_id=project.id %}"
                                             class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2"><i
                                                 class="icon-thumbs-up2"></i></a>
                                         {{ likes }}
@@ -182,7 +182,7 @@
                                     &nbsp;
                                     |
                                     <span class="text-danger-400">
-                                        <a href="{% url 'projects:myprojectdislike' project_id=project.id %}"
+                                        <a href="{% url 'projects:projectdislike' project_id=project.id %}"
                                             class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2"><i
                                                 class="icon-thumbs-down2"></i></a>
                                         {{ dislikes }}
@@ -197,9 +197,9 @@
                         </ul>
                     </div>
 
-                    <p class="col-md-12 mt-2 " style=" color: rgba(51,51,51,.85);border-top: 1px solid #dddddd;">
+                    <div class="col-md-12 mt-2 " style=" color: rgba(51,51,51,.85);border-top: 1px solid #dddddd;">
                         {{ project.description|safe }}
-                    </p>
+                    </div>
                     <div
                         class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
                         <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-6 p-0 ">
@@ -263,7 +263,7 @@
                                     Project Workspace
                                 </a>
                             </li>
-
+                           {% if project.created_by == member %}
                             <li class="list-inline-item">
                                 <a href="{% url 'projects:editproject' project_id=project.id %}"
                                     class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
@@ -278,6 +278,7 @@
                                     Delete
                                 </a>
                             </li>
+                            {% endif %}
                         </div>
 
                     </div>
@@ -421,6 +422,36 @@
                     <!-- /custom background color -->
 
 
+<!-- delete model -->
+
+<div id="delete" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs ">
+        <div class="modal-content bg-white-300" style="color:red">
+            <div class="modal-header">
+                <h5 class="modal-title">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+                <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                    <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                </center>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'projects:deleteproject' project_id=project.id %}"><button type="button"
+                        class="btn bg-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /custom background color -->
+
+
+
 
                     <!-- Line content divider -->
                     <div class="card col-md-12 " id="comments" style="display: block;">
@@ -442,7 +473,7 @@
                                 {% for comment in comments %}
                                 <li class="media">
                                     <div class="mr-3"><img
-                                            src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                                            src="/docs/{{ comment.comment.commented_by.profile_photo}}"
                                             class="rounded-circle" width="40" height="40" alt=""></div>
                                     <div class="media-body">
                                         <div class="media-title ">
@@ -454,7 +485,7 @@
                                                 class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                                 <a href="#"><i
                                                         class=" icon-watch2 font-size-base text-muted ml-2"></i></a></span>
-                                                        {% if comment.comment.commented_by == member %}
+                                                        {% if comment.comment.commented_by == member and comment.project.created_by != member %}
                                                          status:
                                                         {% if comment.comment.status == "pending" %}
                                                         <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
