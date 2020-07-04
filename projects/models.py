@@ -338,6 +338,10 @@ class Goal(models.Model):
         """Unicode representation of Goal."""
         return self.goal_name
 
+class ViewpointGoal(models.Model):
+    viewpoint = models.ForeignKey(Viewpoint, on_delete=models.CASCADE)
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
 
 class Requirement(models.Model):
     """Model definition for Requirement."""

@@ -56,22 +56,24 @@ def create_docx(request,project_id):
             document.add_paragraph(re.sub(cleanr, '', requirement.description))
         
         # getting scenarios
-        scenarios = enumerate(Scenario.objects.filter(project=project, status="accepted"), start=1)
-        if Scenario.objects.filter(project=project).exists():
-             document.add_heading(project.project_title+'` Scenarios', level=2)
-        for num, scenario in scenarios:
-            document.add_heading(str(num)+': ' + scenario.name, level=3)
-            document.add_paragraph('A Scenario from Requirement ' + str(scenario.requirement.goal) + " of Goal " +str(scenario.requirement.goal) + ' from Viewpoint ' +str(scenario.requirement.goal.viewpoint))
-            document.add_paragraph(re.sub(cleanr, '', scenario.description))
-        
-        # getting processes
-        processes = enumerate(Process.objects.filter(project=project,status="accepted"), start=1)
-        if Process.objects.filter(project=project).exists():
-            document.add_heading(project.project_title+'` Processes', level=2)
-        for num, process in processes:
-            document.add_heading(str(num)+': ' + process.process_name, level=3)
-            document.add_paragraph('A Process  from scenario'+ str(process.scenario) +  ' of  Requirement ' + str(process.scenario.requirement) + " from Goal " +str(process.scenario.requirement.goal) + ' of Viewpoint ' +str(process.scenario.requirement.goal.viewpoint))
-            document.add_paragraph(re.sub(cleanr, '', process.description))
+            
+            if RequirementScenario.objects.filter(requirement=requirement,scenario__status="accepted").exists():
+                document.add_heading(str(requirement.name) +'` Scenarios', level=2)
+                scenarios = enumerate(RequirementScenario.objects.filter(requirement=requirement, scenario__status="accepted"), start=1)
+                for num, scenario in scenarios:
+                    document.add_heading(str(num)+': ' + scenario.name, level=3)
+                    document.add_paragraph('A Scenario from Requirement ' + str(requirement) + " of Goal " +str(requirement.goal) + ' from Viewpoint ' +str(requirement.goal.viewpoint))
+                    document.add_paragraph(re.sub(cleanr, '', scenario.scenario.description))
+            
+            
+            if RequirementProcess.objects.filter(requirement=requirement,process__status="accepted").exists():
+                document.add_heading(str(requirement.name) + '` Processes', level=2)
+                # getting processes
+                processes = enumerate(RequirementProcess.objects.filter(requirement=requirement, process__status="accepted"), start=1)
+                for num, process in processes:
+                    document.add_heading(str(num)+': ' + process.process.process_name, level=3)
+                    document.add_paragraph('A Process  from Requirement'+ str(process.requirement) + " from Goal " + str(process.requirement.goal) + ' of Viewpoint ' +str(process.requirement.goal.viewpoint))
+                    document.add_paragraph(re.sub(cleanr, '', process.process.description))
         now = datetime.now()
         filename = str(now)+project.project_title+'.docx'
         
