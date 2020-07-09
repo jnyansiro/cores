@@ -76,21 +76,21 @@
                                 }
                             </style>
                             <li class="viewpoint col-md-2 p-2">
-                                <a href="{% url 'projects:viewpoint' viewpoint_id%}" class="col-md-2"
+                                <a href="{% url 'projects:viewpoints' project_id=project.id%}" class="col-md-2"
                                     style="color: black;font-weight:bold">
-                                    ViewPoint
+                                    ViewPoints
                                 </a>
                             </li>
                             <li class="goal col-md-2 p-2">
-                                <a href="{% url 'projects:viewgoal' goal_id%}" class="col-md-2"
+                                <a href="{% url 'projects:projectgoals' project_id=project.id%}" class="col-md-2"
                                     style="color:black;font-weight:bold">
-                                    Goal
+                                    Goals
                                 </a>
                             </li>
                             <li class=" requirement col-md-2 p-2">
-                                <a href="{% url 'projects:viewrequirement' requirement_id %}"
+                                <a href="{% url 'projects:scenariorequirement' scenario_id=scenario.scenario.id %}"
                                     style="color:black;font-weight:bold">
-                                    Requirement
+                                    Requirements
                                 </a>
                             </li>
                             <li class=" scenario col-md-2 p-2">
@@ -99,7 +99,7 @@
                                 </a>
                             </li>
                             <li class="process col-md-2 p-2">
-                                <a href="{% url 'projects:processes' requirement_id=requirement.id%}"
+                                <a href="{% url 'projects:projectprocesses' project_id=project.id%}"
                                     style="color:black;font-weight:bold">
                                     Process
                                 </a>
@@ -119,7 +119,7 @@
                     <div class="form-group form-horizontal pb-1 row" style="border-bottom: 1px solid #ddd;">
                         <div class="col-md-6">
                             <label class="col-md-12 font-weight-semibold control-label">
-                                Filter Goal:</label>
+                                Filter Scenario:</label>
                             <form method="post" action="{% url 'projects:viewscenario' scenario_id=scenario.id%}">
                                 {% csrf_token %}
                                 <div class="col-md-12">
@@ -142,7 +142,7 @@
                             </form>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a href="{% url 'projects:createscenario' requirement_id=requirement.id %}"
+                            <a href="{% url 'projects:createscenario' project_id=project.id %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
                                 Add Scenario
                                 <b><i class="icon-plus3"></i></b>
@@ -196,9 +196,20 @@
                 <div class="col-sm-12 pb-2 mb-1" style="border-bottom: 1px solid #ddd;">
                     {{ scenario.scenario.description|safe }}
                 </div>
+                {% if stakeholders %}
+                <a>
+                    Stakeholders:
+                </a>
+                <br>
+                {% for stakeholder in stakeholders %}
+                <b class="text-primary ml-2">#{{stakeholder.stakeholder}}</b>
+                {% endfor %}
+                <hr>
+                {% endif %}
 
-                <div
-                    class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
+            
+
+                <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
                     <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-6 p-0 ">
                         <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                 data-target="#rates">
@@ -271,7 +282,7 @@
                         </li>
                         {% endif %}
                         <li class="list-inline-item ">
-                            <a href="{% url 'projects:processes' requirement_id=requirement.id %}"
+                            <a href="{% url 'projects:projectprocesses' project_id=project.id %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
                                 <b><i class="icon-arrow-right15"></i></b>
                                 Processes

@@ -76,25 +76,25 @@
                                 }
                             </style>
                             <li class="viewpoint col-md-2 p-2">
-                                <a href="{% url 'projects:viewpoint' viewpoint_id%}" class="col-md-2"
+                                <a href="{% url 'projects:viewpoints' project_id=project.id %}" class="col-md-2"
                                     style="color: black;font-weight:bold">
-                                    ViewPoint
+                                    Viewpoints
                                 </a>
                             </li>
                             <li class="goal col-md-2 p-2">
-                                <a href="{% url 'projects:viewgoal' goal_id %}" class="col-md-2"
+                                <a href="{% url 'projects:projectgoals' project_id=project_id %}" class="col-md-2"
                                     style="color:black;font-weight:bold">
                                     Goal
                                 </a>
                             </li>
                             <li class=" requirement col-md-2 p-2">
-                                <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id%}"
+                                <a href="{% url 'projects:processrequirements' process_id=process.process.id%}"
                                     style="color:black;font-weight:bold">
                                     Requirement
                                 </a>
                             </li>
                             <li class=" scenario col-md-2 p-2">
-                                <a href="{% url 'projects:scenarios' requirement_id=requirement.id %}"
+                                <a href="{% url 'projects:projectscenarios' project_id=project.id %}"
                                     style="color:black;font-weight:bold">
                                     Scenarios
                                 </a>
@@ -105,7 +105,7 @@
                                 </a>
                             </li>
                             <li class="usecase col-md-2 p-2">
-                                <a href="{% url 'projects:usecases' requirement_id=requirement.id%}"
+                                <a href="{% url 'projects:projectusecases' project_id=project.id%}"
                                     style="color:black;font-weight:bold">
                                     Usecase
                                 </a>
@@ -144,7 +144,7 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6 text-right">
-                            <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"
+                            <a href="{% url 'projects:createprocess' project_id=project.id %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
                                 Add Process
                                 <b><i class="icon-plus3"></i></b>
@@ -197,6 +197,18 @@
                 <div class="col-sm-12 pb-2 mb-1" style="border-bottom: 1px solid #ddd;">
                     {{process.process.description|safe}}
                 </div>
+             {% if stakeholders %}
+                <a>
+                    Stakeholders:
+                </a>
+                <br>
+                {% for stakeholder in stakeholders %}
+                <b class="text-primary ml-2">#{{stakeholder.stakeholder}}</b>
+                {% endfor %}
+                <hr>
+                {% endif %}
+            
+
                 <div
                     class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
                     <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-6 p-0 ">
@@ -271,7 +283,7 @@
                         </li>
                         {% endif %}
                         <li class="list-inline-item ">
-                            <a href="{% url 'projects:usecases' requirement_id=requirement.id %}"
+                            <a href="{% url 'projects:projectusecases' project_id=project.id %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
                                 <b><i class="icon-arrow-right15"></i></b>
                                 Use Cases
@@ -282,7 +294,7 @@
                 <!-- Line content divider comments -->
                 <div class="card " id="comments" style="display: block;">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><a href="#">{{process.process_name}}</a>`s Comments:</h5>
+                        <h5 class="card-title"><a href="#">{{process.process.process_name}}</a>`s Comments:</h5>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
@@ -402,7 +414,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <label>Process Title:</label>
-                                                <input type="text" name="scenario_name"
+                                                <input type="text" name="process_name"
                                                     value="{{process.process.process_name}}" class="form-control">
                                             </div>
 

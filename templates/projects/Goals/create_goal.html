@@ -27,21 +27,39 @@
                             enctype="multipart/form-data">
                             {% csrf_token %}
                         <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="col-md-12">
-                                    <label>Filter Viewpoint</label>
-                                    <select name="viewpoint" class="form-control">
+                                    <label>Select Viewpoint(S)</label>
+                                    <select class="form-control multiselect" name="viewpoint" multiple="multiple"
+                                        data-fouc required>
                                         {% for viewpoint_ in viewpoints %}
                                         <option value="{{viewpoint_.id}}">{{ viewpoint_.viewpoint_name }}</option>
                                         {% endfor %}
                         
                                     </select>
                                 </div>
+                                
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                        <div class="col-md-12">
+                            <label>Goal Type</label>
+                            <select class="form-control" name="goal_type">
+                        
+                                <option>Select Type</option>
+                                <option>Hard Goal</option>
+                                <option>Soft Goal</option>
+                        
+                        
+                            </select>
+                        </div>
+                        </div>
+                        </div>
+                        
                             
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="d-flex align-items-center justify-content-center mb-2">
                                     <div class="col-md-12">
                                         <label>Goal Title:</label>

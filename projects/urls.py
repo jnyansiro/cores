@@ -13,6 +13,7 @@ urlpatterns = [
     # PROJECT URLS
     path("createproject", createProject, name="createproject"),
     path("myprojects", myProjects, name="myprojects"),
+    url(r'^addstakeholder/(?P<project_id>\d+)/$', add_stakeholder, name="addstakeholder"),
     url(r'^viewmyproject/(?P<project_id>\d+)/$', viewMyproject, name="viewmyproject"),
     url(r'^membershiprequest/(?P<project_id>\d+)/$' , membershipRequest, name='membershiprequest'),
     url(r'^deleteproject/(?P<project_id>\d+)/$', deleteProject, name="deleteproject"),
@@ -56,33 +57,43 @@ urlpatterns = [
 
     # VIEWPOINT URLSrequirements
     url(r'^viewpoint/(?P<viewpoint_id>\d+)/$', viewPoint, name="viewpoint"),
+    url(r'^associate-viewpoints/(?P<goal_id>\d+)/$', associate_viewpoints, name="associate-viewpoints"),
     url(r'^viewpoints/(?P<project_id>\d+)/$', viewpoints, name="viewpoints"),
     url(r'^createviewpoint/(?P<project_id>\d+)/$', createViewpoint, name="createviewpoint"),
 
         # GOAL URLS
     url(r'^goals/(?P<viewpoint_id>\d+)/$', goals, name="goals"),
+    url(r'^related-goals/(?P<goal_id>\d+)/$', related_goals , name="related-goals"),
+    url(r'^decomposed-goals/(?P<goal_id>\d+)/$', decomposed_goals, name="decomposed-goals"),
     url(r'^viewgoal/(?P<goal_id>\d+)/$', viewGoal, name="viewgoal"),
     url(r'^creategoal/(?P<viewpoint_id>\d+)/$', createGoal, name="creategoal"),
+    url(r'^decompose-goal/$', decompose_goal, name="decompose-goal"),
+    url(r'^relate-goal/$', relate_goal, name="relate-goal"),
+    url(r'^associate-goal/$', associate_goal_with_viewpoint, name="associate-goal"),
 
         # REQUIREMENT URLS
     url(r'^requirements/(?P<goal_id>\d+)/$', requirements, name="requirements"),
     url(r'^viewrequirement/(?P<requirement_id>\d+)/$', viewrequirement, name="viewrequirement"),
-    url(r'^createrequirement/(?P<goal_id>\d+)/$', createRequirement, name="createrequirement"),
+    url(r'^createrequirement/(?P<project_id>\d+)/$', createRequirement, name="createrequirement"),
+    url(r'^scenariorequirement/(?P<scenario_id>\d+)/$', scenario_requirement, name="scenariorequirement"),
+    url(r'^processrequirements/(?P<process_id>\d+)/$', process_requirements, name="processrequirements"),
+        url(r'^usecaserequirements/(?P<usecase_id>\d+)/$', process_requirements, name="usecaserequirements"),
 
         # SCENARIO URLS
     url(r'^scenarios/(?P<requirement_id>\d+)/$', scenarios, name='scenarios'),
     url(r'^viewscenario/(?P<scenario_id>\d+)/$', viewscenario, name='viewscenario'),
-    url(r'^createscenario/(?P<requirement_id>\d+)/$', createScenario, name='createscenario'),
+    url(r'^createscenario/(?P<project_id>\d+)/$', createScenario, name='createscenario'),
+    
         # PROCESS URLS
 
     url(r'^processes/(?P<requirement_id>\d+)/$', processes, name="processes"),
     url(r'^viewprocess/(?P<process_id>\d+)/$', viewprocess, name="viewprocess"),
-    url(r'^createprocess/(?P<requirement_id>\d+)/$', createProcess, name="createprocess"),
+    url(r'^createprocess/(?P<project_id>\d+)/$', createProcess, name="createprocess"),
 
         # USECASE URLS
     url(r'^usecases/(?P<requirement_id>\d+)/$', usecases, name="usecases"),
     url(r'^viewusecase/(?P<usecase_id>\d+)/$', viewusecase, name="viewusecase"),
-    url(r'^createusecase/(?P<requirement_id>\d+)/$', createUsecase, name="createusecase"),
+    url(r'^createusecase/(?P<project_id>\d+)/$', createUsecase, name="createusecase"),
     
     # Creating word docs URL
     url(r'^generatedocs/(?P<project_id>\d+)/$', create_docx, name='generatedocs'),
@@ -176,6 +187,16 @@ urlpatterns = [
     url(r'^processcontributions/(?P<project_id>\d+)/$',process_contributions, name="processcontributions"),
     url(r'^usecasecontributions/(?P<project_id>\d+)/$',usecase_contributions, name="usecasecontributions"),
     url(r'^approveviewpoint/(?P<viewpoint_id>\d+)/$', approve_viewpoint, name="approveviewpoint"),
+#  for all comments approval and rejection
+    url(r'^bulk-approval-project-comments/$', bulk_approve_project_comments, name="bulk-approval-project-comments"),
+    # end
+
+    url(r'^bulk-approval-viewpoint/$', bulk_approve_viewpoint, name="bulk-approval-viewpoint"),
+    url(r'^bulk-approval-goal/$', bulk_approve_goal, name="bulk-approval-goal"),
+    url(r'^bulk-approval-requirement/$', bulk_approve_requirement, name="bulk-approval-requirement"),
+    url(r'^bulk-approval-scenario/$', bulk_approve_scenario, name="bulk-approval-scenario"),
+    url(r'^bulk-approval-process/$', bulk_approve_process, name="bulk-approval-process"),
+    url(r'^bulk-approval-usecase/$', bulk_approve_usecase, name="bulk-approval-usecase"),
     url(r'^approvegoal/(?P<goal_id>\d+)/$', approve_goal, name="approvegoal"),
     url(r'^approverequirement/(?P<requirement_id>\d+)/$', approve_requirement, name="approverequirement"),
     url(r'^approvescenario/(?P<scenario_id>\d+)/$', approve_scenario, name="approvescenario"),

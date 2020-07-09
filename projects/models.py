@@ -173,6 +173,8 @@ class Project(models.Model):
         return self.project_title
 
 
+
+
 class ProjectSector(models.Model):
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -319,9 +321,9 @@ class Goal(models.Model):
     """Model definition for Goal."""
 
     # TODO: Define fields here
-    viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=500)
+    goal_type = models.CharField(max_length=300)
     description = models.TextField(max_length=5000, null=True, blank=True)
     status = models.CharField(max_length=60, default="pending")
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
@@ -343,11 +345,22 @@ class ViewpointGoal(models.Model):
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
 
+class GoalDecomposition(models.Model):
+    original_goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
+    decomposed_goal = models.IntegerField()
+    decomposition_operator = models.CharField(max_length=20)
+    created_on = models.DateTimeField(auto_now=True)
+
+class GoalRelationship(models.Model):
+    origin_goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
+    related_goal = models.IntegerField()
+    relation_type = models.CharField(max_length=20)
+    created_on = models.DateTimeField(auto_now=True)
+
 class Requirement(models.Model):
     """Model definition for Requirement."""
 
     # TODO: Define fields here
-    goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     name = models.CharField(max_length=500)
@@ -367,7 +380,11 @@ class Requirement(models.Model):
         return self.name
 
 
-
+class RequirementGoal(models.Model):
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    
 # Create your models here.
 
 class Scenario(models.Model):
@@ -1219,6 +1236,35 @@ class UseCaseDislike(models.Model):
     def __str__(self):
         """Unicode representation of UseCaseDislike."""
         pass
+
+class Stakeholder(models.Model):
+    name = models.CharField(max_length=40)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        """Unicode representation of Project."""
+        return self.name
+
+class RequirementStakeholder(models.Model):
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class ScenarioStakeholder(models.Model):
+    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class ProcessStakeholder(models.Model):
+    process = models.ForeignKey(Process, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+class UsecaseStakeholder(models.Model):
+    usecase = models.ForeignKey(UseCase, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
 
 
 class Subscriber(models.Model):

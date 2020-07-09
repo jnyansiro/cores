@@ -32,15 +32,18 @@
                             </div>
                             <div class="col-md-6 text-right">
 
-                                <div class="text-right">
-                                    <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
-                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
-                                        <i class="icon-check"></i>
-                                    </a>
-                                    <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
-                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
-                                        <i class="icon-trash"></i>
-                                    </a>
+                                <form action="{% url 'projects:bulk-approval-requirement'%}" method="post">
+                                    {% csrf_token %}
+                                
+                                    <div class="text-right">
+                                        <button type="submit" name="approve" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                            <i class="icon-check"></i>
+                                        </button>
+                                        <button type="submit" name="reject" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                            <i class="icon-trash"></i>
+                                        </button>
 
 
 
@@ -64,7 +67,7 @@
                                 {% for requirement in requirements %}
                                 <tr>
                                     
-                                    <td><input type="checkbox" value="{{requirement.id}}" class="form-control-styled">
+                                    <td><input type="checkbox" name="requirement" value="{{requirement.id}}" class="form-control-styled">
                                     </td>
                                     <td>{{ requirement.created_by }}</td>
                                     <td>{{ requirement.requirement_name }}</td>
@@ -88,6 +91,7 @@
 
                                 </tr>
                                 {% endfor %}
+                            </form>
 
                             </tbody>
                         </table>
@@ -125,16 +129,18 @@
                                         class="badge badge-primary badge-pill">{{total_comments}}</span></h5>
                             </div>
                             <div class="col-md-6 text-right">
+<form method="POST" action="{% url 'projects:bulk-approval-project-comments'%}">
+    {% csrf_token %}
 
-                                <div class="text-right">
-                                    <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
-                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
-                                        <i class="icon-check"></i>
-                                    </a>
-                                    <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
-                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
-                                        <i class="icon-trash"></i>
-                                    </a>
+    <div class="text-right">
+        <button type="submit" name="approve" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+            class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+            <i class="icon-check"></i>
+        </button>
+        <button type="submit" name="reject" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+            class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+            <i class="icon-trash"></i>
+        </button>
 
 
 
@@ -156,12 +162,12 @@
                                 {% for comment in requirement_comments %}
                                 <tr>
                                    
-                                    <td><input type="checkbox" value="{{comment.comment.id}}"
+                                    <td><input type="checkbox" name="comment" value="{{comment.comment.id}}"
                                             class="form-control-styled"></td>
                                     <td>{{ comment.comment.commented_by }}</td>
                                     <td>{{ comment.requirement.requirement_name }}</td>
                                     <td> <a title="view" data-popup="tooltip" data-placement="bottom"
-                                            data-toggle="modal" data-target="#view_comment{{num}}"
+                                            data-toggle="modal" data-target="#view_comment{{comment.comment.id}}"
                                             class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm"><i
                                                 class="icon-enlarge7"></i></a>
 
@@ -177,7 +183,7 @@
 
                                 </tr>
 
-                                <div id="view_comment{{num}}" class="modal fade" tabindex="-1">
+                                <div id="view_comment{{comment.comment.id}}" class="modal fade" tabindex="-1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -202,6 +208,7 @@
                                     </div>
                                 </div>
                                 {% endfor %}
+                            </form>
                             </tbody>
                         </table>
                         <div class="col-md-12 text-center">

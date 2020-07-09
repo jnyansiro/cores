@@ -107,33 +107,56 @@
                         </ul>
 
 
-                        {% if viewpoint_id%}
+                        
                         <li class="col-md-12 text-right" style="list-style: none;">
 
-                            <a href="{% url 'projects:creategoal' viewpoint_id %}"
+                            <a href=""
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
                                         class="icon-plus3"></i></b>
                                 Add Goal
                             </a>
 
                         </li>
-                        {% endif %}
-
+                        
                     </div>
-                    {% if viewpoint %}
+                 
                         <div class="form-group form-horizontal" >
                             <label class="col-md-6 font-weight-semibold control-label">
                                 Filter:</label>
-                            <form method="post" action="{% url 'projects:goals' viewpoint_id%}">
+                                {% if type == "Related" %}
+                            <form method="post" action="{% url 'projects:related-goals' goal_id%}">
+                                
+                                {% else %}
+                                <form method="post" action="{% url 'projects:decomposed-goals' goal_id%}">
+                                    {% endif %}
+
                                 {% csrf_token %}
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <select name="viewpoint_id" data-placeholder="Select View point" class="form-control" id="">
-                                            {% for viewpoint in viewpoints%}
-                                            <option value="{{ viewpoint.id}}" {% if viewpoint_id|add:'0' == viewpoint.id %} selected {% endif %}>
-                                                {{viewpoint.viewpoint_name }}
+                                        <select name="operator" data-placeholder="Select View point" class="form-control" id="">
+                                           
+                                            {% if type == "Related" %}
+                                            <option >
+                                                Comflict
                                             </option>
-                                            {% endfor %}
+                                            <option>
+                                                Require
+                                            </option>
+                                            <option>
+                                                Contribute
+                                            </option>
+                                            {% else %}
+                                            <option >
+                                               AND
+                                            </option>
+                                            <option >
+                                                OR
+                                            </option>
+                                            <option>
+                                                Linear
+                                            </option>
+                                            {% endif %}
+                                            
                                         </select>
                                         <span class="input-group-append">
                                             <span class="input-group-append"><button class="btn btn-primary"><i
@@ -143,11 +166,11 @@
                             </form>
                         </div>
                     
-                    {% endif %}
+    
 
                     <div class="col-md-12 mb-2 mt-2">
                         <h5 class="font-weight-semibold">
-                            {{ viewpoint }} Goals:
+                            {{ type }} Goals:
                         </h5>
                         <div>
                             <ul class="list-group">

@@ -1,0 +1,149 @@
+<!-- Update requirement -->
+<div id="add" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new Stakeholder:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:addstakeholder' project_id=project.id%}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Project Name:</label>
+                                <input type="text" name="" value="{{project}}"
+                                    class="form-control" disabled>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <label>Stakeholder Name:</label>
+                                <input type="text" name="stakeholder"  class="form-control" placeholder="stakeholder name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn bg-primary">Add</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- /vertical form modal -->
+
+<!-- edit  -->
+<div id="edit" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Stakeholders:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Stakeholder Name</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for stakeholder in stakeholders %}
+                        <tr>
+
+
+                            <td> <input type="text" value="{{ stakeholder }}" name="stakeholder" > <input
+                                    type="text" name="stakeholder_list" value="{{stakeholder.id}}" hidden> </td>
+
+
+                            <td>
+                                <button type="submit" name="approve" title="edit" data-popup="tooltip"
+                                    data-placement="bottom"
+                                    class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                    <i class="icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn bg-primary">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+<!-- Update requirement -->
+<div id="view" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Project Stakeholders:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead class="bg-primary-400 text-white">
+                            <tr>
+                                
+                                <th>Stakeholder Name</th>
+                                <th>Options</th>
+                    
+                            </tr>
+                        </thead>
+                        <tbody>
+                    
+                            {% for stakeholder in stakeholders %}
+                            <tr>
+                                
+
+                                <td> <input type="text" value="{{ stakeholder }}" name="stakeholder" disabled> <input type="text" name="stakeholder_list" value="{{stakeholder.id}}" hidden> </td>
+                    
+                    
+                                <td>
+                                    <button type="submit" name="approve" title="edit" data-popup="tooltip" data-placement="bottom"
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                        <i class="icon-pencil"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                    
+                    
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                  
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn bg-primary">Update</button>
+        </div>
+    </div>
+</div>
+</div>
+<!-- /vertical form modal -->

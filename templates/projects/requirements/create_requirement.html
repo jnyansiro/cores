@@ -5,6 +5,8 @@
 
 {% endblock sidebar %}
 {% block content %}
+<script src="{% static 'global_assets/js/demo_pages/form_multiselect.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/forms/selects/bootstrap_multiselect.js' %}"></script>
 <div class="content">
     <div class="card">
         <div class="card-header bg-primary-400 header-elements-inline">
@@ -16,15 +18,15 @@
         </div>
 
         <div class="card-body py-0">
-            <form method="post" action="{% url 'projects:createrequirement' goal_id%}" enctype="multipart/form-data">
+            <form method="post" action="{% url 'projects:createrequirement' project_id=project.id%}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row mt-2">
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Goals:</label>
-                                <select class="form-control" name="goal" title="option">
-                                    <option value="select">select Goal:</option>
+                                <select class="form-control multiselect" name="goal" multiple="multiple" data-fouc required>
+                                   
                                     {% for goal_ in goals %}
                                     <option value="{{ goal_.id }}"> {{ goal_ }}</option>
                                     {% endfor %}
@@ -33,8 +35,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-2">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Stakeholder(S):</label>
+                                <select class="form-control multiselect" name="stakeholder" multiple="multiple" data-fouc>
+    
+                                    {% for stakeholder in stakeholders %}
+                                    <option value="{{ stakeholder.id }}"> {{ stakeholder.name }}</option>
+                                    {% endfor %}
+                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Requirement Title:</label>

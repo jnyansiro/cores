@@ -17,11 +17,11 @@
                     class="font-weight-semibold text-white">{{ project.project_title}}</a> </h6>
         </div>
         <div class="card-body py-0">
-            <form method="post" action="{% url 'projects:createusecase' requirement_id=requirement.id%}"
+            <form method="post" action="{% url 'projects:createusecase' project_id=project.id%}"
                 enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row mt-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Requirements:</label>
@@ -36,8 +36,22 @@
                         </div>
 
                     </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Stakeholder(S):</label>
+                                <select class="form-control multiselect" name="stakeholder" multiple="multiple" data-fouc required>
+                                    {% for stakeholder in stakeholders %}
+                                    <option value="{{ stakeholder.id }}"> {{ stakeholder.name }}</option>
+                                    {% endfor %}
+                    
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Usecase Title:</label>
@@ -48,7 +62,7 @@
 
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Usecase Docs:</label>

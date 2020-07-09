@@ -21,6 +21,7 @@ from django.conf.urls import handler404, handler500
 from django.conf.urls import url
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('', include('social_django.urls', namespace='social')),
     path('logout/', logout, {'next_page': settings.LOGOUT_REDIRECT_URL},name='logout'),
