@@ -146,6 +146,9 @@ urlpatterns = [
     url(r'^scenariolike/(?P<scenario_id>\d+)/$', scenario_like, name="scenariolike"),
     url(r'^processlike/(?P<process_id>\d+)/$', process_like, name="processlike"),
     url(r'^usecaselike/(?P<usecase_id>\d+)/$', usecase_like, name="usecaselike"),
+    url(r'^like/(?P<module_id>\d+)/$', like, name="like"),
+    url(r'^dislike/(?P<module_id>\d+)/$', dislike, name="dislike"),
+    
 
      # dislikes
     url(r'^myprojectdislike/(?P<project_id>\d+)/$', my_project_dislike, name="myprojectdislike"),   
