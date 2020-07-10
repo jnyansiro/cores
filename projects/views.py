@@ -1,10 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from .models import *
 from django.core.files.storage import FileSystemStorage
@@ -15,6 +14,7 @@ from django.db.models import Q
 from random import randint
 import time
 import datetime
+import json
 
 
 # Create your views here.
@@ -4518,21 +4518,41 @@ def search(request, placeholder):
 def my_project_like(request, project_id):
     project = Project.objects.get(id=project_id)
     member = Member.objects.get(user=request.user)
+    context = list()
 
     if not ProjectLike.objects.filter(project=project, like__liked_by=member).exists():
         like = Like.objects.create(like=True, liked_by=member)
         like.save()
         if like:
-
             # then creating project_like
             project_like = ProjectLike.objects.create(like=like, project=project)
             project_like.save()
             if project_like:
-                return redirect("projects:viewmyproject", project_id=project_id)
-
-        return redirect("projects:viewmyproject", project_id=project_id)
-    unlike = ProjectLike.objects.filter(project=project, like__liked_by=member).delete()
-    return redirect("projects:viewmyproject", project_id=project_id)
+                info = {
+                    'status': True,
+                    'message': 'Successfuly liked!'
+                }
+            else:
+                info = {
+                    'status': False,
+                    'message': 'Failed to like!'
+                }
+                # return True
+               # return redirect("projects:viewmyproject", project_id=project_id)
+        else:
+            info = {
+                    'status': False,
+                    'message': 'Failed to update your like!'
+                }
+    else:
+        # return redirect("projects:viewmyproject", project_id=project_id)
+        unlike = ProjectLike.objects.filter(project=project, like__liked_by=member).delete()
+        info = {
+            'status': True,
+            'message': 'Successfuly unliked!'
+        }
+    context.append(info)
+    return JsonResponse(context, safe=False)
 
 
 @login_required(login_url="login")

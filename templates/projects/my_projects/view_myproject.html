@@ -28,10 +28,11 @@
 
                     <div class="col-md-9 ">
                         {% load social_share %}
-                            <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip" data-placement="bottom" style="position: absolute;top: 0;right: 0;">
-                                
-                                {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share on WhatsApp</span>'%}
-                            </span>
+                        <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip"
+                            data-placement="bottom" style="position: absolute;top: 0;right: 0;">
+
+                            {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share on WhatsApp</span>'%}
+                        </span>
                         <h5 class="font-weight-semibold my-1">
                             <a href="{% url 'projects:viewmyproject' project_id=project.id %}"
                                 class="text-primary">{{ project.project_title }}</a>
@@ -48,7 +49,7 @@
                                 <span class="font-weight-semibold">Due Date:</span>
                                 <span class="text-warning-300">{{ project.due_date }}</span>
                             </li>
-                            
+
                             {% if project.project_visibility == "private"%}
                             <li class="list-inline-item  font-size-sm col-md-12 row ">
                                 <div class="col-sm-6">
@@ -92,15 +93,15 @@
                             {% endif %}
                             <li class="list-inline-item col-md-12 mt-1">
                                 <a href="{% url 'projects:projectresources' project_id=project.id %}"
-                                    class="bg-primary-400 p-1" style="border-radius: 4px;"><i
+                                    class="bg-primary-400 p-1 " style="border-radius: 4px;"><i
                                         class="icon-folder font-size-base  mr-2"></i>
                                     project resources
                                 </a>
-                                <span class="float-right">
+                                <span class="float-right like_btns">
 
                                     <span class="text-primary-400">
-                                        <a href="{% url 'projects:myprojectlike' project_id=project.id %}"
-                                            class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2"><i
+                                        <a data-href="{% url 'projects:myprojectlike' project_id=project.id %}"
+                                            class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2 like_btn"><i
                                                 class="icon-thumbs-up2"></i></a>
                                         {{ likes }}
                                     </span>
@@ -109,8 +110,8 @@
                                     &nbsp;
                                     |
                                     <span class="text-danger-400">
-                                        <a href="{% url 'projects:myprojectdislike' project_id=project.id %}"
-                                            class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2"><i
+                                        <a data-href="{% url 'projects:myprojectdislike' project_id=project.id %}"
+                                            class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2 dislike_btn"><i
                                                 class="icon-thumbs-down2"></i></a>
                                         {{ dislikes }}
                                     </span>
@@ -181,13 +182,13 @@
                         </ul>
                         <div class="col-md-6 text-right" style="margin-left: 1rem;">
                             <li class="list-inline-item">
-                                <a href="{% url 'projects:viewpoints' project_id=project.id %}" 
+                                <a href="{% url 'projects:viewpoints' project_id=project.id %}"
                                     class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
                                     <b><i class="icon-enlarge7"></i></b>
                                     Project Workspace
                                 </a>
                             </li>
-                           
+
                             <li class="list-inline-item">
                                 <a href="{% url 'projects:editproject' project_id=project.id %}"
                                     class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
@@ -391,8 +392,9 @@
                                     placeholder="Enter your comment..."></textarea>
 
                                 <div class="d-flex align-items-center">
-                                   
-                                    <button class="btn bg-primary btn-labeled  rounded-round  btn-labeled-right ml-auto"><b><i
+
+                                    <button
+                                        class="btn bg-primary btn-labeled  rounded-round  btn-labeled-right ml-auto"><b><i
                                                 class="icon-paperplane"></i></b> Send</button>
                                 </div>
                             </form>
@@ -434,4 +436,22 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click', '.like_btns .like_btn, .like_btns .dislike_btn', function (e) {
+        e.preventDefault();
+        console.log($(this).data('href'))
+        $.ajax({
+            url: $(this).data('href'),
+            type: 'get',
+        }).done(function (data) {
+            // setTimeout(function () {
+            //     $('.data_container').html(data)
+            // }, 1000)
+            data.map(item => {
+                console.log(item)
+            })
+            console.log(data)
+        });
+    })
+</script>
 {% endblock content %}
