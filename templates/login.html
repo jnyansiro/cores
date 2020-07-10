@@ -6,10 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Login | Collaborative Requirement Engineering-CORES</title>
 
-	<!-- Global stylesheets -->
-	{% load static %}
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 	{% load static %}
+    <link rel="icon" href="{% static 'images/logo.png' %}">
 	<link href="{% static 'global_assets/css/icons/icomoon/styles.min.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'assets/css/bootstrap_limitless.min.css' %}" rel="stylesheet" type="text/css">
@@ -50,21 +49,21 @@
 					<div class="card mb-0">
 						<div class="card-body">
 							<div class="text-center mb-3">
-								<i class="icon  text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1">
-									<img src="{% static 'images/logo.png'%}" height="40" width="100">
-								</i>
+									<!-- <i class="icon-user-lock icon-2x text-primary-400 border-primary-400 border-3 rounded-round p-3 mt-1"></i> -->
+
+									<img src="{% static 'images/logo.png'%}" style="width: 40%;">
 								<br>
 								<br>
 								<h5 class="mb-0 top-4">Login to your account</h5>
 								<span class="d-block text-muted">Your credentials</span>
 								
 								{%  if message %}
-								<p style="color:red">
+								<p class="text-danger">
 								{{ message }} 
 								</p>
 								{% endif %}
 								{%  if reg_message %}
-								<p style="color:green">
+								<p class="text-success">
 									{{ reg_message }}
 								</p>
 								{% endif %}
@@ -75,14 +74,14 @@
 							<div class="form-group form-group-feedback form-group-feedback-left">
 								<input type="text" name="username" class="form-control" placeholder="Username" required>
 								<div class="form-control-feedback">
-									<i class="icon-user text-muted"></i>
+									<i class="icon-user text-primary-400"></i>
 								</div>
 							</div>
 
 							<div class="form-group form-group-feedback form-group-feedback-left">
 								<input type="password" name="password" class="form-control" placeholder="Password" required>
 								<div class="form-control-feedback">
-									<i class="icon-lock2 text-muted"></i>
+									<i class="icon-lock2 text-primary-400"></i>
 								</div>
 							</div>
 
@@ -106,9 +105,8 @@
 							</div>
 
 							<div class="form-group text-center">
-								<a href="{% url 'social:begin' 'google-oauth2' %}"><button type="button"
-										class="btn btn-outline bg-pink-300 border-pink-300 text-pink-300 btn-icon  border-2 ml-2"
-										style="width: 6rem;"><i class="icon-google"></i></button></a>
+								
+										<a href="{% url 'social:begin' 'google-oauth2' %}" title="Google" data-placement="bottom" data-popup="tooltip"  class="btn btn-outline bg-pink-400 border-pink-400 text-pink-800 btn-icon rounded-round border-2 ml-2"><i class="icon-google"></i></a>
 								
 								
 								

@@ -1,0 +1,59 @@
+<div class="card-body p-0">
+    <ul class="nav nav-sidebar" data-nav-type="accordion">
+
+        <!-- Main -->
+        <li class="nav-item-header mt-0">
+            <div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu"
+                title="Main"></i>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="icon-home4"></i>
+                <span>
+                    Dashboard
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item nav-item-submenu">
+            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Projects</span></a>
+
+            <ul class="nav nav-group-sub" data-submenu-title="Layouts">
+                <li class="nav-item"><a href="{% url 'projects:myprojects' %}" class="nav-link">My
+                        Projects</a></li>
+                <li class="nav-item"><a href="{% url 'projects:membershipprojects'%}"
+                        class="nav-link">
+                        Membership Projects</a></li>
+                <li class="nav-item"><a href="{% url 'projects:projects'%}" class="nav-link">All
+                        Projects</a></li>
+
+            </ul>
+        </li>
+        {% url 'projects:invitations' as invitations %}
+        <li class="nav-item"><a href="{% url 'projects:invitations' %}" class="nav-link {% if request.get_full_path == invitations %} active {% endif %}"><i
+                    class="icon-magazine"></i>
+                <span> Invitations
+                </span></a></li>
+
+        <li class="nav-item nav-item">
+
+            {% url 'projects:incentives'  as incentives %}
+            <a href="{% url 'projects:incentives' %}"
+                class="nav-link {% if request.get_full_path == incentives %} active {% endif %}"><i class="icon-gift"></i>
+                <span>Incentives</span></a>
+
+        </li>
+        
+        <li class="nav-item nav-item-submenu">
+            <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
+            <ul class="nav nav-group-sub" data-submenu-title="Layouts">
+            <li class="nav-item"><a href="{% url 'projects:generalreports'%}" class="nav-link">General Reports</a></li>
+
+            </ul>
+
+        </li>
+
+        <!-- /main -->
+
+    </ul>
+</div>

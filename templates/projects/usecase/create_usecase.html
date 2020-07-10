@@ -40,15 +40,16 @@
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Stakeholder(S):</label>
-                                <select class="form-control multiselect" name="stakeholder" multiple="multiple" data-fouc required>
+                                <select class="form-control multiselect" name="stakeholder" multiple="multiple"
+                                    data-fouc required>
                                     {% for stakeholder in stakeholders %}
                                     <option value="{{ stakeholder.id }}"> {{ stakeholder.name }}</option>
                                     {% endfor %}
-                    
+
                                 </select>
                             </div>
                         </div>
-                    
+
                     </div>
 
                     <div class="col-sm-6">
@@ -75,13 +76,20 @@
                         <label class="font-weight-semibold">Usecase Descriptions:</label>
                         <textarea class="form-control" name="usecase_descriptions" id="editor-full" rows="4"
                             bottom="4"></textarea><br>
-                        <button class="btn btn-primary float-right"><span class="fa fa-facebook">create</span></button>
+                        <button
+                            class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ml-auto float-right">
+                            <b>
+                                <i class="icon-plus3"></i>
+                            </b>
+                            create
+                        </button>
+
                     </div>
 
 
 
                 </div>
-               
+
             </form>
         </div>
 

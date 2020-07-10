@@ -1,237 +1,214 @@
+{% extends 'header.html' %}
 {% load static %}
-{% include './profile_header.html'%}
-<!-- Main content -->
-<div class="content-wrapper">
 
-    <!-- Content area -->
-    <div class="content">
-
-
-        <div class="row">
+{% block sidebar %}
+{% include './profile_sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+<div class="content">
 
 
-
-            <div class="col-md-6">
-
-                <!-- User details (with sample pattern) -->
-
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>Personal Details</h5>
-                        </center>
-                    </div>
-                    <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
-                        <div class="card-img-actions d-inline-block mb-3">
-                            {% if member_details %}
-                            <img class="img-fluid " 
-                                src="/docs/{{ member_details.profile_photo }}" width="200" height="200"
-                                alt="">
-                            <div class="card-img-actions-overlay card-img rounded-circle">
-                                <a href="#" type="file"
-                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-                                    <i class="icon-plus3"><input type="file" hidden></i>
-                                </a>
-                                <a href="#"
-                                    class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2">
-                                    <i class="icon-link"></i>
-                                </a>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    {% if message %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary-400">
                     <center>
-<div class="alert alert-danger text-center  col-md-9">
-    {{ message }}
-</div>
-</center>
-{% endif %}
-                    <div class="card-body border-top-0">
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Full name:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">
-                                {{ member_details.first_name }} {{ member_details.middle_name }}
-                                {{   member_details.surname  }}
-                            </div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Gender:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.gender }}</div>
-                        </div>
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Date Of Birth:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.date_of_birth }}</div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Phone number:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.phone }}</div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Personal Email:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0"><a
-                                    href="mailTo:{{ member_details.email }}">{{ member_details.email }}</a></div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap">
-                            <div class="font-weight-semibold">Job Email:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0"><a
-                                    href="mailTo:{{ member_details.job_email }}">{{ member_details.job_email }}</a>
-                            </div>
-                        </div>
-                        <div class="">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#update_personal_details">
-                                Edit
-                            </button>
-                        </div>
+                        <h5>Personal Details</h5>
+                    </center>
+                </div>
+                <div class="card-body bg-white text-center card-img-top" style="background-size: contain;">
+                    <div class="card-img-actions d-inline-block mb-3">
+                        {% if member_details %}
+                        <img class="img-fluid " src="/docs/{{ member_details.profile_photo }}" width="200" height="200"
+                            alt="">
+                        <!-- <div class="card-img-actions-overlay card-img rounded-circle">
+                            <a href="#" type="file"
+                                class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                                <i class="icon-plus3"><input type="file" hidden></i>
+                            </a>
+                            <a href="#"
+                                class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2">
+                                <i class="icon-link"></i>
+                            </a>
+                        </div> -->
                     </div>
+
 
                 </div>
-                <!-- /user details (with sample pattern) -->
-
-
-
-
-
-            </div>
-
-            <div class="col-md-6">
-
-                <!-- User details (with sample pattern) -->
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>Residence Details</h5>
-                        </center>
+                {% if message %}
+                <center>
+                    <div class="alert alert-danger text-center  col-md-9">
+                        {{ message }}
                     </div>
-
-                    <div class="card-body border-top-0">
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Country:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{member_details.country}}</div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Region:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.region }}</div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">District:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.district }}</div>
-                        </div>
-
-                        <div class="">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#update_residence_details">
-                                Edit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /user details (with sample pattern) -->
-
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <center>
-                            <h5>Job Details</h5>
-                        </center>
-                    </div>
-
-                    <div class="card-body border-top-0">
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Professional:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.professional }}</div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Job Title:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.job_title}}</div>
-                        </div>
-
-                        <div class="d-sm-flex flex-sm-wrap mb-3">
-                            <div class="font-weight-semibold">Institute Name:</div>
-                            <div class="ml-sm-auto mt-2 mt-sm-0">{{ member_details.institution_name}}</div>
-                        </div>
-
-                        <div class="float-left">
-
-                            <button class="btn btn-primary float-left" data-toggle="modal"
-                                data-target="#update_job_details">
-                                Edit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+                </center>
                 {% endif %}
-
-            </div>
-
-        </div>
-
-<!-- Update Residence Details -->
-<div id="update_job_details" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Job Details:</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <form method="post" action="{% url 'projects:updatejobdetails'%}">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label>Professional:</label>
-                                <input type="text" name="professonal" value="{{member_details.professional}}"
-                                    class="form-control">
-                            </div>
-
-                            <div class="col-sm-4">
-                                <label>Job Title:</label>
-                                <input type="text" name="job_title" value="{{member_details.job_title }}"
-                                    class="form-control">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Institute Name</label>
-                                <input type="text" name="institution_name" value="{{member_details.institution_name }}"
-                                    class="form-control">
-                            </div>
+                <div class="card-body border-top-0">
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Full name:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">
+                            {{ member_details.first_name }} {{ member_details.middle_name }}
+                            {{   member_details.surname  }}
                         </div>
                     </div>
 
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn bg-primary">Update</button>
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Gender:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.gender }}</div>
                     </div>
-            </form>
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Date Of Birth:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.date_of_birth }}</div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Phone number:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.phone }}</div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Personal Email:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary"><a
+                                href="mailTo:{{ member_details.email }}">{{ member_details.email }}</a></div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap">
+                        <div class="font-weight-semibold">Job Email:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary"><a
+                                href="mailTo:{{ member_details.job_email }}">{{ member_details.job_email }}</a>
+                        </div>
+                    </div>
+                    <div class="text-right">
+
+                        <a data-toggle="modal" data-target="#update_personal_details" title="Edit"
+                            data-placement="bottom" data-popup="tooltip"
+                            class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round border-2 ml-2 ">
+                            <i class="icon-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <!-- User details (with sample pattern) -->
+            <div class="card">
+                <div class="card-header bg-primary-400">
+                    <center>
+                        <h5>Residence Details</h5>
+                    </center>
+                </div>
+
+                <div class="card-body border-top-0">
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Country:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{member_details.country}}</div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Region:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.region }}</div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">District:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.district }}</div>
+                    </div>
+
+                    <div class="text-right">
+                        <a data-toggle="modal" data-target="#update_residence_details" title="Edit"
+                            data-placement="bottom" data-popup="tooltip"
+                            class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round border-2 ml-2 ">
+                            <i class="icon-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /user details (with sample pattern) -->
+
+            <div class="card">
+                <div class="card-header bg-primary-400">
+                    <center>
+                        <h5>Job Details</h5>
+                    </center>
+                </div>
+
+                <div class="card-body border-top-0">
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Professional:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.professional }}</div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Job Title:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.job_title}}</div>
+                    </div>
+
+                    <div class="d-sm-flex flex-sm-wrap mb-3">
+                        <div class="font-weight-semibold">Institute Name:</div>
+                        <div class="ml-sm-auto mt-2 mt-sm-0 text-primary">{{ member_details.institution_name}}</div>
+                    </div>
+
+                    <div class="text-right">
+                        <a data-toggle="modal" data-target="#update_job_details" title="Edit" data-placement="bottom"
+                            data-popup="tooltip"
+                            class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round border-2 ml-2 ">
+                            <i class="icon-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
         </div>
     </div>
-</div>
-<!-- /vertical form modal -->
-
-
-
-
-
-
+    <div id="update_job_details" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Job Details:</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+    
+                <form method="post" action="{% url 'projects:updatejobdetails'%}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Professional:</label>
+                                    <input type="text" name="professonal" value="{{member_details.professional}}"
+                                        class="form-control">
+                                </div>
+    
+                                <div class="col-sm-4">
+                                    <label>Job Title:</label>
+                                    <input type="text" name="job_title" value="{{member_details.job_title }}"
+                                        class="form-control">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Institute Name</label>
+                                    <input type="text" name="institution_name" value="{{member_details.institution_name }}"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+    
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn bg-primary">Update</button>
+                        </div>
+                </form>
+            </div>
+        </div>
     </div>
+
 </div>
+<!-- Update Residence Details -->
 
-
-
-
-
-<!-- models for updation -->
-
-<!-- Vertical form modal -->
 <div id="update_personal_details" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -324,10 +301,7 @@
         </div>
     </div>
 </div>
-<!-- /vertical form modal -->
 
-
-<!-- Update Residence Details -->
 <div id="update_residence_details" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -370,4 +344,4 @@
     </div>
 </div>
 
-<!-- /vertical form modal -->
+{% endblock content %}
