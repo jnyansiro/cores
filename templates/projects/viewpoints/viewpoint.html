@@ -128,7 +128,7 @@
             </div>
             {% if viewpoint %}
             <div class="card-img-actions col-md-3">
-                <img class="card-img img-fluid" src="../../../docs/{{ viewpoint.viewpoint_photo }}" alt="">
+                <img class="card-img img-fluid" src="/docs/{{ viewpoint.viewpoint_photo }}" alt="">
             </div>
 
             <div class="col-md-9">
@@ -285,7 +285,7 @@
                         </li>
                         {% for comment in comments %}
                         <li class="media">
-                            <div class="mr-3"><img src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                            <div class="mr-3"><img src="/docs/{{ comment.comment.commented_by.profile_photo}}"
                                     class="rounded-circle" width="40" height="40" alt=""></div>
                             <div class="media-body">
                                 <div class="media-title ">
@@ -293,6 +293,7 @@
                                     <span class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                         <a href="#"><i
                                                 class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                                {% if comment.comment.commented_by == member and comment.viewpoint.project.created_by != member %}
                                                 status:
                                                 {% if comment.comment.status == "pending" %}
                                                 <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
@@ -309,6 +310,7 @@
                                                     title="This comment is visible to all project members">
                                                     {{comment.comment.status}}
                                                 </label>
+                                                {% endif %}
                                                 {% endif %}
                                 </div>
                                 {{ comment.comment|safe }}

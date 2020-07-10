@@ -17,30 +17,30 @@
 
 
             <div class="card-body">
-                {% if project_comments %}
                 <div class="row mb-2 mt-1 ">
                     <div class="col-md-6 text-left">
                         <h5 class="ml-2">Project Comments: <span
                                 class="badge badge-primary badge-pill">{{total_comments}}</span></h5>
                     </div>
                     <div class="col-md-6 text-right">
+                        <form method="POST" action="{% url 'projects:bulk-approval-project-comments'%}">
+                            {% csrf_token %}
 
                         <div class="text-right">
-                            <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+                            <button type="submit" name="approve" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
                                 class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
                                 <i class="icon-check"></i>
-                            </a>
-                            <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+                        </button>
+                            <button type="submit" name="reject" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
                                 class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
                                 <i class="icon-trash"></i>
-                            </a>
+                    </button>
                         </div>
                     </div>
                 </div>
                 <table class="table table-bordered table-responsive-xl table-hover">
                     <thead class="bg-primary-400 text-white">
                         <tr>
-                            <th>#</th>
                             <th>Select</th>
                             <th>Commented By</th>
                             <th>Comment Project</th>
@@ -48,15 +48,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for num, comment in project_comments %}
+                        {% for comment in project_comments %}
                         <tr>
-                            <td>{{num}}</td>
-                            <td><input type="checkbox" value="{{comment.comment.id}}" class="form-control-styled"></td>
+
+                            <td><input type="checkbox" name="comment" value="{{comment.comment.id}}" class="form-control-styled"></td>
                             <td>{{ comment.comment.commented_by }}</td>
                             <td>{{ comment.project }}</td>
                             <td>
                                 <a title="view" data-popup="tooltip" data-placement="bottom" data-toggle="modal"
-                                    data-target="#view_comment{{num}}"
+                                    data-target="#view_comment{{comment.comment.id}}"
                                     class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm"><i
                                         class="icon-enlarge7"></i>
                                 </a>
@@ -73,7 +73,8 @@
                             </td>
                         </tr>
 
-                        <div id="view_comment{{num}}" class="modal fade" tabindex="-1">
+
+                        <div id="view_comment{{comment.comment.id}}" class="modal fade" tabindex="-1">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -96,15 +97,38 @@
                             </div>
                         </div>
                         {% endfor %}
+                        </form>
 
 
                     </tbody>
+                    
                 </table>
-                {% else %}
+                <div class="col-md-12 text-center mt-1">
+                    {% if project_comments %}
+                    <span class="step-links">
+                        {% if project_comments.has_previous %}
+                        <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                        <a href="?page={{ project_comments.previous_page_number }}" class="">Back</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ project_comments.number }} of {{ project_comments.paginator.num_pages }}.
+                        </span>
+                
+                        {% if project_comments.has_next %}
+                        <a href="?page={{ project_comments.next_page_number }}" class="">next</a>
+                        <a href="?page={{ project_comments.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                
+               
+                {% if not project_comments %}
                 <div class="text-center alert alert-info">
                     No comments to display!
                 </div>
                 {% endif %}
+                </div>
             </div>
         </div>
     </div>

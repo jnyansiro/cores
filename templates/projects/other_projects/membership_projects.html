@@ -71,14 +71,14 @@
                         class="icon-plus3"></i></b> Add Project</a>
         </div>
 
-        <div class="card-body  row pt-sm-1">
+        <div class="card-body  row pt-sm-1 project_card">
             {% if membershipprojects %}
             {% for project in membershipprojects %}
             <div class="col-lg-6 d-flex align-items-stretch">
                 <div class="card blog-horizontal blog-horizontal-xs ">
                     <div class="card-body row">
                         <div class="card-img-actions col-md-4">
-                            <img class="card-img img-fluid" src="docs/{{ project.project.project_photo }}" alt="">
+                            <img class="card-img img-fluid" src="/docs/{{ project.project.project_photo }}" alt="">
                             <div class="card-img-actions-overlay card-img">
                                 <a href="{% url 'projects:viewproject' project_id=project.project.id %}"
                                     class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round"

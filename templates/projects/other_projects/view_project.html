@@ -95,7 +95,7 @@
             <div class="card">
                 <div class="card-body row">
                     <div class="card-img-actions col-md-3">
-                        <img class="card-img img-fluid" src="../../../docs/{{ project.project_photo }}" alt="">
+                        <img class="card-img img-fluid" src="/docs/{{ project.project_photo }}" alt="">
                     </div>
 
                     <div class="col-md-9 ">
@@ -103,7 +103,7 @@
                         <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip"
                             data-placement="bottom" style="position: absolute;top: 0;right: 0;">
 
-                            {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share on WhatsApp</span>'%}
+                            {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success"></i><span class="text-success ml-1">Share</span>'%}
                         </span>
                         <h5 class="font-weight-semibold my-1">
                             <a href="{% url 'projects:viewmyproject' project_id=project.id %}"
@@ -172,7 +172,7 @@
                                 <span class="float-right">
 
                                     <span class="text-primary-400">
-                                        <a href="{% url 'projects:myprojectlike' project_id=project.id %}"
+                                        <a href="{% url 'projects:projectlike' project_id=project.id %}"
                                             class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2"><i
                                                 class="icon-thumbs-up2"></i></a>
                                         {{ likes }}
@@ -182,7 +182,7 @@
                                     &nbsp;
                                     |
                                     <span class="text-danger-400">
-                                        <a href="{% url 'projects:myprojectdislike' project_id=project.id %}"
+                                        <a href="{% url 'projects:projectdislike' project_id=project.id %}"
                                             class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2"><i
                                                 class="icon-thumbs-down2"></i></a>
                                         {{ dislikes }}
@@ -256,14 +256,20 @@
 
                         </ul>
                         <div class="col-md-6 text-right" style="margin-left: 1rem;">
-                            <li class="list-inline-item">
-                                <a href="{% url 'projects:viewpoints' project_id=project.id %}"
-                                    class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
-                                    <b><i class="icon-enlarge7"></i></b>
-                                    Project Workspace
-                                </a>
-                            </li>
-
+                                <li class="list-inline-item mb-1">
+                    
+                        <div class="btn-group justify-content-center">
+                            <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                                data-toggle="dropdown"><b><i class="icon-users"></i></b>Stakeholders</a>
+                            <div class="dropdown-menu">
+                                <a data-toggle="modal" data-target="#add" class="dropdown-item">Add Stakeholder(s)</a>
+                                <a data-toggle="modal" data-target="#view"  class="dropdown-item">View Stakeholder(s)</a>
+                                <a  data-toggle="modal" data-target="#edit" class="dropdown-item">Edit Stakeholder(s)</a>
+                    
+                    
+                            </div>
+                    </li>
+                     {% if project.created_by == member %}
                             <li class="list-inline-item">
                                 <a href="{% url 'projects:editproject' project_id=project.id %}"
                                     class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
@@ -278,6 +284,15 @@
                                     Delete
                                 </a>
                             </li>
+                            {% endif %}
+                            <li class="list-inline-item">
+                                <a href="{% url 'projects:viewpoints' project_id=project.id %}"
+                                    class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                                    <b><i class="icon-enlarge7"></i></b>
+                                    Project Workspace
+                                </a>
+                            </li>
+                          
                         </div>
 
                     </div>
@@ -334,7 +349,7 @@
 
 
 
-
+                {% include '../stakeholders.html'%}
 
 
                     <!-- Project Rates -->
@@ -421,6 +436,36 @@
                     <!-- /custom background color -->
 
 
+<!-- delete model -->
+
+<div id="delete" class="modal top" tabindex="-1">
+    <div class="modal-dialog modal-xs ">
+        <div class="modal-content bg-white-300" style="color:red">
+            <div class="modal-header">
+                <h5 class="modal-title">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+                <center><i class="icon-help icon-4x mb-3 mt-1 " style="height: 40px;"></i>
+                    <h6 class="font-weight-semibold">Do you real want to delete?</h6>
+                </center>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'projects:deleteproject' project_id=project.id %}"><button type="button"
+                        class="btn bg-primary">Yes</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /custom background color -->
+
+
+
 
                     <!-- Line content divider -->
                     <div class="card col-md-12 " id="comments" style="display: block;">
@@ -442,7 +487,7 @@
                                 {% for comment in comments %}
                                 <li class="media">
                                     <div class="mr-3"><img
-                                            src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                                            src="/docs/{{ comment.comment.commented_by.profile_photo}}"
                                             class="rounded-circle" width="40" height="40" alt=""></div>
                                     <div class="media-body">
                                         <div class="media-title ">
@@ -453,9 +498,11 @@
                                             <span
                                                 class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                                 <a href="#"><i
-                                                        class=" icon-watch2 font-size-base text-muted ml-2"></i></a></span> status:
+                                                        class=" icon-watch2 font-size-base text-muted ml-2"></i></a></span>
+                                                        {% if comment.comment.commented_by == member and comment.project.created_by != member %}
+                                                         status:
                                                         {% if comment.comment.status == "pending" %}
-                                                        <label class="btn btn-danger btn-labeled  rounded-round  btn-sm text-center"
+                                                        <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
                                                             title="you are the only one who can see this comment till when is accepted">
                                                             {{comment.comment.status}}
                                                         </label>
@@ -464,6 +511,7 @@
                                                             title="This comment is visible to all project members">
                                                             {{comment.comment.status}}
                                                         </label>
+                                                        {% endif %}
                                                         {% endif %}
                                         </div>
                                         {{ comment.comment }}

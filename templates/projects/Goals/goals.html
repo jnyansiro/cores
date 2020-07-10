@@ -129,9 +129,9 @@
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <select name="viewpoint_id" data-placeholder="Select View point" class="form-control" id="">
-                                            {% for viewpointiess in viewpointiees%}
-                                            <option value="{{ viewpointiess.id}}" {% if viewpoint_id|add:'0' == viewpointiess.id %} selected {% endif %}>
-                                                {{viewpointiess.viewpoint_name }}
+                                            {% for viewpoint in viewpoints%}
+                                            <option value="{{ viewpoint.id}}" {% if viewpoint_id|add:'0' == viewpoint.id %} selected {% endif %}>
+                                                {{viewpoint.viewpoint_name }}
                                             </option>
                                             {% endfor %}
                                         </select>
@@ -155,11 +155,11 @@
                                 <li class="list-group-item pl-10 pr-10 ">
 
                                     <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
-                                        class="text-primary">{{ goal.goal_name }}</a>
+                                        class="text-primary">{{ goal.goal.goal_name }}</a>
                                     <br>
                                     <span class="font-weight-semibold">By:</span>
-                                    {{goal.created_by}}, <span class="text-muted"> Created On:
-                                        {{goal.created_on}}</span>
+                                    {{goal.goal.created_by}}, <span class="text-muted"> Created On:
+                                        {{goal.goal.created_on}}</span>
 
                                     <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
                                         class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"

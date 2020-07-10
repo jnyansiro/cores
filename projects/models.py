@@ -7,6 +7,7 @@ from django.conf import settings
 import requests
 from django.conf import settings
 from datetime import timezone
+from datetime import datetime
 from django.contrib.auth.models import PermissionsMixin
 
 
@@ -55,10 +56,9 @@ class LoginLog(models.Model):
     """Model definition for LoginLog."""
 
     # TODO: Define fields here
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    login_time = models.DateTimeField(auto_now=True)
-    logout_time = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(default=datetime.now, blank=True)
+    logout_time = models.DateTimeField(auto_now=False, null=True, blank=True)
 
     class Meta:
         """Meta definition for LoginLog."""
@@ -68,7 +68,11 @@ class LoginLog(models.Model):
 
     def __str__(self):
         """Unicode representation of LoginLog."""
-        return self.login_time
+        return self.user.username
+
+class Visitor(models.Model):
+    ip_address = models.CharField(max_length=90, null=True)
+
 
 
 class Sector(models.Model):
@@ -167,6 +171,8 @@ class Project(models.Model):
     def __str__(self):
         """Unicode representation of Project."""
         return self.project_title
+
+
 
 
 class ProjectSector(models.Model):
@@ -315,9 +321,9 @@ class Goal(models.Model):
     """Model definition for Goal."""
 
     # TODO: Define fields here
-    viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     goal_name = models.CharField(max_length=500)
+    goal_type = models.CharField(max_length=300)
     description = models.TextField(max_length=5000, null=True, blank=True)
     status = models.CharField(max_length=60, default="pending")
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
@@ -334,12 +340,27 @@ class Goal(models.Model):
         """Unicode representation of Goal."""
         return self.goal_name
 
+class ViewpointGoal(models.Model):
+    viewpoint = models.ForeignKey(Viewpoint, on_delete=models.CASCADE)
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class GoalDecomposition(models.Model):
+    original_goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
+    decomposed_goal = models.IntegerField()
+    decomposition_operator = models.CharField(max_length=20)
+    created_on = models.DateTimeField(auto_now=True)
+
+class GoalRelationship(models.Model):
+    origin_goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
+    related_goal = models.IntegerField()
+    relation_type = models.CharField(max_length=20)
+    created_on = models.DateTimeField(auto_now=True)
 
 class Requirement(models.Model):
     """Model definition for Requirement."""
 
     # TODO: Define fields here
-    goal = models.ForeignKey("Goal", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     name = models.CharField(max_length=500)
@@ -359,7 +380,11 @@ class Requirement(models.Model):
         return self.name
 
 
-
+class RequirementGoal(models.Model):
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    
 # Create your models here.
 
 class Scenario(models.Model):
@@ -1211,6 +1236,35 @@ class UseCaseDislike(models.Model):
     def __str__(self):
         """Unicode representation of UseCaseDislike."""
         pass
+
+class Stakeholder(models.Model):
+    name = models.CharField(max_length=40)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        """Unicode representation of Project."""
+        return self.name
+
+class RequirementStakeholder(models.Model):
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class ScenarioStakeholder(models.Model):
+    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class ProcessStakeholder(models.Model):
+    process = models.ForeignKey(Process, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+class UsecaseStakeholder(models.Model):
+    usecase = models.ForeignKey(UseCase, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(Stakeholder, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
 
 
 class Subscriber(models.Model):

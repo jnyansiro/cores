@@ -139,13 +139,13 @@
 
 
                         <div class="col-md-6 text-right">
-                            {% if goal_id%}
-                            <a href="{% url 'projects:createrequirement' goal_id %}"
+                
+                            <a href="{% url 'projects:createrequirement' project_id=project.id %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
                                 <b><i class="icon-plus3"></i></b>
                                 Add Requirement
                             </a>
-                            {% endif %}
+        
                         </div>
                     </div>
 
@@ -159,11 +159,11 @@
                                 <li class="list-group-item pl-10 pr-10 ">
 
                                     <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id %}"
-                                        class="text-primary">{{ requirement.name }}</a>
+                                        class="text-primary">{{ requirement.requirement.name }}</a>
                                     <br>
                                     <span class="font-weight-semibold">By:</span>
-                                    {{requirement.created_by}}, <span class="text-muted"> Created On:
-                                        {{requirement.created_on}}</span>
+                                    {{requirement.requirement.created_by}}, <span class="text-muted"> Created On:
+                                        {{requirement.requirement.created_on}}</span>
 
                                     <a href="{% url 'projects:viewrequirement' requirement.id %}"
                                         class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"

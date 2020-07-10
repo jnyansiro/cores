@@ -76,31 +76,31 @@
                                       }
                                   </style>
                                 <li class="viewpoint col-md-2">
-                                    <a href="{% url 'projects:viewpoint' viewpoint_id%}" class="col-md-2"
+                                    <a href="{% url 'projects:viewpoints' project_id=project.id %}" class="col-md-2"
                                         style="color: black;font-weight:bold">
-                                        ViewPoint Description
+                                        ViewPoints
                                     </a>
                                 </li>
                                 <li class="goal col-md-2">
-                                    <a href="{% url 'projects:viewgoal' goal_id%}" class="col-md-2"
+                                    <a href="{% url 'projects:projectgoals' project_id=project.id%}" class="col-md-2"
                                         style="color:black;font-weight:bold">
-                                        Goal Description
+                                        Goals
                                     </a>
                                 </li>
                                 <li class=" requirement col-md-2">
-                                    <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id%}"
+                                    <a href="{% url 'projects:usecaserequirements' usecase_id=usecase.usecase.id%}"
                                         style="color:black;font-weight:bold">
-                                        Requirement Description
+                                        Requirements
                                     </a>
                                 </li>
                                 <li class=" scenario col-md-2">
-                                    <a href="{% url 'projects:scenarios' requirement_id=requirement.id%}"
+                                    <a href="{% url 'projects:projectscenarios' project_id=project.id%}"
                                         style="color:black;font-weight:bold">
                                         Scenarios
                                     </a>
                                 </li>
                                 <li class="process col-md-2">
-                                    <a href="{% url 'projects:processes' requirement_id=requirement.id %}"
+                                    <a href="{% url 'projects:projectprocesses' project_id=project.id %}"
                                         style="color:black;font-weight:bold">
                                         Processes
                                     </a>
@@ -114,7 +114,7 @@
                             </ul>
 
                             <li class="col-md-12 float-right" style="list-style: none;">
-                                <a href="{% url 'projects:createusecase' requirement_id=requirement.id %}"><button
+                                <a href="{% url 'projects:createusecase' project_id=project.id %}"><button
                                         class="btn bg-primary btn-labeled  rounded-round text-center float-right">
                                         Add Usecase <i class="icon-add"></i>
                                     </button></a>
@@ -168,11 +168,21 @@
                                 </li>
                             </ul>
                         </div>
-
+                                     <div class="col-sm-12 pb-2 mb-1" style="border-bottom: 1px solid #ddd;"></div>
                        {{usecase.usecase.description|safe}}
+                         </div>
+                        {% if stakeholders %}
+                        <a>
+                            Stakeholders:
+                        </a>
+                        <br>
+                        {% for stakeholder in stakeholders %}
+                        <b class="text-primary ml-2">#{{stakeholder.stakeholder}}</b>
+                        {% endfor %}
+                        <hr>
+                        {% endif %}
 
-                        <div
-                            class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3 row">
+                        <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 pt-0 pb-3 row">
                             <div class="row">
                             <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0">
                                 <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
@@ -269,7 +279,7 @@
                                         {% for comment in comments %}
                                         <li class="media">
                                             <div class="mr-3"><img
-                                                    src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                                                    src="/docs/{{ comment.comment.commented_by.profile_photo}}"
                                                     class="rounded-circle" width="40" height="40" alt=""></div>
                                             <div class="media-body">
                                                 <div class="media-title d-flex flex-nowrap">
@@ -279,6 +289,7 @@
                                                         class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                                         <a href="#"><i
                                                                 class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                                                {% if comment.comment.commented_by == member and comment.usecase.project.created_by != member %}
                                                                 status:
                                                                 {% if comment.comment.status == "pending" %}
                                                                 <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
@@ -295,6 +306,7 @@
                                                                     title="This comment is visible to all project members">
                                                                     {{comment.comment.status}}
                                                                 </label>
+                                                                {% endif %} 
                                                                 {% endif %}
                                                 </div>
                                                 {{ comment.comment|safe }}

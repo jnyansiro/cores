@@ -133,13 +133,13 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6 text-right">
-                            {% if requirement.id %}
-                            <a href="{% url 'projects:createprocess' requirement_id=requirement.id %}"
+                            
+                            <a href="{% url 'projects:createprocess' project_id=project.id %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
                                 Add Process
                                 <b><i class="icon-plus3"></i></b>
                             </a>
-                            {% endif %}
+                           
                         </div>
                     </div>
                   

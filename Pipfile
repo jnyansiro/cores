@@ -18,6 +18,7 @@ django-select-multiple-field = "*"
 python-docx = "*"
 social-auth-app-django = "*"
 django-social-share = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.7"

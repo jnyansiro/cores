@@ -360,9 +360,9 @@
         <div class="dropdown-content-footer bg-light">
             <a href="#" class="text-grey mr-auto">All activity</a>
             <div>
-                <a href="{% url 'projects:readnotifications'%}" class="text-grey" data-popup="tooltip"
-                    title="mark all seen"><i class="icon-checkmark3"></i></a>
-                <a href="#" class="text-grey ml-2" data-popup="tooltip" title="Settings"><i class="icon-gear"></i></a>
+                <a href="{% url 'projects:readnotifications'%}" class="text-primary" data-popup="tooltip"
+                    title="mark all seen"><i class="icon-checkmark3 text-success"></i></a>
+                <a href="{% url 'projects:deletenotifications'%}" class="text-danger ml-2 text-danger" data-popup="tooltip" title="delete all"><i class="icon-trash"></i></a>
             </div>
         </div>
     </div>

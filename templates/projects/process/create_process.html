@@ -19,12 +19,12 @@
         </div>
 
         <div class="card-body py-0">
-            <form method="post" action="{% url 'projects:createprocess' requirement_id=requirement.id%}"
+            <form method="post" action="{% url 'projects:createprocess' project_id=project.id%}"
                 enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row mt-2">
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Requirements:</label>
@@ -39,8 +39,23 @@
                         </div>
 
                     </div>
+                    <div class="col-sm-2">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="col-md-12">
+                                <label class="font-weight-semibold">Stakeholder(S):</label>
+                                <select class="form-control multiselect" name="stakeholder" multiple="multiple" data-fouc>
+                    
+                                    {% for stakeholder in stakeholders %}
+                                    <option value="{{ stakeholder.id }}"> {{ stakeholder.name }}</option>
+                                    {% endfor %}
+                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="col-sm-6">
+
+                    <div class="col-sm-5">
                         <div class="d-flex align-items-center justify-content-center mb-2">
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Process Title:</label>

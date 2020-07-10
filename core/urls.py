@@ -19,6 +19,8 @@ from projects.views import *
 from django.conf import settings
 from django.conf.urls import handler404, handler500
 from django.conf.urls import url
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', include('social_django.urls', namespace='social')),
@@ -35,6 +37,6 @@ urlpatterns = [
     path("registration", registration, name="registration"),
     path("forgetpassword", forgetpassword, name="forgetpassword"),
     url(r'^reset-password/$', recovery, name="reset-password")
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = pagenotfound
 handler500 = servererror

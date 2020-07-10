@@ -30,12 +30,20 @@
             </div>
 
             <div class="card-body py-0 pt-2">
+                {% if message %}
+                <center>
+                    <div class="alert alert-danger text-center  col-md-9">
+                        {{ message }}
+                    </div>
+                </center>
+                {% endif %}
                 <form method="post" action="{% url 'projects:createproject'%}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
 
                         <div class="col-sm-3">
                             <div class="d-flex align-items-center justify-content-center mb-2">
+                                                  
                                 <div class="col-md-12">
                                     <label class="font-weight-semibold">Project Title:</label>
                                     <input class="form-control" type="text" name="project_title" required
@@ -79,7 +87,7 @@
                                 <div class="col-md-12">
                                     <label class="font-weight-semibold">Project photo:</label>
                                     <input class="form-control" type="file" name="project_photo"
-                                        placeholder="Enter project title">
+                                        placeholder="Enter project title" accept="image/*">
                                 </div>
                             </div>
 

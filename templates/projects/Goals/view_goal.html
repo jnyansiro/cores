@@ -5,6 +5,8 @@
 
 {% endblock sidebar %}
 {% block content %}
+<script src="{% static 'global_assets/js/demo_pages/form_multiselect.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/forms/selects/bootstrap_multiselect.js' %}"></script>
 <div class="content">
     <script>
         function showComments() {
@@ -77,7 +79,7 @@
                             </style>
                             <li class="viewpoint col-md-2 p-2">
 
-                                <a href="{% url 'projects:viewpoint' viewpoint_id %}" class="col-md-2"
+                                <a href="{% url 'projects:associate-viewpoints' goal_id=goal.goal.id %}" class="col-md-2"
                                     style="color: black;font-weight:bold">
                                     ViewPoint
                                 </a>
@@ -88,7 +90,7 @@
                                 </a>
                             </li>
                             <li class=" requirement col-md-2 p-2">
-                                <a href="{% url 'projects:requirements' goal_id=goal_id%}"
+                                <a href="{% url 'projects:requirements' goal_id=goal.goal.id%}"
                                     style="color:black;font-weight:bold">
                                     Requirements
                                 </a>
@@ -121,7 +123,7 @@
                     <div class="form-group form-horizontal pb-1 row" style="border-bottom: 1px solid #ddd;">
                         <div class="col-md-6">
                             <label class="col-md-12 font-weight-semibold control-label">
-                                Filter ViewPoint:</label>
+                                Filter Goal:</label>
                             <form method="post" action="{% url 'projects:viewgoal' goal_id%}">
                                 {% csrf_token %}
                                 <div class="col-md-12">
@@ -129,7 +131,7 @@
                                         <select name="goal" class="form-control" id="">
                                             {% for goal_ in goals %}
                                             <option value="{{ goal_.id }}">
-                                                {{ goal_ }}
+                                                {{ goal_.goal }}
                                             </option>
                                             {% endfor %}
     
@@ -156,18 +158,18 @@
 
 
                 <div class="mb-1">
-                    <h5 class="font-weight-semibold mb-2 text-default">{{ goal.goal_name}}
+                    <h5 class="font-weight-semibold mb-2 text-default">{{ goal.goal.goal_name}}
                     </h5>
                     <ul class="list-inline  text-muted mb-0">
                         <li class="list-inline-item col-sm-12">
                             <span class="font-weight-semibold">By: </span><a class="text-primary"
-                                href="{% url 'projects:memberdetails' member_id=goal.created_by.id%}">{{ goal.created_by }}</a>
+                                href="{% url 'projects:memberdetails' member_id=goal.goal.created_by.id%}">{{ goal.goal.created_by }}</a>
                         </li>
                         <li class="list-inline-item col-sm-12">
                             <span class="font-weight-semibold">Created on: </span>
-                            {{ goal.created_on }}</li>
+                            {{ goal.goal.created_on }}</li>
                         <li class="list-inline-item col-sm-12">
-                            <a href="{% url 'projects:goalresources' goal_id=goal.id%}"
+                            <a href="{% url 'projects:goalresources' goal_id=goal.goal.id%}"
                                 class="bg-primary-400 p-1" style="border-radius: 4px;"><i
                                     class="icon-folder font-size-base  mr-2"></i>
                                     Goal resources
@@ -175,7 +177,7 @@
                             <span class="float-right">
 
                                 <span class="text-primary-400">
-                                    <a href="{% url 'projects:goallike' goal_id=goal.id %}"
+                                    <a href="{% url 'projects:goallike' goal_id=goal.goal.id %}"
                                         class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2"><i
                                             class="icon-thumbs-up2"></i></a>
                                     {{ likes }}
@@ -185,7 +187,7 @@
                                 &nbsp;
                                 |
                                 <span class="text-danger-400">
-                                    <a href="{% url 'projects:goaldislike' goal_id=goal.id %}"
+                                    <a href="{% url 'projects:goaldislike' goal_id=goal.goal.id %}"
                                         class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2"><i
                                             class="icon-thumbs-down2"></i></a>
                                     {{ dislikes }}
@@ -197,11 +199,16 @@
                     </ul>
                 </div>
                 <div class="col-sm-12 pb-2 mb-1" style="border-bottom: 1px solid #ddd;">
-                    {{ goal.description|safe}}
+                    {{ goal.goal.description|safe}}
                 </div>
-                <div
-                class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
-                <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-6 p-0 ">
+                
+                <a href="{% url 'projects:related-goals' goal_id=goal.goal.id %}" class="btn btn-info ml-2 mb-1">#Related Goals</a>
+                <a href="{% url 'projects:decomposed-goals' goal_id=goal.goal.id %}" class="btn btn-info ml-2 mb-1">#Decomposed Goals</a>
+                <a href="{% url 'projects:associate-viewpoints' goal_id=goal.goal.id %}" class="btn btn-info ml-2"> #Associate Viewpoints</a>
+                <hr>
+                <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 row mb-3">
+                    <div class="col-md-5">
+                <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-12 p-0 ">
                     <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                             data-target="#rates">
                             {{total_rates}} Rates
@@ -250,36 +257,55 @@
 
                             {% endfor %}
                         </a></li>
+                       
                     <li class="list-inline-item mt-1" onclick="showComments()"><a href="#" class="text-muted"><i
                                 class="icon-bubbles5 text-blue mr-2"></i>{{ total_comments }} comments</a>
                     </li>
 
                 </ul>
-                <div class="col-md-6 text-right" style="margin-left: 1rem;">
-                    {% if creator == "me" %}
-                    <li class="list-inline-item">
-                        <a data-toggle="modal" data-target="#update_requirement"
-                            class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
-                            <b><i class="icon-pencil"></i></b>
-                            Edit
-                        </a>
-                    </li>
-                    <li class="list-inline-item ">
-                        <a data-toggle="modal" data-target="#delete"
-                            class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
-                            <b><i class="icon-trash"></i></b>
-                            Delete
-                        </a>
+                </div>
+                <div class="col-md-7 text-right">
+
+                    
+                    <li class="list-inline-item mb-1">
+                    
+                        <div class="btn-group justify-content-center">
+                            <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                                data-toggle="dropdown"><b><i class="icon-cog5"></i></b>Options</a>
+                            <div class="dropdown-menu">
+                                <a data-toggle="modal" data-target="#associate_goal" class="dropdown-item">Associate</a>
+                                <a data-toggle="modal" data-target="#decompose_goal"  class="dropdown-item">Decompose</a>
+                                <a  data-toggle="modal" data-target="#relate_goal" class="dropdown-item">Relate</a>
+                    
+                    
+                            </div>
                     </li>
                     
-                    {% endif %}
-                    <li class="list-inline-item">
-                        <a href="{% url 'projects:requirements' goal_id=goal_id%}"
-                            class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
-                            <b><i class="icon-arrow-right15"></i></b>
-                            Requirements
-                        </a>
-                    </li>
+                {% if creator == "me" %}
+                <li class="list-inline-item ml-2 mb-1">
+                    <a data-toggle="modal" data-target="#update_goal"
+                        class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
+                        <b><i class="icon-pencil"></i></b>
+                        Edit
+                    </a>
+                </li>
+                <li class="list-inline-item ">
+                    <a data-toggle="modal" data-target="#delete"
+                        class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                        <b><i class="icon-trash"></i></b>
+                        Delete
+                    </a>
+                </li>
+                
+                {% endif %}
+                <li class="list-inline-item ">
+                    <a href="{% url 'projects:requirements' goal_id=goal_id%}"
+                        class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
+                        <b><i class="icon-arrow-right15"></i></b>
+                        Requirements
+                    </a>
+                </li>
+                  
                 </div>
 
             </div>
@@ -288,7 +314,7 @@
                 <!-- Line content divider comments -->
                 <div class="card " id="comments" style="display: block;">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><a href="#">{{goal.goal_name}}</a>`s Comments:</h5>
+                        <h5 class="card-title"><a href="#">{{goal.goal.goal_name}}</a>`s Comments:</h5>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <a class="list-icons-item" data-action="collapse" onclick="closetab()"></a>
@@ -305,7 +331,7 @@
                             {% for comment in comments %}
                             <li class="media">
                                 <div class="mr-3"><img
-                                        src="../../../docs/{{ comment.comment.commented_by.profile_photo}}"
+                                        src="/docs/{{ comment.comment.commented_by.profile_photo}}"
                                         class="rounded-circle" width="40" height="40" alt=""></div>
                                 <div class="media-body">
                                     <div class="media-title">
@@ -315,6 +341,7 @@
                                             class="font-size-sm text-muted text-nowrap ml-auto">{{ comment.created_on }}
                                             <a href="#"><i
                                                     class="icon-pin-alt font-size-base text-muted ml-2"></i></a></span>
+                                                    {% if comment.comment.commented_by == member and comment.goal.project.created_by != member%}
                                         status:
                                         {% if comment.comment.status == "pending" %}
                                         <label class="btn btn-warning btn-labeled  rounded-round  btn-sm text-center"
@@ -333,6 +360,7 @@
                                             {{comment.comment.status}}
                                         </label>
                                         {% endif %}
+                                        {% endif %}
                                     </div>
                                     {{ comment.comment|safe }}
                                 </div>
@@ -340,7 +368,7 @@
                             {% endfor %}
 
                         </ul>
-                        <form method="post" action="{% url 'projects:goalcomment' goal_id=goal.id %}">
+                        <form method="post" action="{% url 'projects:goalcomment' goal_id=goal.goal.id %}">
                             {% csrf_token %}
 
                             <textarea name="comment" required class="form-control mb-3" rows="3" cols="1"
@@ -359,11 +387,10 @@
                 </div>
                 <!-- /line content divider -->
 
-                <!-- rate model -->
 
                 <div id="star" class="modal top" tabindex="-1">
                     <div class="modal-dialog modal-xs">
-                        <form method="POST" action="{% url 'projects:rategoal' goal_id=goal.id %}">
+                        <form method="POST" action="{% url 'projects:rategoal' goal_id=goal.goal.id %}">
                             {% csrf_token %}
                             <div class="modal-content bg-white-300" style="color:red">
                                 <div class="modal-header">
@@ -533,27 +560,26 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Update Goal:</h5>
+                                <h5 class="modal-title"> Update Goal: </h5>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-
-                            <form method="post" action="{% url 'projects:updategoal' goal_id=goal.id%}"
+                            <form method="post" action="{% url 'projects:updategoal' goal_id=goal.goal.id%}"
                                 enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label>Goal Title:</label>
-                                                <input type="text" name="goal_name" value="{{goal.goal_name}}"
+                                                <label> Goal Title: </label>
+                                                <input type="text" name="goal_name" value="{{goal.goal.goal_name}}"
                                                     class="form-control">
                                             </div>
 
 
                                             <div class="col-sm-12">
-                                                <label>Descriptions:</label>
+                                                <label> Descriptions: </label>
                                                 <textarea class="form-control" name="description" id="editor-full"
-                                                    rows="4" bottom="4">{{goal.description|safe }}</textarea>
+                                                    rows="4" bottom="4">{{goal.goal.description|safe }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -569,13 +595,201 @@
                 <!-- /vertical form modal -->
 
 
-
-            </div>
         </div>
         {% endif %}
         <!-- /mini size -->
 
     </div>
+
+
+<!-- Associate_goal -->
+<div id="associate_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Goal with Viewpoint:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-goal'%}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Original Goal:</label>
+                                <input type="text" name="" value="{{goal.goal.goal_name}}"
+                                    class="form-control" disabled>
+                                <input type="text" name="original_goal" value="{{goal.goal.id}}" class="form-control" hidden>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Viewpoint:</label>
+                                <select class="form-control multiselect" name="viewpoints" multiple="multiple"
+                                    data-fouc>
+                                {% for viewpoint_ in viewpoints %}
+                                <option value="{{viewpoint_.id}}">{{ viewpoint_.viewpoint_name }}</option>
+                                {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- decomose_goal -->
+<div id="decompose_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title">Decompose Goal:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:decompose-goal'%}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                     <div class="row">
+                        <p class="text-info"><b class="text-danger">NOTE: </b><br>
+                              <b> AND operator </b> means that goal is required so as to satisfy the original Goal</p>
+                              <p class="text-info"> <b>OR Operator </b> means that goal is supporting original goal</p>
+                              <p class="text-info"><b>Linear Operator </b> means the goal are running together to for achievement of original goal</p>
+
+                         
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label> Original Goal:</label>
+                                <input type="text" name="goal" value="{{goal.goal.goal_name}}" class="form-control"
+                                    disabled>
+                                <input type="text" name="original_goal" value="{{goal.goal.id}}" class="form-control" hidden>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label> Operator: </label>
+                                <select class="form-control " name="operator">
+                                <option >Select operator</option>
+                                <option >AND</option>
+                                <option >OR</option>
+                                <option>Linear</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label> decompose to:</label>
+                                <select class="form-control multiselect" name="decomposed_goal" multiple="multiple"
+                                    data-fouc>
+                                {% for decompose_goal in all_goals %}
+                                <option value="{{decompose_goal.id}}">{{ decompose_goal.goal_name }}</option>
+                                {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Decompose</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- relate_goal -->
+<div id="relate_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title">Relate Goal:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:relate-goal'%}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <p class="text-info">
+                                <b class="text-danger">NOTE: <br></b> <b>Comflict relationship</b> means that a  if
+                                origional goal satisfied then comflicting goal can not be accomplished<br></p>
+                                <p class="text-info">
+                                <b>Required  Relationship</b> means that original goal require that goal so as the original<br> goal to be accomplished</p>
+                                <p class="text-info"><b>Contribute Relationship</b>  means the goal contributing to meet objective of origial goal </p>
+
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label> Original Goal:</label>
+                                <input type="text" name="" value="{{goal.goal}}" class="form-control"
+                                    disabled >
+                                    <input type="text" name="original_goal" value="{{goal.goal.id}}" hidden>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label> Relationship Type : </label>
+                                <select class="form-control " name="relationship_type">
+                                    <option>Comflict</option>
+                                    <option>Contribute</option>
+                                    <option>Require</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label> Related Goal:</label>
+                                <select class="form-control multiselect" name="related_goal" multiple="multiple"
+                                    data-fouc>
+                                {% for related_goal in all_goals %}
+                                <option value="{{related_goal.id}}">{{ related_goal.goal_name }}</option>
+                                {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Relate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+
+
+
     <div id="add_resources" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

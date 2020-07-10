@@ -14,7 +14,7 @@
                 <h5 class="card-title font-weight-semibold">{{project}} Project Viewpoints:</h5>
 
             </div>
-            {% if viewpoints %}
+        
             <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                     <li class="nav-item"><a href="#viewpoint" class="nav-link active font-weight-semibold"
@@ -33,15 +33,18 @@
                             </div>
                             <div class="col-md-6 text-right">
 
+                                <form action="{% url 'projects:bulk-approval-viewpoint'%}" method="post">
+                                    {% csrf_token %}
+
                                 <div class="text-right">
-                                    <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+                                    <button type="submit" name="approve" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
                                         class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
                                         <i class="icon-check"></i>
-                                    </a>
-                                    <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+                                </button>
+                                    <button type="submit" name="reject" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
                                         class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
                                         <i class="icon-trash"></i>
-                                    </a>
+                            </button>
 
 
 
@@ -53,7 +56,7 @@
 
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th>#</th>
+
                                     <th>Select</th>
                                     <th>Contributed By</th>
                                     <th>Viewpoint Title</th>
@@ -62,10 +65,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for num, viewpoint in viewpoints %}
+                                {% for viewpoint in viewpoints %}
                                 <tr>
-                                    <td>{{num}}</td>
-                                    <td><input type="checkbox" value="{{viewpoint.id}}" class="form-control-styled">
+
+                                    <td><input type="checkbox" name="viewpoint" value="{{viewpoint.id}}" class="form-control-styled">
                                     </td>
                                     <td>{{ viewpoint.created_by }}</td>
                                     <td>{{ viewpoint.viewpoint_name }}</td>
@@ -89,9 +92,35 @@
 
                                 </tr>
                                 {% endfor %}
+                                </form>
+                                
 
                             </tbody>
                         </table>
+                        <div class="col-md-12 text-center">
+                            {% if viewpoints %}
+                            <span class="step-links">
+                                {% if viewpoints.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ viewpoints.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ viewpoints.number }} of {{ viewpoints.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if viewpoints.has_next %}
+                                <a href="?page={{ viewpoints.next_page_number }}" class="">next</a>
+                                <a href="?page={{ viewpoints.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                            {% endif %}
+                            {% if not viewpoints  %}
+                            <div class="text-center alert alert-info mt-2">
+                                There is no pending viewpoints!
+                            </div>
+                            {% endif %}
+                        </div>
 
                     </div>
 
@@ -103,15 +132,18 @@
                             </div>
                             <div class="col-md-6 text-right">
 
-                                <div class="text-right">
-                                    <a href="#" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
-                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
-                                        <i class="icon-check"></i>
-                                    </a>
-                                    <a href="#" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
-                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
-                                        <i class="icon-trash"></i>
-                                    </a>
+                                <form method="POST" action="{% url 'projects:bulk-approval-project-comments'%}">
+                                    {% csrf_token %}
+                                
+                                    <div class="text-right">
+                                        <button type="submit" name="approve" title="Multiple Approve" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                            <i class="icon-check"></i>
+                                        </button>
+                                        <button type="submit" name="reject" title="Multiple Delete" data-popup="tooltip" data-placement="bottom"
+                                            class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                            <i class="icon-trash"></i>
+                                        </button>
 
 
 
@@ -121,7 +153,7 @@
                         <table class="table table-bordered table-responsive-xl table-hover">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th>#</th>
+
                                     <th>Select</th>
                                     <th>Commented By</th>
                                     <th>Commented Viewpoint</th>
@@ -130,15 +162,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for num, comment in viewpoint_comments %}
+                                {% for comment in viewpoint_comments %}
                                 <tr>
-                                    <td>{{num}}</td>
-                                    <td><input type="checkbox" value="{{comment.comment.id}}"
+
+                                    <td><input type="checkbox" name="comment" value="{{comment.comment.id}}"
                                             class="form-control-styled"></td>
                                     <td>{{ comment.comment.commented_by }}</td>
                                     <td>{{ comment.viewpoint.viewpoint_name }}</td>
                                     <td> <a title="view" data-popup="tooltip" data-placement="bottom"
-                                            data-toggle="modal" data-target="#view_comment{{num}}"
+                                            data-toggle="modal" data-target="#view_comment{{comment.comment.id}}"
                                             class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm"><i
                                                 class="icon-enlarge7"></i></a>
 
@@ -154,7 +186,7 @@
 
                                 </tr>
 
-                                <div id="view_comment{{num}}" class="modal fade" tabindex="-1">
+                                <div id="view_comment{{comment.comment.id}}" class="modal fade" tabindex="-1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -179,19 +211,40 @@
                                     </div>
                                 </div>
                                 {% endfor %}
+                            </form>
                             </tbody>
                         </table>
+                        <div class="col-md-12 text-center">
+                     {% if viewpoint_comments %}
+                            <span class="step-links">
+                                {% if viewpoint_comments.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ viewpoint_comments.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ viewpoint_comments.number }} of {{ viewpoint_comments.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if viewpoint_comments.has_next %}
+                                <a href="?page={{ viewpoint_comments.next_page_number }}" class="">next</a>
+                                <a href="?page={{ viewpoint_comments.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        {% else %}
+                       
+                        <div class="text-center alert alert-info mt-2">
+                            There is no pending comments!
+                        </div>
+                        {% endif %}
+                        </div>
 
                     </div>
                     <!--end loop this as one comment -->
                 </div>
             </div>
 
-            {% else %}
-            <div class="text-center alert alert-info mt-2">
-                Nothing to display!
-            </div>
-            {% endif %}
+            
         </div>
     </div>
 </div>
