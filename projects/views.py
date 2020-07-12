@@ -5089,7 +5089,7 @@ def general_requirements(request, project_id):
     requirements = RequirementGoal.objects.filter(
         Q(requirement__project=project, requirement__status="accepted")
         | Q(requirement__project=project, requirement__created_by=member)
-    ).order_by("-id")
+    ).order_by("-requirement__id","requirement").distinct('requirement__id','requirement')
     member = Member.objects.get(user=request.user)
     return render(
         request,
@@ -7498,7 +7498,7 @@ def dislike(request, module_id=None):
                     "message": "Failed to update your like!",
                 }
         else:
-            # return redirect("projects:viewmyproject", project_id=project_id)
+            #removing one side dislike if there is existing like
             undislike = UseCaseDislike.objects.filter(
                 usecase=usecase.usecase, dislike__disliked_by=member
             ).delete()

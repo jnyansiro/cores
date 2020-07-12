@@ -31,7 +31,7 @@
                         <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip"
                             data-placement="bottom" style="position: absolute;top: 0;right: 0;">
 
-                            {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share on WhatsApp</span>'%}
+                            {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share</span>'%}
                         </span>
                         <h5 class="font-weight-semibold my-1">
                             <a href="{% url 'projects:viewmyproject' project_id=project.id %}"
@@ -181,13 +181,20 @@
 
                         </ul>
                         <div class="col-md-6 text-right" style="margin-left: 1rem;">
-                            <li class="list-inline-item">
-                                <a href="{% url 'projects:viewpoints' project_id=project.id %}"
-                                    class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
-                                    <b><i class="icon-enlarge7"></i></b>
-                                    Project Workspace
-                                </a>
+                            <li class="list-inline-item mb-1">
+                            
+                                <div class="btn-group justify-content-center">
+                                    <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                                        data-toggle="dropdown"><b><i class="icon-users"></i></b>Stakeholders</a>
+                                    <div class="dropdown-menu">
+                                        <a data-toggle="modal" data-target="#add" class="dropdown-item">Add Stakeholder(s)</a>
+                                        <a data-toggle="modal" data-target="#view" class="dropdown-item">View Stakeholder(s)</a>
+                                        <a data-toggle="modal" data-target="#edit" class="dropdown-item">Edit Stakeholder(s)</a>
+                            
+                            
+                                    </div>
                             </li>
+                            
 
                             <li class="list-inline-item">
                                 <a href="{% url 'projects:editproject' project_id=project.id %}"
@@ -201,6 +208,13 @@
                                     class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
                                     <b><i class="icon-trash"></i></b>
                                     Delete
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{% url 'projects:viewpoints' project_id=project.id %}"
+                                    class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                                    <b><i class="icon-enlarge7"></i></b>
+                                    Project Workspace
                                 </a>
                             </li>
                         </div>
@@ -344,6 +358,9 @@
                     </div>
 
                     <!-- /custom background color -->
+
+
+                    {% include '../stakeholders.html'%}
 
 
 
