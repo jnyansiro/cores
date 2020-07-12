@@ -818,7 +818,9 @@ def login(request):
             return render(request, "login.html", {"message": message})
         message = "Soory you have entered incorrect credentials"
         return render(request, "login.html", {"message": message})
-    return render(request, "login.html", {"path": request.GET.get("next")})
+    if request.GET.get("next") != None:
+        return render(request, "login.html", {"path": request.GET.get("next")})
+    return render(request, "login.html")
 
 
 # user logout
