@@ -129,7 +129,6 @@
 								<a href="{% url 'projects:viewproject' project_id=current_project.id %}"
 									class="text-primary">{{ current_project.project_title }}</a>
 							</h5>
-							{% include 'projects/like_dependence.html'%}
 							<ul class="list-inline text-muted mb-0">
 								<li class="list-inline-item">
 									<span class="font-weight-semibold">By:</span> <a href="{% url 'projects:memberdetails' member_id=current_project.created_by.id%}"

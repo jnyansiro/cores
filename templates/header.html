@@ -129,29 +129,31 @@
                     {% if placeholder == "search your project" %}
                     <form method="post" action="{% url 'projects:myprojects'%}">
                         {% endif %}
-                    {% if placeholder == "search Members"%}
-                    <form method="post" action="{% url 'projects:invitemembers' project_id=project.id%}">
-                        {% endif %}
-                    {% if placeholder == "search membership project"%}
-                    <form method="post" action="{% url 'projects:membershipprojects'%}">
-                        {% endif %}
-                    {% if placeholder == "search member"%}
-                    <form method="post" action="{% url 'projects:projectmembers' project_id=project.id %}">
-                        {% endif %}
-                    {% if placeholder == "search by name"%}
-                    <form method="post" action="{% url 'projects:memberrequest' project_id=project.id %}">
-                        {% endif %}
-                   
-                        {% csrf_token %}
-                        <div class="input-group mb-2 mt-2">
-                            <input type="text" class="form-control" name="project_keyword" placeholder="{{ placeholder }}" required>
-                            <span class="input-group-append"></span>
-                            <span class="input-group-append"><button class="btn btn-primary"><i
-                                        class="icon-search4"></i></button></span>
-                            </span>
-                        </div>
-                    </form>
-                    {% endif %}
+                        {% if placeholder == "search Members"%}
+                        <form method="post" action="{% url 'projects:invitemembers' project_id=project.id%}">
+                            {% endif %}
+                            {% if placeholder == "search membership project"%}
+                            <form method="post" action="{% url 'projects:membershipprojects'%}">
+                                {% endif %}
+                                {% if placeholder == "search member"%}
+                                <form method="post" action="{% url 'projects:projectmembers' project_id=project.id %}">
+                                    {% endif %}
+                                    {% if placeholder == "search by name"%}
+                                    <form method="post"
+                                        action="{% url 'projects:memberrequest' project_id=project.id %}">
+                                        {% endif %}
+
+                                        {% csrf_token %}
+                                        <div class="input-group mb-2 mt-2">
+                                            <input type="text" class="form-control" name="project_keyword"
+                                                placeholder="{{ placeholder }}" required>
+                                            <span class="input-group-append"></span>
+                                            <span class="input-group-append"><button class="btn btn-primary"><i
+                                                        class="icon-search4"></i></button></span>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    {% endif %}
 
             </div>
 
@@ -243,4 +245,41 @@
             <!-- /Main content -->
         </div>
     </div>
+    <script>
+        function like_dislike() {
+            console.log($(this))
+        }
+        $(document).on('click', '.like_btns .like_btn, .like_btns .dislike_btn', function (e) {
+            e.preventDefault();
+            console.log($(this).data('href'))
+            $(this).attr('disabled', true);
+            $.ajax({
+                url: $(this).data('href'),
+                type: 'get',
+            }).done(function (data) {
+                $(this).attr('disabled', false);
+                data.map(item => {
+                    console.log(item)
+                    if (item.status == true) {
+                        $('#like_counter').html(item.total_likes)
+                        $('#dislike_counter').html(item.total_dislikes)
+                        new PNotify({
+                            text: item.message,
+                            addclass: 'bg-success border-success'
+                        });
+                    } else if (item.status == false) {
+                        new PNotify({
+                            text: item.message,
+                            addclass: 'bg-danger-400 border-danger'
+                        });
+                    }
+                })
+            }).fail(function () {
+                new PNotify({
+                    text: 'Failed to submit please, reload the page!',
+                    addclass: 'bg-danger-400 border-danger'
+                });
+            })
+        });
+    </script>
 </body>

@@ -138,19 +138,19 @@ def project_rates(request, project_id):
 def viewpoint_rates(request, viewpoint_id):
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
     fivestar_rate = ViewPointRate.objects.filter(
-        view_point=viewpoint, star_rate__number_of_stars=5
+         viewpoint=viewpoint, star_rate__number_of_stars=5
     ).count()
     fourstar_rate = ViewPointRate.objects.filter(
-        view_point=viewpoint, star_rate__number_of_stars=4
+         viewpoint=viewpoint, star_rate__number_of_stars=4
     ).count()
     threestar_rate = ViewPointRate.objects.filter(
-        view_point=viewpoint, star_rate__number_of_stars=3
+         viewpoint=viewpoint, star_rate__number_of_stars=3
     ).count()
     twostar_rate = ViewPointRate.objects.filter(
-        view_point=viewpoint, star_rate__number_of_stars=2
+         viewpoint=viewpoint, star_rate__number_of_stars=2
     ).count()
     onestar_rate = ViewPointRate.objects.filter(
-        view_point=viewpoint, star_rate__number_of_stars=1
+         viewpoint=viewpoint, star_rate__number_of_stars=1
     ).count()
 
     if (
@@ -2041,14 +2041,14 @@ def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
         | Q(viewpoint=viewpoint, comment__commented_by=member)
     ).order_by("-id")
     total_comments = comments.count()
-    likes = ViewpointLike.objects.filter(view_point=viewpoint).count()
-    dislikes = ViewpointDislike.objects.filter(view_point=viewpoint).count()
+    likes = ViewpointLike.objects.filter( viewpoint=viewpoint).count()
+    dislikes = ViewpointDislike.objects.filter( viewpoint=viewpoint).count()
 
     viewpoints = Viewpoint.objects.filter(project=project.id).order_by("-id")
     viewpointRate = ViewPointRate.objects.filter(
-        view_point=viewpoint, star_rate__rated_by=member
+         viewpoint=viewpoint, star_rate__rated_by=member
     )
-    rates = ViewPointRate.objects.filter(view_point=viewpoint).order_by(
+    rates = ViewPointRate.objects.filter( viewpoint=viewpoint).order_by(
         "-star_rate__number_of_stars"
     )
     total_rates = rates.count()
@@ -3065,7 +3065,7 @@ def viewscenario(request, scenario_id=None, message=None):
         creator = "me"
     else:
         creator = "not me"
-    stakeholders = ScenarioStakeholders.objects.filter(scenario=scenario.scenario)
+    stakeholders = ScenarioStakeholder.objects.filter(scenario=scenario.scenario)
     return render(
         request,
         "projects/scenario/view_scenario.html",
@@ -3745,7 +3745,7 @@ def viewpointRate(request, viewpoint_id):
     if request.POST.get("rate") != None:
         member = Member.objects.get(user=request.user)
         if not ViewPointRate.objects.filter(
-            view_point=viewpoint, star_rate__rated_by=member
+             viewpoint=viewpoint, star_rate__rated_by=member
         ).exists():
 
             rate = StarRate.objects.create(
@@ -3755,7 +3755,7 @@ def viewpointRate(request, viewpoint_id):
             if rate:
 
                 viewpoint_rate = ViewPointRate.objects.create(
-                    view_point=viewpoint, star_rate=rate
+                     viewpoint=viewpoint, star_rate=rate
                 )
                 viewpoint_rate.save()
                 if viewpoint_rate:
@@ -4690,7 +4690,7 @@ def viewpoint_like(request, viewpoint_id):
     member = Member.objects.get(user=request.user)
 
     if not ViewpointLike.objects.filter(
-        view_point=viewpoint, like__liked_by=member
+         viewpoint=viewpoint, like__liked_by=member
     ).exists():
         like = Like.objects.create(like=True, liked_by=member)
         like.save()
@@ -4698,7 +4698,7 @@ def viewpoint_like(request, viewpoint_id):
 
             # then creating project_like
             viewpoint_like = ViewpointLike.objects.create(
-                like=like, view_point=viewpoint
+                like=like,  viewpoint=viewpoint
             )
             viewpoint_like.save()
             if viewpoint_like:
@@ -4706,7 +4706,7 @@ def viewpoint_like(request, viewpoint_id):
 
         return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
     unlike = ViewpointLike.objects.filter(
-        view_point=viewpoint, like__liked_by=member
+         viewpoint=viewpoint, like__liked_by=member
     ).delete()
     return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
 
@@ -4903,7 +4903,7 @@ def viewpoint_dislike(request, viewpoint_id):
     member = Member.objects.get(user=request.user)
 
     if not ViewpointDislike.objects.filter(
-        view_point=viewpoint, dislike__disliked_by=member
+         viewpoint=viewpoint, dislike__disliked_by=member
     ).exists():
         dislike = Dislike.objects.create(dislike=True, disliked_by=member)
         dislike.save()
@@ -4911,7 +4911,7 @@ def viewpoint_dislike(request, viewpoint_id):
 
             # then creating project_like
             viewpoint_dislike = ViewpointDislike.objects.create(
-                dislike=dislike, view_point=viewpoint
+                dislike=dislike,  viewpoint=viewpoint
             )
             viewpoint_dislike.save()
             if viewpoint_dislike:
@@ -4919,7 +4919,7 @@ def viewpoint_dislike(request, viewpoint_id):
 
         return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
     unlike = ViewpointDislike.objects.filter(
-        view_point=viewpoint, dislike__disliked_by=member
+         viewpoint=viewpoint, dislike__disliked_by=member
     ).delete()
     return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
 
@@ -5122,7 +5122,7 @@ def general_scenario(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-id")
+        .order_by("-scenario__id").distinct('scenario__id')
     )
     member = Member.objects.get(user=request.user)
     return render(
@@ -5155,7 +5155,7 @@ def general_process(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-id")
+        .order_by("-process__id").distinct('process__id')
     )
     return render(
         request,
@@ -5187,7 +5187,7 @@ def general_usecase(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-id")
+        .order_by("-usecase__id","usecase").distinct("usecase__id","usecase")
     )
     return render(
         request,
@@ -6413,7 +6413,7 @@ def usecase_requirements(request, usecase_id):
     hidesearch = 1
     usecase = UseCase.objects.get(id=usecase_id)
     requirements = RequirementUsecase.objects.filter(usecase=usecase).order_by("-id")
-    project = Project.objects.get(id=usecaseproject.id)
+    project = Project.objects.get(id=usecase.project.id)
     member = Member.objects.get(user=request.user)
     return render(
         request,
@@ -6442,11 +6442,21 @@ def add_stakeholder(request, project_id):
     return redirect(request.META["HTTP_REFERER"])
 
 
+def delete_stakeholder(request, stakeholder_id):
+    Stakeholder.objects.filter(
+        id=stakeholder_id
+    ).delete()
+    return redirect(request.META["HTTP_REFERER"])
+
+
 @login_required(login_url="login")
 def like(request, module_id=None):
     # module_id stand for ids from project to usecase ids
     # index is identifier of modules
-    index = request.GET.get("index")
+    context = list()
+    info = list()
+    index = int(request.GET.get("index"))
+    print(index)
     # for project like
     if index == 0:
         project = Project.objects.get(id=module_id)
@@ -6462,8 +6472,7 @@ def like(request, module_id=None):
                 # then creating project_like
                 project_like = ProjectLike.objects.create(like=like, project=project)
                 project_like.save()
-                total_likes = ProjectLike.objects.filter(project=project).count()
-                total_dislikes = ProjectDislike.objects.filter(project=project).count()
+               
                 if project_like:
                     if ProjectDislike.objects.filter(
                         project=project, dislike__disliked_by=member
@@ -6471,6 +6480,8 @@ def like(request, module_id=None):
                         ProjectDislike.objects.filter(
                             project=project, dislike__disliked_by=member
                         ).delete()
+                    total_likes = ProjectLike.objects.filter(project=project).count()
+                    total_dislikes = ProjectDislike.objects.filter(project=project).count()
                     info = {
                         "status": True,
                         "total_likes": total_likes,
@@ -6899,28 +6910,28 @@ def like(request, module_id=None):
         context = list()
 
         if not UseCaseLike.objects.filter(
-            usecase=usecase.usecase, like__liked_by=member
+            use_case=usecase.usecase, like__liked_by=member
         ).exists():
             like = Like.objects.create(like=True, liked_by=member)
             like.save()
             if like:
                 # then creating project_like
                 usecase_like = UseCaseLike.objects.create(
-                    like=like, usecase=usecase.usecase
+                    like=like, use_case=usecase.usecase
                 )
                 usecase_like.save()
                 if UseCaseDislike.objects.filter(
-                    usecase=usecase.usecase, dislike__disliked_by=member
+                    use_case=usecase.usecase, dislike__disliked_by=member
                 ).exists():
                     UseCaseDislike.objects.filter(
-                        usecase=usecase.usecase, dislike__disliked_by=member
+                        use_case=usecase.usecase, dislike__disliked_by=member
                     ).delete()
                 if usecase_like:
                     total_likes = UseCaseLike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     total_dislikes = UseCaseDislike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     info = {
                         "status": True,
@@ -6930,10 +6941,10 @@ def like(request, module_id=None):
                     }
                 else:
                     total_likes = UseCaseLike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     total_dislikes = UseCaseDislike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     info = {
                         "status": False,
@@ -6945,10 +6956,10 @@ def like(request, module_id=None):
                 # return redirect("projects:viewmyproject", project_id=project_id)
             else:
                 total_likes = UseCaseLike.objects.filter(
-                    usecase=usecase.usecase
+                    use_case=usecase.usecase
                 ).count()
                 total_dislikes = UseCaseDislike.objects.filter(
-                    usecase=usecase.usecase
+                    use_case=usecase.usecase
                 ).count()
                 info = {
                     "status": False,
@@ -6959,11 +6970,11 @@ def like(request, module_id=None):
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
             unlike = UseCaseLike.objects.filter(
-                usecase=usecase.usecase, like__liked_by=member
+                use_case=usecase.usecase, like__liked_by=member
             ).delete()
-            total_likes = UseCaseLike.objects.filter(usecase=usecase.usecase).count()
+            total_likes = UseCaseLike.objects.filter(use_case=usecase.usecase).count()
             total_dislikes = UseCaseDislike.objects.filter(
-                usecase=usecase.usecase
+                use_case=usecase.usecase
             ).count()
             info = {
                 "status": True,
@@ -6980,7 +6991,7 @@ def like(request, module_id=None):
 def dislike(request, module_id=None):
     # module_id stand for ids from project to usecase ids
     # index is identifier of modules
-    index = request.GET.get("index")
+    index = int(request.GET.get("index"))
     # for project like
     if index == 0:
         project = Project.objects.get(id=module_id)
@@ -6988,7 +6999,7 @@ def dislike(request, module_id=None):
         context = list()
 
         if not ProjectDislike.objects.filter(
-            project=project, like__liked_by=member
+            project=project, dislike__disliked_by=member
         ).exists():
             dislike = Dislike.objects.create(dislike=True, disliked_by=member)
             dislike.save()
@@ -7014,7 +7025,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ProjectLike.objects.filter(project=project).count()
@@ -7025,7 +7036,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7036,7 +7047,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7086,7 +7097,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ViewpointLike.objects.filter(
@@ -7099,7 +7110,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7112,7 +7123,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7127,7 +7138,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
     # for goal like
     elif index == 2:
@@ -7153,7 +7164,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = GoalLike.objects.filter(goal=goal).count()
@@ -7162,7 +7173,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7173,7 +7184,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7186,7 +7197,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     # for requirement like
@@ -7223,7 +7234,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = RequirementLike.objects.filter(
@@ -7236,7 +7247,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7251,7 +7262,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7269,7 +7280,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     #    for scenario like
@@ -7281,11 +7292,11 @@ def dislike(request, module_id=None):
         if not ScenarioDislike.objects.filter(
             scenario=scenario.scenario, dislike__disliked_by=member
         ).exists():
-            dislike = Like.objects.create(dislike=True, disliked_by=member)
+            dislike = Dislike.objects.create(dislike=True, disliked_by=member)
             dislike.save()
             if dislike:
                 # then creating project_like
-                scenario_dislike = ScenarioLike.objects.create(
+                scenario_dislike = ScenarioDislike.objects.create(
                     dislike=dislike, scenario=scenario.scenario
                 )
                 scenario_dislike.save()
@@ -7306,7 +7317,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ScenarioLike.objects.filter(
@@ -7319,7 +7330,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
 
             else:
@@ -7333,7 +7344,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
 
@@ -7350,7 +7361,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     #  for process like
@@ -7387,7 +7398,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ProcessLike.objects.filter(
@@ -7400,7 +7411,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7415,7 +7426,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7430,7 +7441,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     #  for usecase like
@@ -7440,77 +7451,77 @@ def dislike(request, module_id=None):
         context = list()
 
         if not UseCaseDislike.objects.filter(
-            usecase=usecase.usecase, dislike__disliked_by=member
+            use_case=usecase.usecase, dislike__disliked_by=member
         ).exists():
-            dislike = Like.objects.create(dislike=True, disliked_by=member)
+            dislike = Dislike.objects.create(dislike=True, disliked_by=member)
             dislike.save()
             if dislike:
                 # then creating project_like
                 usecase_dislike = UseCaseDislike.objects.create(
-                    dislike=dislike, usecase=usecase.usecase
+                    dislike=dislike, use_case=usecase.usecase
                 )
                 usecase_dislike.save()
                 if UseCaseLike.objects.filter(
-                    usecase=usecase.usecase, like__liked_by=member
+                    use_case=usecase.usecase, like__liked_by=member
                 ).exists():
                     UseCaseLike.objects.filter(
-                        usecase=usecase.usecase, like__liked_by=member
+                        use_case=usecase.usecase, like__liked_by=member
                     ).delete()
                 if usecase_dislike:
                     total_likes = UseCaseLike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     total_dislikes = UseCaseDislike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     info = {
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = UseCaseLike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     total_dislikes = UseCaseDislike.objects.filter(
-                        usecase=usecase.usecase
+                        use_case=usecase.usecase
                     ).count()
                     info = {
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
             else:
                 total_likes = UseCaseLike.objects.filter(
-                    usecase=usecase.usecase
+                    use_case=usecase.usecase
                 ).count()
                 total_dislikes = UseCaseDislike.objects.filter(
-                    usecase=usecase.usecase
+                    use_case=usecase.usecase
                 ).count()
                 info = {
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             #removing one side dislike if there is existing like
             undislike = UseCaseDislike.objects.filter(
-                usecase=usecase.usecase, dislike__disliked_by=member
+                use_case=usecase.usecase, dislike__disliked_by=member
             ).delete()
-            total_likes = UseCaseLike.objects.filter(usecase=usecase.usecase).count()
+            total_likes = UseCaseLike.objects.filter(use_case=usecase.usecase).count()
             total_dislikes = UseCaseDislike.objects.filter(
-                usecase=usecase.usecase
+                use_case=usecase.usecase
             ).count()
             info = {
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
     context.append(info)
     return JsonResponse(context, safe=False)

@@ -361,6 +361,10 @@ body {
     .project_card {
         padding: 1%;
     }
+    .share_whatsapp{
+        top: -10px !important;
+        right: -10px !important
+    }
 }
 
 
@@ -371,6 +375,10 @@ body {
     .login-container .page-container .login-form,
     .login-container .page-container .registration-form {
         width: 340px;
+    }
+    .share_whatsapp{
+        top: -160px !important;
+        right: -10px !important
     }
 }
 

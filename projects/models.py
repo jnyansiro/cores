@@ -768,7 +768,7 @@ class ViewPointRate(models.Model):
     """Model definition for ViewPointRate."""
 
     # TODO: Define fields here
-    view_point = models.ForeignKey(Viewpoint, on_delete=models.CASCADE)
+    viewpoint = models.ForeignKey(Viewpoint, on_delete=models.CASCADE)
     star_rate = models.ForeignKey(StarRate, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -898,7 +898,7 @@ class ViewpointLike(models.Model):
     """Model definition for ViewpointLike."""
 
     # TODO: Define fields here
-    view_point = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
+    viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     like = models.ForeignKey("Like", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -1122,7 +1122,7 @@ class ViewpointDislike(models.Model):
     """Model definition for ViewpointDislike."""
 
     # TODO: Define fields here
-    view_point = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
+    viewpoint = models.ForeignKey("Viewpoint", on_delete=models.CASCADE)
     dislike = models.ForeignKey("Dislike", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)

@@ -151,23 +151,23 @@
                                 class="icon-folder font-size-base  mr-2"></i>
                             project resources
                         </a>
-                        <span class="float-right">
+                        <span class="float-right like_btns">
 
                             <span class="text-primary-400">
-                                <a href="{% url 'projects:viewpointlike' viewpoint_id=viewpoint.id %}"
-                                    class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2"><i
+                                <a data-href="{% url 'projects:like' viewpoint.id %}?index=1"
+                                    class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2 like_btn"><i
                                         class="icon-thumbs-up2"></i></a>
-                                {{ likes }}
+                            <span id="like_counter">{{ likes }}</span>
                             </span>
                             &nbsp;
                             &nbsp;
                             &nbsp;
                             |
                             <span class="text-danger-400">
-                                <a href="{% url 'projects:viewpointdislike' viewpoint_id=viewpoint.id%}"
-                                    class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2"><i
+                                <a data-href="{% url 'projects:dislike' viewpoint.id %}?index=1"
+                                    class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2 dislike_btn"><i
                                         class="icon-thumbs-down2"></i></a>
-                                {{ dislikes }}
+                                <span id="dislike_counter">{{ dislikes }}</span>
                             </span>
 
                         </span>

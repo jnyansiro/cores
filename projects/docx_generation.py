@@ -37,13 +37,13 @@ def create_docx(request,project_id):
            document.add_paragraph(re.sub(cleanr, '', viewpoint.description))
         # getting project goals
         
-        goals = enumerate(Goal.objects.filter(project=project, status="accepted"), start=1)
+        goals = enumerate(ViewpointGoal.objects.filter(goal__project=project, goal__status="accepted"), start=1)
         if Goal.objects.filter(project=project).exists():
             document.add_heading(project.project_title+'` Goals', level=2)
         for num, goal in goals:
-            document.add_heading(str(num)+': ' + goal.goal_name, level=3)
+            document.add_heading(str(num)+': ' + goal.goal.goal_name, level=3)
             document.add_paragraph('A Goal from ' + str(goal.viewpoint))
-            document.add_paragraph(re.sub(cleanr, '',  goal.description))
+            document.add_paragraph(re.sub(cleanr, '',  goal.goal.description))
 
 
         # getting requirements
@@ -52,7 +52,6 @@ def create_docx(request,project_id):
             document.add_heading(project.project_title+'` Requirements', level=2)
         for num, requirement in requirements:
             document.add_heading(str(num)+': ' + requirement.name, level=3)
-            document.add_paragraph('A Requirement from Goal ' + str(requirement.goal) + " of Viewpoint " +str(requirement.goal.viewpoint) )
             document.add_paragraph(re.sub(cleanr, '', requirement.description))
         
         # getting scenarios
@@ -61,8 +60,7 @@ def create_docx(request,project_id):
                 document.add_heading(str(requirement.name) +'` Scenarios', level=2)
                 scenarios = enumerate(RequirementScenario.objects.filter(requirement=requirement, scenario__status="accepted"), start=1)
                 for num, scenario in scenarios:
-                    document.add_heading(str(num)+': ' + scenario.name, level=3)
-                    document.add_paragraph('A Scenario from Requirement ' + str(requirement) + " of Goal " +str(requirement.goal) + ' from Viewpoint ' +str(requirement.goal.viewpoint))
+                    document.add_heading(str(num)+': ' + scenario.scenario.name, level=3)
                     document.add_paragraph(re.sub(cleanr, '', scenario.scenario.description))
             
             
@@ -72,7 +70,6 @@ def create_docx(request,project_id):
                 processes = enumerate(RequirementProcess.objects.filter(requirement=requirement, process__status="accepted"), start=1)
                 for num, process in processes:
                     document.add_heading(str(num)+': ' + process.process.process_name, level=3)
-                    document.add_paragraph('A Process  from Requirement'+ str(process.requirement) + " from Goal " + str(process.requirement.goal) + ' of Viewpoint ' +str(process.requirement.goal.viewpoint))
                     document.add_paragraph(re.sub(cleanr, '', process.process.description))
         now = datetime.now()
         filename = str(now)+project.project_title+'.docx'

@@ -15,14 +15,14 @@ from django.conf import global_settings
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-# sentry_sdk.init(
-#     dsn="https://543d5b10af6f4380915507238a10a3b8@o417908.ingest.sentry.io/5319701",
-#     integrations=[DjangoIntegration()],
+sentry_sdk.init(
+    dsn="https://543d5b10af6f4380915507238a10a3b8@o417908.ingest.sentry.io/5319701",
+    integrations=[DjangoIntegration()],
 
-#     # If you wish to associate users to errors (assuming you are using
-#     # django.contrib.auth) you may enable sending PII data.
-#     send_default_pii=True
-# )
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication"),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
 }
 
 MIDDLEWARE = [
@@ -108,29 +108,29 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
-# }
-
-
 DATABASES = {
-   'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'cores',
-
-        'USER': 'postgres',
-
-        'PASSWORD': 'Namwinyu1995',
-
-        'HOST': 'localhost',
-
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
+
+# DATABASES = {
+#    'default': {
+
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+#         'NAME': 'cores',
+
+#         'USER': 'postgres',
+
+#         'PASSWORD': 'Namwinyu1995',
+
+#         'HOST': 'localhost',
+
+#     }
+# }
 
 
 # Password validation
@@ -181,7 +181,6 @@ MEDIA_URL = '/docs/'
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
-# login with google accounts
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '100246145407-pcf3ha9a48ue2ail1esnof56nv35en8r.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rd76pxZu_CVLLcOJQkk2YXSa'
 
@@ -191,7 +190,7 @@ LOGIN_REDIRECT_URL = '/login'
 LOGOUT_REDIRECT_URL = '/logout'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-# for senging emails
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -199,8 +198,7 @@ EMAIL_HOST_USER = 'info.cores.tanzania@gmail.com'
 EMAIL_HOST_PASSWORD = 'cores123'
 EMAIL_USE_TLS = True
 
-# for session
-# SESSION_EXPIRE_SECONDS = 360
+
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 60
 SESSION_TIMEOUT_REDIRECT = 'login/'
