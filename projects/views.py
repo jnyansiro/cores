@@ -6446,7 +6446,10 @@ def add_stakeholder(request, project_id):
 def like(request, module_id=None):
     # module_id stand for ids from project to usecase ids
     # index is identifier of modules
-    index = request.GET.get("index")
+    context = list()
+    info = list()
+    index = int(request.GET.get("index"))
+    print(index)
     # for project like
     if index == 0:
         project = Project.objects.get(id=module_id)
@@ -6980,7 +6983,7 @@ def like(request, module_id=None):
 def dislike(request, module_id=None):
     # module_id stand for ids from project to usecase ids
     # index is identifier of modules
-    index = request.GET.get("index")
+    index = int(request.GET.get("index"))
     # for project like
     if index == 0:
         project = Project.objects.get(id=module_id)
@@ -6988,7 +6991,7 @@ def dislike(request, module_id=None):
         context = list()
 
         if not ProjectDislike.objects.filter(
-            project=project, like__liked_by=member
+            project=project, dislike__disliked_by=member
         ).exists():
             dislike = Dislike.objects.create(dislike=True, disliked_by=member)
             dislike.save()
@@ -7014,7 +7017,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ProjectLike.objects.filter(project=project).count()
@@ -7025,7 +7028,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7036,7 +7039,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7086,7 +7089,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ViewpointLike.objects.filter(
@@ -7099,7 +7102,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7112,7 +7115,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7127,7 +7130,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
     # for goal like
     elif index == 2:
@@ -7153,7 +7156,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = GoalLike.objects.filter(goal=goal).count()
@@ -7162,7 +7165,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7173,7 +7176,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7186,7 +7189,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     # for requirement like
@@ -7223,7 +7226,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = RequirementLike.objects.filter(
@@ -7236,7 +7239,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7251,7 +7254,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7269,7 +7272,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     #    for scenario like
@@ -7306,7 +7309,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ScenarioLike.objects.filter(
@@ -7319,7 +7322,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
 
             else:
@@ -7333,7 +7336,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
 
@@ -7350,7 +7353,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     #  for process like
@@ -7387,7 +7390,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = ProcessLike.objects.filter(
@@ -7400,7 +7403,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7415,7 +7418,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7430,7 +7433,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
 
     #  for usecase like
@@ -7467,7 +7470,7 @@ def dislike(request, module_id=None):
                         "status": True,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Successfuly liked!",
+                        "message": "Successfuly disliked!",
                     }
                 else:
                     total_likes = UseCaseLike.objects.filter(
@@ -7480,7 +7483,7 @@ def dislike(request, module_id=None):
                         "status": False,
                         "total_likes": total_likes,
                         "total_dislikes": total_dislikes,
-                        "message": "Failed to like!",
+                        "message": "Failed to dislike!",
                     }
                     # return True
                 # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7495,7 +7498,7 @@ def dislike(request, module_id=None):
                     "status": False,
                     "total_likes": total_likes,
                     "total_dislikes": total_dislikes,
-                    "message": "Failed to update your like!",
+                    "message": "Failed to update your dislike!",
                 }
         else:
             # return redirect("projects:viewmyproject", project_id=project_id)
@@ -7510,7 +7513,7 @@ def dislike(request, module_id=None):
                 "status": True,
                 "total_likes": total_likes,
                 "total_dislikes": total_dislikes,
-                "message": "Successfuly unliked!",
+                "message": "Successfuly undisliked!",
             }
     context.append(info)
     return JsonResponse(context, safe=False)

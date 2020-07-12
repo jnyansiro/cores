@@ -100,20 +100,20 @@
                                 <span class="float-right like_btns">
 
                                     <span class="text-primary-400">
-                                        <a data-href="{% url 'projects:myprojectlike' project_id=project.id %}?index="
+                                        <a data-href="{% url 'projects:like' project.id %}?index=0"
                                             class="btn btn-outline bg-primary-400 text-primary-400 btn-icon rounded-round ml-2 like_btn"><i
                                                 class="icon-thumbs-up2"></i></a>
-                                        {{ likes }}
+                                        <span id="like_counter">{{ likes }}</span>
                                     </span>
                                     &nbsp;
                                     &nbsp;
                                     &nbsp;
                                     |
                                     <span class="text-danger-400">
-                                        <a data-href="{% url 'projects:myprojectdislike' project_id=project.id %}"
+                                        <a data-href="{% url 'projects:dislike' project.id %}?index=0"
                                             class="btn btn-outline bg-danger-400 text-danger-400 btn-icon rounded-round ml-2 dislike_btn"><i
                                                 class="icon-thumbs-down2"></i></a>
-                                        {{ dislikes }}
+                                        <span id="dislike_counter">{{ dislikes }}</span>
                                     </span>
 
                                 </span>
@@ -440,18 +440,28 @@
     $(document).on('click', '.like_btns .like_btn, .like_btns .dislike_btn', function (e) {
         e.preventDefault();
         console.log($(this).data('href'))
+        $(this).attr('disabled', true);
         $.ajax({
             url: $(this).data('href'),
             type: 'get',
         }).done(function (data) {
-            // setTimeout(function () {
-            //     $('.data_container').html(data)
-            // }, 1000)
+            $(this).attr('disabled', false);
             data.map(item => {
-                console.log(item)
+                console.log(item.status)
+                if (item.status == true) {
+                    $('#like_counter').html(item.total_likes)
+                    $('#dislike_counter').html(item.total_dislikes)
+                    new PNotify({
+                        text: item.message,
+                        addclass: 'bg-primary border-primary'
+                    });
+                } else if (item.status == false) {
+
+                }
             })
-            console.log(data)
-        });
-    })
+        }).fail(function () {
+            alert("failed");
+        })
+    });
 </script>
 {% endblock content %}
