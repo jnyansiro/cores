@@ -1216,12 +1216,13 @@ def updatePersonalDetails(request):
         if date_of_birth == "" or date_of_birth == None:
             date_of_birth = member.date_of_birth
 
-        if datetime.strptime(date_of_birth, "%Y-%m-%d") > datetime.now():
-            message = "Birth date should be less than this year"
+        
+        if date_of_birth == None:
+            message = "Date of Birth should not be Null or None"
             member_details = Member.objects.get(user=request.user)
             indexhead = "Profile"
             hidesearch = "hide"
-
+        
             return render(
                 request,
                 "user/profile.html",
@@ -1235,6 +1236,26 @@ def updatePersonalDetails(request):
                     "total_notification": total_notification(request),
                 },
             )
+        if datetime.strptime(date_of_birth, "%Y-%m-%d") > datetime.now():
+            message = "Birth date should be less than this year"
+            member_details = Member.objects.get(user=request.user)
+            indexhead = "Profile"
+            hidesearch = "hide"
+        
+            return render(
+                request,
+                "user/profile.html",
+                {
+                    "member_details": member_details,
+                    "indexhead": indexhead,
+                    "member": member,
+                    "message": message,
+                    "hidesearch": hidesearch,
+                    "notification": notification(request),
+                    "total_notification": total_notification(request),
+                },
+            )
+
 
         update_profile = Member.objects.filter(id=member.id).update(
             first_name=first_name,
