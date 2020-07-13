@@ -138,19 +138,19 @@ def project_rates(request, project_id):
 def viewpoint_rates(request, viewpoint_id):
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
     fivestar_rate = ViewPointRate.objects.filter(
-         viewpoint=viewpoint, star_rate__number_of_stars=5
+        viewpoint=viewpoint, star_rate__number_of_stars=5
     ).count()
     fourstar_rate = ViewPointRate.objects.filter(
-         viewpoint=viewpoint, star_rate__number_of_stars=4
+        viewpoint=viewpoint, star_rate__number_of_stars=4
     ).count()
     threestar_rate = ViewPointRate.objects.filter(
-         viewpoint=viewpoint, star_rate__number_of_stars=3
+        viewpoint=viewpoint, star_rate__number_of_stars=3
     ).count()
     twostar_rate = ViewPointRate.objects.filter(
-         viewpoint=viewpoint, star_rate__number_of_stars=2
+        viewpoint=viewpoint, star_rate__number_of_stars=2
     ).count()
     onestar_rate = ViewPointRate.objects.filter(
-         viewpoint=viewpoint, star_rate__number_of_stars=1
+        viewpoint=viewpoint, star_rate__number_of_stars=1
     ).count()
 
     if (
@@ -2043,14 +2043,14 @@ def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
         | Q(viewpoint=viewpoint, comment__commented_by=member)
     ).order_by("-id")
     total_comments = comments.count()
-    likes = ViewpointLike.objects.filter( viewpoint=viewpoint).count()
-    dislikes = ViewpointDislike.objects.filter( viewpoint=viewpoint).count()
+    likes = ViewpointLike.objects.filter(viewpoint=viewpoint).count()
+    dislikes = ViewpointDislike.objects.filter(viewpoint=viewpoint).count()
 
     viewpoints = Viewpoint.objects.filter(project=project.id).order_by("-id")
     viewpointRate = ViewPointRate.objects.filter(
-         viewpoint=viewpoint, star_rate__rated_by=member
+        viewpoint=viewpoint, star_rate__rated_by=member
     )
-    rates = ViewPointRate.objects.filter( viewpoint=viewpoint).order_by(
+    rates = ViewPointRate.objects.filter(viewpoint=viewpoint).order_by(
         "-star_rate__number_of_stars"
     )
     total_rates = rates.count()
@@ -3747,7 +3747,7 @@ def viewpointRate(request, viewpoint_id):
     if request.POST.get("rate") != None:
         member = Member.objects.get(user=request.user)
         if not ViewPointRate.objects.filter(
-             viewpoint=viewpoint, star_rate__rated_by=member
+            viewpoint=viewpoint, star_rate__rated_by=member
         ).exists():
 
             rate = StarRate.objects.create(
@@ -3757,7 +3757,7 @@ def viewpointRate(request, viewpoint_id):
             if rate:
 
                 viewpoint_rate = ViewPointRate.objects.create(
-                     viewpoint=viewpoint, star_rate=rate
+                    viewpoint=viewpoint, star_rate=rate
                 )
                 viewpoint_rate.save()
                 if viewpoint_rate:
@@ -4692,7 +4692,7 @@ def viewpoint_like(request, viewpoint_id):
     member = Member.objects.get(user=request.user)
 
     if not ViewpointLike.objects.filter(
-         viewpoint=viewpoint, like__liked_by=member
+        viewpoint=viewpoint, like__liked_by=member
     ).exists():
         like = Like.objects.create(like=True, liked_by=member)
         like.save()
@@ -4700,7 +4700,7 @@ def viewpoint_like(request, viewpoint_id):
 
             # then creating project_like
             viewpoint_like = ViewpointLike.objects.create(
-                like=like,  viewpoint=viewpoint
+                like=like, viewpoint=viewpoint
             )
             viewpoint_like.save()
             if viewpoint_like:
@@ -4708,7 +4708,7 @@ def viewpoint_like(request, viewpoint_id):
 
         return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
     unlike = ViewpointLike.objects.filter(
-         viewpoint=viewpoint, like__liked_by=member
+        viewpoint=viewpoint, like__liked_by=member
     ).delete()
     return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
 
@@ -4905,7 +4905,7 @@ def viewpoint_dislike(request, viewpoint_id):
     member = Member.objects.get(user=request.user)
 
     if not ViewpointDislike.objects.filter(
-         viewpoint=viewpoint, dislike__disliked_by=member
+        viewpoint=viewpoint, dislike__disliked_by=member
     ).exists():
         dislike = Dislike.objects.create(dislike=True, disliked_by=member)
         dislike.save()
@@ -4913,7 +4913,7 @@ def viewpoint_dislike(request, viewpoint_id):
 
             # then creating project_like
             viewpoint_dislike = ViewpointDislike.objects.create(
-                dislike=dislike,  viewpoint=viewpoint
+                dislike=dislike, viewpoint=viewpoint
             )
             viewpoint_dislike.save()
             if viewpoint_dislike:
@@ -4921,7 +4921,7 @@ def viewpoint_dislike(request, viewpoint_id):
 
         return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
     unlike = ViewpointDislike.objects.filter(
-         viewpoint=viewpoint, dislike__disliked_by=member
+        viewpoint=viewpoint, dislike__disliked_by=member
     ).delete()
     return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
 
@@ -5088,10 +5088,14 @@ def general_requirements(request, project_id):
     indexhead = "Project Requirements"
     member = Member.objects.get(user=request.user)
     project = Project.objects.get(id=project_id)
-    requirements = RequirementGoal.objects.filter(
-        Q(requirement__project=project, requirement__status="accepted")
-        | Q(requirement__project=project, requirement__created_by=member)
-    ).order_by("-requirement__id","requirement").distinct('requirement__id','requirement')
+    requirements = (
+        RequirementGoal.objects.filter(
+            Q(requirement__project=project, requirement__status="accepted")
+            | Q(requirement__project=project, requirement__created_by=member)
+        )
+        .order_by("-requirement__id", "requirement")
+        .distinct("requirement__id", "requirement")
+    )
     member = Member.objects.get(user=request.user)
     return render(
         request,
@@ -5124,7 +5128,8 @@ def general_scenario(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-scenario__id").distinct('scenario__id')
+        .order_by("-scenario__id")
+        .distinct("scenario__id")
     )
     member = Member.objects.get(user=request.user)
     return render(
@@ -5157,7 +5162,8 @@ def general_process(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-process__id").distinct('process__id')
+        .order_by("-process__id")
+        .distinct("process__id")
     )
     return render(
         request,
@@ -5189,7 +5195,8 @@ def general_usecase(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-usecase__id","usecase").distinct("usecase__id","usecase")
+        .order_by("-usecase__id", "usecase")
+        .distinct("usecase__id", "usecase")
     )
     return render(
         request,
@@ -6445,9 +6452,7 @@ def add_stakeholder(request, project_id):
 
 
 def delete_stakeholder(request, stakeholder_id):
-    Stakeholder.objects.filter(
-        id=stakeholder_id
-    ).delete()
+    Stakeholder.objects.filter(id=stakeholder_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
 
@@ -6474,7 +6479,7 @@ def like(request, module_id=None):
                 # then creating project_like
                 project_like = ProjectLike.objects.create(like=like, project=project)
                 project_like.save()
-               
+
                 if project_like:
                     if ProjectDislike.objects.filter(
                         project=project, dislike__disliked_by=member
@@ -6483,7 +6488,9 @@ def like(request, module_id=None):
                             project=project, dislike__disliked_by=member
                         ).delete()
                     total_likes = ProjectLike.objects.filter(project=project).count()
-                    total_dislikes = ProjectDislike.objects.filter(project=project).count()
+                    total_dislikes = ProjectDislike.objects.filter(
+                        project=project
+                    ).count()
                     info = {
                         "status": True,
                         "total_likes": total_likes,
@@ -7511,7 +7518,7 @@ def dislike(request, module_id=None):
                     "message": "Failed to update your dislike!",
                 }
         else:
-            #removing one side dislike if there is existing like
+            # removing one side dislike if there is existing like
             undislike = UseCaseDislike.objects.filter(
                 use_case=usecase.usecase, dislike__disliked_by=member
             ).delete()
