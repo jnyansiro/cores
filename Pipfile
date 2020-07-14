@@ -20,6 +20,7 @@ social-auth-app-django = "*"
 django-social-share = "*"
 sentry-sdk = "*"
 django-session-timeout = "*"
+django-background-tasks = "*"
 
 [requires]
 python_version = "3.7"
