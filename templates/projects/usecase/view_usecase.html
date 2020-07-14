@@ -123,10 +123,10 @@
                                 {% csrf_token %}
                                 <div class="col-md-12">
                                     <div class="input-group">
-                                        <select name="goal" class="form-control" id="">
+                                        <select name="usecase" class="form-control" id="">
                                             {% for usecase in usecases%}
                                         <option value="{{usecase.id}}">
-                                            {{usecase.usecase_name}}
+                                            {{usecase.usecase.usecase_name}}
                                         </option>
                                         {% endfor %}
 

@@ -695,7 +695,7 @@
                                 <label> decompose to:</label>
                                 <select class="form-control multiselect" name="decomposed_goal" multiple="multiple"
                                     data-fouc>
-                                {% for decompose_goal in all_goals %}
+                                {% for decompose_goal in decomposed_goals %}
                                 <option value="{{decompose_goal.id}}">{{ decompose_goal.goal_name }}</option>
                                 {% endfor %}
 
@@ -764,7 +764,7 @@
                                 <label> Related Goal:</label>
                                 <select class="form-control multiselect" name="related_goal" multiple="multiple"
                                     data-fouc>
-                                {% for related_goal in all_goals %}
+                                {% for related_goal in related_goals %}
                                 <option value="{{related_goal.id}}">{{ related_goal.goal_name }}</option>
                                 {% endfor %}
 

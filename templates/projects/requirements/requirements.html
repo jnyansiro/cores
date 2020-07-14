@@ -175,6 +175,33 @@
                                 {% endfor %}
                             </ul>
                         </div>
+
+                        <div class="col-md-12 text-center">
+                            <span class="step-links">
+                                {% if requirements %}
+                                {% if requirements.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ requirements.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ requirements.number }} of {{ requirements.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if requirements.has_next %}
+                                <a href="?page={{ requirements.next_page_number }}" class="">next</a>
+                                <a href="?page={{ requirements.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                                {% endif %}
+                                {% if not requirements %}
+                                <div class="alert alert-info text-center col-md-12">
+                                    No Requirement(s) to display!
+                                </div>
+                                {% endif %}
+                            </span>
+                        </div>
+
+
                     </div>
 
                 </div>

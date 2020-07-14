@@ -171,6 +171,33 @@
                                 {% endfor %}
                             </ul>
                         </div>
+
+                        <div class="col-md-12 text-center">
+                            <span class="step-links">
+                                {% if goals %}
+                                {% if goals.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ goals.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ goals.number }} of {{ goals.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if goals.has_next %}
+                                <a href="?page={{ goals.next_page_number }}" class="">next</a>
+                                <a href="?page={{ goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                                {% endif %}
+                                {% if not goals %}
+                                <div class="alert alert-info text-center col-md-12">
+                                    No Goal(s) to display!
+                                </div>
+                                {% endif %}
+                            </span>
+                        </div>
+
+
                     </div>
 
                 </div>

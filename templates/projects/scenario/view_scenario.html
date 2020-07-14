@@ -124,7 +124,7 @@
                                 {% csrf_token %}
                                 <div class="col-md-12">
                                     <div class="input-group">
-                                        <select name="goal" class="form-control" id="">
+                                        <select name="scenario" class="form-control" id="">
                                             {% for scenario in scenarios %}
                                             <option value="{{ scenario.id}}">
                                                 {{ scenario.scenario.name }}

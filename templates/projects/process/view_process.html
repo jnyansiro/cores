@@ -119,7 +119,7 @@
 
                     <div class="form-group form-horizontal pb-1 row" style="border-bottom: 1px solid #ddd;">
                         <div class="col-md-6">
-                            {% if requirements %}
+                           
                             <label class="col-md-12 font-weight-semibold control-label">
                                 Filter:</label>
                             <form method="post" action="{% url 'projects:viewprocess' process_id=process.id%}">
@@ -128,7 +128,7 @@
                                     <div class="input-group">
                                         <select name="process" data-placeholder="Process" class="form-control" id="">
                                             {% for process in processes%}
-                                            <option value="{{proceprocessss.id}}">
+                                            <option value="{{ process.id }}">
                                                 {{process.process.process_name}}
                                             </option>
                                             {% endfor %}
@@ -141,7 +141,7 @@
 
                                 </div>
                             </form>
-                            {% endif %}
+                        
                         </div>
                         <div class="col-md-6 text-right">
                             <a href="{% url 'projects:createprocess' project_id=project.id %}"
