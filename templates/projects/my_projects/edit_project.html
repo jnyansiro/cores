@@ -34,7 +34,7 @@
                     {% csrf_token %}
                     <div class="row">
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="col-md-12">
                                     <label class="font-weight-semibold">Project Title:</label>
@@ -45,12 +45,12 @@
 
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-3" hidden>
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="col-md-12">
                                     <label class="font-weight-semibold">Sector:</label>
                                     <select class="form-control multiselect" name="sector" multiple="multiple"
-                                        data-fouc>
+                                        data-fouc disabled>
                                         {% if sectors %}
                                         {% for sector in sectors %}
                                         <option value="{{ sector.id }}">{{ sector.sector_name }} </option>
@@ -79,7 +79,7 @@
                                 <div class="col-md-12">
                                     <label class="font-weight-semibold">Project photo:</label>
                                     <input class="form-control" type="file" name="project_photo"
-                                        >
+                                       accept="image/*" >
                                 </div>
                             </div>
 
@@ -127,7 +127,7 @@
 
 
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-3" hidden>
                             <div class="d-flex align-items-center justify-content-center mb-2">
 
                                 <div class="form-group col-md-12">

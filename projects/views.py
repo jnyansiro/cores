@@ -1319,6 +1319,39 @@ def editProject(request, project_id):
     project = Project.objects.get(id=project_id)
     sectors = Sector.objects.all().order_by("sector_name")
     member = Member.objects.get(user=request.user)
+    if request.method == "POST":
+        project_title = request.POST.get('project_title')
+        if  not request.POST.get('project_photo'):
+            project_photo = project.project_photo
+        else:
+            project_photo = request.POST.get('project_photo')
+        description = request.POST.get('project_descriptions')
+
+        if not request.POST.get('due_date'):
+            due_date = project.due_date
+        else:
+            due_date = request.POST.get('due_date')
+        if not request.POST.get('visibility'):
+            visibility = project.project_visibility
+        else:
+            visibility = request.POST.get('visibility')
+        update_project = Project.objects.filter(id=project_id)
+        update_project.update(project_title=project_title,project_photo=project_photo,description=description,project_visibility=visibility,due_date=due_date)
+        if "Invitational" in request.POST.getlist('participation'):
+            update_project.update(is_invitational=True)
+
+        if "Discoverable" in request.POST.getlist('participation'):
+            update_project.update(is_discoverable=True)
+
+        if request.POST.get('visibility') == 'private':
+            update_project.update(is_public=False)
+
+        if request.POST.get('visibility') == 'public':
+            update_project.update(is_public=True)
+            update_project.update(is_invitational=False)
+            update_project.update(is_discoverable=False)
+
+        return redirect('projects:viewmyproject', project_id=project_id)
     print("sectors")
     return render(
         request,
@@ -7643,3 +7676,10 @@ def dislike(request, module_id=None):
             }
     context.append(info)
     return JsonResponse(context, safe=False)
+
+
+# updating stakeholder
+def update_stakeholder(request,stakeholder_id):
+    stakeholder = request.POST.get('stakeholder')
+    update_stakeholder_names = Stakeholder.objects.filter(id=stakeholder_id).update(name=stakeholder)
+    return redirect(request.META["HTTP_REFERER"])

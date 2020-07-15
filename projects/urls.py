@@ -239,6 +239,7 @@ urlpatterns = [
     url(r'^blockprocess/(?P<process_id>\d+)/$', block_process, name="blockprocess"),
     url(r'^blockusecase/(?P<usecase_id>\d+)/$', block_usecase, name="blockusecase"),
     url(r'^deletestakeholder/(?P<stakeholder_id>\d+)/$', delete_stakeholder, name="deletestakeholder"),
+    url(r'^updatestakeholder/(?P<stakeholder_id>\d+)/$', update_stakeholder, name="updatestakeholder"),
     
     path('subscribe', subscribe, name="subscribe"),
 

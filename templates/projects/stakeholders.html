@@ -61,22 +61,37 @@
                     <tbody>
 
                         {% for stakeholder in stakeholders %}
+                        
                         <tr>
-
-
-                            <td> <input type="text" value="{{ stakeholder }}" name="stakeholder" > <input
-                                    type="text" name="stakeholder_list" value="{{stakeholder.id}}" hidden> </td>
+                           
+                         <form method="post" action="{% url 'projects:updatestakeholder' stakeholder.id %}">
+                             {% csrf_token %}
+                            <td> <input type="text" value="{{ stakeholder }}" name="stakeholder" disabled="true"  id="{{stakeholder.id}}"> </td>
 
 
                             <td>
-                                <button type="submit" name="approve" title="edit" data-popup="tooltip"
+                                <a  name="approve"  title="edit" onclick="edit_stakeholder{{stakeholder.id}}()" id="edit{{ stakeholder.id }}" data-popup="tooltip"
                                     data-placement="bottom"
                                     class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
                                     <i class="icon-pencil"></i>
+                            </a>
+                                <button type="submit" name="approve" title="update" data-popup="tooltip" style="display: none;" id="send{{ stakeholder.id }}"
+                                    data-placement="bottom"
+                                    class="btn btn-outline bg-primary-400 border-primary-400 text-primary btn-icon rounded-round btn-sm ml-1">
+                                    <i class="icon-spinner9"></i>
                                 </button>
+                            
                             </td>
-                        </tr>
+                            <script>
+                                function edit_stakeholder{{stakeholder.id}}() {
+                                    document.getElementById('{{ stakeholder.id }}').disabled = false;
+                                    document.getElementById('send{{ stakeholder.id }}').style.display='block';
+                                    document.getElementById('edit{{ stakeholder.id }}').style.display = 'none';
 
+                                }
+                            </script>
+                        </form>
+                        </tr>
 
                         {% endfor %}
                     </tbody>
@@ -87,7 +102,6 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn bg-primary">Update</button>
             </div>
         </div>
     </div>
@@ -120,7 +134,7 @@
                             <tr>
                                 
 
-                                <td> <input type="text" value="{{ stakeholder }}" name="stakeholder" disabled> <input type="text" name="stakeholder_list" value="{{stakeholder.id}}" hidden> </td>
+                                <td> <label>{{ stakeholder }}</label> </td>
                     
                     
                                 <td>
@@ -140,8 +154,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn bg-primary">Update</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        
         </div>
     </div>
 </div>
