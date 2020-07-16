@@ -126,9 +126,9 @@ DATABASES = {
 
         'USER': 'postgres',
 
-        'PASSWORD': 'Namwinyu1995',
+        'PASSWORD': 'b@11game',
 
-        'HOST': '127.0.0.1',
+        'HOST': '157.245.12.198',
 
     }
 }
