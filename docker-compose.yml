@@ -34,8 +34,8 @@ services:
     container_name: core
     image: core
     working_dir: /core
-    # volumes:
-    #   - .:/core
+    volumes:
+      - .:/core
     ports:
       - "8000:8000"
     depends_on:
