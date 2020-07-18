@@ -2747,9 +2747,9 @@ def requirementgoals(request, requirement_id=None):
     goals = RequirementGoal.objects.filter(requirement=requirement).order_by('-requirement__id').distinct('requirement__id')
     project = Project.objects.get(id=requirement.project.id)
     project_id = project.id
-    paginate = Paginator(requirements, 10)
+    paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
-    requirements = paginate.get_page(page_number)
+    goals = paginate.get_page(page_number)
     return render(
         request,
         "projects/Goals/goals.html",
