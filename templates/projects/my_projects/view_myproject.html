@@ -127,7 +127,7 @@
                     </div>
                     <div
                         class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
-                        <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-6 p-0 ">
+                        <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-5 p-0 ">
                             <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                     data-target="#rates">
                                     {{total_rates}} Rates
@@ -180,8 +180,8 @@
                             </li>
 
                         </ul>
-                        <div class="col-md-6 text-right" style="margin-left: 1rem;">
-                            <li class="list-inline-item mb-1">
+                        <div class="col-md-7 text-right" style="margin-left: 1rem;">
+                            <li class="list-inline-item  mt-1">
                             
                                 <div class="btn-group justify-content-center">
                                     <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
@@ -196,21 +196,21 @@
                             </li>
                             
 
-                            <li class="list-inline-item">
+                            <li class="list-inline-item  mt-1">
                                 <a href="{% url 'projects:editproject' project_id=project.id %}"
                                     class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
                                     <b><i class="icon-pencil"></i></b>
                                     Edit
                                 </a>
                             </li>
-                            <li class="list-inline-item ">
+                            <li class="list-inline-item  mt-1">
                                 <a href="#" data-toggle="modal" data-target="#delete"
                                     class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
                                     <b><i class="icon-trash"></i></b>
                                     Delete
                                 </a>
                             </li>
-                            <li class="list-inline-item">
+                            <li class="list-inline-item mt-1">
                                 <a href="{% url 'projects:viewpoints' project_id=project.id %}"
                                     class="btn bg-success-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
                                     <b><i class="icon-enlarge7"></i></b>

@@ -207,6 +207,7 @@ class ProjectIncentive(models.Model):
     # TODO: Define fields here
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     incentive = models.ForeignKey("Incentive", on_delete=models.CASCADE)
+    description = models.TextField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 

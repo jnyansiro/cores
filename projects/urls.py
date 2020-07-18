@@ -66,7 +66,7 @@ urlpatterns = [
     url(r'^related-goals/(?P<goal_id>\d+)/$', related_goals , name="related-goals"),
     url(r'^decomposed-goals/(?P<goal_id>\d+)/$', decomposed_goals, name="decomposed-goals"),
     url(r'^viewgoal/(?P<goal_id>\d+)/$', viewGoal, name="viewgoal"),
-    url(r'^creategoal/(?P<viewpoint_id>\d+)/$', createGoal, name="creategoal"),
+    url(r'^creategoal/(?P<project_id>\d+)/$', createGoal, name="creategoal"),
     url(r'^decompose-goal/$', decompose_goal, name="decompose-goal"),
     url(r'^relate-goal/$', relate_goal, name="relate-goal"),
     url(r'^associate-goal/$', associate_goal_with_viewpoint, name="associate-goal"),
@@ -77,7 +77,8 @@ urlpatterns = [
     url(r'^createrequirement/(?P<project_id>\d+)/$', createRequirement, name="createrequirement"),
     url(r'^scenariorequirement/(?P<scenario_id>\d+)/$', scenario_requirement, name="scenariorequirement"),
     url(r'^processrequirements/(?P<process_id>\d+)/$', process_requirements, name="processrequirements"),
-        url(r'^usecaserequirements/(?P<usecase_id>\d+)/$', process_requirements, name="usecaserequirements"),
+    url(r'^usecaserequirements/(?P<usecase_id>\d+)/$', usecase_requirements, name="usecaserequirements"),
+    url(r'^requirementgoals/(?P<requirement_id>\d+)/$', requirementgoals, name="requirementgoals"),
 
         # SCENARIO URLS
     url(r'^scenarios/(?P<requirement_id>\d+)/$', scenarios, name='scenarios'),

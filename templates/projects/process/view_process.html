@@ -157,11 +157,11 @@
                     <h5 class="font-weight-semibold mb-2 text-default">{{ process.process.process_name }}
                     </h5>
                     <ul class="list-inline  text-muted mb-0">
-                        <li class="list-inline-item col-sm-12">
+                        <li class="list-inline-item col-sm-12 ">
                             <span class="font-weight-semibold">By: </span><a class="text-primary"
                                 href="{% url 'projects:memberdetails' member_id=process.process.created_by.id%}">{{ process.process.created_by }}</a>
                         </li>
-                        <li class="list-inline-item col-sm-12">
+                        <li class="list-inline-item col-sm-12 mb-2">
                             <span class="font-weight-semibold">Created on: </span>
                             {{ process.process.created_on }}</li>
                         <li class="list-inline-item col-sm-12">
