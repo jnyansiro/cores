@@ -5640,9 +5640,11 @@ def delete_viewpoint(request, viewpoint_id):
 @login_required(login_url="login")
 def delete_goal(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
+    
     delete_goal = Goal.objects.filter(id=goal_id).delete()
+
     if delete_goal:
-        return redirect("projects:goals", viewpoint_id=goal.viewpoint.id)
+        return redirect("projects:projectgoals", project_id=goal.project.id)
 
 
 @login_required(login_url="login")
