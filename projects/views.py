@@ -5658,9 +5658,7 @@ def delete_requirement(request, requirement_id):
 @login_required(login_url="login")
 def delete_scenario(request, scenario_id):
     scenario = RequirementScenario.objects.get(id=scenario_id)
-    delete_scenario = Scenario.objects.filter(id=scenario.scenario.id).update(
-        status="deleted"
-    )
+    delete_scenario = Scenario.objects.filter(id=scenario.scenario.id).delete()
     if delete_scenario:
         return redirect("projects:scenarios", requirement_id=scenario.requirement.id)
 
@@ -5668,9 +5666,7 @@ def delete_scenario(request, scenario_id):
 @login_required(login_url="login")
 def delete_process(request, process_id):
     process = RequirementProcess.objects.get(id=process_id)
-    delete_process = Process.objects.filter(id=process.process.id).update(
-        status="deleted"
-    )
+    delete_process = Process.objects.filter(id=process.process.id).delete()
     if delete_process:
         return redirect("projects:processes", requirement_id=process.requirement.id)
 
@@ -5678,9 +5674,8 @@ def delete_process(request, process_id):
 @login_required(login_url="login")
 def delete_usecase(request, usecase_id):
     usecase = RequirementUsecase.objects.get(id=usecase_id)
-    delete_usecase = UseCase.objects.filter(id=usecase.usecase.id).update(
-        status="deleted"
-    )
+    
+    delete_usecase = UseCase.objects.filter(id=usecase.usecase.id).delete()
     if delete_usecase:
         return redirect("projects:usecases", requirement_id=usecase.requirement.id)
 
