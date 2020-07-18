@@ -5668,7 +5668,7 @@ def delete_process(request, process_id):
     process = RequirementProcess.objects.get(id=process_id)
     delete_process = Process.objects.filter(id=process.process.id).delete()
     if delete_process:
-        return redirect("projects:projectprocesses", project_id_id=process.process.project.id)
+        return redirect("projects:projectprocesses", project_id=process.process.project.id)
 
 
 @login_required(login_url="login")
