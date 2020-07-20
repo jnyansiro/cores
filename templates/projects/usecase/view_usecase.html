@@ -126,7 +126,7 @@
                                         <select name="usecase" class="form-control" id="">
                                             {% for usecase in usecases%}
                                         <option value="{{usecase.id}}">
-                                            {{usecase.usecase.usecase_name}}
+                                            {{usecase.usecase.number}} | {{usecase.usecase.usecase_name}}
                                         </option>
                                         {% endfor %}
 
@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="mb-1">
-                    <h5 class="font-weight-semibold mb-2 text-default">{{ usecase.usecase.usecase_name }}
+                    <h5 class="font-weight-semibold mb-2 text-default">{{usecase.usecase.number}} | {{ usecase.usecase.usecase_name }}
                     </h5>
                     <ul class="list-inline  text-muted mb-0">
                         <li class="list-inline-item col-sm-12">

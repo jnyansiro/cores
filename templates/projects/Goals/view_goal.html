@@ -131,7 +131,7 @@
                                         <select name="goal" class="form-control" id="">
                                             {% for goal_ in goals %}
                                             <option value="{{ goal_.id }}">
-                                                {{ goal_.goal }}
+                                                {{goal_.goal.number}} | {{ goal_.goal }}
                                             </option>
                                             {% endfor %}
     
@@ -158,7 +158,7 @@
 
 
                 <div class="mb-1">
-                    <h5 class="font-weight-semibold mb-2 text-default">{{ goal.goal.goal_name}}
+                    <h5 class="font-weight-semibold mb-2 text-default"> {{goal.goal.number}} | {{ goal.goal.goal_name}}
                     </h5>
                     <ul class="list-inline  text-muted mb-0">
                         <li class="list-inline-item col-sm-12">
@@ -629,7 +629,7 @@
                                 <select class="form-control multiselect" name="viewpoints" multiple="multiple"
                                     data-fouc>
                                 {% for viewpoint_ in viewpoints %}
-                                <option value="{{viewpoint_.id}}">{{ viewpoint_.viewpoint_name }}</option>
+                                <option value="{{viewpoint_.id}}">{{ viewpoint_.number }} | {{ viewpoint_.viewpoint_name }}</option>
                                 {% endfor %}
 
                                 </select>
@@ -697,7 +697,7 @@
                                 <select class="form-control multiselect" name="decomposed_goal" multiple="multiple"
                                     data-fouc>
                                 {% for decompose_goal in decomposed_goals %}
-                                <option value="{{decompose_goal.id}}">{{ decompose_goal.goal_name }}</option>
+                                <option value="{{decompose_goal.id}}">{{ decompose_goal.number }} | {{ decompose_goal.goal_name }}</option>
                                 {% endfor %}
 
                                 </select>
@@ -766,7 +766,7 @@
                                 <select class="form-control multiselect" name="related_goal" multiple="multiple"
                                     data-fouc>
                                 {% for related_goal in related_goals %}
-                                <option value="{{related_goal.id}}">{{ related_goal.goal_name }}</option>
+                                <option value="{{related_goal.id}}">{{ related_goal.number }} | {{ related_goal.goal_name }}</option>
                                 {% endfor %}
 
                                 </select>

@@ -15,14 +15,14 @@ from django.conf import global_settings
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-sentry_sdk.init(
-    dsn="https://543d5b10af6f4380915507238a10a3b8@o417908.ingest.sentry.io/5319701",
-    integrations=[DjangoIntegration()],
+# sentry_sdk.init(
+#     dsn="https://543d5b10af6f4380915507238a10a3b8@o417908.ingest.sentry.io/5319701",
+#     integrations=[DjangoIntegration()],
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True
+# )
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -57,7 +57,10 @@ INSTALLED_APPS = [
     "knox",
     "gunicorn",
     "social_django",
-    'django_social_share'
+    'django_social_share',
+    'django_countries',
+    'pyuca'
+
 ]
 
 REST_FRAMEWORK = {
@@ -116,19 +119,36 @@ WSGI_APPLICATION = "core.wsgi.application"
 # }
 
 
+# DATABASES = {
+#    'default': {
+
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+
+#         'NAME': 'core',
+
+#         'USER': 'postgres',
+
+#         'PASSWORD': 'b@11game',
+
+#         'HOST': '157.245.12.198',
+
+#     }
+# }
+
 DATABASES = {
    'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
 
-        'NAME': 'core',
+        'NAME': 'cores',
 
         'USER': 'postgres',
 
-        'PASSWORD': 'b@11game',
+        'PASSWORD': 'Namwinyu1995',
 
-        'HOST': '157.245.12.198',
+        'HOST': 'localhost',
 
     }
 }

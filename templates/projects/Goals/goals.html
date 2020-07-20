@@ -147,7 +147,7 @@
 
                     <div class="col-md-12 mb-2 mt-2">
                         <h5 class="font-weight-semibold">
-                            {{ viewpoint }} Goals:
+                           Viewpoint: {{ viewpoint }} Goals:
                         </h5>
                         <div>
                             <ul class="list-group">
@@ -155,7 +155,7 @@
                                 <li class="list-group-item pl-10 pr-10 ">
 
                                     <a href="{% url 'projects:viewgoal' goal_id=goal.id %}"
-                                        class="text-primary">{{ goal.goal.goal_name }}</a>
+                                        class="text-primary">{{goal.goal.number}} | {{ goal.goal.goal_name }}</a>
                                     <br>
                                     <span class="font-weight-semibold">By:</span>
                                     {{goal.goal.created_by}}, <span class="text-muted"> Created On:

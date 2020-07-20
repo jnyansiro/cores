@@ -151,7 +151,7 @@
 
                     <div class="col-md-12 mb-2 mt-2">
                         <h5 class="font-weight-semibold">
-                            {{goal}} Requirements:
+                            Goal: {{goal}} Requirements:
                         </h5>
                         <div>
                             <ul class="list-group">
@@ -159,7 +159,7 @@
                                 <li class="list-group-item pl-10 pr-10 ">
 
                                     <a href="{% url 'projects:viewrequirement' requirement_id=requirement.id %}"
-                                        class="text-primary">{{ requirement.requirement.name }}</a>
+                                        class="text-primary">{{requirement.requirement.number}} | {{ requirement.requirement.name }}</a>
                                     <br>
                                     <span class="font-weight-semibold">By:</span>
                                     {{requirement.requirement.created_by}}, <span class="text-muted"> Created On:

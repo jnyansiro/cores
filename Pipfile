@@ -22,6 +22,9 @@ django-social-share = "*"
 sentry-sdk = "*"
 django-session-timeout = "*"
 django-background-tasks = "*"
+django-countries = "*"
+pyuca = "*"
+
 [requires]
 python_version = "3.7"
 

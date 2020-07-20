@@ -9,6 +9,7 @@ from django.conf import settings
 from datetime import timezone
 from datetime import datetime
 from django.contrib.auth.models import PermissionsMixin
+from django_countries.fields import CountryField
 
 
 # Create your models here.
@@ -159,6 +160,7 @@ class Project(models.Model):
     is_public = models.BooleanField(default=False)
     is_invitational = models.BooleanField(default=False)
     is_discoverable = models.BooleanField(default=False)
+    country = CountryField()
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -284,6 +286,7 @@ class Viewpoint(models.Model):
     viewpoint_photo = models.ImageField(max_length=50,  default="logo.png")
     viewpoint_docs = models.FileField(max_length=500, blank=True, null=True)
     status = models.CharField(max_length=60, default="pending")
+    number = models.CharField(max_length=70, blank=True, null=True)
     description = models.TextField(max_length=5000)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -327,6 +330,7 @@ class Goal(models.Model):
     goal_type = models.CharField(max_length=300)
     description = models.TextField(max_length=5000, null=True, blank=True)
     status = models.CharField(max_length=60, default="pending")
+    number = models.CharField(max_length=70, blank=True, null=True)
     created_by = models.ForeignKey("Member", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -367,6 +371,7 @@ class Requirement(models.Model):
     name = models.CharField(max_length=500)
     description = models.TextField(max_length=5000, null=True, blank=True)
     status = models.CharField(max_length=60, default="pending")
+    number = models.CharField(max_length=70, blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -396,6 +401,7 @@ class Scenario(models.Model):
     name = models.CharField(max_length=500)
     description = models.TextField(max_length=5000)
     status = models.CharField(max_length=60, default="pending")
+    number = models.CharField(max_length=70, blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -419,6 +425,7 @@ class Process(models.Model):
     process_name = models.CharField(max_length=600)
     description = models.TextField(max_length=5000)
     status = models.CharField(max_length=60, default="pending")
+    number = models.CharField(max_length=70, blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -442,6 +449,7 @@ class UseCase(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     description = models.TextField(max_length=5000)
     status = models.CharField(max_length=60, default="pending")
+    number = models.CharField(max_length=70, blank=True, null=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 

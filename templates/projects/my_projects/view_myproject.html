@@ -49,6 +49,10 @@
                                 <span class="font-weight-semibold">Due Date:</span>
                                 <span class="text-warning-300">{{ project.due_date }}</span>
                             </li>
+                            <li class="list-inline-item col-md-12">
+                                <span class="font-weight-semibold">Country of Reference:</span>
+                                <span class="text-warning-300">{{ project.country.name }}</span>
+                            </li>
 
                             {% if project.project_visibility == "private"%}
                             <li class="list-inline-item  font-size-sm col-md-12 row ">

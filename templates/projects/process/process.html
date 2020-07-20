@@ -155,7 +155,7 @@
                             <li class="list-group-item pl-10 pr-10 ">
 
                                 <a href="{% url 'projects:viewprocess' process_id=process.id%}"
-                                    class="text-primary">{{ process.process.process_name }}</a>
+                                    class="text-primary">{{process.process.number}} | {{ process.process.process_name }}</a>
                                 <br>
                                 <span class="font-weight-semibold">By:</span>
                                 {{ process.process.created_by }}, <span class="text-muted"> Created On:

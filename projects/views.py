@@ -991,6 +991,7 @@ def createProject(request):
         project_participation = request.POST.getlist("participation")
         project_description = request.POST.get("project_descriptions")
         incentives = request.POST.getlist("incentives")
+        country = request.POST.get('country')
 
         # getting member who create of project
         member = Member.objects.get(user=request.user.id)
@@ -1008,6 +1009,7 @@ def createProject(request):
                     project_visibility=project_visibility,
                     description=project_description,
                     due_date=due_date,
+                    country=country
                 )
             else:
                 print("seccond one called:")
@@ -1018,6 +1020,7 @@ def createProject(request):
                     project_visibility=project_visibility,
                     description=project_description,
                     due_date=due_date,
+                    country=country
                 )
             project.save()
 
@@ -1044,13 +1047,17 @@ def createProject(request):
 
             # create default viewpoints
             default_viewpoints = DefaultViewpoint.objects.all()
+            num = 0
             for default_viewpoint in default_viewpoints:
+                num = num + 1
+                number = 'V' + str(num)
                 viewpoint = Viewpoint.objects.create(
                     project=project,
                     viewpoint_name=default_viewpoint.viewpoint_name,
                     viewpoint_photo=default_viewpoint.viewpoint_photo,
                     description=default_viewpoint.description,
                     created_by=member,
+                    number=number,
                     status="accepted",
                 )
                 viewpoint.save()
@@ -2309,6 +2316,26 @@ def createViewpoint(request, project_id):
         viewpoint_docs = request.FILES.get("viewpoint_docs")
         viewpoint_descriptions = request.POST.get("viewpoint_descriptions")
 
+        # creating viewpoint number
+        viewpoint_list = Viewpoint.objects.filter(project=project)
+        if viewpoint_list:
+            viewpoint_list = viewpoint_list.order_by('-id')[0]
+            if viewpoint_list.number != None:
+                interger = viewpoint_list.number[1:]
+                number = 'V' + str(int(interger) + 1)
+            else:
+                num = 0
+                for viewpoint_list1 in Viewpoint.objects.filter(project=project).order_by('id'):
+                    num = num + 1
+                    number = 'V' + str(num)
+                    Viewpoint.objects.filter(id=viewpoint_list1.id).update(number=number)
+
+                viewpoint_list2 = Viewpoint.objects.filter(project=project).order_by('-id')[0]
+                interger =  viewpoint_list2 .number[1:]
+                number = 'V' + str(int(interger) + 1)
+
+        else:
+            number = 'V1'
         if viewpoint_photo:
             if project.created_by == member:
 
@@ -2321,6 +2348,7 @@ def createViewpoint(request, project_id):
                     viewpoint_docs=viewpoint_docs,
                     description=viewpoint_descriptions,
                     status="accepted",
+                    number=number,
                 )
             else:
                 viewpoint = Viewpoint.objects.create(
@@ -2331,6 +2359,7 @@ def createViewpoint(request, project_id):
                     viewpoint_photo=viewpoint_photo,
                     viewpoint_docs=viewpoint_docs,
                     description=viewpoint_descriptions,
+                    number=number,
                 )
         else:
             if project.created_by == member:
@@ -2341,6 +2370,7 @@ def createViewpoint(request, project_id):
                     viewpoint_links=links,
                     viewpoint_docs=viewpoint_docs,
                     description=viewpoint_descriptions,
+                    number=number,
                     status="accepted",
                 )
             else:
@@ -2350,6 +2380,7 @@ def createViewpoint(request, project_id):
                     viewpoint_name=viewpoint_title,
                     viewpoint_links=links,
                     viewpoint_docs=viewpoint_docs,
+                    number=number,
                     description=viewpoint_descriptions,
                 )
         viewpoint.save()
@@ -2358,6 +2389,7 @@ def createViewpoint(request, project_id):
 
     indexhead = "Project -ViewPoints"
     hidesearch = "hide"
+    num = 0
     member = Member.objects.get(user=request.user)
     return render(
         request,
@@ -2634,6 +2666,28 @@ def createGoal(request, project_id):
         description = request.POST.get("description")
         requirement = request.POST.get("requirement")
         created_by = Member.objects.get(user=request.user)
+
+              # creating goal number
+        
+        goal_list = Goal.objects.filter(project=project)
+        if goal_list:
+            goal_list = goal_list.order_by('-id')[0]
+            if goal_list.number != None:
+                interger = goal_list.number[1:]
+                number = 'G' + str(int(interger) + 1)
+            else:
+                num = 0
+                for goal_list1 in Goal.objects.filter(project=project).order_by('id'):
+                    num = num + 1
+                    number = 'G' + str(num)
+                    Goal.objects.filter(id=goal_list1.id).update(number=number)
+
+                goal_list2 = Goal.objects.filter(project=project).order_by('-id')[0]
+                interger =  goal_list2 .number[1:]
+                number = 'G' + str(int(interger) + 1)
+
+        else:
+            number = 'G1'
     
         # then creating goal
         if project.created_by == member:
@@ -2642,6 +2696,7 @@ def createGoal(request, project_id):
                 description=description,
                 created_by=created_by,
                 project=project,
+                number=number,
                 status="accepted",
             )
         else:
@@ -2649,6 +2704,7 @@ def createGoal(request, project_id):
                 goal_name=goal_name,
                 description=description,
                 created_by=created_by,
+                number=number,
                 project=project,
             )
         goal.save()
@@ -2925,6 +2981,27 @@ def createRequirement(request, project_id):
         processes = request.POST.getlist("process")
         usecase = request.POST.getlist("usecase")
 
+               # creating requirement number
+        requirement_list = Requirement.objects.filter(project=project)
+        if requirement_list:
+            requirement_list = requirement_list.order_by('-id')[0]
+            if requirement_list.number != None:
+                interger = requirement_list.number[1:]
+                number = 'R' + str(int(interger) + 1)
+            else:
+                num = 0
+                for requirement_list1 in Requirement.objects.filter(project=project).order_by('id'):
+                    num = num + 1
+                    number = 'R' + str(num)
+                    Requirement.objects.filter(id=requirement_list1.id).update(number=number)
+
+                requirement_list2 = Requirement.objects.filter(project=project).order_by('-id')[0]
+                interger =  requirement_list2 .number[1:]
+                number = 'R' + str(int(interger) + 1)
+
+        else:
+            number = 'R1'
+
         # then creating requirement
 
         goal_ids = request.POST.getlist("goal")
@@ -2936,6 +3013,7 @@ def createRequirement(request, project_id):
                 created_by=created_by,
                 description=description,
                 project=project,
+                number=number,
                 status="accepted",
             )
         else:
@@ -2943,6 +3021,7 @@ def createRequirement(request, project_id):
                 name=requirement_title,
                 created_by=created_by,
                 description=description,
+                number=number,
                 project=project,
             )
         requirement.save()
@@ -3222,6 +3301,28 @@ def createScenario(request, project_id):
         created_by = Member.objects.get(user=request.user)
         requirement_ = request.POST.getlist("requirement")
 
+                # creating scenario number
+        scenario_list = Scenario.objects.filter(project=project)
+        if scenario_list:
+            scenario_list = scenario_list.order_by('-id')[0]
+            if scenario_list.number != None:
+                interger = scenario_list.number[1:]
+                number = 'S' + str(int(interger) + 1)
+            else:
+                num = 0
+                for scenario_list1 in Scenario.objects.filter(project=project).order_by('id'):
+                    num = num + 1
+                    number = 'S' + str(num)
+                    Scenario.objects.filter(id=scenario_list1.id).update(number=number)
+
+                scenario_list2 = Scenario.objects.filter(project=project).order_by('-id')[0]
+                interger =  scenario_list2 .number[1:]
+                number = 'S' + str(int(interger) + 1)
+
+        else:
+            number = 'S1'
+    
+
         # then creating requirement
         if project.created_by == member:
 
@@ -3230,6 +3331,7 @@ def createScenario(request, project_id):
                 created_by=created_by,
                 description=description,
                 project=project,
+                number=number,
                 status="accepted",
             )
         else:
@@ -3237,6 +3339,7 @@ def createScenario(request, project_id):
                 name=scenario_title,
                 created_by=created_by,
                 description=description,
+                number=number,
                 project=project,
             )
         scenario.save()
@@ -3473,12 +3576,36 @@ def createProcess(request, project_id):
         description = request.POST.get("process_descriptions")
         created_by = Member.objects.get(user=request.user)
         require = request.POST.getlist("requirement")
+
+               # creating process number
+        process_list = Process.objects.filter(project=project)
+        if process_list:
+            process_list = process_list.order_by('-id')[0]
+            if process_list.number != None:
+                interger = process_list.number[1:]
+                number = 'P' + str(int(interger) + 1)
+            else:
+                num = 0
+                for process_list1 in Process.objects.filter(project=project).order_by('id'):
+                    num = num + 1
+                    number = 'P' + str(num)
+                    Process.objects.filter(id=process_list1.id).update(number=number)
+
+                process_list2 = Process.objects.filter(project=project).order_by('-id')[0]
+                interger =  process_list2 .number[1:]
+                number = 'P' + str(int(interger) + 1)
+
+        else:
+            number = 'P1'
+
+
         if project.created_by == member:
             process = Process.objects.create(
                 process_name=process_title,
                 created_by=created_by,
                 description=description,
                 project=project,
+                number=number,
                 status="accepted",
             )
         else:
@@ -3486,6 +3613,7 @@ def createProcess(request, project_id):
                 process_name=process_title,
                 created_by=created_by,
                 description=description,
+                number=number,
                 project=project,
             )
         process.save()
@@ -3768,6 +3896,28 @@ def createUsecase(request, project_id):
         created_by = Member.objects.get(user=request.user)
         require = request.POST.getlist("requirement")
 
+
+                       # creating usecase number
+        usecase_list = UseCase.objects.filter(project=project)
+        if usecase_list:
+            usecase_list = usecase_list.order_by('-id')[0]
+            if usecase_list.number != None:
+                interger = usecase_list.number[1:]
+                number = 'U' + str(int(interger) + 1)
+            else:
+                num = 0
+                for usecase_list1 in UseCase.objects.filter(project=project).order_by('id'):
+                    num = num + 1
+                    number = 'U' + str(num)
+                    UseCase.objects.filter(id=usecase_list1.id).update(number=number)
+
+                usecase_list2 = UseCase.objects.filter(project=project).order_by('-id')[0]
+                interger =  usecase_list2 .number[1:]
+                number = 'U' + str(int(interger) + 1)
+
+        else:
+            number = 'U1'
+
         # then creating requirement
         if project.created_by == member:
             usecase = UseCase.objects.create(
@@ -3775,6 +3925,7 @@ def createUsecase(request, project_id):
                 created_by=created_by,
                 description=description,
                 project=project,
+                number=number,
                 status="accepted",
             )
         else:
@@ -3782,6 +3933,7 @@ def createUsecase(request, project_id):
                 usecase_name=usecase_title,
                 created_by=created_by,
                 description=description,
+                number=number,
                 project=project,
             )
         usecase.save()

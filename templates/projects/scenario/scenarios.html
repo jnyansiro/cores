@@ -157,7 +157,7 @@
                                 <li class="list-group-item pl-10 pr-10 ">
 
                                     <a href="{% url 'projects:viewscenario' scenario_id=scenario.id %}"
-                                        class="text-primary">{{ scenario.scenario.name }}</a>
+                                        class="text-primary"> {{scenario.scenario.number}} | {{ scenario.scenario.name }}</a>
                                     <br>
                                     <span class="font-weight-semibold">By:</span>
                                     {{ scenario.scenario.created_by }}, <span class="text-muted"> Created On:

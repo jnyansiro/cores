@@ -148,7 +148,7 @@
                             <li class="list-group-item pl-10 pr-10 ">
 
                                 <a href="{% url 'projects:viewusecase' usecase_id=usecase.id %}"
-                                    class="text-primary">{{ usecase.usecase.usecase_name }}</a>
+                                    class="text-primary">{{usecase.usecase.number}} | {{ usecase.usecase.usecase_name }}</a>
                                 <br>
                                 <span class="font-weight-semibold">By:</span>
                                 {{ usecase.usecase.created_by }}, <span class="text-muted"> Created On:

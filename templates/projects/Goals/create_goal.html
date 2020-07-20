@@ -29,7 +29,7 @@
                                 <select class="form-control multiselect" name="viewpoint" multiple="multiple" data-fouc
                                     required>
                                     {% for viewpoint_ in viewpoints %}
-                                    <option value="{{viewpoint_.id}}">{{ viewpoint_.viewpoint_name }}
+                                    <option value="{{viewpoint_.id}}">{{viewpoint_.number}} | {{ viewpoint_.viewpoint_name }}
                                     </option>
                                     {% endfor %}
 

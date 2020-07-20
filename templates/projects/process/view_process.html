@@ -129,7 +129,7 @@
                                         <select name="process" data-placeholder="Process" class="form-control" id="">
                                             {% for process in processes%}
                                             <option value="{{ process.id }}">
-                                                {{process.process.process_name}}
+                                            {{process.process.number}} | {{process.process.process_name}}
                                             </option>
                                             {% endfor %}
                                         </select>
@@ -154,7 +154,7 @@
                 </div>
 
                 <div class="mb-1">
-                    <h5 class="font-weight-semibold mb-2 text-default">{{ process.process.process_name }}
+                    <h5 class="font-weight-semibold mb-2 text-default">{{process.process.number}} | {{ process.process.process_name }}
                     </h5>
                     <ul class="list-inline  text-muted mb-0">
                         <li class="list-inline-item col-sm-12 ">

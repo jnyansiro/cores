@@ -51,7 +51,7 @@
                                 </a>
                             </div>
                         </div>
-
+                
                         <div class="col-md-8 ">
                             <h5 class="font-weight-semibold my-1">
                                 <a href="{% url 'projects:viewproject' project_id=project.project.id %}"
@@ -69,8 +69,15 @@
                                     <span class="font-weight-semibold">Due Date:</span>
                                     <span class="text-warning-300">{{ project.project.due_date }}</span>
                                 </li>
+                                {% if project.project.country %}
+                                <li class="list-inline-item">
+                                    <span class="font-weight-semibold">Country of Reference:</span>
+                                    <span class="text-warning-300">{{ project.project.country.name }}</span>
+                                </li>
+                                {% endif %}
+                                
                                 {% if project.project.project_visibility == "private"%}
-                                <li class="list-inline-item  font-size-sm col-md-12 row ">
+                                <li class="list-inline-item  font-size-sm col-md-12 row">
                                     <div class="col-sm-6">
                                         <i class="icon-lock2 text-danger-400" style="font-size: 13px;"> </i>
                                         Private
