@@ -41,7 +41,7 @@
                             <div class="col-md-12">
                                 <label class="font-weight-semibold">Stakeholder(S):</label>
                                 <select class="form-control multiselect" name="stakeholder" multiple="multiple"
-                                    data-fouc required>
+                                    data-fouc >
                                     {% for stakeholder in stakeholders %}
                                     <option value="{{ stakeholder.id }}"> {{ stakeholder.name }}</option>
                                     {% endfor %}

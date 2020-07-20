@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,8 @@
 	<title>CORES|Member registration</title>
 
 	<!-- Global stylesheets -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
+		type="text/css">
 	{% load static %}
 	<link href="{% static 'global_assets/css/icons/icomoon/styles.min.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
@@ -54,10 +56,10 @@
 					<a href="/" class="navbar-nav-link" style="color:white">
 						<i class="icon-home"></i>
 						<span class="d-md-none ml-2">Go to website</span>
-					</a>					
+					</a>
 				</li>
 
-				
+
 			</ul>
 		</div>
 	</div>
@@ -74,50 +76,57 @@
 			<div class="content d-flex justify-content-center align-items-center">
 
 				<!-- Registration form -->
-				
-				<form  method="POST" action="{% url 'registration' %}" class="flex-fill">
+
+				<form method="POST" action="{% url 'registration' %}" class="flex-fill">
 					{% csrf_token %}
 					<div class="row">
 						<div class="col-lg-6 offset-lg-3">
 							<div class="card mb-0">
 								<div class="card-body">
 									<div class="text-center mb-3">
-										<i class="icon  text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1">
+										<!-- <i class="icon  text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1">
 											<img src="{% static 'images/logo.png'%}" height="40" width="100">
-										</i>
+										</i> -->
+										<img src="{% static 'images/logo.png'%}" style="width: 20%;">
 										<br>
 										<br>
-										<h5 class="mb-0">Create account</h5>
-										<p style="color:red">
+										<h4 class="mb-0 font-weight-semibold">Create account
+										</h4>
+										<p class="text-danger">
 											{% if message %}
 											{{ message }}
 											{% endif %}
 										</p>
 
 									</div>
-                                     
+
 									<div class="form-group form-group-feedback form-group-feedback-right">
-										<input type="text" class="form-control" name="username" placeholder="Choose username" required>
+										<input type="text" class="form-control" name="username"
+											placeholder="Choose username" required>
 										<div class="form-control-feedback">
-											<i class="icon-user-plus text-muted"></i>
+											<i class="icon-user-plus text-primary"></i>
 										</div>
 									</div>
 
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group form-group-feedback form-group-feedback-right">
-												<input type="text" class="form-control" name="first_name" placeholder="First name" pattern="[a-zA-Z]{}" title="enter only text">
+												<input type="text" class="form-control" name="first_name"
+													placeholder="First name" pattern="[a-zA-Z]{}"
+													title="enter only text">
 												<div class="form-control-feedback">
-													<i class="icon-user-check text-muted"></i>
+													<i class="icon-user-check text-primary"></i>
 												</div>
 											</div>
 										</div>
 
 										<div class="col-md-6">
 											<div class="form-group form-group-feedback form-group-feedback-right">
-												<input type="text" class="form-control" name="second_name" placeholder="Second name" pattern="[A-Za-z]{}" title="enter only text">
+												<input type="text" class="form-control" name="second_name"
+													placeholder="Second name" pattern="[A-Za-z]{}"
+													title="enter only text">
 												<div class="form-control-feedback">
-													<i class="icon-user-check text-muted"></i>
+													<i class="icon-user-check text-primary"></i>
 												</div>
 											</div>
 										</div>
@@ -126,9 +135,11 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group form-group-feedback form-group-feedback-right">
-												<input type="text" class="form-control" name="last_name" placeholder="Last name" pattern="[A-Za-z]{}" required title="enter only text">
+												<input type="text" class="form-control" name="last_name"
+													placeholder="Last name" pattern="[A-Za-z]{}" required
+													title="enter only text">
 												<div class="form-control-feedback">
-													<i class="icon-user-check text-muted"></i>
+													<i class="icon-user-check text-primary"></i>
 												</div>
 											</div>
 										</div>
@@ -142,7 +153,7 @@
 
 												</select>
 												<div class="form-control-feedback">
-													<i class="icon-user-check text-muted"></i>
+													<i class="icon-user-check text-primary"></i>
 												</div>
 											</div>
 										</div>
@@ -151,58 +162,66 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group form-group-feedback form-group-feedback-right">
-												<input type="number" class="form-control" name="phone" placeholder="Your mobile number" required>
+												<input type="number" class="form-control" name="phone"
+													placeholder="Your mobile number" required>
 												<div class="form-control-feedback">
-													<i class="icon-phone text-muted"></i>
+													<i class="icon-phone text-primary"></i>
 												</div>
 											</div>
 										</div>
 
 										<div class="col-md-6">
 											<div class="form-group form-group-feedback form-group-feedback-right">
-												<input type="email" class="form-control" name="email" placeholder=" email" required>
+												<input type="email" class="form-control" name="email"
+													placeholder=" email" required>
 												<div class="form-control-feedback">
-													<i class="icon-mention text-muted"></i>
+													<i class="icon-mention text-primary"></i>
 												</div>
 											</div>
 										</div>
 									</div>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group form-group-feedback form-group-feedback-right">
-														<input type="password" minlength="8" name="password" class="form-control" placeholder="Create password" required>
-														<div class="form-control-feedback">
-															<i class="icon-user-lock text-muted"></i>
-														</div>
-													</div>
-												</div>
-
-												<div class="col-md-6">
-													<div class="form-group form-group-feedback form-group-feedback-right">
-														<input type="password" minlength="8" name="password1" class="form-control" placeholder="Repeat password" required>
-														<div class="form-control-feedback">
-															<i class="icon-user-lock text-muted"></i>
-														</div>
-													</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group form-group-feedback form-group-feedback-right">
+												<input type="password" minlength="8" name="password"
+													class="form-control" placeholder="Create password" required>
+												<div class="form-control-feedback">
+													<i class="icon-user-lock text-primary"></i>
 												</div>
 											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group form-group-feedback form-group-feedback-right">
+												<input type="password" minlength="8" name="password1"
+													class="form-control" placeholder="Repeat password" required>
+												<div class="form-control-feedback">
+													<i class="icon-user-lock text-primary"></i>
+												</div>
+											</div>
+										</div>
+									</div>
 
 									<div class="form-group">
 
 									</div>
 
-									<center><button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right text-center"><b><i class="icon-plus3"></i></b> Create account</button></center>
+									<center><button type="submit"
+											class="btn bg-teal-400 btn-labeled  btn-labeled-right text-center"><b><i
+													class="icon-plus3"></i></b> Create account</button></center>
 								</div>
-								<div class="form-group text-center text-muted content-divider">
+								<div class="form-group text-center text-primary content-divider">
 									<span class="px-2">or sign up with</span>
 								</div>
 
 								<div class="form-group text-center">
+
+									<a href="{% url 'social:begin' 'google-oauth2' %}" title="Google"
+										data-placement="bottom" data-popup="tooltip"
+										class="btn btn-outline bg-pink-400 border-pink-400 text-pink-800 btn-icon rounded-round border-2 ml-2"><i
+											class="icon-google"></i></a>
 									
-									<a href="{% url 'social:begin' 'google-oauth2' %}"><button type="button"
-											class="btn btn-outline bg-pink-300 border-pink-300 text-pink-300 btn-icon  border-2 ml-2"
-											style="width: 6rem;"><i class="icon-google"></i></button></a>
-											
+
 
 								</div>
 							</div>
@@ -216,7 +235,7 @@
 
 
 			<!-- Footer -->
-			
+
 			<!-- /footer -->
 
 		</div>
@@ -226,4 +245,5 @@
 	<!-- /page content -->
 
 </body>
+
 </html>

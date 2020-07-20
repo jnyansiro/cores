@@ -15,14 +15,14 @@ from django.conf import global_settings
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-# sentry_sdk.init(
-#     dsn="https://543d5b10af6f4380915507238a10a3b8@o417908.ingest.sentry.io/5319701",
-#     integrations=[DjangoIntegration()],
+sentry_sdk.init(
+    dsn="https://543d5b10af6f4380915507238a10a3b8@o417908.ingest.sentry.io/5319701",
+    integrations=[DjangoIntegration()],
 
-#     # If you wish to associate users to errors (assuming you are using
-#     # django.contrib.auth) you may enable sending PII data.
-#     send_default_pii=True
-# )
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -122,13 +122,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
 
-        'NAME': 'cores',
+        'NAME': 'core',
 
         'USER': 'postgres',
 
-        'PASSWORD': 'Namwinyu1995',
+        'PASSWORD': 'b@11game',
 
-        'HOST': '127.0.0.1',
+        'HOST': '157.245.12.198',
 
     }
 }

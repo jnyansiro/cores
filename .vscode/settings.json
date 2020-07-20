@@ -1,5 +1,5 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.pythonPath": "/root/.local/share/virtualenvs/core-cMLN7rMA/bin/python",
+    "python.pythonPath": "/home/effortsteven/.local/share/virtualenvs/core-khStzz6q/bin/python",
     "python.formatting.provider": "black"
 }

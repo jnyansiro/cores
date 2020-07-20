@@ -146,7 +146,7 @@
                             </form>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a href="{% url 'projects:creategoal' viewpoint_id %}"
+                            <a href="{% url 'projects:creategoal' project.id  %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
                                 Add Goal
                                 <b><i class="icon-plus3"></i></b>
@@ -165,9 +165,10 @@
                             <span class="font-weight-semibold">By: </span><a class="text-primary"
                                 href="{% url 'projects:memberdetails' member_id=goal.goal.created_by.id%}">{{ goal.goal.created_by }}</a>
                         </li>
-                        <li class="list-inline-item col-sm-12">
+                        <li class="list-inline-item col-sm-12 mb-2">
                             <span class="font-weight-semibold">Created on: </span>
-                            {{ goal.goal.created_on }}</li>
+                            {{ goal.goal.created_on }}
+                        </li>
                         <li class="list-inline-item col-sm-12">
                             <a href="{% url 'projects:goalresources' goal_id=goal.goal.id%}"
                                 class="bg-primary-400 p-1" style="border-radius: 4px;"><i
@@ -204,7 +205,7 @@
                 
                 <a href="{% url 'projects:related-goals' goal_id=goal.goal.id %}" class="btn btn-info ml-2 mb-1">#Related Goals</a>
                 <a href="{% url 'projects:decomposed-goals' goal_id=goal.goal.id %}" class="btn btn-info ml-2 mb-1">#Decomposed Goals</a>
-                <a href="{% url 'projects:associate-viewpoints' goal_id=goal.goal.id %}" class="btn btn-info ml-2"> #Associate Viewpoints</a>
+                <a href="{% url 'projects:associate-viewpoints' goal_id=goal.goal.id %}" class="btn btn-info ml-2"> #Associated Viewpoints</a>
                 <hr>
                 <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 row mb-3">
                     <div class="col-md-5">
@@ -271,7 +272,7 @@
                     
                         <div class="btn-group justify-content-center">
                             <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
-                                data-toggle="dropdown"><b><i class="icon-cog5"></i></b>Options</a>
+                                data-toggle="dropdown"><b><i class="icon-cog5"></i></b>Relate</a>
                             <div class="dropdown-menu">
                                 <a data-toggle="modal" data-target="#associate_goal" class="dropdown-item">Associate</a>
                                 <a data-toggle="modal" data-target="#decompose_goal"  class="dropdown-item">Decompose</a>
@@ -546,7 +547,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger text-white"
                                     data-dismiss="modal">Cancel</button>
-                                <a href="{% url 'projects:deletegoal' goal_id=goal.id %}"><button type="button"
+                                <a href="{% url 'projects:deletegoal' goal_id=goal.goal.id %}"><button type="button"
                                         class="btn bg-primary">Yes</button></a>
                             </div>
                         </div>
@@ -753,7 +754,7 @@
                             <div class="col-sm-6">
                                 <label> Relationship Type : </label>
                                 <select class="form-control " name="relationship_type">
-                                    <option>Comflict</option>
+                                    <option>Conflict</option>
                                     <option>Contribute</option>
                                     <option>Require</option>
 

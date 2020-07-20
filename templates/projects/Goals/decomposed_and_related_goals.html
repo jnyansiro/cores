@@ -110,11 +110,13 @@
                         
                         <li class="col-md-12 text-right" style="list-style: none;">
 
-                            <a href=""
-                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
-                                        class="icon-plus3"></i></b>
-                                Add Goal
-                            </a>
+                                <a href="{% url 'projects:creategoal' project.id %}"
+                                    class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
+                                            class="icon-plus3"></i></b>
+                                    Add Goal
+                                </a>
+    
+                            </li>
 
                         </li>
                         
@@ -137,7 +139,7 @@
                                            
                                             {% if type == "Related" %}
                                             <option >
-                                                Comflict
+                                                Conflict
                                             </option>
                                             <option>
                                                 Require
@@ -170,7 +172,7 @@
 
                     <div class="col-md-12 mb-2 mt-2">
                         <h5 class="font-weight-semibold">
-                            {{ type }} Goals:
+                           {{ goal }} {{ type }} Goals:
                         </h5>
                         <div>
                             <ul class="list-group">

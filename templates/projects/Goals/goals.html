@@ -70,7 +70,7 @@
                             <li class="viewpoint col-md-2 p-2">
                                 <a href="{% url 'projects:viewpoints' project_id=project_id %}" class="col-md-2"
                                     style="color: black;font-weight:bold">
-                                    ViewPoints
+                                    Viewpoints
                                 </a>
                             </li>
                             <li class="goal col-md-2 p-2">
@@ -107,17 +107,17 @@
                         </ul>
 
 
-                        {% if viewpoint_id%}
+                       
                         <li class="col-md-12 text-right" style="list-style: none;">
 
-                            <a href="{% url 'projects:creategoal' viewpoint_id %}"
+                            <a href="{% url 'projects:creategoal' project.id  %}"
                                 class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm"><b><i
                                         class="icon-plus3"></i></b>
                                 Add Goal
                             </a>
 
                         </li>
-                        {% endif %}
+                       
 
                     </div>
                     {% if viewpoint %}

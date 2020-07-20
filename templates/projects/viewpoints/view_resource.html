@@ -40,10 +40,10 @@
                     {% endif %}
                     {% if  link %}
                     <li class="list-group-item pl-10 pr-10 text-capitalize">
-                        <a href="/docs/{{resource.links}}">{{ resource.links}}</a>
+                        <a href="{{resource.links}}" target="__blank">{{ resource.links}}</a>
                         Added by {{resource.added_by}}, Added
                         on:{{ resource.created_on}}
-                        <a href="/docs/{{resource.links}}"
+                        <a href="{{resource.links}}" target="__blank"
                             class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
                             data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
                             <i class="icon-enter3"></i>

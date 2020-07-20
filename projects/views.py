@@ -1041,12 +1041,6 @@ def createProject(request):
                 )
                 project_sector.save()
             # Createing project incentives
-            for incentive in incentives:
-                incentive = Incentive.objects.get(id=incentive)
-                project_incentive = ProjectIncentive.objects.create(
-                    project=project, incentive=incentive
-                )
-                project_incentive.save()
 
             # create default viewpoints
             default_viewpoints = DefaultViewpoint.objects.all()
@@ -1651,7 +1645,7 @@ def viewMyproject(request, project_id):
     comments = ProjectComment.objects.filter(
         Q(project=project, comment__status="accepted")
         | Q(project=project, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     projectRate = ProjectRate.objects.filter(
         project=project, star_rate__rated_by=member
     )
@@ -1708,7 +1702,7 @@ def viewProject(request, project_id, message=None):
     comments = ProjectComment.objects.filter(
         Q(project=project, comment__status="accepted")
         | Q(project=project, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     tags = enumerate(ProjectSector.objects.filter(project=project), start=1)
     likes = ProjectLike.objects.filter(project=project).count()
     dislikes = ProjectDislike.objects.filter(project=project).count()
@@ -2100,7 +2094,7 @@ def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
     comments = ViewPointComment.objects.filter(
         Q(viewpoint=viewpoint, comment__status="accepted")
         | Q(viewpoint=viewpoint, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     total_comments = comments.count()
     likes = ViewpointLike.objects.filter(viewpoint=viewpoint).count()
     dislikes = ViewpointDislike.objects.filter(viewpoint=viewpoint).count()
@@ -2114,7 +2108,7 @@ def viewPoint(request, project_id=None, viewpoint_id=None, message=None):
     )
     total_rates = rates.count()
     project_id = project.id
-    rate_data = viewpoint_rates(request, viewpoint_id=viewpoint_id)
+    rate_data = viewpoint_rates(request, viewpoint_id=viewpoint.id)
     if viewpoint.created_by == member or viewpoint.project.created_by == member:
         creator = "me"
     else:
@@ -2174,7 +2168,7 @@ def viewpoints(request, project_id):
         viewpoints = Viewpoint.objects.filter(
             Q(project=project, status="accepted")
             | Q(project=project, created_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         paginate = Paginator(viewpoints, 6)
         page_number = request.GET.get("page")
         viewpoints = paginate.get_page(page_number)
@@ -2244,7 +2238,7 @@ def viewpoints(request, project_id):
             viewpoints = Viewpoint.objects.filter(
                 Q(project=project, status="accepted")
                 | Q(project=project, created_by=member)
-            ).order_by("-id")
+            ).order_by("id")
             paginator = Paginator(viewpoints, 6)
             page_number = request.GET.get("page")
             viewpoints = paginator.get_page(page_number)
@@ -2280,7 +2274,7 @@ def viewpoints(request, project_id):
         viewpoints = Viewpoint.objects.filter(
             Q(project=project, status="accepted")
             | Q(project=project, created_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         paginator = Paginator(viewpoints, 6)
         view_page_number = request.GET.get("page")
         viewpoints = paginator.get_page(view_page_number)
@@ -2390,12 +2384,12 @@ def goals(request, project_id=None, viewpoint_id=None):
         goals = ViewpointGoal.objects.filter(
             Q(viewpoint=viewpoint, goal__status="accepted")
             | Q(viewpoint=viewpoint, goal__created_by=member)
-        ).order_by("-goal__id").distinct('goal__id')
+        ).order_by("goal__id").distinct('goal__id')
         project = Project.objects.get(id=viewpoint.project.id)
         viewpoints = Viewpoint.objects.filter(
             Q(project=project, status="accepted")
             | Q(project=project, created_by=member)
-        ).order_by("-id")
+        ).order_by("id")
 
         viewpoint_id = viewpoint_id
         paginate = Paginator(goals, 10)
@@ -2423,12 +2417,12 @@ def goals(request, project_id=None, viewpoint_id=None):
     goals = ViewpointGoal.objects.filter(
         Q(viewpoint=viewpoint, goal__status="accepted")
         | Q(viewpoint=viewpoint, goal__created_by=member)
-    ).order_by("-goal__id").distinct('goal__id')
+    ).order_by("goal__id").distinct('goal__id')
     project = Project.objects.get(id=viewpoint.project.id)
     viewpointiees = Viewpoint.objects.filter(project=project).order_by("-id")
     viewpoints = Viewpoint.objects.filter(
         Q(project=project, status="accepted") | Q(project=project, created_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     viewpoint_id = viewpoint_id
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
@@ -2492,7 +2486,7 @@ def viewGoal(request, goal_id, message=None):
         comments = GoalComment.objects.filter(
             Q(goal=goal.goal, comment__status="accepted")
             | Q(goal=goal.goal, comment__commented_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         rate_data = goal_rates(request, goal_id=goal.goal.id)
         if (
             goal.goal.created_by == member
@@ -2504,7 +2498,7 @@ def viewGoal(request, goal_id, message=None):
         comments = GoalComment.objects.filter(
             Q(goal=goal.goal, comment__status="accepted")
             | Q(goal=goal.goal, comment__commented_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         goalRate = GoalRate.objects.filter(goal=goal.goal, star_rate__rated_by=member)
         rates = GoalRate.objects.filter(goal=goal.goal).order_by(
             "-star_rate__number_of_stars"
@@ -2581,7 +2575,7 @@ def viewGoal(request, goal_id, message=None):
     comments = GoalComment.objects.filter(
         Q(goal=goal.goal, comment__status="accepted")
         | Q(goal=goal.goal, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     goalRate = GoalRate.objects.filter(goal=goal.goal, star_rate__rated_by=member)
     rates = GoalRate.objects.filter(goal=goal.goal).order_by(
         "-star_rate__number_of_stars"
@@ -2624,33 +2618,25 @@ def viewGoal(request, goal_id, message=None):
 
 
 @login_required(login_url="login")
-def createGoal(request, viewpoint_id):
+def createGoal(request, project_id):
     indexhead = "Create Goal"
     member = Member.objects.get(user=request.user)
     categories = Category.objects.all().order_by("category_name")
-    viewpoint = Viewpoint.objects.get(id=viewpoint_id)
-    project = Project.objects.get(id=viewpoint.project.id)
+    project = Project.objects.get(id=project_id)
     requirements = Requirement.objects.filter(
         Q(project=project, status="accepted") | Q(project=project, created_by=member)
     ).order_by("name")
     viewpoints = Viewpoint.objects.filter(
         Q(project=project, status="accepted") | Q(project=project, created_by=member)
-    ).order_by("-id")
+    ).order_by("-id").distinct('id')
     if request.method == "POST":
         goal_name = request.POST.get("goal_title")
         description = request.POST.get("description")
         requirement = request.POST.get("requirement")
         created_by = Member.objects.get(user=request.user)
-        view = viewpoint
-
-        if request.POST.get("viewpoint"):
-            viewpoint_new = Viewpoint.objects.get(id=request.POST.get("viewpoint"))
-            viewpoint = viewpoint_new
-        else:
-            viewpoint = view
-
+    
         # then creating goal
-        if viewpoint.project.created_by == member:
+        if project.created_by == member:
             goal = Goal.objects.create(
                 goal_name=goal_name,
                 description=description,
@@ -2667,19 +2653,19 @@ def createGoal(request, viewpoint_id):
             )
         goal.save()
         if goal:
-            create_viewpoint_goal = ViewpointGoal.objects.create(
-                viewpoint=viewpoint, goal=goal
-            )
-            create_viewpoint_goal.save()
-            viewpoint_id = viewpoint_id
-            return redirect("projects:goals", viewpoint_id=viewpoint_id)
+            for viewpoint_id in request.POST.getlist('viewpoint'):
+                viewpoint = Viewpoint.objects.get(id=viewpoint_id)
+                create_viewpoint_goal = ViewpointGoal.objects.create(
+                    viewpoint=viewpoint, goal=goal
+                )
+                create_viewpoint_goal.save()
+            return redirect("projects:projectgoals", project_id)
 
     return render(
         request,
         "projects/Goals/create_goal.html",
         {
             "indexhead": indexhead,
-            "viewpoint_id": viewpoint_id,
             "viewpoints": viewpoints,
             "member": member,
             "project": project,
@@ -2687,6 +2673,7 @@ def createGoal(request, viewpoint_id):
             "categories": categories,
             "notification": notification(request),
             "total_notification": total_notification(request),
+            'hidesearch':1
         },
     )
 
@@ -2702,7 +2689,7 @@ def requirements(request, goal_id):
         requirements = RequirementGoal.objects.filter(
             Q(goal=goal.goal, requirement__status="accepted")
             | Q(goal=goal.goal, requirement__created_by=member)
-        )
+        ).order_by('requirement__id').distinct('requirement__id')
         project = Project.objects.get(id=goal.goal.project.id)
         project_id = project.id
         paginate = Paginator(requirements, 10)
@@ -2728,7 +2715,8 @@ def requirements(request, goal_id):
     requirements = RequirementGoal.objects.filter(
         Q(goal=goal, requirement__status="accepted")
         | Q(goal=goal, requirement__created_by=member)
-    )
+    ).order_by('requirement__id').distinct('requirement__id')
+
     project = Project.objects.get(id=goal.project.id)
     project_id = project.id
     paginate = Paginator(requirements, 10)
@@ -2751,6 +2739,32 @@ def requirements(request, goal_id):
         },
     )
 
+@login_required(login_url="login")
+def requirementgoals(request, requirement_id=None):
+    indexhead = "Associated Requirement Goals"
+    member = Member.objects.get(user=request.user)
+    requirement = Requirement.objects.get(id=requirement_id)
+    goals = RequirementGoal.objects.filter(requirement=requirement).order_by('-requirement__id').distinct('requirement__id')
+    project = Project.objects.get(id=requirement.project.id)
+    project_id = project.id
+    paginate = Paginator(goals, 10)
+    page_number = request.GET.get("page")
+    goals = paginate.get_page(page_number)
+    return render(
+        request,
+        "projects/Goals/goals.html",
+        {
+            "indexhead": indexhead,
+            "goals": goals,
+            "member": member,
+            "project_id": project_id,
+            "project": project,
+            "hidesearch": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
 
 @login_required(login_url="login")
 def viewrequirement(request, requirement_id=None, message=None):
@@ -2760,7 +2774,7 @@ def viewrequirement(request, requirement_id=None, message=None):
     comments = RequirementComment.objects.filter(
         Q(requirement=requirement.requirement, comment__status="accepted")
         | Q(requirement=requirement.requirement, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     requirementRate = RequirementRate.objects.filter(
         requirement=requirement.requirement, star_rate__rated_by=member
     )
@@ -2992,11 +3006,11 @@ def scenarios(request, requirement_id):
         requirements = Requirement.objects.filter(
             Q(project=requirement.project, status="accepted")
             | Q(project=requirement.project, created_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         scenarios = RequirementScenario.objects.filter(
             Q(requirement__id=requirement_id, scenario__status="accepted")
             | Q(requirement__id=requirement_id, scenario__created_by=member)
-        ).order_by("-id")
+        ).order_by("scenario__id").distinct('scenario__id')
         project = Project.objects.get(id=requirement.project.id)
         project_id = project.id
         paginate = Paginator(scenarios, 10)
@@ -3023,7 +3037,7 @@ def scenarios(request, requirement_id):
     project = Project.objects.get(id=requirement.project.id)
     scenarios = RequirementScenario.objects.filter(
         scenario__project=project, requirement=requirement
-    ).order_by("-id")
+    ).order_by("scenario__id").distinct('scenario__id')
     requirements = Requirement.objects.filter(project=project, status="accepted")
 
     project_id = project.id
@@ -3058,7 +3072,7 @@ def viewscenario(request, scenario_id=None, message=None):
     comments = ScenarioComment.objects.filter(
         Q(scenario=scenario.scenario, comment__status="ccepted")
         | Q(scenario=scenario.scenario, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     scenarioRate = ScenarioRate.objects.filter(
         scenario=scenario.scenario, star_rate__rated_by=member
     )
@@ -3094,7 +3108,7 @@ def viewscenario(request, scenario_id=None, message=None):
         comments = ScenarioComment.objects.filter(
             Q(scenario=scenario.scenario, comment__status="ccepted")
             | Q(scenario=scenario.scenario, comment__commented_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         scenarioRate = ScenarioRate.objects.filter(
             scenario=scenario.scenario, star_rate__rated_by=member
         )
@@ -3274,7 +3288,7 @@ def processes(request, requirement_id):
                 | Q(requirement=requirement, process__created_by=member)
             )
             .exclude(process_id__in=Process.objects.filter(status="deleted"))
-            .order_by("-id")
+            .order_by("process__id").distinct('process__id')
         )
 
         project = Project.objects.get(id=requirement.project.id)
@@ -3308,7 +3322,7 @@ def processes(request, requirement_id):
             | Q(requirement=requirement, process__created_by=member)
         )
         .exclude(process_id__in=Process.objects.filter(status="deleted"))
-        .order_by("-id")
+        .order_by("process__id").distinct('process__id')
     )
     paginate = Paginator(processes, 10)
     page_number = request.GET.get("page")
@@ -3348,7 +3362,7 @@ def viewprocess(request, process_id=None, message=None):
         comments = ProcessComment.objects.filter(
             Q(process=process.process, comment__status="accepted")
             | Q(process=process.process, comment__commented_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         processRate = ProcessRate.objects.filter(
             process=process.process, star_rate__rated_by=member
         )
@@ -3396,7 +3410,7 @@ def viewprocess(request, process_id=None, message=None):
     comments = ProcessComment.objects.filter(
         Q(process=process.process, comment__status="accepted")
         | Q(process=process.process, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     processRate = ProcessRate.objects.filter(
         process=process.process, star_rate__rated_by=member
     )
@@ -3525,7 +3539,7 @@ def usecases(request, requirement_id):
             | Q(requirement__id=requirement_id, usecase__created_by=member).exclude(
                 usecase_id__in=UseCase.objects.filter(status="deleted")
             )
-        ).order_by("-id")
+        ).order_by("usecase__id").distinct('usecase__id')
         requirement = Requirement.objects.get(id=requirement_id)
         goal = Goal.objects.get(id=requirement.goal.id)
         requirements = Requirement.objects.filter(
@@ -3579,7 +3593,7 @@ def usecases(request, requirement_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-id")
+        .order_by("usecase__id").distinct('usecase__id')
     )
     requirements = Requirement.objects.filter(
         Q(goal=goal, status="accepted") | Q(goal=goal, created_by=member)
@@ -3629,7 +3643,7 @@ def viewusecase(request, usecase_id=None, message=None):
     comments = UseCaseComment.objects.filter(
         Q(usecase=usecase.usecase, comment__status="accepted")
         | Q(usecase=usecase.usecase, comment__commented_by=member)
-    ).order_by("-id")
+    ).order_by("id")
     usecaseRate = UseCaseRate.objects.filter(
         usecase=usecase.usecase, star_rate__rated_by=member
     )
@@ -3653,7 +3667,7 @@ def viewusecase(request, usecase_id=None, message=None):
         comments = UseCaseComment.objects.filter(
             Q(usecase=usecase.usecase, comment__status="accepted")
             | Q(usecase=usecase.usecase, comment__commented_by=member)
-        ).order_by("-id")
+        ).order_by("id")
         usecaseRate = UseCaseRate.objects.filter(
             usecase=usecase.usecase, star_rate__rated_by=member
         )
@@ -5169,7 +5183,7 @@ def general_goals(request, project_id):
             Q(goal__project=project, goal__status="accepted")
             | Q(goal__project=project, goal__created_by=member)
         )
-        .order_by("-goal__id")
+        .order_by("goal__id")
         .distinct('goal__id')
     )
     paginate = Paginator(goals, 10)
@@ -5203,7 +5217,7 @@ def general_requirements(request, project_id):
             Q(requirement__project=project, requirement__status="accepted")
             | Q(requirement__project=project, requirement__created_by=member)
         )
-        .order_by("-requirement__id", "requirement")
+        .order_by("requirement__id", "requirement")
         .distinct("requirement__id", "requirement")
     )
     paginate = Paginator(requirements, 10)
@@ -5241,7 +5255,7 @@ def general_scenario(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-scenario__id")
+        .order_by("scenario__id")
         .distinct("scenario__id")
     )
     paginate = Paginator(scenarios, 10)
@@ -5279,7 +5293,7 @@ def general_process(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-process__id")
+        .order_by("process__id")
         .distinct("process__id")
     )
     paginate = Paginator(processes, 10)
@@ -5316,7 +5330,7 @@ def general_usecase(request, project_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("-usecase__id", "usecase")
+        .order_by("usecase__id", "usecase")
         .distinct("usecase__id", "usecase")
     )
     paginate = Paginator(usecases, 10)
@@ -5626,9 +5640,11 @@ def delete_viewpoint(request, viewpoint_id):
 @login_required(login_url="login")
 def delete_goal(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
+    
     delete_goal = Goal.objects.filter(id=goal_id).delete()
+
     if delete_goal:
-        return redirect("projects:goals", viewpoint_id=goal.viewpoint.id)
+        return redirect("projects:projectgoals", project_id=goal.project.id)
 
 
 @login_required(login_url="login")
@@ -5636,37 +5652,32 @@ def delete_requirement(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
     delete_requirement = Requirement.objects.filter(id=requirement_id).delete()
     if delete_requirement:
-        return redirect("projects:requirements", goal_id=requirement.goal.id)
+        return redirect("projects:projectrequirements", project_id=requirement.project.id)
 
 
 @login_required(login_url="login")
 def delete_scenario(request, scenario_id):
     scenario = RequirementScenario.objects.get(id=scenario_id)
-    delete_scenario = Scenario.objects.filter(id=scenario.scenario.id).update(
-        status="deleted"
-    )
+    delete_scenario = Scenario.objects.filter(id=scenario.scenario.id).delete()
     if delete_scenario:
-        return redirect("projects:scenarios", requirement_id=scenario.requirement.id)
+        return redirect("projects:projectscenarios", project_id=scenario.scenario.project.id)
 
 
 @login_required(login_url="login")
 def delete_process(request, process_id):
     process = RequirementProcess.objects.get(id=process_id)
-    delete_process = Process.objects.filter(id=process.process.id).update(
-        status="deleted"
-    )
+    delete_process = Process.objects.filter(id=process.process.id).delete()
     if delete_process:
-        return redirect("projects:processes", requirement_id=process.requirement.id)
+        return redirect("projects:projectprocesses", project_id=process.process.project.id)
 
 
 @login_required(login_url="login")
 def delete_usecase(request, usecase_id):
     usecase = RequirementUsecase.objects.get(id=usecase_id)
-    delete_usecase = UseCase.objects.filter(id=usecase.usecase.id).update(
-        status="deleted"
-    )
+
+    delete_usecase = UseCase.objects.filter(id=usecase.usecase.id).delete()
     if delete_usecase:
-        return redirect("projects:usecases", requirement_id=usecase.requirement.id)
+        return redirect("projects:projectusecases", project_id=usecase.usecase.project.id)
 
 
 # Contribution approval, rejections and blocks
@@ -6415,7 +6426,7 @@ def related_goals(request, goal_id):
     for goal_id in related_goals_id:
         goal_ids.append(goal_id.related_goal)
 
-    goals = ViewpointGoal.objects.filter(goal__id__in=goal_ids).order_by("-goal__id").distinct('goal__id')
+    goals = ViewpointGoal.objects.filter(goal__id__in=goal_ids).order_by("goal__id").distinct('goal__id')
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
     goals = paginate.get_page(page_number)
@@ -6427,6 +6438,7 @@ def related_goals(request, goal_id):
             "goals": goals,
             "type": type_,
             "member": member,
+            'goal':original_goal,
             "goal_id": original_goal.id,
             "hidesearch": hidesearch,
             "project": original_goal.project,
@@ -6452,7 +6464,7 @@ def decomposed_goals(request, goal_id):
     for goal_id in related_goals_id:
         goal_ids.append(goal_id.decomposed_goal)
 
-    goals = ViewpointGoal.objects.filter(goal__id__in=goal_ids).order_by("-goal__id").distinct('goal__id')
+    goals = ViewpointGoal.objects.filter(goal__id__in=goal_ids).order_by("goal__id").distinct('goal__id')
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
     goals = paginate.get_page(page_number)
@@ -6462,6 +6474,7 @@ def decomposed_goals(request, goal_id):
         {
             "indexhead": indexhead,
             "goals": goals,
+            'goal':original_goal,
             "type": type_,
             "member": member,
             "goal_id": original_goal.id,
@@ -6486,7 +6499,7 @@ def associate_viewpoints(request, goal_id):
     for viewpoint in viewpoints:
         viewpoint_ids.append(viewpoint.viewpoint.id)
     print(viewpoint_ids)
-    viewpoints = Viewpoint.objects.filter(id__in=viewpoint_ids).order_by("-id")
+    viewpoints = Viewpoint.objects.filter(id__in=viewpoint_ids).order_by("id")
     paginator = Paginator(viewpoints, 6)
     pagenumber = request.GET.get("page")
     viewpoints = paginator.get_page(pagenumber)
@@ -6511,9 +6524,12 @@ def scenario_requirement(request, scenario_id):
     indexhead = "Scenario Associated Requirements"
     hidesearch = 1
     scenario = Scenario.objects.get(id=scenario_id)
-    requirements = RequirementScenario.objects.filter(scenario=scenario).order_by("-id")
+    requirements = RequirementScenario.objects.filter(scenario=scenario).order_by("requirement__id").distinct('requirement__id')
     project = Project.objects.get(id=scenario.project.id)
     member = Member.objects.get(user=request.user)
+    paginator = Paginator(requirements, 10)
+    pagenumber = request.GET.get("page")
+    requirements = paginator.get_page(pagenumber)
     return render(
         request,
         "projects/requirements/requirements.html",
@@ -6534,7 +6550,7 @@ def process_requirements(request, process_id):
     indexhead = "Process Associated Requirements"
     hidesearch = 1
     process = Process.objects.get(id=process_id)
-    requirements = RequirementProcess.objects.filter(process=process).order_by("-id")
+    requirements = RequirementProcess.objects.filter(process=process).order_by("requirement__id").distinct('requirement__id')
     project = Project.objects.get(id=process.project.id)
     member = Member.objects.get(user=request.user)
     paginate = Paginator(requirements, 10)
@@ -6560,7 +6576,7 @@ def usecase_requirements(request, usecase_id):
     indexhead = "Use case Associated Requirements"
     hidesearch = 1
     usecase = UseCase.objects.get(id=usecase_id)
-    requirements = RequirementUsecase.objects.filter(usecase=usecase).order_by("-id")
+    requirements = RequirementUsecase.objects.filter(usecase=usecase).order_by("-usecase__id").distinct('usecase__id')
     project = Project.objects.get(id=usecase.project.id)
     member = Member.objects.get(user=request.user)
     paginate = Paginator(requirements, 10)

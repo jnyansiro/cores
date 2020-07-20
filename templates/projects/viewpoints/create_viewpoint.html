@@ -1,89 +1,66 @@
-
-
+{% extends 'header.html' %}
 {% load static %}
-{% include '../project_header.html'%}
 
-<!-- Main content -->
-<div class="content-wrapper">
+{% block sidebar %}
 
-    <!-- Content area -->
-    <div class="content">
+{% endblock sidebar %}
+{% block content %}
+<script src="{% static 'global_assets/js/demo_pages/form_multiselect.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/forms/selects/bootstrap_multiselect.js' %}"></script>
+<div class="card">
+    <div class="card-header bg-primary-400 header-elements-inline">
+        <h6 class="card-title">
+            <i class="icon-plus3"></i>
+            Create Viewpoint for
+        </h6>
 
-        <!-- Main charts -->
-        <div class="row">
-            <div class="col-xl-12">
+    </div>
 
-                <!-- Traffic sources -->
-                <div class="card">
-                    {% include '../workspace_title.html'%}
-                    <div class="card-header header-elements-inline">
-                        <h6 class="card-title">Create Viewpoint</h6>
-                        <div class="header-elements">
-                            
+    <div class="card-body py-0">
+        <form method="POST" action="{% url 'projects:createviewpoint' project_id=project_id %}"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                        <div class="col-md-12">
+                            <label>Viewpoint Title:</label>
+                            <input class="form-control" type="text" name="viewpoint_title" required
+                                placeholder="Enter Viewpoint title" required>
                         </div>
                     </div>
-
-                    <div class="card-body py-0">
-                        <form method="POST" action="{% url 'projects:createviewpoint' project_id=project_id %}"
-                            enctype="multipart/form-data">
-                            {% csrf_token %}
-                        <div class="row">
-
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Viewpoint Title:</label>
-                                        <input class="form-control" type="text" name="viewpoint_title" required
-                                            placeholder="Enter Viewpoint title" required>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center justify-content-center mb-2">
-                                    <div class="col-md-12">
-                                        <label>Viewpoint photo:</label>
-                                        <input class="form-control-styled" type="file" name="viewpoint_photo"
-                                           accept="image/*" >
-                                    </div>
-                                </div>
-
-                            </div>
-                       
-
-                           
-
-                         
-                        </div>
-                        <div className="form-group col-md-6 float-left">
-                            <label>Viewpoint Descriptions:</label>
-                            <textarea class="form-control" name="viewpoint_descriptions" id="editor-full" rows="4"
-                                bottom="4"></textarea><br>
-                                <button
-                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ml-auto float-right">
-                                <b>
-                                    <i class="icon-plus3"></i>
-                                </b>
-                                create
-                            </button>
-                                    
-                        </div>
-    
-                    </div>
-                    </div>
-            </div>
-        </div></div></div>
 
                 </div>
-                </form>
-            </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                        <div class="col-md-12">
+                            <label>Viewpoint photo:</label>
+                            <input class="form-control-styled" type="file" name="viewpoint_photo" accept="image/*">
+                        </div>
+                    </div>
 
-            <div class="chart position-relative" id="traffic-sources"></div>
-        </div>
-        <!-- /traffic sources -->
+                </div>
+
+
+
+
+
+            </div>
+            <div className="form-group col-md-6 float-left">
+                <label>Viewpoint Descriptions:</label>
+                <textarea class="form-control" name="viewpoint_descriptions" id="editor-full" rows="4"
+                    bottom="4"></textarea><br>
+                <button
+                    class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ml-auto float-right">
+                    <b>
+                        <i class="icon-plus3"></i>
+                    </b>
+                    create
+                </button>
+
+            </div>
 
     </div>
 </div>
-<
-<!-- /main charts -->
-</html>
+{% endblock content %}
