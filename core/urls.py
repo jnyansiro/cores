@@ -31,6 +31,7 @@ urlpatterns = [
     path("", include("data_analysis.urls")),
     path("admin/", admin.site.urls),
     path("", include("projects.urls")),
+    path('404', pagenotfound, name='404'),
     path("login", login, name="login"),
     path('privacy-policy', privacyPolicy, name='privacy-policy'),
     path('terms-conditions', termsConditions, name='terms-conditions'),
@@ -39,4 +40,4 @@ urlpatterns = [
     url(r'^reset-password/$', recovery, name="reset-password")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = pagenotfound
-handler500 = servererror
+

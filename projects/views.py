@@ -17,6 +17,7 @@ import datetime
 import json
 from datetime import datetime
 from django.utils.timezone import now
+from django.http import Http404  
 
 
 # Create your views here.
@@ -967,7 +968,7 @@ def forgetpassword(request):
     return render(request, "password_recover.html", {})
 
 
-def pagenotfound(request, exception):
+def pagenotfound(request, exception=None):
 
     return render(request, "pagenotfound.html", {})
 

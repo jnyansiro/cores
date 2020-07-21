@@ -38,7 +38,7 @@ SECRET_KEY = "4tmbzn66wnk@u!d_cdc2xk8zp05upl_wm@-vv7zng46(n3%sho"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -119,39 +119,33 @@ WSGI_APPLICATION = "core.wsgi.application"
 # }
 
 
-# DATABASES = {
-#    'default': {
-
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-
-#         'NAME': 'core',
-
-#         'USER': 'postgres',
-
-#         'PASSWORD': 'b@11game',
-
-#         'HOST': '157.245.12.198',
-
-#     }
-# }
-
 DATABASES = {
    'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
 
-        'NAME': 'cores',
+        'NAME': 'core',
 
         'USER': 'postgres',
 
-        'PASSWORD': 'Namwinyu1995',
+        'PASSWORD': 'b@11game',
 
-        'HOST': 'localhost',
+        'HOST': '157.245.12.198',
 
     }
 }
+
+# DATABASES = {
+#    'default': {
+
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'cores',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Namwinyu1995',
+#         'HOST': 'localhost',
+#     }
+# }
 
 
 # Password validation
