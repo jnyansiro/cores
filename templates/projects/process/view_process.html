@@ -209,9 +209,8 @@
                 {% endif %}
             
 
-                <div
-                    class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
-                    <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-6 p-0 ">
+                <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
+                    <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-4 p-0 ">
                         <li class="list-inline-item"><a href="#" class=" btn btn-primary " data-toggle="modal"
                                 data-target="#rates">
                                 {{total_rates}} Rates
@@ -265,18 +264,24 @@
                         </li>
 
                     </ul>
-                    <div class="col-md-6 text-right" style="margin-left: 1rem;">
+                    <div class="col-md-8 text-right" style="margin-left: 1rem;">
+                        <li class="list-inline-item">
+                            <a href="{% url 'projects:processrequirements' process_id=process.process.id%}" class="btn bg-info-400 btn-labeled  rounded-round  btn-sm mb-1">
+                                
+                                Associated Requirement(s)
+                            </a>
+                        </li>
                         {% if creator == "me" %}
                         <li class="list-inline-item">
                             <a data-toggle="modal" data-target="#update_process"
-                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm">
+                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm mb-1">
                                 <b><i class="icon-pencil"></i></b>
                                 Edit
                             </a>
                         </li>
                         <li class="list-inline-item ">
                             <a data-toggle="modal" data-target="#delete"
-                                class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                                class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm mb-1">
                                 <b><i class="icon-trash"></i></b>
                                 Delete
                             </a>
@@ -284,7 +289,7 @@
                         {% endif %}
                         <li class="list-inline-item ">
                             <a href="{% url 'projects:projectusecases' project_id=project.id %}"
-                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm mb-1">
                                 <b><i class="icon-arrow-right15"></i></b>
                                 Use Cases
                             </a>

@@ -16,11 +16,17 @@
                 <h5 class="card-title">{{ indexhead }}:</h5>
                 <div class="header-elements">
 
-                    <a data-toggle="modal" data-target="#add_incentive"
-                        class="btn bg-white text-primary btn-labeled btn-labeled btn-labeled-right rounded-round text-center float-right">
-                        <b><i class="icon-plus3"></i></b>
-                        Provide
-                    </a>
+                    <div class="btn-group justify-content-center">
+                    <a href="#" class="btn bg-white dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                        data-toggle="dropdown"><b><i class="icon-cog5"></i></b>Actions</a>
+                    <div class="dropdown-menu">
+                        <a data-toggle="modal" data-target="#add_incentive" class="dropdown-item">provide</a>
+                        <a data-toggle="modal" data-target="#view" class="dropdown-item">view</a>
+                        <a data-toggle="modal" data-target="#add_incentive_type" class="dropdown-item">Add</a>
+                    
+                    
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -52,7 +58,7 @@
                                 </td>
 
                                 <td>
-                                    {{ incentive.description }}
+                                    {{incentive.description}}
                                 </td>
                                 <td>
                                     <a href="{% url 'projects:removeincentive' incentive_id=incentive.id %}"
@@ -113,12 +119,12 @@
                                                             {{incentive_type.incentive.incentive_type}}</option>
                                                         {% endfor %}
                                                     </select>
-                                                    <span class="input-group-append">
+                                                    <!-- <span class="input-group-append">
                                                         <span class="input-group-append"><i
                                                                 class="icon-add icon-2x text-green ml-1"
                                                                 data-toggle="modal"
                                                                 data-target="#add_incentive_type"></i></span>
-                                                    </span>
+                                                    </span> -->
                                                 </div>
 
 
@@ -152,6 +158,61 @@
                 </div>
                 <!-- /vertical form modal -->
 
+                <div id="view" class="modal  fade" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Project Incentives:</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                
+                
+                            <div class="modal-body">
+                                <table class="table table-bordered table-responsive-xl table-hover">
+                                    <thead class="bg-primary-400 text-white">
+                                        <tr>
+                
+                                            <th>Incentive type</th>
+                                            <th>description</th>
+                                            <th>Options</th>
+                
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                
+                                        {% for incentive in incentives %}
+                                        <tr>
+                
+                
+                                            <td> <label>{{ incentive.incentive.incentive_type }}</label> </td>
+                                            <td> {{ incentive.description }}</td>
+                
+                
+                                            <td>
+                                                <a href="{% url 'projects:removeprojectincentive' incentive.id%}"
+                                                    title="Delete" data-popup="tooltip" data-placement="bottom"
+                                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                                    <i class="icon-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                
+                
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                
+                
+                            </div>
+                
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
 
@@ -163,7 +224,7 @@
 
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-                            <h6 class="text-center">Add Incentive Type:</h6>
+                            <h6 class="text-center">Add Incentive:</h6>
 
                             <form method="POST" action="{% url 'projects:addincentives' project_id=project_id %}"
                                 enctype="multipart/form-data">
@@ -174,15 +235,20 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <label>Select Incentive Types:</label>
-                                                <select class="form-control multiselect" name="incentives"
-                                                    multiple="multiple" data-fouc required>
+                                                <select class="form-control" name="incentives"
+                                                     required>
                                                     {% for type in types %}
                                                     <option value="{{ type.id }}"> {{ type.incentive_type }}</option>
                                                     {% endfor %}
 
                                                 </select>
                                             </div>
-
+                                            <div class="col-sm-12">
+                                                <label>Description:</label>
+                                                <textarea name="description" required class="form-control mb-3" rows="3" cols="1"
+                                                    placeholder="Descriptions"></textarea>
+                                            </div>
+              
 
                                         </div>
                                     </div>

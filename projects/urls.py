@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^updatepersonaldetails/$', updatePersonalDetails, name="updatepersonaldetails"),
     url(r'^updateresidencedetails/$', updateResidenceDetails, name="updateresidencedetails"),
     url(r'^updatejobdetails/$', updateJobDetails, name="updatejobdetails"),
+    url(r'^removeprojectincentive/(?P<project_incentive_id>\d+)/$', remove_project_incentive, name="removeprojectincentive"),
     path("profile", profile, name="profile"),
 
 
@@ -55,7 +56,7 @@ urlpatterns = [
     url(r'^projectusecases/(?P<project_id>\d+)/$', general_usecase, name="projectusecases"),
 
 
-    # VIEWPOINT URLSrequirements
+    # VIEWPOINT URLS
     url(r'^viewpoint/(?P<viewpoint_id>\d+)/$', viewPoint, name="viewpoint"),
     url(r'^associate-viewpoints/(?P<goal_id>\d+)/$', associate_viewpoints, name="associate-viewpoints"),
     url(r'^viewpoints/(?P<project_id>\d+)/$', viewpoints, name="viewpoints"),
@@ -70,6 +71,7 @@ urlpatterns = [
     url(r'^decompose-goal/$', decompose_goal, name="decompose-goal"),
     url(r'^relate-goal/$', relate_goal, name="relate-goal"),
     url(r'^associate-goal/$', associate_goal_with_viewpoint, name="associate-goal"),
+
 
         # REQUIREMENT URLS
     url(r'^requirements/(?P<goal_id>\d+)/$', requirements, name="requirements"),

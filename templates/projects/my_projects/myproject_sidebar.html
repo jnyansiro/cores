@@ -83,7 +83,7 @@
             {% if project %}
             <a href="{% url 'projects:projectincentives' project_id=project.id %}" class="nav-link {% if request.get_full_path == projectincentives %} active {% endif %}"><i
                     class="icon-gift"></i>
-                <span>Project Incentives</span></a>
+                <span>Manage Incentives</span></a>
             {% endif%}
         </li>
         <li class="nav-item"><a href="{% url 'projects:generatedocs' project_id=project.id %}" class="nav-link {% if request.get_full_path == generatedocs %} active {% endif %}"><i

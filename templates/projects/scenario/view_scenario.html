@@ -265,6 +265,13 @@
 
                     </ul>
                     <div class="col-md-6 text-right" style="margin-left: 1rem;">
+                        <li class="list-inline-item">
+                            <a href="{% url 'projects:scenariorequirement' scenario_id=scenario.scenario.id %}"
+                                class="btn bg-info-400 btn-labeled  rounded-round  btn-sm mb-1">
+                        
+                                Associated Requirement(s)
+                            </a>
+                        </li>
                         {% if creator == "me" %}
                         <li class="list-inline-item">
                             <a data-toggle="modal" data-target="#update_scenario"

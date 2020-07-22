@@ -108,7 +108,7 @@
 </div>
 <!-- /vertical form modal -->
 
-<!-- Update requirement -->
+<!-- View stakeholders -->
 <div id="view" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -161,3 +161,65 @@
 </div>
 </div>
 <!-- /vertical form modal -->
+
+
+
+
+<!-- in addition  -->
+
+<!-- /vertical form modal -->
+
+<div id="view_incentive" class="modal  fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Project Incentives with Criterias:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered table-responsive-xl table-hover">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Incentive type</th>
+                            <th>description</th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for incentive in incentives %}
+                        <tr>
+
+
+                            <td> <label>{{ incentive.incentive.incentive_type }}</label> </td>
+                            <td> {{ incentive.description }}</td>
+
+                        </tr>
+
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            {% if not incentives %}
+            <center>
+            <div class="alert alert-info text-center col-md-8">
+                This project has no any Incentive!
+            </div>
+            </center>
+            {% endif %}
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

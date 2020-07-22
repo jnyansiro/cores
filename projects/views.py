@@ -1533,7 +1533,7 @@ def projectIncentive(request, project_id=None):
                 start=1,
             )
             return redirect("projects:projectincentives", project_id=project_id)
-
+    incentives = ProjectIncentive.objects.filter(project=project)
     return render(
         request,
         "projects/my_projects/project_incentive.html",
@@ -1541,6 +1541,7 @@ def projectIncentive(request, project_id=None):
             "project_incentives": project_incentives,
             "incentive_types": incentive_types,
             "project_members": project_members,
+            'incentives':incentives,
             "indexhead": headindex,
             "hidesearch": hidesearch,
             "project_id": project_id,
@@ -1556,15 +1557,14 @@ def projectIncentive(request, project_id=None):
 @login_required(login_url="login")
 def add_incentive(request, project_id):
     project = Project.objects.get(id=project_id)
-    incentives = request.POST.getlist("incentives")
-    for incentive in incentives:
-        new_incentive = Incentive.objects.get(id=incentive)
-        project_incentive = ProjectIncentive.objects.create(
-            project=project, incentive=new_incentive
-        )
-        project_incentive.save()
+    incentive = request.POST.get("incentives")
+    description = request.POST.get('description')
+    new_incentive = Incentive.objects.get(id=incentive)
+    project_incentive = ProjectIncentive.objects.create(
+        project=project, incentive=new_incentive, description=description
+    )
+    project_incentive.save()
     return redirect("projects:projectincentives", project_id=project_id)
-
 
 @login_required(login_url="login")
 def remove_incentive(request, incentive_id):
@@ -1573,6 +1573,11 @@ def remove_incentive(request, incentive_id):
     return redirect(
         "projects:projectincentives", project_id=project.projectincentive.project.id
     )
+
+@login_required(login_url="login")
+def remove_project_incentive(request, project_incentive_id):
+    remove = ProjectIncentive.objects.filter(id=project_incentive_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
 
 @login_required(login_url="login")
@@ -1683,6 +1688,7 @@ def viewMyproject(request, project_id):
             "likes": likes,
             "dislikes": dislikes,
             "rates": rates,
+            'incentives':ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
             "notification": notification(request),
             "total_notification": total_notification(request),
@@ -1739,6 +1745,7 @@ def viewProject(request, project_id, message=None):
             "message": message,
             "rates": rates,
             "likes": likes,
+            'incentives':ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
             "project_member": project_member,
             "dislikes": dislikes,
@@ -2803,6 +2810,11 @@ def requirementgoals(request, requirement_id=None):
     requirement = Requirement.objects.get(id=requirement_id)
     goals = RequirementGoal.objects.filter(requirement=requirement).order_by('-requirement__id').distinct('requirement__id')
     project = Project.objects.get(id=requirement.project.id)
+    goal_list = []
+    for goal in goals:
+        goal_list.append(goal.goal)
+    
+    goals = ViewpointGoal.objects.filter(goal__in=goal_list).order_by('goal__id').distinct('goal__id')
     project_id = project.id
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
@@ -6678,6 +6690,11 @@ def scenario_requirement(request, scenario_id):
     hidesearch = 1
     scenario = Scenario.objects.get(id=scenario_id)
     requirements = RequirementScenario.objects.filter(scenario=scenario).order_by("requirement__id").distinct('requirement__id')
+    requirement_list = []
+    for requirement in requirements:
+        requirement_list.append(requirement.requirement)
+
+    requirements = RequirementGoal.objects.filter(requirement__in=requirement_list).order_by('requirement__id').distinct('requirement__id')
     project = Project.objects.get(id=scenario.project.id)
     member = Member.objects.get(user=request.user)
     paginator = Paginator(requirements, 10)
@@ -6705,6 +6722,11 @@ def process_requirements(request, process_id):
     process = Process.objects.get(id=process_id)
     requirements = RequirementProcess.objects.filter(process=process).order_by("requirement__id").distinct('requirement__id')
     project = Project.objects.get(id=process.project.id)
+    requirement_list = []
+    for requirement in requirements:
+        requirement_list.append(requirement.requirement)
+
+    requirements = RequirementGoal.objects.filter(requirement__in=requirement_list).order_by('requirement__id').distinct('requirement__id')
     member = Member.objects.get(user=request.user)
     paginate = Paginator(requirements, 10)
     page_number = request.GET.get("page")
@@ -6731,6 +6753,11 @@ def usecase_requirements(request, usecase_id):
     usecase = UseCase.objects.get(id=usecase_id)
     requirements = RequirementUsecase.objects.filter(usecase=usecase).order_by("-usecase__id").distinct('usecase__id')
     project = Project.objects.get(id=usecase.project.id)
+    requirement_list = []
+    for requirement in requirements:
+        requirement_list.append(requirement.requirement)
+
+    requirements = RequirementGoal.objects.filter(requirement__in=requirement_list).order_by('requirement__id').distinct('requirement__id')
     member = Member.objects.get(user=request.user)
     paginate = Paginator(requirements, 10)
     page_number = request.GET.get("page")
