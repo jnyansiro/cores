@@ -1296,3 +1296,18 @@ class ResetPassword(models.Model):
     generated_key = models.CharField(max_length=8)
     status = models.CharField(max_length=56)
     created_on = models.DateTimeField(auto_now=True)
+
+class ScenarioProcess(models.Model):
+    scenario = models.ForeignKey("Scenario",on_delete=models.CASCADE)
+    process = models.ForeignKey("Process", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class ScenarioUsecase(models.Model):
+    scenario = models.ForeignKey("Scenario",on_delete=models.CASCADE)
+    usecase = models.ForeignKey("UseCase", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+class ProcessUsecase(models.Model):
+    usecase = models.ForeignKey("UseCase",on_delete=models.CASCADE)
+    process = models.ForeignKey("Process", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)

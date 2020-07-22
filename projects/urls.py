@@ -141,27 +141,9 @@ urlpatterns = [
     url(r'^viewimageresource/(?P<resource_id>\d+)/$', viewImageResource, name='viewimageresource'),
 
     # Like and dislike urls
-    url(r'^myprojectlike/(?P<project_id>\d+)/$', my_project_like, name="myprojectlike"),
-    url(r'^projectlike/(?P<project_id>\d+)/$', project_like, name="projectlike"),
-    url(r'^viewpointlike/(?P<viewpoint_id>\d+)/$', viewpoint_like, name="viewpointlike"),
-    url(r'^goallike/(?P<goal_id>\d+)/$', goal_like, name="goallike"),
-    url(r'^requirementlike/(?P<requirement_id>\d+)/$', requirement_like, name="requirementlike"),
-    url(r'^scenariolike/(?P<scenario_id>\d+)/$', scenario_like, name="scenariolike"),
-    url(r'^processlike/(?P<process_id>\d+)/$', process_like, name="processlike"),
-    url(r'^usecaselike/(?P<usecase_id>\d+)/$', usecase_like, name="usecaselike"),
     url(r'^like/(?P<module_id>\d+)/$', like, name="like"),
     url(r'^dislike/(?P<module_id>\d+)/$', dislike, name="dislike"),
-    
 
-     # dislikes
-    url(r'^myprojectdislike/(?P<project_id>\d+)/$', my_project_dislike, name="myprojectdislike"),   
-    url(r'^projectdislike/(?P<project_id>\d+)/$', project_dislike, name="projectdislike"),
-    url(r'^viewpointdislike/(?P<viewpoint_id>\d+)/$', viewpoint_dislike, name="viewpointdislike"),
-    url(r'^goaldislike/(?P<goal_id>\d+)/$', goal_dislike, name="goaldislike"),
-    url(r'^requirementdislike/(?P<requirement_id>\d+)/$', requirement_dislike, name="requirementdislike"),
-    url(r'^scenariodislike/(?P<scenario_id>\d+)/$', scenario_dislike, name="scenariodislike"),
-    url(r'^processdislike/(?P<process_id>\d+)/$', process_dislike, name="processdislike"),
-    url(r'^usecasedislike/(?P<usecase_id>\d+)/$', usecase_dislike, name="usecasedislike"),
 
     # Reports URLS
     url(r'^generalreports/$', general_report, name='generalreports'),

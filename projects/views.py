@@ -17,7 +17,7 @@ import datetime
 import json
 from datetime import datetime
 from django.utils.timezone import now
-from django.http import Http404  
+from django.http import Http404
 
 
 # Create your views here.
@@ -888,7 +888,9 @@ def registration(request):
         if password == password2:
             if User.objects.filter(email=email).exists():
                 message = (
-                "sorry there is existing Member with that Email (" + email +"), One email can be used only by one Member"
+                    "sorry there is existing Member with that Email ("
+                    + email
+                    + "), One email can be used only by one Member"
                 )
                 return render(request, "registration.html", {"message": message})
             if not User.objects.filter(username=username).exists():
@@ -992,7 +994,7 @@ def createProject(request):
         project_participation = request.POST.getlist("participation")
         project_description = request.POST.get("project_descriptions")
         incentives = request.POST.getlist("incentives")
-        country = request.POST.get('country')
+        country = request.POST.get("country")
 
         # getting member who create of project
         member = Member.objects.get(user=request.user.id)
@@ -1010,7 +1012,7 @@ def createProject(request):
                     project_visibility=project_visibility,
                     description=project_description,
                     due_date=due_date,
-                    country=country
+                    country=country,
                 )
             else:
                 print("seccond one called:")
@@ -1021,7 +1023,7 @@ def createProject(request):
                     project_visibility=project_visibility,
                     description=project_description,
                     due_date=due_date,
-                    country=country
+                    country=country,
                 )
             project.save()
 
@@ -1051,7 +1053,7 @@ def createProject(request):
             num = 0
             for default_viewpoint in default_viewpoints:
                 num = num + 1
-                number = 'V' + str(num)
+                number = "V" + str(num)
                 viewpoint = Viewpoint.objects.create(
                     project=project,
                     viewpoint_name=default_viewpoint.viewpoint_name,
@@ -1223,13 +1225,12 @@ def updatePersonalDetails(request):
         if date_of_birth == "" or date_of_birth == None:
             date_of_birth = member.date_of_birth
 
-        
         if date_of_birth == None:
             message = "Date of Birth should not be Null or None"
             member_details = Member.objects.get(user=request.user)
             indexhead = "Profile"
             hidesearch = "hide"
-        
+
             return render(
                 request,
                 "user/profile.html",
@@ -1248,7 +1249,7 @@ def updatePersonalDetails(request):
             member_details = Member.objects.get(user=request.user)
             indexhead = "Profile"
             hidesearch = "hide"
-        
+
             return render(
                 request,
                 "user/profile.html",
@@ -1262,7 +1263,6 @@ def updatePersonalDetails(request):
                     "total_notification": total_notification(request),
                 },
             )
-
 
         update_profile = Member.objects.filter(id=member.id).update(
             first_name=first_name,
@@ -1322,38 +1322,44 @@ def editProject(request, project_id):
     sectors = Sector.objects.all().order_by("sector_name")
     member = Member.objects.get(user=request.user)
     if request.method == "POST":
-        project_title = request.POST.get('project_title')
-        if  not request.POST.get('project_photo'):
+        project_title = request.POST.get("project_title")
+        if not request.POST.get("project_photo"):
             project_photo = project.project_photo
         else:
-            project_photo = request.POST.get('project_photo')
-        description = request.POST.get('project_descriptions')
+            project_photo = request.POST.get("project_photo")
+        description = request.POST.get("project_descriptions")
 
-        if not request.POST.get('due_date'):
+        if not request.POST.get("due_date"):
             due_date = project.due_date
         else:
-            due_date = request.POST.get('due_date')
-        if not request.POST.get('visibility'):
+            due_date = request.POST.get("due_date")
+        if not request.POST.get("visibility"):
             visibility = project.project_visibility
         else:
-            visibility = request.POST.get('visibility')
+            visibility = request.POST.get("visibility")
         update_project = Project.objects.filter(id=project_id)
-        update_project.update(project_title=project_title,project_photo=project_photo,description=description,project_visibility=visibility,due_date=due_date)
-        if "Invitational" in request.POST.getlist('participation'):
+        update_project.update(
+            project_title=project_title,
+            project_photo=project_photo,
+            description=description,
+            project_visibility=visibility,
+            due_date=due_date,
+        )
+        if "Invitational" in request.POST.getlist("participation"):
             update_project.update(is_invitational=True)
 
-        if "Discoverable" in request.POST.getlist('participation'):
+        if "Discoverable" in request.POST.getlist("participation"):
             update_project.update(is_discoverable=True)
 
-        if request.POST.get('visibility') == 'private':
+        if request.POST.get("visibility") == "private":
             update_project.update(is_public=False)
 
-        if request.POST.get('visibility') == 'public':
+        if request.POST.get("visibility") == "public":
             update_project.update(is_public=True)
             update_project.update(is_invitational=False)
             update_project.update(is_discoverable=False)
 
-        return redirect('projects:viewmyproject', project_id=project_id)
+        return redirect("projects:viewmyproject", project_id=project_id)
     print("sectors")
     return render(
         request,
@@ -1541,7 +1547,7 @@ def projectIncentive(request, project_id=None):
             "project_incentives": project_incentives,
             "incentive_types": incentive_types,
             "project_members": project_members,
-            'incentives':incentives,
+            "incentives": incentives,
             "indexhead": headindex,
             "hidesearch": hidesearch,
             "project_id": project_id,
@@ -1558,13 +1564,14 @@ def projectIncentive(request, project_id=None):
 def add_incentive(request, project_id):
     project = Project.objects.get(id=project_id)
     incentive = request.POST.get("incentives")
-    description = request.POST.get('description')
+    description = request.POST.get("description")
     new_incentive = Incentive.objects.get(id=incentive)
     project_incentive = ProjectIncentive.objects.create(
         project=project, incentive=new_incentive, description=description
     )
     project_incentive.save()
     return redirect("projects:projectincentives", project_id=project_id)
+
 
 @login_required(login_url="login")
 def remove_incentive(request, incentive_id):
@@ -1573,6 +1580,7 @@ def remove_incentive(request, incentive_id):
     return redirect(
         "projects:projectincentives", project_id=project.projectincentive.project.id
     )
+
 
 @login_required(login_url="login")
 def remove_project_incentive(request, project_incentive_id):
@@ -1688,7 +1696,7 @@ def viewMyproject(request, project_id):
             "likes": likes,
             "dislikes": dislikes,
             "rates": rates,
-            'incentives':ProjectIncentive.objects.filter(project=project),
+            "incentives": ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
             "notification": notification(request),
             "total_notification": total_notification(request),
@@ -1745,7 +1753,7 @@ def viewProject(request, project_id, message=None):
             "message": message,
             "rates": rates,
             "likes": likes,
-            'incentives':ProjectIncentive.objects.filter(project=project),
+            "incentives": ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
             "project_member": project_member,
             "dislikes": dislikes,
@@ -2327,23 +2335,29 @@ def createViewpoint(request, project_id):
         # creating viewpoint number
         viewpoint_list = Viewpoint.objects.filter(project=project)
         if viewpoint_list:
-            viewpoint_list = viewpoint_list.order_by('-id')[0]
+            viewpoint_list = viewpoint_list.order_by("-id")[0]
             if viewpoint_list.number != None:
                 interger = viewpoint_list.number[1:]
-                number = 'V' + str(int(interger) + 1)
+                number = "V" + str(int(interger) + 1)
             else:
                 num = 0
-                for viewpoint_list1 in Viewpoint.objects.filter(project=project).order_by('id'):
+                for viewpoint_list1 in Viewpoint.objects.filter(
+                    project=project
+                ).order_by("id"):
                     num = num + 1
-                    number = 'V' + str(num)
-                    Viewpoint.objects.filter(id=viewpoint_list1.id).update(number=number)
+                    number = "V" + str(num)
+                    Viewpoint.objects.filter(id=viewpoint_list1.id).update(
+                        number=number
+                    )
 
-                viewpoint_list2 = Viewpoint.objects.filter(project=project).order_by('-id')[0]
-                interger =  viewpoint_list2 .number[1:]
-                number = 'V' + str(int(interger) + 1)
+                viewpoint_list2 = Viewpoint.objects.filter(project=project).order_by(
+                    "-id"
+                )[0]
+                interger = viewpoint_list2.number[1:]
+                number = "V" + str(int(interger) + 1)
 
         else:
-            number = 'V1'
+            number = "V1"
         if viewpoint_photo:
             if project.created_by == member:
 
@@ -2421,10 +2435,14 @@ def goals(request, project_id=None, viewpoint_id=None):
     if request.method == "POST":
         view = request.POST.get("viewpoint_id")
         viewpoint = Viewpoint.objects.get(id=view)
-        goals = ViewpointGoal.objects.filter(
-            Q(viewpoint=viewpoint, goal__status="accepted")
-            | Q(viewpoint=viewpoint, goal__created_by=member)
-        ).order_by("goal__id").distinct('goal__id')
+        goals = (
+            ViewpointGoal.objects.filter(
+                Q(viewpoint=viewpoint, goal__status="accepted")
+                | Q(viewpoint=viewpoint, goal__created_by=member)
+            )
+            .order_by("goal__id")
+            .distinct("goal__id")
+        )
         project = Project.objects.get(id=viewpoint.project.id)
         viewpoints = Viewpoint.objects.filter(
             Q(project=project, status="accepted")
@@ -2454,10 +2472,14 @@ def goals(request, project_id=None, viewpoint_id=None):
         )
 
     viewpoint = Viewpoint.objects.get(id=viewpoint_id)
-    goals = ViewpointGoal.objects.filter(
-        Q(viewpoint=viewpoint, goal__status="accepted")
-        | Q(viewpoint=viewpoint, goal__created_by=member)
-    ).order_by("goal__id").distinct('goal__id')
+    goals = (
+        ViewpointGoal.objects.filter(
+            Q(viewpoint=viewpoint, goal__status="accepted")
+            | Q(viewpoint=viewpoint, goal__created_by=member)
+        )
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
     project = Project.objects.get(id=viewpoint.project.id)
     viewpointiees = Viewpoint.objects.filter(project=project).order_by("-id")
     viewpoints = Viewpoint.objects.filter(
@@ -2501,27 +2523,37 @@ def viewGoal(request, goal_id, message=None):
         goal_ids_to_exclude = []
         for goal_to_exclude in goals_to_exclude_now:
             goal_ids_to_exclude.append(goal_to_exclude.related_goal)
-        related_goals = Goal.objects.filter(project=goal.goal.project).exclude(id__in=goal_ids_to_exclude)
+        related_goals = Goal.objects.filter(project=goal.goal.project).exclude(
+            id__in=goal_ids_to_exclude
+        )
         goals_decomposed = GoalDecomposition.objects.filter(original_goal=goal.goal)
         decomposed_goals_id = []
         for goal_decomposed_id in goals_decomposed:
             decomposed_goals_id.append(goal_decomposed_id.decomposed_goal)
-        decomposed_goals = Goal.objects.filter(project=goal.goal.project).exclude(id__in=decomposed_goals_id)
+        decomposed_goals = Goal.objects.filter(project=goal.goal.project).exclude(
+            id__in=decomposed_goals_id
+        )
         all_goals = Goal.objects.filter(
             project=goal.goal.project, status="accepted"
         ).exclude(id=goal.goal.id)
         viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
-        goals = ViewpointGoal.objects.filter(
-            Q(viewpoint=viewpoint, goal__status="accepted")
-            | Q(viewpoint=viewpoint, goal__created_by=member)
-        ).order_by("-goal__id").distinct('goal__id')
+        goals = (
+            ViewpointGoal.objects.filter(
+                Q(viewpoint=viewpoint, goal__status="accepted")
+                | Q(viewpoint=viewpoint, goal__created_by=member)
+            )
+            .order_by("-goal__id")
+            .distinct("goal__id")
+        )
         viewpoint_id = viewpoint.id
         project = Project.objects.get(id=viewpoint.project.id)
         viewpoints_to_exclude = ViewpointGoal.objects.filter(goal=goal.goal)
         viewpoint_ids_to_exclude = []
         for viewpoint_to_exclude in viewpoints_to_exclude:
             viewpoint_ids_to_exclude.append(viewpoint_to_exclude.viewpoint.id)
-        viewpoints = Viewpoint.objects.filter(Q(project=project, status="accepted")).exclude(id__in=viewpoint_ids_to_exclude)
+        viewpoints = Viewpoint.objects.filter(
+            Q(project=project, status="accepted")
+        ).exclude(id__in=viewpoint_ids_to_exclude)
         project_id = project.id
         comments = GoalComment.objects.filter(
             Q(goal=goal.goal, comment__status="accepted")
@@ -2559,7 +2591,7 @@ def viewGoal(request, goal_id, message=None):
                 "all_goals": all_goals,
                 "viewpoints": viewpoints,
                 "related_goals": related_goals,
-                'decomposed_goals':decomposed_goals,
+                "decomposed_goals": decomposed_goals,
                 "comments": comments,
                 "rate_data": rate_data,
                 "goalRate": goalRate,
@@ -2584,34 +2616,44 @@ def viewGoal(request, goal_id, message=None):
     goal_ids_to_exclude = []
     for goal_to_exclude in goals_to_exclude_now:
         goal_ids_to_exclude.append(goal_to_exclude.related_goal)
-    related_goals = Goal.objects.filter(project=goal.goal.project).exclude(id__in=goal_ids_to_exclude)
+    related_goals = Goal.objects.filter(project=goal.goal.project).exclude(
+        id__in=goal_ids_to_exclude
+    )
     goals_decomposed = GoalDecomposition.objects.filter(original_goal=goal.goal)
     decomposed_goals_id = []
     for goal_decomposed_id in goals_decomposed:
         decomposed_goals_id.append(goal_decomposed_id.decomposed_goal)
-    decomposed_goals = Goal.objects.filter(project=goal.goal.project).exclude(id__in=decomposed_goals_id)
+    decomposed_goals = Goal.objects.filter(project=goal.goal.project).exclude(
+        id__in=decomposed_goals_id
+    )
     all_goals = Goal.objects.filter(
         project=goal.goal.project, status="accepted"
     ).exclude(id=goal.goal.id)
     viewpoint = Viewpoint.objects.get(id=goal.viewpoint.id)
-    goals = ViewpointGoal.objects.filter(
-        Q(viewpoint=viewpoint, goal__status="accepted")
-        | Q(viewpoint=viewpoint, goal__created_by=member)
-    ).order_by("-goal__id").distinct('goal__id')
+    goals = (
+        ViewpointGoal.objects.filter(
+            Q(viewpoint=viewpoint, goal__status="accepted")
+            | Q(viewpoint=viewpoint, goal__created_by=member)
+        )
+        .order_by("-goal__id")
+        .distinct("goal__id")
+    )
     viewpoint_id = viewpoint.id
     project = Project.objects.get(id=goal.goal.project.id)
     viewpoints_to_exclude = ViewpointGoal.objects.filter(goal=goal.goal)
     viewpoint_ids_to_exclude = []
     for viewpoint_to_exclude in viewpoints_to_exclude:
         viewpoint_ids_to_exclude.append(viewpoint_to_exclude.viewpoint.id)
-    viewpoints = Viewpoint.objects.filter(Q(project=project, status="accepted")).exclude(id__in=viewpoint_ids_to_exclude)
+    viewpoints = Viewpoint.objects.filter(
+        Q(project=project, status="accepted")
+    ).exclude(id__in=viewpoint_ids_to_exclude)
     project_id = project.id
     rate_data = goal_rates(request, goal_id=goal.goal.id)
     if goal.goal.created_by == member:
         creator = "me"
     else:
         creator = "not me"
-    
+
     comments = GoalComment.objects.filter(
         Q(goal=goal.goal, comment__status="accepted")
         | Q(goal=goal.goal, comment__commented_by=member)
@@ -2638,7 +2680,7 @@ def viewGoal(request, goal_id, message=None):
             "goalRate": goalRate,
             "all_goals": all_goals,
             "related_goals": related_goals,
-            'decomposed_goals':decomposed_goals,
+            "decomposed_goals": decomposed_goals,
             "likes": likes,
             "rate_data": rate_data,
             "dislikes": dislikes,
@@ -2666,37 +2708,42 @@ def createGoal(request, project_id):
     requirements = Requirement.objects.filter(
         Q(project=project, status="accepted") | Q(project=project, created_by=member)
     ).order_by("name")
-    viewpoints = Viewpoint.objects.filter(
-        Q(project=project, status="accepted") | Q(project=project, created_by=member)
-    ).order_by("-id").distinct('id')
+    viewpoints = (
+        Viewpoint.objects.filter(
+            Q(project=project, status="accepted")
+            | Q(project=project, created_by=member)
+        )
+        .order_by("-id")
+        .distinct("id")
+    )
     if request.method == "POST":
         goal_name = request.POST.get("goal_title")
         description = request.POST.get("description")
         requirement = request.POST.get("requirement")
         created_by = Member.objects.get(user=request.user)
 
-              # creating goal number
-        
+        # creating goal number
+
         goal_list = Goal.objects.filter(project=project)
         if goal_list:
-            goal_list = goal_list.order_by('-id')[0]
+            goal_list = goal_list.order_by("-id")[0]
             if goal_list.number != None:
                 interger = goal_list.number[1:]
-                number = 'G' + str(int(interger) + 1)
+                number = "G" + str(int(interger) + 1)
             else:
                 num = 0
-                for goal_list1 in Goal.objects.filter(project=project).order_by('id'):
+                for goal_list1 in Goal.objects.filter(project=project).order_by("id"):
                     num = num + 1
-                    number = 'G' + str(num)
+                    number = "G" + str(num)
                     Goal.objects.filter(id=goal_list1.id).update(number=number)
 
-                goal_list2 = Goal.objects.filter(project=project).order_by('-id')[0]
-                interger =  goal_list2 .number[1:]
-                number = 'G' + str(int(interger) + 1)
+                goal_list2 = Goal.objects.filter(project=project).order_by("-id")[0]
+                interger = goal_list2.number[1:]
+                number = "G" + str(int(interger) + 1)
 
         else:
-            number = 'G1'
-    
+            number = "G1"
+
         # then creating goal
         if project.created_by == member:
             goal = Goal.objects.create(
@@ -2717,7 +2764,7 @@ def createGoal(request, project_id):
             )
         goal.save()
         if goal:
-            for viewpoint_id in request.POST.getlist('viewpoint'):
+            for viewpoint_id in request.POST.getlist("viewpoint"):
                 viewpoint = Viewpoint.objects.get(id=viewpoint_id)
                 create_viewpoint_goal = ViewpointGoal.objects.create(
                     viewpoint=viewpoint, goal=goal
@@ -2737,7 +2784,7 @@ def createGoal(request, project_id):
             "categories": categories,
             "notification": notification(request),
             "total_notification": total_notification(request),
-            'hidesearch':1
+            "hidesearch": 1,
         },
     )
 
@@ -2750,10 +2797,14 @@ def requirements(request, goal_id):
     if request.method == "POST":
         goal_id = request.POST.get("goal")
         goal = RequirementGoal.objects.get(id=goal_id)
-        requirements = RequirementGoal.objects.filter(
-            Q(goal=goal.goal, requirement__status="accepted")
-            | Q(goal=goal.goal, requirement__created_by=member)
-        ).order_by('requirement__id').distinct('requirement__id')
+        requirements = (
+            RequirementGoal.objects.filter(
+                Q(goal=goal.goal, requirement__status="accepted")
+                | Q(goal=goal.goal, requirement__created_by=member)
+            )
+            .order_by("requirement__id")
+            .distinct("requirement__id")
+        )
         project = Project.objects.get(id=goal.goal.project.id)
         project_id = project.id
         paginate = Paginator(requirements, 10)
@@ -2776,10 +2827,14 @@ def requirements(request, goal_id):
         )
 
     goal = Goal.objects.get(id=goal_id)
-    requirements = RequirementGoal.objects.filter(
-        Q(goal=goal, requirement__status="accepted")
-        | Q(goal=goal, requirement__created_by=member)
-    ).order_by('requirement__id').distinct('requirement__id')
+    requirements = (
+        RequirementGoal.objects.filter(
+            Q(goal=goal, requirement__status="accepted")
+            | Q(goal=goal, requirement__created_by=member)
+        )
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
 
     project = Project.objects.get(id=goal.project.id)
     project_id = project.id
@@ -2803,18 +2858,27 @@ def requirements(request, goal_id):
         },
     )
 
+
 @login_required(login_url="login")
 def requirementgoals(request, requirement_id=None):
     indexhead = "Associated Requirement Goals"
     member = Member.objects.get(user=request.user)
     requirement = Requirement.objects.get(id=requirement_id)
-    goals = RequirementGoal.objects.filter(requirement=requirement).order_by('-requirement__id').distinct('requirement__id')
+    goals = (
+        RequirementGoal.objects.filter(requirement=requirement)
+        .order_by("-requirement__id")
+        .distinct("requirement__id")
+    )
     project = Project.objects.get(id=requirement.project.id)
     goal_list = []
     for goal in goals:
         goal_list.append(goal.goal)
-    
-    goals = ViewpointGoal.objects.filter(goal__in=goal_list).order_by('goal__id').distinct('goal__id')
+
+    goals = (
+        ViewpointGoal.objects.filter(goal__in=goal_list)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
     project_id = project.id
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
@@ -2859,10 +2923,14 @@ def viewrequirement(request, requirement_id=None, message=None):
     if request.POST.get("requirement"):
         requirement = request.POST.get("requirement")
         requirement = RequirementGoal.objects.get(id=requirement)
-        requirements = RequirementGoal.objects.filter(
-            Q(goal=requirement.goal, requirement__status="accepted")
-            | Q(goal=requirement.goal, requirement__created_by=member)
-        ).order_by("-requirement__id").distinct('requirement__id')
+        requirements = (
+            RequirementGoal.objects.filter(
+                Q(goal=requirement.goal, requirement__status="accepted")
+                | Q(goal=requirement.goal, requirement__created_by=member)
+            )
+            .order_by("-requirement__id")
+            .distinct("requirement__id")
+        )
         project = Project.objects.get(id=requirement.requirement.project.id)
 
         project_id = project.id
@@ -2920,15 +2988,17 @@ def viewrequirement(request, requirement_id=None, message=None):
                 "requirement": requirement,
                 "member": member,
                 "project": project,
-                'hidesearch':1,
+                "hidesearch": 1,
                 "notification": notification(request),
                 "total_notification": total_notification(request),
             },
         )
     goal = requirement.goal
-    requirements = RequirementGoal.objects.filter(
-        requirement__project=goal.project
-    ).order_by("-requirement__id").distinct('requirement__id')
+    requirements = (
+        RequirementGoal.objects.filter(requirement__project=goal.project)
+        .order_by("-requirement__id")
+        .distinct("requirement__id")
+    )
     project = Project.objects.get(id=goal.project.id)
     viewpoints = Viewpoint.objects.filter(
         Q(project=project, status="accepted") | Q(project=project, created_by=member)
@@ -2994,26 +3064,32 @@ def createRequirement(request, project_id):
         processes = request.POST.getlist("process")
         usecase = request.POST.getlist("usecase")
 
-               # creating requirement number
+        # creating requirement number
         requirement_list = Requirement.objects.filter(project=project)
         if requirement_list:
-            requirement_list = requirement_list.order_by('-id')[0]
+            requirement_list = requirement_list.order_by("-id")[0]
             if requirement_list.number != None:
                 interger = requirement_list.number[1:]
-                number = 'R' + str(int(interger) + 1)
+                number = "R" + str(int(interger) + 1)
             else:
                 num = 0
-                for requirement_list1 in Requirement.objects.filter(project=project).order_by('id'):
+                for requirement_list1 in Requirement.objects.filter(
+                    project=project
+                ).order_by("id"):
                     num = num + 1
-                    number = 'R' + str(num)
-                    Requirement.objects.filter(id=requirement_list1.id).update(number=number)
+                    number = "R" + str(num)
+                    Requirement.objects.filter(id=requirement_list1.id).update(
+                        number=number
+                    )
 
-                requirement_list2 = Requirement.objects.filter(project=project).order_by('-id')[0]
-                interger =  requirement_list2 .number[1:]
-                number = 'R' + str(int(interger) + 1)
+                requirement_list2 = Requirement.objects.filter(
+                    project=project
+                ).order_by("-id")[0]
+                interger = requirement_list2.number[1:]
+                number = "R" + str(int(interger) + 1)
 
         else:
-            number = 'R1'
+            number = "R1"
 
         # then creating requirement
 
@@ -3099,10 +3175,14 @@ def scenarios(request, requirement_id):
             Q(project=requirement.project, status="accepted")
             | Q(project=requirement.project, created_by=member)
         ).order_by("id")
-        scenarios = RequirementScenario.objects.filter(
-            Q(requirement__id=requirement_id, scenario__status="accepted")
-            | Q(requirement__id=requirement_id, scenario__created_by=member)
-        ).order_by("scenario__id").distinct('scenario__id')
+        scenarios = (
+            RequirementScenario.objects.filter(
+                Q(requirement__id=requirement_id, scenario__status="accepted")
+                | Q(requirement__id=requirement_id, scenario__created_by=member)
+            )
+            .order_by("scenario__id")
+            .distinct("scenario__id")
+        )
         project = Project.objects.get(id=requirement.project.id)
         project_id = project.id
         paginate = Paginator(scenarios, 10)
@@ -3127,9 +3207,13 @@ def scenarios(request, requirement_id):
 
     requirement = Requirement.objects.get(id=requirement_id)
     project = Project.objects.get(id=requirement.project.id)
-    scenarios = RequirementScenario.objects.filter(
-        scenario__project=project, requirement=requirement
-    ).order_by("scenario__id").distinct('scenario__id')
+    scenarios = (
+        RequirementScenario.objects.filter(
+            scenario__project=project, requirement=requirement
+        )
+        .order_by("scenario__id")
+        .distinct("scenario__id")
+    )
     requirements = Requirement.objects.filter(project=project, status="accepted")
 
     project_id = project.id
@@ -3178,9 +3262,13 @@ def viewscenario(request, scenario_id=None, message=None):
 
     if request.POST.get("scenario"):
         scenario_id = request.POST.get("scenario")
-        scenarios = RequirementScenario.objects.filter(
-            requirement=scenario.requirement, scenario__status="accepted"
-        ).order_by('scenario__id').distinct('scenario_id')
+        scenarios = (
+            RequirementScenario.objects.filter(
+                requirement=scenario.requirement, scenario__status="accepted"
+            )
+            .order_by("scenario__id")
+            .distinct("scenario_id")
+        )
         requirement = Requirement.objects.get(id=scenario.requirement.id)
         scenario = RequirementScenario.objects.get(id=scenario_id)
         requirements = RequirementGoal.objects.filter(
@@ -3249,9 +3337,13 @@ def viewscenario(request, scenario_id=None, message=None):
             },
         )
     requirement = Requirement.objects.get(id=scenario.requirement.id)
-    scenarios = RequirementScenario.objects.filter(
-        requirement=scenario.requirement, scenario__status="accepted"
-    ).order_by('scenario__id').distinct('scenario_id')
+    scenarios = (
+        RequirementScenario.objects.filter(
+            requirement=scenario.requirement, scenario__status="accepted"
+        )
+        .order_by("scenario__id")
+        .distinct("scenario_id")
+    )
     requirements = Requirement.objects.filter(
         Q(project=requirement.project, status="accepted")
         | Q(project=requirement.project, created_by=member)
@@ -3314,27 +3406,30 @@ def createScenario(request, project_id):
         created_by = Member.objects.get(user=request.user)
         requirement_ = request.POST.getlist("requirement")
 
-                # creating scenario number
+        # creating scenario number
         scenario_list = Scenario.objects.filter(project=project)
         if scenario_list:
-            scenario_list = scenario_list.order_by('-id')[0]
+            scenario_list = scenario_list.order_by("-id")[0]
             if scenario_list.number != None:
                 interger = scenario_list.number[1:]
-                number = 'S' + str(int(interger) + 1)
+                number = "S" + str(int(interger) + 1)
             else:
                 num = 0
-                for scenario_list1 in Scenario.objects.filter(project=project).order_by('id'):
+                for scenario_list1 in Scenario.objects.filter(project=project).order_by(
+                    "id"
+                ):
                     num = num + 1
-                    number = 'S' + str(num)
+                    number = "S" + str(num)
                     Scenario.objects.filter(id=scenario_list1.id).update(number=number)
 
-                scenario_list2 = Scenario.objects.filter(project=project).order_by('-id')[0]
-                interger =  scenario_list2 .number[1:]
-                number = 'S' + str(int(interger) + 1)
+                scenario_list2 = Scenario.objects.filter(project=project).order_by(
+                    "-id"
+                )[0]
+                interger = scenario_list2.number[1:]
+                number = "S" + str(int(interger) + 1)
 
         else:
-            number = 'S1'
-    
+            number = "S1"
 
         # then creating requirement
         if project.created_by == member:
@@ -3404,7 +3499,8 @@ def processes(request, requirement_id):
                 | Q(requirement=requirement, process__created_by=member)
             )
             .exclude(process_id__in=Process.objects.filter(status="deleted"))
-            .order_by("process__id").distinct('process__id')
+            .order_by("process__id")
+            .distinct("process__id")
         )
 
         project = Project.objects.get(id=requirement.project.id)
@@ -3423,6 +3519,7 @@ def processes(request, requirement_id):
                 "requirement_id": requirement.id,
                 "requirement": requirement,
                 "member": member,
+                "hideseach": 1,
                 "project": project,
                 "notification": notification(request),
                 "total_notification": total_notification(request),
@@ -3438,7 +3535,8 @@ def processes(request, requirement_id):
             | Q(requirement=requirement, process__created_by=member)
         )
         .exclude(process_id__in=Process.objects.filter(status="deleted"))
-        .order_by("process__id").distinct('process__id')
+        .order_by("process__id")
+        .distinct("process__id")
     )
     paginate = Paginator(processes, 10)
     page_number = request.GET.get("page")
@@ -3454,6 +3552,7 @@ def processes(request, requirement_id):
             "requirement_id": requirement.id,
             "member": member,
             "project": project,
+            "hideseach": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -3468,10 +3567,14 @@ def viewprocess(request, process_id=None, message=None):
     if request.method == "POST":
         processid = request.POST.get("process")
         process = RequirementProcess.objects.get(id=processid)
-        processes = RequirementProcess.objects.filter(
-            Q(requirement=process.requirement, process__status="accepted")
-            | Q(requirement=process.requirement, process__created_by=member)
-        ).order_by("-process__id").distinct('process__id')
+        processes = (
+            RequirementProcess.objects.filter(
+                Q(requirement=process.requirement, process__status="accepted")
+                | Q(requirement=process.requirement, process__created_by=member)
+            )
+            .order_by("-process__id")
+            .distinct("process__id")
+        )
         requirement = Requirement.objects.get(id=process.requirement.id)
         project = Project.objects.get(id=process.process.project.id)
         project_id = project.id
@@ -3515,7 +3618,7 @@ def viewprocess(request, process_id=None, message=None):
                 "processes": processes,
                 "viewpoints": viewpoints,
                 "member": member,
-                'hidesearch':1,
+                "hidesearch": 1,
                 "project": project,
                 "notification": notification(request),
                 "total_notification": total_notification(request),
@@ -3538,9 +3641,13 @@ def viewprocess(request, process_id=None, message=None):
     likes = ProcessLike.objects.filter(process=process.process).count()
     dislikes = ProcessDislike.objects.filter(process=process.process).count()
     project = Project.objects.get(id=process.process.project.id)
-    processes = RequirementProcess.objects.filter(
-        process__project=project, process__status="accepted"
-    ).order_by("-process__id").distinct('process__id')
+    processes = (
+        RequirementProcess.objects.filter(
+            process__project=project, process__status="accepted"
+        )
+        .order_by("-process__id")
+        .distinct("process__id")
+    )
     project_id = project.id
     rate_data = process_rates(request, process_id=process.process.id)
     if process.process.created_by == member or project.created_by == member:
@@ -3590,27 +3697,30 @@ def createProcess(request, project_id):
         created_by = Member.objects.get(user=request.user)
         require = request.POST.getlist("requirement")
 
-               # creating process number
+        # creating process number
         process_list = Process.objects.filter(project=project)
         if process_list:
-            process_list = process_list.order_by('-id')[0]
+            process_list = process_list.order_by("-id")[0]
             if process_list.number != None:
                 interger = process_list.number[1:]
-                number = 'P' + str(int(interger) + 1)
+                number = "P" + str(int(interger) + 1)
             else:
                 num = 0
-                for process_list1 in Process.objects.filter(project=project).order_by('id'):
+                for process_list1 in Process.objects.filter(project=project).order_by(
+                    "id"
+                ):
                     num = num + 1
-                    number = 'P' + str(num)
+                    number = "P" + str(num)
                     Process.objects.filter(id=process_list1.id).update(number=number)
 
-                process_list2 = Process.objects.filter(project=project).order_by('-id')[0]
-                interger =  process_list2 .number[1:]
-                number = 'P' + str(int(interger) + 1)
+                process_list2 = Process.objects.filter(project=project).order_by("-id")[
+                    0
+                ]
+                interger = process_list2.number[1:]
+                number = "P" + str(int(interger) + 1)
 
         else:
-            number = 'P1'
-
+            number = "P1"
 
         if project.created_by == member:
             process = Process.objects.create(
@@ -3675,12 +3785,16 @@ def usecases(request, requirement_id):
     member = Member.objects.get(user=request.user)
     if request.method == "POST":
         requirement_id = request.POST.get("requirement")
-        usecases = RequirementUsecase.objects.filter(
-            Q(requirement__id=requirement_id, usecase__status="accepted")
-            | Q(requirement__id=requirement_id, usecase__created_by=member).exclude(
-                usecase_id__in=UseCase.objects.filter(status="deleted")
+        usecases = (
+            RequirementUsecase.objects.filter(
+                Q(requirement__id=requirement_id, usecase__status="accepted")
+                | Q(requirement__id=requirement_id, usecase__created_by=member).exclude(
+                    usecase_id__in=UseCase.objects.filter(status="deleted")
+                )
             )
-        ).order_by("usecase__id").distinct('usecase__id')
+            .order_by("usecase__id")
+            .distinct("usecase__id")
+        )
         requirement = Requirement.objects.get(id=requirement_id)
         goal = Goal.objects.get(id=requirement.goal.id)
         requirements = Requirement.objects.filter(
@@ -3734,7 +3848,8 @@ def usecases(request, requirement_id):
                 Q(status="deleted") | Q(status="blocked") | Q(status="rejected")
             )
         )
-        .order_by("usecase__id").distinct('usecase__id')
+        .order_by("usecase__id")
+        .distinct("usecase__id")
     )
     requirements = Requirement.objects.filter(
         Q(goal=goal, status="accepted") | Q(goal=goal, created_by=member)
@@ -3799,9 +3914,13 @@ def viewusecase(request, usecase_id=None, message=None):
         usecase_id = request.POST.get("usecase")
         usecase = RequirementUsecase.objects.get(id=usecase_id)
         project = Project.objects.get(id=usecase.usecase.project.id)
-        usecases = RequirementUsecase.objects.filter(
-            requirement__project=project, usecase__status="accepted"
-        ).order_by("-usecase__id").distinct('usecase__id')
+        usecases = (
+            RequirementUsecase.objects.filter(
+                requirement__project=project, usecase__status="accepted"
+            )
+            .order_by("-usecase__id")
+            .distinct("usecase__id")
+        )
         likes = UseCaseLike.objects.filter(use_case=usecase.usecase).count()
         dislikes = UseCaseDislike.objects.filter(use_case=usecase.usecase).count()
         project_id = project.id
@@ -3854,9 +3973,13 @@ def viewusecase(request, usecase_id=None, message=None):
         )
 
     project = Project.objects.get(id=usecase.usecase.project.id)
-    usecases = RequirementUsecase.objects.filter(
-        requirement__project=project, usecase__status="accepted"
-    ).order_by("-usecase__id").distinct('usecase__id')
+    usecases = (
+        RequirementUsecase.objects.filter(
+            requirement__project=project, usecase__status="accepted"
+        )
+        .order_by("-usecase__id")
+        .distinct("usecase__id")
+    )
     project_id = project.id
     rate_data = usecase_rates(request, usecase_id=usecase.usecase.id)
     if usecase.usecase.created_by == member:
@@ -3909,27 +4032,30 @@ def createUsecase(request, project_id):
         created_by = Member.objects.get(user=request.user)
         require = request.POST.getlist("requirement")
 
-
-                       # creating usecase number
+        # creating usecase number
         usecase_list = UseCase.objects.filter(project=project)
         if usecase_list:
-            usecase_list = usecase_list.order_by('-id')[0]
+            usecase_list = usecase_list.order_by("-id")[0]
             if usecase_list.number != None:
                 interger = usecase_list.number[1:]
-                number = 'U' + str(int(interger) + 1)
+                number = "U" + str(int(interger) + 1)
             else:
                 num = 0
-                for usecase_list1 in UseCase.objects.filter(project=project).order_by('id'):
+                for usecase_list1 in UseCase.objects.filter(project=project).order_by(
+                    "id"
+                ):
                     num = num + 1
-                    number = 'U' + str(num)
+                    number = "U" + str(num)
                     UseCase.objects.filter(id=usecase_list1.id).update(number=number)
 
-                usecase_list2 = UseCase.objects.filter(project=project).order_by('-id')[0]
-                interger =  usecase_list2 .number[1:]
-                number = 'U' + str(int(interger) + 1)
+                usecase_list2 = UseCase.objects.filter(project=project).order_by("-id")[
+                    0
+                ]
+                interger = usecase_list2.number[1:]
+                number = "U" + str(int(interger) + 1)
 
         else:
-            number = 'U1'
+            number = "U1"
 
         # then creating requirement
         if project.created_by == member:
@@ -4906,438 +5032,6 @@ def search(request, placeholder):
         pass
 
 
-# Like functions from project to usecase
-
-# Like functions from project to usecase
-@login_required(login_url="login")
-def my_project_like(request, project_id):
-    project = Project.objects.get(id=project_id)
-    member = Member.objects.get(user=request.user)
-    context = list()
-
-    if not ProjectLike.objects.filter(project=project, like__liked_by=member).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-            # then creating project_like
-            project_like = ProjectLike.objects.create(like=like, project=project)
-            project_like.save()
-            if project_like:
-                info = {"status": True, "message": "Successfuly liked!"}
-            else:
-                info = {"status": False, "message": "Failed to like!"}
-                # return True
-            # return redirect("projects:viewmyproject", project_id=project_id)
-        else:
-            info = {"status": False, "message": "Failed to update your like!"}
-    else:
-        # return redirect("projects:viewmyproject", project_id=project_id)
-        unlike = ProjectLike.objects.filter(
-            project=project, like__liked_by=member
-        ).delete()
-        info = {"status": True, "message": "Successfuly unliked!"}
-    context.append(info)
-    return JsonResponse(context, safe=False)
-
-
-@login_required(login_url="login")
-def project_like(request, project_id):
-    project = Project.objects.get(id=project_id)
-    member = Member.objects.get(user=request.user)
-    if (
-        ProjectMembership.objects.filter(
-            project=project, member=member, status="active"
-        ).exists()
-        or project.project_visibility == "public"
-    ):
-        if not ProjectLike.objects.filter(
-            project=project, like__liked_by=member
-        ).exists():
-            like = Like.objects.create(like=True, liked_by=member)
-            like.save()
-            if like:
-
-                # then creating project_like
-                project_like = ProjectLike.objects.create(like=like, project=project)
-                project_like.save()
-                if project_like:
-                    return redirect("projects:viewproject", project_id=project_id)
-
-            return redirect("projects:viewproject", project_id=project_id)
-        unlike = ProjectLike.objects.filter(
-            project=project, like__liked_by=member
-        ).delete()
-        return redirect("projects:viewproject", project_id=project_id)
-    message = "sorry you can not like on this project now,you are not a active member of this project"
-    return viewProject(request, project_id=project_id, message=message)
-
-
-@login_required(login_url="login")
-def viewpoint_like(request, viewpoint_id):
-    viewpoint = Viewpoint.objects.get(id=viewpoint_id)
-    member = Member.objects.get(user=request.user)
-
-    if not ViewpointLike.objects.filter(
-        viewpoint=viewpoint, like__liked_by=member
-    ).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-
-            # then creating project_like
-            viewpoint_like = ViewpointLike.objects.create(
-                like=like, viewpoint=viewpoint
-            )
-            viewpoint_like.save()
-            if viewpoint_like:
-                return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
-
-        return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
-    unlike = ViewpointLike.objects.filter(
-        viewpoint=viewpoint, like__liked_by=member
-    ).delete()
-    return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
-
-
-@login_required(login_url="login")
-def goal_like(request, goal_id):
-    goal = Goal.objects.get(id=goal_id)
-    member = Member.objects.get(user=request.user)
-    if not GoalLike.objects.filter(goal=goal, like__liked_by=member).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-
-            # then creating project_like
-            goal_like = GoalLike.objects.create(like=like, goal=goal)
-            goal_like.save()
-            if goal_like:
-                return redirect(request.META["HTTP_REFERER"])
-
-        return redirect(request.META["HTTP_REFERER"])
-    unlike = GoalLike.objects.filter(goal=goal, like__liked_by=member).delete()
-    return redirect(request.META["HTTP_REFERER"])
-
-
-@login_required(login_url="login")
-def requirement_like(request, requirement_id):
-    requirement = Requirement.objects.get(id=requirement_id)
-    member = Member.objects.get(user=request.user)
-    if not RequirementLike.objects.filter(
-        requirement=requirement, like__liked_by=member
-    ).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-
-            # then creating project_like
-            requirement_like = RequirementLike.objects.create(
-                like=like, requirement=requirement
-            )
-            requirement_like.save()
-            if requirement_like:
-                return redirect(request.META["HTTP_REFERER"])
-
-        return redirect(request.META["HTTP_REFERER"])
-    unlike = RequirementLike.objects.filter(
-        requirement=requirement, like__liked_by=member
-    ).delete()
-    return redirect(request.META["HTTP_REFERER"])
-
-
-@login_required(login_url="login")
-def scenario_like(request, scenario_id):
-    scenario = RequirementScenario.objects.get(id=scenario_id)
-    member = Member.objects.get(user=request.user)
-    if not ScenarioLike.objects.filter(
-        scenario=scenario.scenario, like__liked_by=member
-    ).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-
-            # then creating project_like
-            scenario_like = ScenarioLike.objects.create(
-                like=like, scenario=scenario.scenario
-            )
-            scenario_like.save()
-            if scenario_like:
-                return redirect("projects:viewscenario", scenario_id=scenario_id)
-
-        return redirect("projects:viewscenario", scenario_id=scenario_id)
-    unlike = ScenarioLike.objects.filter(
-        scenario=scenario.scenario, like__liked_by=member
-    ).delete()
-    return redirect("projects:viewscenario", scenario_id=scenario_id)
-
-
-@login_required(login_url="login")
-def process_like(request, process_id):
-    process = RequirementProcess.objects.get(id=process_id)
-    member = Member.objects.get(user=request.user)
-    if not ProcessLike.objects.filter(
-        process=process.process, like__liked_by=member
-    ).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-
-            # then creating project_like
-            process_like = ProcessLike.objects.create(
-                like=like, process=process.process
-            )
-            process_like.save()
-            if process_like:
-                return redirect("projects:viewprocess", process_id=process_id)
-
-        return redirect("projects:viewprocess", process_id=process_id)
-    unlike = ProcessLike.objects.filter(
-        process=process.process, like__liked_by=member
-    ).delete()
-    return redirect("projects:viewprocess", process_id=process_id)
-
-
-@login_required(login_url="login")
-def usecase_like(request, usecase_id):
-    usecase = RequirementUsecase.objects.get(id=usecase_id)
-    member = Member.objects.get(user=request.user)
-    if not UseCaseLike.objects.filter(
-        use_case=usecase.usecase, like__liked_by=member
-    ).exists():
-        like = Like.objects.create(like=True, liked_by=member)
-        like.save()
-        if like:
-
-            # then creating project_like
-            usecase_like = UseCaseLike.objects.create(
-                like=like, use_case=usecase.usecase
-            )
-            usecase_like.save()
-            if usecase_like:
-                return redirect("projects:viewusecase", usecase_id=usecase_id)
-
-        return redirect("projects:viewusecase", usecase_id=usecase_id)
-    unlike = UseCaseLike.objects.filter(
-        use_case=usecase.usecase, like__liked_by=member
-    ).delete()
-    return redirect("projects:viewusecase", usecase_id=usecase_id)
-
-
-# Dislike functions from project to usecase
-@login_required(login_url="login")
-def my_project_dislike(request, project_id):
-    project = Project.objects.get(id=project_id)
-    member = Member.objects.get(user=request.user)
-
-    if not ProjectDislike.objects.filter(
-        project=project, dislike__disliked_by=member
-    ).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_like
-            project_dislike = ProjectDislike.objects.create(
-                dislike=dislike, project=project
-            )
-            project_dislike.save()
-            if project_dislike:
-                return redirect("projects:viewmyproject", project_id=project_id)
-
-        return redirect("projects:viewmyproject", project_id=project_id)
-    unlike = ProjectDislike.objects.filter(
-        project=project, dislike__disliked_by=member
-    ).delete()
-    return redirect("projects:viewmyproject", project_id=project_id)
-
-
-@login_required(login_url="login")
-def project_dislike(request, project_id):
-    project = Project.objects.get(id=project_id)
-    member = Member.objects.get(user=request.user)
-    if (
-        ProjectMembership.objects.filter(
-            project=project, member=member, status="active"
-        ).exists()
-        or project.project_visibility == "public"
-    ):
-        if not ProjectDislike.objects.filter(
-            project=project, dislike__disliked_by=member
-        ).exists():
-            dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-            dislike.save()
-            if dislike:
-
-                # then creating project_like
-                project_dislike = ProjectDislike.objects.create(
-                    dislike=dislike, project=project
-                )
-                project_dislike.save()
-                if project_dislike:
-                    return redirect("projects:viewproject", project_id=project_id)
-
-            return redirect("projects:viewproject", project_id=project_id)
-        unlike = ProjectDislike.objects.filter(
-            project=project, dislike__disliked_by=member
-        ).delete()
-        return redirect("projects:viewproject", project_id=project_id)
-    message = "sorry you can not dislike on this project now,you are not a active member of this project"
-    return viewProject(request, project_id=project_id, message=message)
-
-
-@login_required(login_url="login")
-def viewpoint_dislike(request, viewpoint_id):
-    viewpoint = Viewpoint.objects.get(id=viewpoint_id)
-    member = Member.objects.get(user=request.user)
-
-    if not ViewpointDislike.objects.filter(
-        viewpoint=viewpoint, dislike__disliked_by=member
-    ).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_like
-            viewpoint_dislike = ViewpointDislike.objects.create(
-                dislike=dislike, viewpoint=viewpoint
-            )
-            viewpoint_dislike.save()
-            if viewpoint_dislike:
-                return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
-
-        return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
-    unlike = ViewpointDislike.objects.filter(
-        viewpoint=viewpoint, dislike__disliked_by=member
-    ).delete()
-    return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
-
-
-@login_required(login_url="login")
-def goal_dislike(request, goal_id):
-    goal = Goal.objects.get(id=goal_id)
-    member = Member.objects.get(user=request.user)
-    if not GoalDislike.objects.filter(goal=goal, dislike__disliked_by=member).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_like
-            goal_dislike = GoalDislike.objects.create(dislike=dislike, goal=goal)
-            goal_dislike.save()
-            if goal_dislike:
-                return redirect(request.META["HTTP_REFERER"])
-
-        return redirect(request.META["HTTP_REFERER"])
-    undislike = GoalDislike.objects.filter(
-        goal=goal, dislike__disliked_by=member
-    ).delete()
-    return redirect(request.META["HTTP_REFERER"])
-
-
-@login_required(login_url="login")
-def requirement_dislike(request, requirement_id):
-    requirement = Requirement.objects.get(id=requirement_id)
-    member = Member.objects.get(user=request.user)
-    if not RequirementDislike.objects.filter(
-        requirement=requirement, dislike__disliked_by=member
-    ).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_like
-            requirement_dislike = RequirementDislike.objects.create(
-                dislike=dislike, requirement=requirement
-            )
-            requirement_dislike.save()
-            if requirement_dislike:
-                return redirect(request.META["HTTP_REFERER"])
-
-        return redirect(request.META["HTTP_REFERER"])
-    undislike = RequirementDislike.objects.filter(
-        requirement=requirement, dislike__disliked_by=member
-    ).delete()
-    return redirect(request.META["HTTP_REFERER"])
-
-
-@login_required(login_url="login")
-def scenario_dislike(request, scenario_id):
-    scenario = RequirementScenario.objects.get(id=scenario_id)
-    member = Member.objects.get(user=request.user)
-    if not ScenarioDislike.objects.filter(
-        scenario=scenario.scenario, dislike__disliked_by=member
-    ).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_like
-            scenario_dislike = ScenarioDislike.objects.create(
-                dislike=dislike, scenario=scenario.scenario
-            )
-            scenario_dislike.save()
-            if scenario_dislike:
-                return redirect("projects:viewscenario", scenario_id=scenario_id)
-
-        return redirect("projects:viewscenario", scenario_id=scenario_id)
-    undislike = ScenarioDislike.objects.filter(
-        scenario=scenario.scenario, dislike__disliked_by=member
-    ).delete()
-    return redirect("projects:viewscenario", scenario_id=scenario_id)
-
-
-@login_required(login_url="login")
-def process_dislike(request, process_id):
-    process = RequirementProcess.objects.get(id=process_id)
-    member = Member.objects.get(user=request.user)
-    if not ProcessDislike.objects.filter(
-        process=process.process, dislike__disliked_by=member
-    ).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_dislike
-            process_dislike = ProcessDislike.objects.create(
-                dislike=dislike, process=process.process
-            )
-            process_dislike.save()
-            if process_dislike:
-                return redirect("projects:viewprocess", process_id=process_id)
-
-        return redirect("projects:viewprocess", process_id=process_id)
-    undislike = ProcessDislike.objects.filter(
-        process=process.process, dislike__disliked_by=member
-    ).delete()
-    return redirect("projects:viewprocess", process_id=process_id)
-
-
-@login_required(login_url="login")
-def usecase_dislike(request, usecase_id):
-    usecase = RequirementUsecase.objects.get(id=usecase_id)
-    member = Member.objects.get(user=request.user)
-    if not UseCaseDislike.objects.filter(
-        use_case=usecase.usecase, dislike__disliked_by=member
-    ).exists():
-        dislike = Dislike.objects.create(dislike=True, disliked_by=member)
-        dislike.save()
-        if dislike:
-
-            # then creating project_like
-            usecase_dislike = UseCaseDislike.objects.create(
-                dislike=dislike, use_case=usecase.usecase
-            )
-            usecase_dislike.save()
-            if usecase_dislike:
-                return redirect("projects:viewusecase", usecase_id=usecase_id)
-
-        return redirect("projects:viewusecase", usecase_id=usecase_id)
-    undislike = UseCaseDislike.objects.filter(
-        use_case=usecase.usecase, dislike__disliked_by=member
-    ).delete()
-    return redirect("projects:viewusecase", usecase_id=usecase_id)
-
-
 # global viewpoints to usecase
 @login_required(login_url="login")
 def general_goals(request, project_id):
@@ -5349,7 +5043,7 @@ def general_goals(request, project_id):
             | Q(goal__project=project, goal__created_by=member)
         )
         .order_by("goal__id")
-        .distinct('goal__id')
+        .distinct("goal__id")
     )
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
@@ -5436,7 +5130,7 @@ def general_scenario(request, project_id):
             "member": member,
             "scenarios": scenarios,
             "project": project,
-            'hidesearch':1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -5473,7 +5167,7 @@ def general_process(request, project_id):
             "processes": processes,
             "member": member,
             "project": project,
-            'hidesearch':1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -5510,7 +5204,7 @@ def general_usecase(request, project_id):
             "usecases": usecases,
             "member": member,
             "project": project,
-            'hidesearch':1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -5805,7 +5499,7 @@ def delete_viewpoint(request, viewpoint_id):
 @login_required(login_url="login")
 def delete_goal(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
-    
+
     delete_goal = Goal.objects.filter(id=goal_id).delete()
 
     if delete_goal:
@@ -5817,7 +5511,9 @@ def delete_requirement(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
     delete_requirement = Requirement.objects.filter(id=requirement_id).delete()
     if delete_requirement:
-        return redirect("projects:projectrequirements", project_id=requirement.project.id)
+        return redirect(
+            "projects:projectrequirements", project_id=requirement.project.id
+        )
 
 
 @login_required(login_url="login")
@@ -5825,7 +5521,9 @@ def delete_scenario(request, scenario_id):
     scenario = RequirementScenario.objects.get(id=scenario_id)
     delete_scenario = Scenario.objects.filter(id=scenario.scenario.id).delete()
     if delete_scenario:
-        return redirect("projects:projectscenarios", project_id=scenario.scenario.project.id)
+        return redirect(
+            "projects:projectscenarios", project_id=scenario.scenario.project.id
+        )
 
 
 @login_required(login_url="login")
@@ -5833,7 +5531,9 @@ def delete_process(request, process_id):
     process = RequirementProcess.objects.get(id=process_id)
     delete_process = Process.objects.filter(id=process.process.id).delete()
     if delete_process:
-        return redirect("projects:projectprocesses", project_id=process.process.project.id)
+        return redirect(
+            "projects:projectprocesses", project_id=process.process.project.id
+        )
 
 
 @login_required(login_url="login")
@@ -5842,7 +5542,9 @@ def delete_usecase(request, usecase_id):
 
     delete_usecase = UseCase.objects.filter(id=usecase.usecase.id).delete()
     if delete_usecase:
-        return redirect("projects:projectusecases", project_id=usecase.usecase.project.id)
+        return redirect(
+            "projects:projectusecases", project_id=usecase.usecase.project.id
+        )
 
 
 # Contribution approval, rejections and blocks
@@ -6583,15 +6285,21 @@ def related_goals(request, goal_id):
     type_ = "Related"
     indexhead = "Related Goals"
     original_goal = Goal.objects.get(id=goal_id)
-    if request.POST.get('operator'):
-       related_goals_id = GoalRelationship.objects.filter(relation_type=request.POST.get('operator'))
+    if request.POST.get("operator"):
+        related_goals_id = GoalRelationship.objects.filter(
+            relation_type=request.POST.get("operator")
+        )
     else:
         related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal)
     goal_ids = []
     for goal_id in related_goals_id:
         goal_ids.append(goal_id.related_goal)
 
-    goals = ViewpointGoal.objects.filter(goal__id__in=goal_ids).order_by("goal__id").distinct('goal__id')
+    goals = (
+        ViewpointGoal.objects.filter(goal__id__in=goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
     goals = paginate.get_page(page_number)
@@ -6603,7 +6311,7 @@ def related_goals(request, goal_id):
             "goals": goals,
             "type": type_,
             "member": member,
-            'goal':original_goal,
+            "goal": original_goal,
             "goal_id": original_goal.id,
             "hidesearch": hidesearch,
             "project": original_goal.project,
@@ -6620,16 +6328,22 @@ def decomposed_goals(request, goal_id):
     type_ = "Decomposed"
     indexhead = "Decomposed Goals"
     original_goal = Goal.objects.get(id=goal_id)
-    if request.POST.get('operator'):
-        related_goals_id = GoalDecomposition.objects.filter(decomposition_operator=request.POST.get('operator'))
+    if request.POST.get("operator"):
+        related_goals_id = GoalDecomposition.objects.filter(
+            decomposition_operator=request.POST.get("operator")
+        )
     else:
-        
+
         related_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal)
     goal_ids = []
     for goal_id in related_goals_id:
         goal_ids.append(goal_id.decomposed_goal)
 
-    goals = ViewpointGoal.objects.filter(goal__id__in=goal_ids).order_by("goal__id").distinct('goal__id')
+    goals = (
+        ViewpointGoal.objects.filter(goal__id__in=goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
     paginate = Paginator(goals, 10)
     page_number = request.GET.get("page")
     goals = paginate.get_page(page_number)
@@ -6639,7 +6353,7 @@ def decomposed_goals(request, goal_id):
         {
             "indexhead": indexhead,
             "goals": goals,
-            'goal':original_goal,
+            "goal": original_goal,
             "type": type_,
             "member": member,
             "goal_id": original_goal.id,
@@ -6689,12 +6403,20 @@ def scenario_requirement(request, scenario_id):
     indexhead = "Scenario Associated Requirements"
     hidesearch = 1
     scenario = Scenario.objects.get(id=scenario_id)
-    requirements = RequirementScenario.objects.filter(scenario=scenario).order_by("requirement__id").distinct('requirement__id')
+    requirements = (
+        RequirementScenario.objects.filter(scenario=scenario)
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
     requirement_list = []
     for requirement in requirements:
         requirement_list.append(requirement.requirement)
 
-    requirements = RequirementGoal.objects.filter(requirement__in=requirement_list).order_by('requirement__id').distinct('requirement__id')
+    requirements = (
+        RequirementGoal.objects.filter(requirement__in=requirement_list)
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
     project = Project.objects.get(id=scenario.project.id)
     member = Member.objects.get(user=request.user)
     paginator = Paginator(requirements, 10)
@@ -6720,13 +6442,21 @@ def process_requirements(request, process_id):
     indexhead = "Process Associated Requirements"
     hidesearch = 1
     process = Process.objects.get(id=process_id)
-    requirements = RequirementProcess.objects.filter(process=process).order_by("requirement__id").distinct('requirement__id')
+    requirements = (
+        RequirementProcess.objects.filter(process=process)
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
     project = Project.objects.get(id=process.project.id)
     requirement_list = []
     for requirement in requirements:
         requirement_list.append(requirement.requirement)
 
-    requirements = RequirementGoal.objects.filter(requirement__in=requirement_list).order_by('requirement__id').distinct('requirement__id')
+    requirements = (
+        RequirementGoal.objects.filter(requirement__in=requirement_list)
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
     member = Member.objects.get(user=request.user)
     paginate = Paginator(requirements, 10)
     page_number = request.GET.get("page")
@@ -6751,13 +6481,21 @@ def usecase_requirements(request, usecase_id):
     indexhead = "Use case Associated Requirements"
     hidesearch = 1
     usecase = UseCase.objects.get(id=usecase_id)
-    requirements = RequirementUsecase.objects.filter(usecase=usecase).order_by("-usecase__id").distinct('usecase__id')
+    requirements = (
+        RequirementUsecase.objects.filter(usecase=usecase)
+        .order_by("-usecase__id")
+        .distinct("usecase__id")
+    )
     project = Project.objects.get(id=usecase.project.id)
     requirement_list = []
     for requirement in requirements:
         requirement_list.append(requirement.requirement)
 
-    requirements = RequirementGoal.objects.filter(requirement__in=requirement_list).order_by('requirement__id').distinct('requirement__id')
+    requirements = (
+        RequirementGoal.objects.filter(requirement__in=requirement_list)
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
     member = Member.objects.get(user=request.user)
     paginate = Paginator(requirements, 10)
     page_number = request.GET.get("page")
@@ -7856,7 +7594,7 @@ def dislike(request, module_id=None):
                     "message": "Failed to update your dislike!",
                 }
         else:
-            #removing one side dislike if there is existing like
+            # removing one side dislike if there is existing like
             undislike = UseCaseDislike.objects.filter(
                 use_case=usecase.usecase, dislike__disliked_by=member
             ).delete()
@@ -7875,7 +7613,382 @@ def dislike(request, module_id=None):
 
 
 # updating stakeholder
-def update_stakeholder(request,stakeholder_id):
-    stakeholder = request.POST.get('stakeholder')
-    update_stakeholder_names = Stakeholder.objects.filter(id=stakeholder_id).update(name=stakeholder)
+def update_stakeholder(request, stakeholder_id):
+    stakeholder = request.POST.get("stakeholder")
+    update_stakeholder_names = Stakeholder.objects.filter(id=stakeholder_id).update(
+        name=stakeholder
+    )
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def scenario_process(request, scenario_id):
+    indexhead = "Associated Scenario Processes"
+    scenario = Scenario.objects.get(id=scenario_id)
+    processes = (
+        ScenarioProcess.objects.filter(scenario=scenario)
+        .order_by("process__id")
+        .distinct("process__id")
+    )
+    process_list = []
+    for process_ in processes:
+        process_list.append(process_.process)
+    processes = (
+        RequirementProcess.objects.filter(process__in=process_list)
+        .order_by("process__id")
+        .distinct("process__id")
+    )
+    project = Project.objects.get(id=scenario.project.id)
+    paginate = Paginator(processes, 10)
+    page_number = request.GET.get("page")
+    processes = paginate.get_page(page_number)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "projects/process/process.html",
+        {
+            "indexhead": indexhead,
+            "project_id": project.id,
+            "processes": processes,
+            "member": member,
+            "project": project,
+            "hideseach": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
+
+def usecase_process(request, usecase_id):
+    indexhead = "Associated Use Case Processes"
+    usecase = UseCase.objects.get(id=usecase_id)
+    processes = (
+        ProcessUsecase.objects.filter(usecase=usecase)
+        .order_by("process__id")
+        .distinct("process__id")
+    )
+    process_list = []
+    for process_ in processes:
+        process_list.append(process_.process)
+    processes = (
+        RequirementProcess.objects.filter(process__in=process_list)
+        .order_by("process__id")
+        .distinct("process__id")
+    )
+    project = Project.objects.get(id=usecase.project.id)
+    paginate = Paginator(processes, 10)
+    page_number = request.GET.get("page")
+    processes = paginate.get_page(page_number)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "projects/process/process.html",
+        {
+            "indexhead": indexhead,
+            "project_id": project.id,
+            "processes": processes,
+            "member": member,
+            "project": project,
+            "hideseach": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
+
+def usecase_scenario(request, usecase_id):
+    indexhead = "Associated Use Case Scenario"
+    usecase = UseCase.objects.get(id=usecase_id)
+    scenarios = (
+        ScenarioUsecase.objects.filter(usecase=usecase)
+        .order_by("usecase__id")
+        .distinct("usecase__id")
+    )
+    scenario_list = []
+    for scenario_ in scenarios:
+        scenario_list.append(scenario_.scenario)
+    scenarios = (
+        RequirementScenario.objects.filter(scenario__in=scenario_list)
+        .order_by("scenario__id")
+        .distinct("scenario__id")
+    )
+    project = Project.objects.get(id=usecase.project.id)
+    paginate = Paginator(scenarios, 10)
+    page_number = request.GET.get("page")
+    scenarios = paginate.get_page(page_number)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "projects/scenario/scenarios.html",
+        {
+            "indexhead": indexhead,
+            "project_id": project.id,
+            "scenarios": scenarios,
+            "member": member,
+            "project": project,
+            "hideseach": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
+
+def process_scenario(request, process_id):
+    indexhead = "Associated Process Scenario"
+    process = Process.objects.get(id=process_id)
+    scenarios = (
+        ScenarioProcess.objects.filter(process=process)
+        .order_by("process__id")
+        .distinct("process__id")
+    )
+    scenario_list = []
+    for scenario_ in scenarios:
+        scenario_list.append(scenario_.scenario)
+    scenarios = (
+        RequirementScenario.objects.filter(scenario__in=scenario_list)
+        .order_by("scenario__id")
+        .distinct("scenario__id")
+    )
+    project = Project.objects.get(id=process.project.id)
+    paginate = Paginator(scenarios, 10)
+    page_number = request.GET.get("page")
+    scenarios = paginate.get_page(page_number)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "projects/scenario/scenarios.html",
+        {
+            "indexhead": indexhead,
+            "project_id": project.id,
+            "scenarios": scenarios,
+            "member": member,
+            "project": project,
+            "hideseach": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
+
+def scenario_usecase(request, scenario_id):
+    indexhead = "Associated Scenario Use Case"
+    scenario = Scenario.objects.get(id=scenario_id)
+    usecases = (
+        ScenarioUsecase.objects.filter(scenario=scenario)
+        .order_by("usecase__id")
+        .distinct("usecase__id")
+    )
+    usecase_list = []
+    for usecase_ in usecases:
+        usecase_list.append(usecase_.usecase)
+    usecases = (
+        RequirementUsecase.objects.filter(usecase__in=usecase_list)
+        .order_by("usecase__id")
+        .distinct("usecase__id")
+    )
+    project = Project.objects.get(id=scenario.project.id)
+    paginate = Paginator(usecases, 10)
+    page_number = request.GET.get("page")
+    usecases = paginate.get_page(page_number)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "projects/scenario/scenarios.html",
+        {
+            "indexhead": indexhead,
+            "project_id": project.id,
+            "usecases": usecases,
+            "member": member,
+            "project": project,
+            "hideseach": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
+
+def process_usecase(request, process_id):
+    indexhead = "Associated Process Use Case"
+    process = Process.objects.get(id=process_id)
+    usecases = (
+        ProcessUsecase.objects.filter(process=process)
+        .order_by("usecase__id")
+        .distinct("usecase__id")
+    )
+    usecase_list = []
+    for usecase_ in usecases:
+        usecase_list.append(usecase_.usecase)
+    usecases = (
+        RequirementUsecase.objects.filter(usecase__in=usecase_list)
+        .order_by("usecase__id")
+        .distinct("usecase__id")
+    )
+    project = Project.objects.get(id=process.project.id)
+    paginate = Paginator(usecases, 10)
+    page_number = request.GET.get("page")
+    usecases = paginate.get_page(page_number)
+    member = Member.objects.get(user=request.user)
+    return render(
+        request,
+        "projects/scenario/scenarios.html",
+        {
+            "indexhead": indexhead,
+            "project_id": project.id,
+            "usecases": usecases,
+            "member": member,
+            "project": project,
+            "hideseach": 1,
+            "notification": notification(request),
+            "total_notification": total_notification(request),
+        },
+    )
+
+
+def associate_scenario_with_requirement(request, scenario_id):
+    scenario = Scenario.objects.filter(id=scenario_id)
+    requirement_list = request.POST.getlist("requirement")
+    for requirement in requirement_list:
+        requirement = Requirement.objects.get(id=requirement)
+        create_scenario_requirement = RequirementScenario.objects.create(
+            scenario=scenario, requirement=requirement
+        )
+        create_scenario_requirement.save()
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_scenario_with_process(request, scenario_id):
+    scenario = Scenario.objects.get(id=scenario_id)
+    process_list = request.POST.getlist("process")
+    for process in process_list:
+        process = Process.objects.get(id=process)
+        create_scenario_process = ScenarioProcess.objects.create(
+            scenario=scenario, process=process
+        )
+        create_scenario_process.save()
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_scenario_with_usecase(request, scenario_id):
+    scenario = Scenario.objects.get(id=scenario_id)
+    usecase_list = request.POST.getlist("usecase")
+    for usecase in usecase_list:
+        usecase = UseCase.objects.get(id=usecase)
+        create_scenario_usecase = ScenarioUsecase.objects.create(
+            scenario=scenario, usecase=usecase
+        )
+        create_scenario_usecase.save()
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_process_with_scenario(request, process_id):
+    process = Process.objects.get(id=process_id)
+    scenario_list = request.POST.getlist("scenario")
+    for scenario in scenario_list:
+        scenario = Scenario.objects.get(id=scenario)
+        create_process_scenario = ScenarioProcess.objects.create(
+            scenario=scenario, process=process
+        )
+        create_process_scenario.save()
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_process_with_usecase(request, process_id):
+    process = Process.objects.get(id=process_id)
+    usecase_list = request.POST.getlist("usecase")
+    for usecase in usecase_list:
+        usecase = UseCase.objects.get(id=usecase)
+        create_process_usecase = ProcessUsecase.objects.create(
+            process=process, usecase=usecase
+        )
+        create_process_usecase.save()
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_process_with_requirement(request, process_id):
+    process = Process.objects.get(id=process_id)
+    requirement_list = request.POST.getlist("requirement")
+    for requirement in requirement_list:
+        requirement = Requirement.objects.get(id=requirement)
+        create_process_requirement = RequirementProcess.objects.create(
+            process=process, requirement=requirement
+        )
+        create_process_requirement.save()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_usecase_with_process(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    process_list = request.POST.getlist("process")
+    for process in process_list:
+        process = Process.objects.get(id=process)
+        create_usecase_process = ProcessUsecase.objects.create(
+            usecase=usecase, process=process
+        )
+        create_usecase_process.save()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_usecase_with_scenario(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    scenario_list = request.POST.getlist("scenario")
+    for scenario in scenario_list:
+        scenario = Scenario.objects.get(id=scenario)
+        create_usecase_scenario = ScenarioUsecase.objects.create(
+            usecase=usecase, scenario=scenario
+        )
+        create_usecase_scenario.save()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_usecase_with_requirement(request, usecase_id):
+    usecase = UseCase.objects.get(id=usecase_id)
+    requirement_list = request.POST.getlist("requirement")
+    for requirement in requirement_list:
+        requirement = Requirement.objects.get(id=requirement)
+        create_usecase_requirement = RequirementUsecase.objects.create(
+            usecase=usecase, requirement=requirement
+        )
+        create_usecase_requirement.save()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_requirement_with_scenario(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    scenario_list = request.POST.getlist("scenario")
+    for scenario in scenario_list:
+        scenario = Scenario.objects.get(id=scenario)
+        create_requirement_scenario = RequirementScenario.objects.create(
+            scenario=scenario, requirement=requirement
+        )
+        create_requirement_scenario.save()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_requirement_with_process(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    process_list = request.POST.getlist("process")
+    for process in process_list:
+        process = Process.objects.get(id=process)
+        create_requirement_process = RequirementProcess.objects.create(
+            requirement=requirement, process=process
+        )
+        create_requirement_process.save()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def associate_requirement_usecase(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    secase_list = request.POST.getlist("usecase")
+    for usecase in usecase_list:
+        usecase = UseCase.objects.get(id=usecase)
+        create_requirement_usecase = RequirementUsecase.objects.create(
+            usecase=usecase, requirement=requirement
+        )
+        create_requirement_usecase.save()
+
     return redirect(request.META["HTTP_REFERER"])
