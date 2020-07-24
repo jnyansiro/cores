@@ -207,6 +207,32 @@
                 <hr>
                 {% endif %}
 
+                <li class="list-inline-item mb-1">
+                    <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                        data-toggle="dropdown"><b><i class="icon-link2"></i></b>Associations</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'projects:scenariorequirement' scenario_id=scenario.scenario.id %}" class="dropdown-item">Associated Requirements</a>
+                        <a href="{% url 'projects:associated-scenario-process' scenario_id=scenario.scenario.id %}" class="dropdown-item"> Associated Process</a>
+                        <a href="{% url 'projects:associated-scenario-usecase' scenario_id=scenario.scenario.id %}" class="dropdown-item">Associated Use case</a>
+                
+                
+                    </div>
+                </li>
+                {% if creator == "me" %}
+                <li class="list-inline-item mb-1">
+                    <a href="#" class="btn bg-danger-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                        data-toggle="dropdown"><b><i class="icon-unlink2"></i></b>Dissociate</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item">with Requirement</a>
+                        <a class="dropdown-item"> with Process</a>
+                        <a class="dropdown-item">with Use Case</a>
+                
+                    </div>
+                </li>
+                {% endif %}
+
+                <hr>
+
             
 
                 <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
@@ -265,12 +291,17 @@
 
                     </ul>
                     <div class="col-md-6 text-right" style="margin-left: 1rem;">
-                        <li class="list-inline-item">
-                            <a href="{% url 'projects:scenariorequirement' scenario_id=scenario.scenario.id %}"
-                                class="btn bg-info-400 btn-labeled  rounded-round  btn-sm mb-1">
+                       
+                        <li class="list-inline-item mb-1">
+                            <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                                data-toggle="dropdown"><b><i class="icon-cog5"></i></b>Associate</a>
+                            <div class="dropdown-menu">
+                                <a data-toggle="modal" data-target="#associate_scenario_with_requirement" class="dropdown-item">with Requirements</a>
+                                <a data-toggle="modal" data-target="#associate_scenario_with_process"class="dropdown-item"> with Process</a>
+                                <a data-toggle="modal" data-target="#associate_scenario_with_usecase" class="dropdown-item">with Use case</a>
                         
-                                Associated Requirement(s)
-                            </a>
+                        
+                            </div>
                         </li>
                         {% if creator == "me" %}
                         <li class="list-inline-item">
@@ -282,18 +313,13 @@
                         </li>
                         <li class="list-inline-item ">
                             <a data-toggle="modal" data-target="#delete"
-                                class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                                class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm mr-3">
                                 <b><i class="icon-trash"></i></b>
                                 Delete
                             </a>
                         </li>
                         {% endif %}
-                        <li class="list-inline-item ">
-                            <a href="{% url 'projects:projectprocesses' project_id=project.id %}"
-                                class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
-                                <b><i class="icon-arrow-right15"></i></b>
-                                Processes
-                            </a>
+                        
                     </div>
 
                 </div>
@@ -444,6 +470,8 @@
                 </div>
             </div>
             <!-- /vertical form modal -->
+
+            {% include './associations.html'%}
 
 
             <!-- rate model -->

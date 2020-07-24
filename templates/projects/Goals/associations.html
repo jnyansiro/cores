@@ -1,0 +1,100 @@
+
+<!-- Associate_goal -->
+<div id="associate_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Goal with Viewpoint:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-goal-with-viewpoint' goal.goal.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Original Goal:</label>
+                                <input type="text" name="" value="{{goal.goal.goal_name}}" class="form-control"
+                                    disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Viewpoint:</label>
+                                <select class="form-control multiselect" name="viewpoints" multiple="multiple"
+                                    data-fouc>
+                                    {% for viewpoint_ in viewpoints %}
+                                    <option value="{{viewpoint_.id}}">{{ viewpoint_.number }} |
+                                        {{ viewpoint_.viewpoint_name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+
+<!-- Associate_goal_with_requirement -->
+<div id="associate_goal_with_requirement" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Goal with Requirement:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-goal-with-requirement' goal.goal.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Original Goal:</label>
+                                <input type="text" name="" value="{{goal.goal.goal_name}}" class="form-control"
+                                    disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Requirement:</label>
+                                <select class="form-control multiselect" name="requirement" multiple="multiple"
+                                    data-fouc>
+                                    {% for requirement in requirements %}
+                                    <option value="{{requirement.id}}">{{ requirement.number }} |
+                                        {{ requirement.name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+

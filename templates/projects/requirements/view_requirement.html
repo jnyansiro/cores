@@ -208,6 +208,35 @@
                     {% endfor %}
                     <hr>
                     {% endif %}
+                    <br>
+                 <li class="list-inline-item mb-1">
+                    <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                        data-toggle="dropdown"><b><i class="icon-link2"></i></b>Associations</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'projects:requirementgoals' requirement_id=requirement.requirement.id%}"
+                            class="dropdown-item">Associated Goals</a>
+                        <a href="{% url 'projects:scenarios' requirement_id=requirement.requirement.id%}" class="dropdown-item">Associated Scenario</a>
+                        <a href="{% url 'projects:processes' requirement_id=requirement.requirement.id%}" class="dropdown-item"> Associated Process</a>
+                        <a href="{% url 'projects:usecases' requirement_id=requirement.requirement.id%}" class="dropdown-item"> Associated Use Case</a>
+                    
+                    </div>
+                </li>
+                    
+                {% if creator == "me" %}
+                   <li class="list-inline-item mb-1">
+                    <a href="#" class="btn bg-danger-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                        data-toggle="dropdown"><b><i class="icon-unlink2"></i></b>Dissociate</a>
+                    <div class="dropdown-menu">
+                        <a  class="dropdown-item">with Goal</a>
+                        <a class="dropdown-item">with Scenario</a>
+                        <a  class="dropdown-item"> with Process</a>
+                        <a  class="dropdown-item"> with Use Case</a>
+                    
+                    </div>
+                    </li>
+                    {% endif %}
+                   
+                <hr>
                     <div
                         class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 col-md-12 mb-3">
                         <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-5 p-0 ">
@@ -267,11 +296,20 @@
                        
                         
                         <div class="col-md-7 text-right" style="margin-left: 1rem;">
-                            <a href="{% url 'projects:requirementgoals' requirement_id=requirement.requirement.id%}"
-                            class="btn bg-primary-400  rounded-round  btn-sm">
-                            
-                            Associated Goals
-                        </a>
+                    
+                                        <li class="list-inline-item mb-1">
+                    
+                        <div class="btn-group justify-content-center">
+                            <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
+                                data-toggle="dropdown"><b><i class="icon-cog5"></i></b>Associate</a>
+                            <div class="dropdown-menu">
+                                <a data-toggle="modal" data-target="#associate_requirement_with_goal" class="dropdown-item"> with Goal</a>
+                                <a data-toggle="modal" data-target="#associate_requirement_with_scenario"  class="dropdown-item">with Scenario</a>
+                                <a  data-toggle="modal" data-target="#associate_requirement_with_process" class="dropdown-item">with Process</a>
+                                <a  data-toggle="modal" data-target="#associate_requirement_with_usecase" class="dropdown-item">with Use case</a>
+                    
+                    
+                            </div>
                     </li>
                             {% if creator == "me" %}
                             <li class="list-inline-item">
@@ -283,18 +321,12 @@
                             </li>
                             <li class="list-inline-item ">
                                 <a data-toggle="modal" data-target="#delete"
-                                    class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
+                                    class="btn bg-danger-400 btn-labeled btn-labeled-right rounded-round  btn-sm mr-3">
                                     <b><i class="icon-trash"></i></b>
                                     Delete
                                 </a>
                             </li>
                             {% endif %}
-                            <li class="list-inline-item ">
-                                <a href="{% url 'projects:scenarios' requirement_id=requirement.requirement.id %}"
-                                    class="btn bg-primary-400 btn-labeled btn-labeled-right rounded-round  btn-sm ">
-                                    <b><i class="icon-arrow-right15"></i></b>
-                                    Scenarios
-                                </a>
                         </div>
 
                     </div>
@@ -428,6 +460,8 @@
                     </div>
 
                     <!-- /custom background color -->
+
+                    {% include './associations.html'%}
 
 
 

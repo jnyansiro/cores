@@ -1,0 +1,198 @@
+<!-- Associate__requirement_with_goal -->
+{% load static %}
+<script src="{% static 'global_assets/js/demo_pages/form_multiselect.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/forms/selects/bootstrap_multiselect.js' %}"></script>
+<div id="associate_requirement_with_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Requirement with Goal:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-requirement-with-goal' requirement.requirement.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Requirement:</label>
+                                <input type="text" name="" value="{{requirement.requirement.name}}" class="form-control"
+                                    disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Goal:</label>
+                                <select class="form-control multiselect" name="goal" multiple="multiple"
+                                    data-fouc>
+                                    {% for goal in goals %}
+                                    <option value="{{goal.id}}">{{ goal.number }} |
+                                        {{ goal.goal_name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- Associate__requirement_with_scenario -->
+
+<div id="associate_requirement_with_scenario" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Requirement with Scenario:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-requirement-with-scenario' requirement.requirement.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Requirement:</label>
+                                <input type="text" name="" value="{{requirement.requirement.name}}" class="form-control"
+                                    disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Scenario:</label>
+                                <select class="form-control multiselect" name="scenario" multiple="multiple" data-fouc>
+                                    {% for scenario in scenarios %}
+                                    <option value="{{scenario.id}}">{{ scenario.number }} |
+                                        {{ scenario.name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- Associate__requirement_with_Pprocess -->
+{% load static %}
+
+<div id="associate_requirement_with_process" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Requirement with Process:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-requirement-with-process' requirement.requirement.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Requirement:</label>
+                                <input type="text" name="" value="{{requirement.requirement.name}}" class="form-control"
+                                    disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Process:</label>
+                                <select class="form-control multiselect" name="process" multiple="multiple" data-fouc>
+                                    {% for process in processes %}
+                                    <option value="{{process.id}}">{{ process.number }} |
+                                        {{ process.process_name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+<!-- Associate__requirement_with_usecase -->
+{% load static %}
+
+<div id="associate_requirement_with_usecase" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Associate Requirement with Use Case:</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="{% url 'projects:associate-requirement-with-usecase' requirement.requirement.id %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Requirement:</label>
+                                <input type="text" name="" value="{{requirement.requirement.name}}" class="form-control"
+                                    disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>associate Use Case:</label>
+                                <select class="form-control multiselect" name="usecase" multiple="multiple" data-fouc>
+                                    {% for usecase in usecases %}
+                                    <option value="{{usecase.id}}">{{ usecase.number }} |
+                                        {{ usecase.usecase_name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Associate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->

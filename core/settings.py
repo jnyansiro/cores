@@ -119,33 +119,33 @@ WSGI_APPLICATION = "core.wsgi.application"
 # }
 
 
-DATABASES = {
-   'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-
-        'NAME': 'core',
-
-        'USER': 'postgres',
-
-        'PASSWORD': 'b@11game',
-
-        'HOST': '157.245.12.198',
-
-    }
-}
-
 # DATABASES = {
 #    'default': {
 
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'cores',
+
+
+#         'NAME': 'core',
+
 #         'USER': 'postgres',
-#         'PASSWORD': 'Namwinyu1995',
-#         'HOST': 'localhost',
+
+#         'PASSWORD': 'b@11game',
+
+#         'HOST': '157.245.12.198',
+
 #     }
 # }
+
+DATABASES = {
+   'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cores',
+        'USER': 'postgres',
+        'PASSWORD': 'Namwinyu1995',
+        'HOST': 'localhost',
+    }
+}
 
 
 # Password validation

@@ -70,7 +70,7 @@ urlpatterns = [
     url(r'^creategoal/(?P<project_id>\d+)/$', createGoal, name="creategoal"),
     url(r'^decompose-goal/$', decompose_goal, name="decompose-goal"),
     url(r'^relate-goal/$', relate_goal, name="relate-goal"),
-    url(r'^associate-goal/$', associate_goal_with_viewpoint, name="associate-goal"),
+    url(r'^associate-goal-with-viewpoint/(?P<goal_id>\d+)/$', associate_goal_with_viewpoint, name="associate-goal-with-viewpoint"),
 
 
         # REQUIREMENT URLS
@@ -225,6 +225,32 @@ urlpatterns = [
     url(r'^blockusecase/(?P<usecase_id>\d+)/$', block_usecase, name="blockusecase"),
     url(r'^deletestakeholder/(?P<stakeholder_id>\d+)/$', delete_stakeholder, name="deletestakeholder"),
     url(r'^updatestakeholder/(?P<stakeholder_id>\d+)/$', update_stakeholder, name="updatestakeholder"),
+
+    # Associations URLS
+
+    url(r'^associate-goal-with-requirement/(?P<goal_id>\d+)/$', associate_goal_with_requirement, name='associate-goal-with-requirement'),
+    url(r'^associate-requirement-with-goal/(?P<requirement_id>\d+)/$', associate_requirement_with_goal, name='associate-requirement-with-goal'),
+    url(r'^associate-requirement-with-scenario/(?P<requirement_id>\d+)/$', associate_requirement_with_scenario, name='associate-requirement-with-scenario'),
+    url(r'^associate-requirement-with-process/(?P<requirement_id>\d+)/$', associate_requirement_with_process, name='associate-requirement-with-process'),
+    url(r'^associate-requirement-with-usecase/(?P<requirement_id>\d+)/$', associate_requirement_with_usecase, name='associate-requirement-with-usecase'),
+    url(r'^associate-scenario-with-requirement/(?P<scenario_id>\d+)/$', associate_scenario_with_requirement, name='associate-scenario-with-requirement'),
+    url(r'^associate-scenario-with-process/(?P<scenario_id>\d+)/$', associate_scenario_with_process, name='associate-scenario-with-process'),
+    url(r'^associate-scenario-with-usecase/(?P<scenario_id>\d+)/$', associate_scenario_with_usecase, name='associate-scenario-with-usecase'),
+    url(r'^associate-process-with-requirement/(?P<process_id>\d+)/$', associate_process_with_requirement, name='associate-process-with-requirement'),
+    url(r'^associate-process-with-scenario/(?P<process_id>\d+)/$', associate_process_with_scenario, name='associate-process-with-scenario'),
+    url(r'^associate-process-with-usecase/(?P<process_id>\d+)/$', associate_process_with_usecase, name='associate-process-with-usecase'),
+    url(r'^associate-usecase-with-requirement/(?P<usecase_id>\d+)/$', associate_usecase_with_requirement, name='associate-usecase-with-requirement'),
+    url(r'^associate-usecase-with-scenario/(?P<usecase_id>\d+)/$', associate_usecase_with_scenario, name='associate-usecase-with-scenario'),
+    url(r'^associate-usecase-with-process/(?P<usecase_id>\d+)/$', associate_usecase_with_process, name='associate-usecase-with-process'),
+
+
+    # associated URLS
+    url(r'^associated-scenario-processes/(?P<scenario_id>\d+)/$', scenario_process, name='associated-scenario-process'),
+    url(r'^associated-scenario-usecases/(?P<scenario_id>\d+)/$', scenario_usecase, name='associated-scenario-usecase'),
+    url(r'^associated-process-scenarios/(?P<process_id>\d+)/$', process_scenario, name='associated-process-scenarios'),
+    url(r'^associated-process-usecases/(?P<process_id>\d+)/$', process_usecase, name='associated-process-usecases'),
+    url(r'^associated-usecase-scenario/(?P<usecase_id>\d+)/$', usecase_scenario, name='associated-usecase-scenario'),
+    url(r'^associated-usecase-process/(?P<usecase_id>\d+)/$', usecase_process, name='associated-usecase-process'),
     
     path('subscribe', subscribe, name="subscribe"),
 
