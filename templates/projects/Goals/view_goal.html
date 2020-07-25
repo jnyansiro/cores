@@ -207,8 +207,7 @@
                     <a href="#" class="btn bg-info-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
                         data-toggle="dropdown"><b><i class="icon-link2"></i></b>Associations</a>
                     <div class="dropdown-menu">
-                        <a href="{% url 'projects:related-goals' goal_id=goal.goal.id %}"
-                            class="dropdown-item">Related Goals</a>
+                        <a href="{% url 'projects:related-goals' goal_id=goal.goal.id %}" class="dropdown-item">Related Goals</a>
                         <a href="{% url 'projects:decomposed-goals' goal_id=goal.goal.id %}" class="dropdown-item">Decomposed Goals</a>
                         <a href="{% url 'projects:requirements' goal_id=goal.goal.id%}" class="dropdown-item"> Associated Requirements</a>
                         <a href="{% url 'projects:associate-viewpoints' goal_id=goal.goal.id %}" class="dropdown-item"> Associated Viewpoints</a>
@@ -220,10 +219,12 @@
                     <a href="#" class="btn bg-danger-400 dropdown-toggle btn-labeled btn-labeled-right rounded-round  btn-sm"
                         data-toggle="dropdown"><b><i class="icon-unlink2"></i></b>Dissociate</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item">with Goal</a>
-                        <a class="dropdown-item">with Viwpoint</a>
-                        <a class="dropdown-item"> with Requirement</a>
-                        <a class="dropdown-item"> with Use Case</a>
+                        <a data-toggle="modal" data-target="#remove_goal_with_goal" class="dropdown-item">Related Goal</a>
+                        <a  data-toggle="modal" data-target="#disdecompose_goal_with_goal" class="dropdown-item">Decomposed Goal </a>
+                        <a data-toggle="modal" data-target="#dissociate_goal_with_viewpoint" class="dropdown-item">with Viwpoint</a>
+                        <a data-toggle="modal" data-target="#dissociate_goal_with_requirement" class="dropdown-item"> with Requirement</a>
+                        
+                        
                 
                     </div>
                 </li>

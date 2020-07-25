@@ -37,5 +37,9 @@ admin.site.register(Stakeholder)
 admin.site.register(DefaultViewpoint)
 admin.site.register(LoginLog)
 admin.site.register(UseCase)
+admin.site.register(RequirementUsecase)
+admin.site.register(RequirementProcess)
+admin.site.register(RequirementScenario)
+admin.site.register(RequirementGoal)
 admin.site.site_header="CORES Administrator Panel"
 admin.site.site_title="CORES"

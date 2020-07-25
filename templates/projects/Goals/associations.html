@@ -98,3 +98,221 @@
 <!-- /vertical form modal -->
 
 
+
+
+<!-- dissociate_goal_with_viewpoint -->
+<div id="dissociate_goal_with_viewpoint" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dissociate goal:{{goal.goal}} with Viewpoint(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Viewpoint</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for viewpoint in viewpointss %}
+                        <tr>
+
+
+                            <td> <label>{{viewpoint.viewpoint.number}} | {{ viewpoint.viewpoint }}</label> </td>
+
+
+                            <td>
+                                <a href="{% url 'projects:dissociate_goal_with_viewpoint' viewpoint.id %}?ids={{goal.id}}" name="approve"
+                                    title="Delete" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+
+<!-- dissociate_goal_with_requirement -->
+<div id="dissociate_goal_with_requirement" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dissociate goal:{{goal.goal}} with Requirement(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Requirement</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for requirement in requirementss %}
+                        <tr>
+
+
+                            <td> <label>{{requirement.requirement.number}} | {{ requirement.requirement }}</label> </td>
+
+
+                            <td>
+                                <a href="{% url 'projects:dissociate_goal_with_requirement' requirement.id %}" name="approve"
+                                    title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- discompose_goal_with_goal -->
+<div id="disdecompose_goal_with_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove Decomposition of goal:{{goal.goal}} with Requirement(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Goal</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for goal_ in goalsss %}
+                        <tr>
+
+                            <td> <label>{{goal_.number}} | {{ goal_ }}</label> </td>
+                             <td>
+                                <a href="{% url 'projects:delete_decomposition_with_goal' goal_.id %}?id={{goal.goal.id}}"
+                                    name="approve" title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- remove_goal_with_goal -->
+<div id="remove_goal_with_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove Relationship of goal:{{goal.goal}} with Goal(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Goal</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for goal_ in goalss %}
+                        <tr>
+
+                            <td> <label>{{goal_.number}} | {{ goal_ }}</label> </td>
+                            <td>
+                                <a href="{% url 'projects:delete_relationship_with_goal' goal_.id %}?id={{goal.goal.id}}" name="approve"
+                                    title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->

@@ -251,6 +251,29 @@ urlpatterns = [
     url(r'^associated-process-usecases/(?P<process_id>\d+)/$', process_usecase, name='associated-process-usecases'),
     url(r'^associated-usecase-scenario/(?P<usecase_id>\d+)/$', usecase_scenario, name='associated-usecase-scenario'),
     url(r'^associated-usecase-process/(?P<usecase_id>\d+)/$', usecase_process, name='associated-usecase-process'),
+
+    #dissociation URLS
+    url(r'^dissociate_goal_with_viewpoint/(?P<association_id>\d+)/$', delete_goal_association_with_viewpoint, name='dissociate_goal_with_viewpoint'),
+    url(r'^dissociate_goal_with_requirement/(?P<association_id>\d+)/$', delete_goal_association_with_requirement, name='dissociate_goal_with_requirement'),
+    url(r'^delete_decomposition_with_goal/(?P<goal_id>\d+)/$', delete_decomposition_with_goal, name='delete_decomposition_with_goal'),
+    url(r'^delete_relationship_with_goal/(?P<goal_id>\d+)/$', delete_relationship_with_goal, name='delete_relationship_with_goal'),
+    url(r'^dissociate_requirement_with_goal/(?P<association_id>\d+)/$', delete_requirement_association_with_goal, name='dissociate_requirement_with_goal'),
+    url(r'^dissociate_requirement_with_scenario/(?P<association_id>\d+)/$', delete_requirement_association_with_scenario, name='dissociate_requirement_with_scenario'),
+    url(r'^dissociate_requirement_with_process/(?P<association_id>\d+)/$', delete_requirement_association_with_process, name='dissociate_requirement_with_process'),
+    url(r'^dissociate_requirement_with_usecase/(?P<association_id>\d+)/$', delete_requirement_association_with_usecase, name='dissociate_requirement_with_usecase'),
+    url(r'^dissociate_scenario_with_requirement/(?P<association_id>\d+)/$', delete_scenario_association_with_requirement, name='dissociate_scenario_with_requirement'),
+    url(r'^dissociate_scenario_with_process/(?P<association_id>\d+)/$', delete_scenario_association_with_process, name='dissociate_scenario_with_process'),
+    url(r'^dissociate_scenario_with_usecase/(?P<association_id>\d+)/$', delete_scenario_association_with_usecase, name='dissociate_scenario_with_usecase'),
+    url(r'^dissociate_process_with_requirement/(?P<association_id>\d+)/$', delete_process_association_with_requirement, name='dissociate_process_with_requirement'),
+    url(r'^dissociate_process_with_scenario/(?P<association_id>\d+)/$', delete_process_association_with_scenario, name='dissociate_process_with_scenario'),
+    url(r'^dissociate_process_with_usecase/(?P<association_id>\d+)/$', delete_process_association_with_usecase, name='dissociate_process_with_usecase'),
+    url(r'^dissociate_usecase_with_requirement/(?P<association_id>\d+)/$', delete_usecase_association_with_requirement, name='dissociate_usecase_with_requirement'),
+    url(r'^dissociate_usecase_with_scenario/(?P<association_id>\d+)/$', delete_usecase_association_with_scenario, name='dissociate_usecase_with_scenario'),
+    url(r'^dissociate_usecase_with_process/(?P<association_id>\d+)/$', delete_usecase_association_with_process, name='dissociate_usecase_with_process'),
+    
+    
+    
+
     
     path('subscribe', subscribe, name="subscribe"),
 

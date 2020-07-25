@@ -196,3 +196,223 @@
     </div>
 </div>
 <!-- /vertical form modal -->
+
+
+<!-- dissociate_requirement_with_goal -->
+<div id="dissociate_requirement_with_goal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dissociate Requirement:{{requirement.requirement}} with Goal(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Goal</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for goal_ in goalss %}
+                        <tr>
+
+
+                            <td> <label>{{goal_.goal.number}} | {{ goal_.goal }}</label> </td>
+
+
+                            <td>
+                                <a href="{% url 'projects:dissociate_requirement_with_goal' goal_.id %}?id={{requirement.id}}" name="approve"
+                                    title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- dissociate_requirement_with_scenario -->
+<div id="dissociate_requirement_with_scenario" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dissociate Requirement:{{requirement.requirement}} with Scenario(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Scenario</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for scenario in scenarioss %}
+                        <tr>
+
+
+                            <td> <label>{{scenario.scenario.number}} | {{ scenario.scenario}}</label> </td>
+
+
+                            <td>
+                                <a href="{% url 'projects:dissociate_requirement_with_scenario' scenario.id %}?id={{requirement.id}}" name="approve"
+                                    title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- dissociate_requirement_with_process -->
+<div id="dissociate_requirement_with_process" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dissociate Requirement:{{requirement.requirement}} with Process(es):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Goal</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for process in processess %}
+                        <tr>
+
+
+                            <td> <label>{{process.process.number}} | {{ process.process }}</label> </td>
+
+
+                            <td>
+                                <a href="{% url 'projects:dissociate_requirement_with_process' process.id %}?id={{requirement.id}}" name="approve"
+                                    title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->
+
+
+<!-- dissociate_requirement_with_uscase -->
+<div id="dissociate_requirement_with_usecase" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dissociate Requirement:{{requirement.requirement}} with Use Case(S):</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="bg-primary-400 text-white">
+                        <tr>
+
+                            <th>Use case</th>
+                            <th>Options</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for usecase in usecasess %}
+                        <tr>
+
+
+                            <td> <label>{{usecase.usecase.number}} | {{ usecase.usecase }}</label> </td>
+
+
+                            <td>
+                                <a href="{% url 'projects:dissociate_requirement_with_usecase' usecase.id %}?id={{requirement.id}}" name="approve"
+                                    title="Remove" data-popup="tooltip" data-placement="bottom"
+                                    class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /vertical form modal -->

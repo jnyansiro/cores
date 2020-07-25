@@ -2584,7 +2584,25 @@ def viewGoal(request, goal_id, message=None):
         for requirement in requirements_to_exclude:
             requirement_ids.append(requirement.requirement.id)
 
-        requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_ids)
+        requirements = Requirement.objects.filter(project=project).exclude(
+            id__in=requirement_ids
+        )
+
+        requirementss = RequirementGoal.objects.filter(goal=goal.goal).order_by('requirement__id').distinct('requirement__id')
+        viewpointss = ViewpointGoal.objects.filter(goal=goal.goal).order_by('viewpoint__id').distinct('viewpoint__id')
+
+        ids = []
+        for goal_id in GoalRelationship.objects.filter(origin_goal=goal.goal):
+            ids.append(goal_id.related_goal)
+        goalss = Goal.objects.filter(id__in=ids)
+
+        goal_ids = []
+        for goal_ in GoalDecomposition.objects.filter(original_goal=goal.goal):
+            goal_ids.append(goal_.decomposed_goal)
+
+        goalsss = Goal.objects.filter(id__in=goal_ids)
+
+
         return render(
             request,
             "projects/Goals/view_goal.html",
@@ -2592,7 +2610,11 @@ def viewGoal(request, goal_id, message=None):
                 "indexhead": indexhead,
                 "goal": goal,
                 "viewpoint_id": viewpoint_id,
-                'requirements':requirements,
+                "requirements": requirements,
+                'viewpointss':viewpointss,
+                'requirementss':requirementss,
+                'goalss':goalss,
+                'goalsss':goalsss,
                 "project_id": project_id,
                 "goal_id": goal_id,
                 "all_goals": all_goals,
@@ -2678,7 +2700,23 @@ def viewGoal(request, goal_id, message=None):
     for requirement in requirements_to_exclude:
         requirement_ids.append(requirement.requirement.id)
 
-    requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_ids)
+    requirements = Requirement.objects.filter(project=project).exclude(
+        id__in=requirement_ids
+    )
+
+    requirementss = RequirementGoal.objects.filter(goal=goal.goal).order_by('requirement__id').distinct('requirement__id')
+    viewpointss = ViewpointGoal.objects.filter(goal=goal.goal).order_by('viewpoint__id').distinct('viewpoint__id')
+
+    ids = []
+    for goal_id in GoalRelationship.objects.filter(origin_goal=goal.goal):
+        ids.append(goal_id.related_goal)
+    goalss = Goal.objects.filter(id__in=ids)
+
+    goal_ids = []
+    for goal_ in GoalDecomposition.objects.filter(original_goal=goal.goal):
+        goal_ids.append(goal_.decomposed_goal)
+
+    goalsss = Goal.objects.filter(id__in=goal_ids)
     return render(
         request,
         "projects/Goals/view_goal.html",
@@ -2686,10 +2724,14 @@ def viewGoal(request, goal_id, message=None):
             "indexhead": indexhead,
             "goal": goal,
             "viewpoint_id": viewpoint_id,
+            'viewpointss':viewpointss,
+            'requirementss':requirementss,
+            'goalss':goalss,
+            'goalsss':goalsss,
             "project_id": project_id,
             "goal_id": goal_id,
             "viewpoints": viewpoints,
-            'requirements':requirements,
+            "requirements": requirements,
             "comments": comments,
             "goalRate": goalRate,
             "all_goals": all_goals,
@@ -2918,7 +2960,7 @@ def viewrequirement(request, requirement_id=None, message=None):
     indexhead = "Requirement Description"
     requirement = RequirementGoal.objects.get(id=requirement_id)
     member = Member.objects.get(user=request.user)
-    
+
     if request.POST.get("requirement"):
         requirement = request.POST.get("requirement")
         requirement = RequirementGoal.objects.get(id=requirement)
@@ -2934,8 +2976,8 @@ def viewrequirement(request, requirement_id=None, message=None):
 
         project_id = project.id
         comments = RequirementComment.objects.filter(
-        Q(requirement=requirement.requirement, comment__status="accepted")
-        | Q(requirement=requirement.requirement, comment__commented_by=member)
+            Q(requirement=requirement.requirement, comment__status="accepted")
+            | Q(requirement=requirement.requirement, comment__commented_by=member)
         ).order_by("id")
         requirementRate = RequirementRate.objects.filter(
             requirement=requirement.requirement, star_rate__rated_by=member
@@ -2945,7 +2987,9 @@ def viewrequirement(request, requirement_id=None, message=None):
         ).order_by("-star_rate__number_of_stars")
         total_rates = rates.count()
         total_comments = comments.count()
-        likes = RequirementLike.objects.filter(requirement=requirement.requirement).count()
+        likes = RequirementLike.objects.filter(
+            requirement=requirement.requirement
+        ).count()
         dislikes = RequirementDislike.objects.filter(
             requirement=requirement.requirement
         ).count()
@@ -2982,37 +3026,57 @@ def viewrequirement(request, requirement_id=None, message=None):
             requirement=requirement.requirement
         )
         goal_list = []
-        for goal_ in RequirementGoal.objects.filter(requirement=requirement.requirement):
+        for goal_ in RequirementGoal.objects.filter(
+            requirement=requirement.requirement
+        ):
             goal_list.append(goal_.goal.id)
         goals = Goal.objects.filter(project=project).exclude(id__in=goal_list)
 
         scenario_list = []
-        scenario_to_exclude = RequirementScenario.objects.filter(requirement=requirement.requirement)
+        scenario_to_exclude = RequirementScenario.objects.filter(
+            requirement=requirement.requirement
+        )
         for scenario in scenario_to_exclude:
             scenario_list.append(scenario.scenario.id)
-        scenarios = Scenario.objects.filter(project=project).exclude(id__in=scenario_list)
+        scenarios = Scenario.objects.filter(project=project).exclude(
+            id__in=scenario_list
+        )
 
         process_list = []
-        for process in RequirementProcess.objects.filter(requirement=requirement.requirement):
+        for process in RequirementProcess.objects.filter(
+            requirement=requirement.requirement
+        ):
             process_list.append(process.process.id)
         processes = Process.objects.filter(project=project).exclude(id__in=process_list)
 
         usecase_list = []
-        for usecase in RequirementUsecase.objects.filter(requirement=requirement.requirement):
+        for usecase in RequirementUsecase.objects.filter(
+            requirement=requirement.requirement
+        ):
             usecase_list.append(usecase.usecase.id)
         usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
+
+        goalss = RequirementGoal.objects.filter(requirement=requirement.requirement)
+        scenarioss = RequirementScenario.objects.filter(requirement=requirement.requirement)
+        processess = RequirementProcess.objects.filter(requirement=requirement.requirement)
+        usecasess = RequirementUsecase.objects.filter(requirement=requirement.requirement)
+        
         return render(
             request,
             "projects/requirements/view_requirement.html",
             {
                 "indexhead": indexhead,
                 "goal": goal,
-                'goals':goals,
+                "goals": goals,
                 "project_id": project_id,
                 "goal_id": goal.id,
-                'scenarios':scenarios,
-                'processes':processes,
-                'usecases':usecases,
+                "scenarios": scenarios,
+                "processes": processes,
+                "usecases": usecases,
+                'usecasess':usecasess,
+                'processess':processess,
+                'goalss':goalss,
+                'scenarioss':scenarioss,
                 "creator": creator,
                 "rates": rates,
                 "likes": likes,
@@ -3073,20 +3137,30 @@ def viewrequirement(request, requirement_id=None, message=None):
     goals = Goal.objects.filter(project=project).exclude(id__in=goal_list)
 
     scenario_list = []
-    scenario_to_exclude = RequirementScenario.objects.filter(requirement=requirement.requirement)
+    scenario_to_exclude = RequirementScenario.objects.filter(
+        requirement=requirement.requirement
+    )
     for scenario in scenario_to_exclude:
         scenario_list.append(scenario.scenario.id)
     scenarios = Scenario.objects.filter(project=project).exclude(id__in=scenario_list)
 
     process_list = []
-    for process in RequirementProcess.objects.filter(requirement=requirement.requirement):
+    for process in RequirementProcess.objects.filter(
+        requirement=requirement.requirement
+    ):
         process_list.append(process.process.id)
     processes = Process.objects.filter(project=project).exclude(id__in=process_list)
 
     usecase_list = []
-    for usecase in RequirementUsecase.objects.filter(requirement=requirement.requirement):
+    for usecase in RequirementUsecase.objects.filter(
+        requirement=requirement.requirement
+    ):
         usecase_list.append(usecase.usecase.id)
     usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
+    goalss = RequirementGoal.objects.filter(requirement=requirement.requirement)
+    scenarioss = RequirementScenario.objects.filter(requirement=requirement.requirement)
+    processess = RequirementProcess.objects.filter(requirement=requirement.requirement)
+    usecasess = RequirementUsecase.objects.filter(requirement=requirement.requirement)
 
     return render(
         request,
@@ -3097,12 +3171,16 @@ def viewrequirement(request, requirement_id=None, message=None):
             "project_id": project_id,
             "goal_id": goal.id,
             "viewpoints": viewpoints,
-            'scenarios':scenarios,
-            'processes':processes,
-            'usecases':usecases,
+            'usecasess':usecasess,
+            'processess':processess,
+            'goalss':goalss,
+            'scenarioss':scenarioss,
+            "scenarios": scenarios,
+            "processes": processes,
+            "usecases": usecases,
             "rates": rates,
             "likes": likes,
-            'goals':goals,
+            "goals": goals,
             "creator": creator,
             "rate_data": rate_data,
             "stakeholders": stakeholders,
@@ -3337,27 +3415,34 @@ def viewscenario(request, scenario_id=None, message=None):
             .distinct("scenario_id")
         )
         requirement_list = []
-        for requirement in RequirementScenario.objects.filter(scenario=scenario.scenario):
+        for requirement in RequirementScenario.objects.filter(
+            scenario=scenario.scenario
+        ):
             requirement_list.append(requirement.requirement.id)
-        requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
-        
+        requirements = Requirement.objects.filter(project=project).exclude(
+            id__in=requirement_list
+        )
+
         requirement_list = []
-        for requirement in RequirementScenario.objects.filter(scenario=scenario.scenario):
+        for requirement in RequirementScenario.objects.filter(
+            scenario=scenario.scenario
+        ):
             requirement_list.append(requirement.requirement.id)
-        requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
+        requirements = Requirement.objects.filter(project=project).exclude(
+            id__in=requirement_list
+        )
 
         process_list = []
         for process in ScenarioProcess.objects.filter(scenario=scenario.scenario):
             process_list.append(process.process.id)
-        
+
         processes = Process.objects.filter(project=project).exclude(id__in=process_list)
 
         usecase_list = []
         for usecase in ScenarioUsecase.objects.filter(scenario=scenario.scenario):
             usecase_list.append(usecase.usecase.id)
-        
-        usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
 
+        usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
 
         project_id = project.id
         comments = ScenarioComment.objects.filter(
@@ -3383,18 +3468,24 @@ def viewscenario(request, scenario_id=None, message=None):
         else:
             creator = "not me"
         stakeholders = ScenarioStakeholder.objects.filter(scenario=scenario.scenario)
+        requirementss = RequirementScenario.objects.filter(scenario=scenario.scenario)
+        processess = ScenarioProcess.objects.filter(scenario=scenario.scenario)
+        usecasess = ScenarioUsecase.objects.filter(scenario=scenario.scenario)
         return render(
             request,
             "projects/scenario/view_scenario.html",
             {
                 "indexhead": indexhead,
                 "scenario": scenario,
+                'requirementss':requirementss,
+                'processess':processess,
+                'usecasess':usecasess,
                 "project_id": project_id,
                 "stakeholders": stakeholders,
                 "creator": creator,
                 "scenarios": scenarios,
-                'processes':processes,
-                'usecases':usecases,
+                "processes": processes,
+                "usecases": usecases,
                 "requirement": scenario.requirement,
                 "requirements": requirements,
                 "requirement_id": requirement.id,
@@ -3425,18 +3516,20 @@ def viewscenario(request, scenario_id=None, message=None):
     requirement_list = []
     for requirement in RequirementScenario.objects.filter(scenario=scenario.scenario):
         requirement_list.append(requirement.requirement.id)
-    requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
+    requirements = Requirement.objects.filter(project=project).exclude(
+        id__in=requirement_list
+    )
 
     process_list = []
     for process in ScenarioProcess.objects.filter(scenario=scenario.scenario):
         process_list.append(process.process.id)
-    
+
     processes = Process.objects.filter(project=project).exclude(id__in=process_list)
 
     usecase_list = []
     for usecase in ScenarioUsecase.objects.filter(scenario=scenario.scenario):
         usecase_list.append(usecase.usecase.id)
-    
+
     usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
 
     project_id = project.id
@@ -3461,14 +3554,20 @@ def viewscenario(request, scenario_id=None, message=None):
     likes = ScenarioLike.objects.filter(scenario=scenario.scenario).count()
     dislikes = ScenarioDislike.objects.filter(scenario=scenario.scenario).count()
     stakeholders = ScenarioStakeholder.objects.filter(scenario=scenario.scenario)
+    requirementss = RequirementScenario.objects.filter(scenario=scenario.scenario)
+    processess = ScenarioProcess.objects.filter(scenario=scenario.scenario)
+    usecasess = ScenarioUsecase.objects.filter(scenario=scenario.scenario)
     return render(
         request,
         "projects/scenario/view_scenario.html",
         {
             "indexhead": indexhead,
+            'requirementss':requirementss,
+            'processess':processess,
+            'usecasess':usecasess,
             "scenario": scenario,
-            'processes':processes,
-            'usecases':usecases,
+            "processes": processes,
+            "usecases": usecases,
             "stakeholders": stakeholders,
             "project_id": project_id,
             "scenarios": scenarios,
@@ -3698,16 +3797,20 @@ def viewprocess(request, process_id=None, message=None):
             creator = "me"
         else:
             creator = "not me"
-        
+
         requirement_list = []
         for requirement in RequirementProcess.objects.filter(process=process.process):
             requirement_list.append(requirement.requirement.id)
-        requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
+        requirements = Requirement.objects.filter(project=project).exclude(
+            id__in=requirement_list
+        )
 
         scenario_list = []
         for scenario in ScenarioProcess.objects.filter(process=process.process):
             scenario_list.append(scenario.scenario.id)
-        scenarios = Scenario.objects.filter(project=project).exclude(id__in=scenario_list)
+        scenarios = Scenario.objects.filter(project=project).exclude(
+            id__in=scenario_list
+        )
 
         usecase_list = []
         for usecase in ProcessUsecase.objects.filter(process=process.process):
@@ -3715,6 +3818,9 @@ def viewprocess(request, process_id=None, message=None):
         usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
 
         stakeholders = ProcessStakeholder.objects.filter(process=process.process)
+        requirementss = RequirementProcess.objects.filter(process=process.process)
+        scenarioss = ScenarioProcess.objects.filter(process=process.process)
+        usecasess = ProcessUsecase.objects.filter(process=process.process)
         return render(
             request,
             "projects/process/view_process.html",
@@ -3722,9 +3828,12 @@ def viewprocess(request, process_id=None, message=None):
                 "indexhead": indexhead,
                 "project_id": project_id,
                 "process": process,
-                'usecases':usecases,
-                'requirements':requirements,
-                'scenarios':scenarios,
+                'requirementss':requirementss,
+                'scenarioss':scenarioss,
+                'usecasess':usecasess,
+                "usecases": usecases,
+                "requirements": requirements,
+                "scenarios": scenarios,
                 "stakeholders": stakeholders,
                 "rates": rates,
                 "creator": creator,
@@ -3777,7 +3886,9 @@ def viewprocess(request, process_id=None, message=None):
     requirement_list = []
     for requirement in RequirementProcess.objects.filter(process=process.process):
         requirement_list.append(requirement.requirement.id)
-    requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
+    requirements = Requirement.objects.filter(project=project).exclude(
+        id__in=requirement_list
+    )
 
     scenario_list = []
     for scenario in ScenarioProcess.objects.filter(process=process.process):
@@ -3789,6 +3900,10 @@ def viewprocess(request, process_id=None, message=None):
         usecase_list.append(usecase.usecase.id)
     usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
     stakeholders = ProcessStakeholder.objects.filter(process=process.process)
+    stakeholders = ProcessStakeholder.objects.filter(process=process.process)
+    requirementss = RequirementProcess.objects.filter(process=process.process)
+    scenarioss = ScenarioProcess.objects.filter(process=process.process)
+    usecasess = ProcessUsecase.objects.filter(process=process.process)
     return render(
         request,
         "projects/process/view_process.html",
@@ -3796,13 +3911,16 @@ def viewprocess(request, process_id=None, message=None):
             "indexhead": indexhead,
             "project_id": project_id,
             "process": process,
+            'requirementss':requirementss,
+            'scenarioss':scenarioss,
+            'usecasess':usecasess,
             "rate_data": rate_data,
             "stakeholders": stakeholders,
             "creator": creator,
             "processes": processes,
-            'usecases':usecases,
-            'requirements':requirements,
-            'scenarios':scenarios,
+            "usecases": usecases,
+            "requirements": requirements,
+            "scenarios": scenarios,
             "rates": rates,
             "likes": likes,
             "dislikes": dislikes,
@@ -3955,7 +4073,7 @@ def usecases(request, requirement_id):
             "requirement_id": requirement.id,
             "member": member,
             "project": project,
-            'hidesearch':1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -3966,7 +4084,7 @@ def usecases(request, requirement_id):
 def viewusecase(request, usecase_id=None, message=None):
     indexhead = "Usecase Description"
     member = Member.objects.get(user=request.user)
-    
+
     if request.POST.get("usecase"):
         usecase_id = request.POST.get("usecase")
         usecase = RequirementUsecase.objects.get(id=usecase_id)
@@ -4004,14 +4122,18 @@ def viewusecase(request, usecase_id=None, message=None):
         requirement_list = []
         for requirement in RequirementUsecase.objects.filter(usecase=usecase.usecase):
             requirement_list.append(requirement.requirement.id)
-        
-        requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
+
+        requirements = Requirement.objects.filter(project=project).exclude(
+            id__in=requirement_list
+        )
 
         scenario_list = []
         for scenario in ScenarioUsecase.objects.filter(usecase=usecase.usecase):
             scenario_list.append(scenario.scenario.id)
-        
-        scenarios = Scenario.objects.filter(project=project).exclude(id__in=scenario_list)
+
+        scenarios = Scenario.objects.filter(project=project).exclude(
+            id__in=scenario_list
+        )
 
         process_list = []
         for process in ProcessUsecase.objects.filter(usecase=usecase.usecase):
@@ -4019,6 +4141,9 @@ def viewusecase(request, usecase_id=None, message=None):
         processes = Process.objects.filter(project=project).exclude(id__in=process_list)
 
         stakeholders = UsecaseStakeholder.objects.filter(usecase=usecase.usecase)
+        requirementss = RequirementUsecase.objects.filter(usecase=usecase.usecase)
+        scenarioss = ScenarioUsecase.objects.filter(usecase=usecase.usecase)
+        processess = ProcessUsecase.objects.filter(usecase=usecase.usecase)
         return render(
             request,
             "projects/usecase/view_usecase.html",
@@ -4027,9 +4152,12 @@ def viewusecase(request, usecase_id=None, message=None):
                 "project_id": project_id,
                 "creator": creator,
                 "usecase": usecase,
-                'processes':processes,
-                'scenarios':scenarios,
-                'requirements':requirements,
+                "processes": processes,
+                'requirementss':requirementss,
+                'scenarioss':scenarioss,
+                'processess':processess, 
+                "scenarios": scenarios,
+                "requirements": requirements,
                 "stakeholders": stakeholders,
                 "usecases": usecases,
                 "usecase_id": usecase.id,
@@ -4083,19 +4211,24 @@ def viewusecase(request, usecase_id=None, message=None):
     requirement_list = []
     for requirement in RequirementUsecase.objects.filter(usecase=usecase.usecase):
         requirement_list.append(requirement.requirement.id)
-    
-    requirements = Requirement.objects.filter(project=project).exclude(id__in=requirement_list)
+
+    requirements = Requirement.objects.filter(project=project).exclude(
+        id__in=requirement_list
+    )
 
     scenario_list = []
     for scenario in ScenarioUsecase.objects.filter(usecase=usecase.usecase):
         scenario_list.append(scenario.scenario.id)
-    
+
     scenarios = Scenario.objects.filter(project=project).exclude(id__in=scenario_list)
 
     process_list = []
     for process in ProcessUsecase.objects.filter(usecase=usecase.usecase):
         process_list.append(process.process.id)
     processes = Process.objects.filter(project=project).exclude(id__in=process_list)
+    requirementss = RequirementUsecase.objects.filter(usecase=usecase.usecase)
+    scenarioss = ScenarioUsecase.objects.filter(usecase=usecase.usecase)
+    processess = ProcessUsecase.objects.filter(usecase=usecase.usecase)
     return render(
         request,
         "projects/usecase/view_usecase.html",
@@ -4103,9 +4236,12 @@ def viewusecase(request, usecase_id=None, message=None):
             "indexhead": indexhead,
             "project_id": project_id,
             "stakeholders": stakeholders,
-            'processes':processes,
-            'scenarios':scenarios,
-            'requirements':requirements,
+            "processes": processes,
+            'requirementss':requirementss,
+            'scenarioss':scenarioss,
+            'processess':processess, 
+            "scenarios": scenarios,
+            "requirements": requirements,
             "creator": creator,
             "rate_data": rate_data,
             "usecase": usecase,
@@ -6363,7 +6499,7 @@ def decompose_goal(request):
     return redirect(request.META["HTTP_REFERER"])
 
 
-# decomose goals
+# relate goals
 @login_required(login_url="login")
 def relate_goal(request):
     original_goal_id = request.POST.get("original_goal")
@@ -6378,7 +6514,6 @@ def relate_goal(request):
         )
         relate_goal.save()
     return redirect(request.META["HTTP_REFERER"])
-
 
 
 def related_goals(request, goal_id):
@@ -7946,7 +8081,7 @@ def process_usecase(request, process_id):
 
 
 def associate_scenario_with_requirement(request, scenario_id):
-    scenario = Scenario.objects.filter(id=scenario_id)
+    scenario = Scenario.objects.get(id=scenario_id)
     requirement_list = request.POST.getlist("requirement")
     for requirement in requirement_list:
         requirement = Requirement.objects.get(id=requirement)
@@ -8069,6 +8204,7 @@ def associate_requirement_with_scenario(request, requirement_id):
 
     return redirect(request.META["HTTP_REFERER"])
 
+
 def associate_requirement_with_goal(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
     goal_list = request.POST.getlist("goal")
@@ -8080,7 +8216,6 @@ def associate_requirement_with_goal(request, requirement_id):
         create_association.save()
 
     return redirect(request.META["HTTP_REFERER"])
-
 
 
 def associate_requirement_with_process(request, requirement_id):
@@ -8109,25 +8244,25 @@ def associate_requirement_with_usecase(request, requirement_id):
     return redirect(request.META["HTTP_REFERER"])
 
 
-
 def associate_goal_with_viewpoint(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
-    viewpoint_list = request.POST.getlist('viewpoints')
+    viewpoint_list = request.POST.getlist("viewpoints")
     for viewpoint in viewpoint_list:
         viewpoint = Viewpoint.objects.get(id=viewpoint)
         create_association = ViewpointGoal.objects.create(
-            goal=goal,
-            viewpoint=viewpoint )
+            goal=goal, viewpoint=viewpoint
+        )
     return redirect(request.META["HTTP_REFERER"])
+
 
 def associate_goal_with_requirement(request, goal_id):
     goal = Goal.objects.get(id=goal_id)
-    requirement_list = request.POST.getlist('requirement')
+    requirement_list = request.POST.getlist("requirement")
     for requirement in requirement_list:
         requirement = Requirement.objects.get(id=requirement)
         create_association = RequirementGoal.objects.create(
-            goal=goal,
-            requirement=requirement )
+            goal=goal, requirement=requirement
+        )
     return redirect(request.META["HTTP_REFERER"])
 
 
@@ -8135,46 +8270,108 @@ def delete_goal_association_with_requirement(request, association_id):
     delete_association = RequirementGoal.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+def delete_goal_association_with_viewpoint(request, association_id):
+    current_goal_id = int(request.GET.get('ids'))
+    print(current_goal_id)
+    if current_goal_id == int(association_id):
+        goal = ViewpointGoal.objects.get(id=association_id)
+        delete_association = ViewpointGoal.objects.filter(id=association_id).delete()
+        return general_goals(request,project_id=goal.goal.project.id)
+
+    delete_association = ViewpointGoal.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
+
+def delete_requirement_association_with_goal(request, association_id):
+    print('hited')
+    current_requirement_id = int(request.GET.get('id'))
+    if int(association_id) == current_requirement_id:
+        requirement = RequirementGoal.objects.get(id=current_requirement_id)
+        delete_association = RequirementGoal.objects.filter(id=association_id).delete()
+        return general_requirements(request, project_id=requirement.requirement.project.id)
+    delete_association = RequirementGoal.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
+
 def delete_requirement_association_with_scenario(request, association_id):
     delete_association = RequirementScenario.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
-def delete_requirement_association_with_process(request,association_id):
+
+def delete_requirement_association_with_process(request, association_id):
     delete_association = RequirementProcess.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
-def delete_requiement_association_with_usecase(request, association_id):
+
+def delete_requirement_association_with_usecase(request, association_id):
     delete_association = RequirementUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_scenario_association_with_requirement(request, association_id):
+    current_scenario_id = int(request.GET.get('id'))
+    if int(association_id) == current_scenario_id:
+        scenario = RequirementScenario.objects.get(id=current_scenario_id)
+        delete_association = RequirementScenario.objects.filter(id=association_id).delete()
+        return general_scenario(request, project_id=scenario.scenario.project.id)
     delete_association = RequirementScenario.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
+
 
 def delete_scenario_association_with_process(request, association_id):
     delete_association = ScenarioProcess.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_scenario_association_with_usecase(request, association_id):
     delete_association = ScenarioUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
-def delete_process_assocoiation_with_requirement(request, association_id):
-    delete_association = RequirementProcess.objects.filter(id=association_id).delete()
-    return redirect(request.META["HTTP_REFERER"])
-
-def delete_process_assocation_with_scenario(request, association_id):
-    delete_association = ScenarioProcess.objects.filter(id=association_id).delete()
-    return redirect(request.META["HTTP_REFERER"])
 
 def delete_process_association_with_usecase(request, association_id):
     delete_association = ProcessUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+def delete_process_association_with_scenario(request, association_id):
+    delete_association = ScenarioProcess.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
+def delete_usecase_association_with_requirement(request, association_id):
+    current_usecase_id = int(request.GET.get('id'))
+    if int(association_id) == current_usecase_id:
+        usecase = RequirementUsecase.objects.get(id=current_usecase_id)
+        delete_association = RequirementUsecase.objects.filter(id=association_id).delete()
+        return general_usecase(request, project_id=usecase.usecase.project.id)
+    delete_association = RequirementUsecase.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
+def delete_usecase_association_with_scenario(request, association_id):
+    delete_association = ScenarioUsecase.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
+def delete_usecase_association_with_process(request, association_id):
+    delete_association = ProcessUsecase.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
+def delete_process_association_with_requirement(request, association_id):
+    current_process_id = int(request.GET.get('id'))
+    if current_process_id == int(association_id):
+        process = RequirementProcess.objects.get(id=current_process_id)
+        delete_association = RequirementProcess.objects.filter(id=association_id).delete()
+        return general_process(request, project_id=process.process.project.id)
+    delete_association = RequirementProcess.objects.filter(id=association_id).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
+def delete_decomposition_with_goal(request, goal_id):
+    original_goal_id = int(request.GET.get('id'))
+    original_goal = Goal.objects.get(id=original_goal_id)
+    decomposed_goal = goal_id
+    delete_decomposition = GoalDecomposition.objects.filter(original_goal=original_goal, decomposed_goal=decomposed_goal).delete()
+    return redirect(request.META["HTTP_REFERER"])
+
+def delete_relationship_with_goal(request, goal_id):
+    origin_goal_id = int(request.GET.get('id'))
+    origin_goal = Goal.objects.get(id=origin_goal_id)
+    related_goal = goal_id
+    delete_relationship = GoalRelationship.objects.filter(origin_goal=origin_goal, related_goal=related_goal).delete()
+    return redirect(request.META["HTTP_REFERER"])
 
 
