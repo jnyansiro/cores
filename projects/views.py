@@ -2523,6 +2523,7 @@ def viewGoal(request, goal_id, message=None):
         goal_ids_to_exclude = []
         for goal_to_exclude in goals_to_exclude_now:
             goal_ids_to_exclude.append(goal_to_exclude.related_goal)
+        goal_ids_to_exclude.append(goal.goal.id)
         related_goals = Goal.objects.filter(project=goal.goal.project).exclude(
             id__in=goal_ids_to_exclude
         )
@@ -2530,6 +2531,7 @@ def viewGoal(request, goal_id, message=None):
         decomposed_goals_id = []
         for goal_decomposed_id in goals_decomposed:
             decomposed_goals_id.append(goal_decomposed_id.decomposed_goal)
+        decomposed_goals_id.append(goal.goal.id)
         decomposed_goals = Goal.objects.filter(project=goal.goal.project).exclude(
             id__in=decomposed_goals_id
         )
@@ -2637,7 +2639,7 @@ def viewGoal(request, goal_id, message=None):
                 "project": project,
                 "notification": notification(request),
                 "total_notification": total_notification(request),
-            },
+            }
         )
 
     goal = ViewpointGoal.objects.get(id=goal_id)
@@ -2645,6 +2647,7 @@ def viewGoal(request, goal_id, message=None):
     goal_ids_to_exclude = []
     for goal_to_exclude in goals_to_exclude_now:
         goal_ids_to_exclude.append(goal_to_exclude.related_goal)
+    goal_ids_to_exclude.append(goal.goal.id)
     related_goals = Goal.objects.filter(project=goal.goal.project).exclude(
         id__in=goal_ids_to_exclude
     )
@@ -2652,6 +2655,7 @@ def viewGoal(request, goal_id, message=None):
     decomposed_goals_id = []
     for goal_decomposed_id in goals_decomposed:
         decomposed_goals_id.append(goal_decomposed_id.decomposed_goal)
+    decomposed_goals_id.append(goal.goal.id)
     decomposed_goals = Goal.objects.filter(project=goal.goal.project).exclude(
         id__in=decomposed_goals_id
     )
@@ -2777,6 +2781,7 @@ def createGoal(request, project_id):
         description = request.POST.get("description")
         requirement = request.POST.get("requirement")
         created_by = Member.objects.get(user=request.user)
+        goal_type = request.POST.get('goal_type')
 
         # creating goal number
 
@@ -2808,6 +2813,7 @@ def createGoal(request, project_id):
                 created_by=created_by,
                 project=project,
                 number=number,
+                goal_type=goal_type,
                 status="accepted",
             )
         else:
@@ -2816,6 +2822,7 @@ def createGoal(request, project_id):
                 description=description,
                 created_by=created_by,
                 number=number,
+                goal_type=goal_type,
                 project=project,
             )
         goal.save()
@@ -4391,9 +4398,9 @@ def projectRate(request, project_id):
                             return redirect(
                                 "projects:viewmyproject", project_id=project_id
                             )
-                        return redirect("projects:viewproject", project_id=project_id)
+                        return redirect(request.META["HTTP_REFERER"])
 
-            return redirect("projects:viewproject", project_id=project_id)
+            return redirect(request.META["HTTP_REFERER"])
         message = "sorry you can not rate zero star, rate start from one star !!"
         return viewProject(request, project_id=project_id, message=message)
     message = "sorry you can not Rate on this project now,you are not a active member of this project"
@@ -4422,10 +4429,10 @@ def viewpointRate(request, viewpoint_id):
                 viewpoint_rate.save()
                 if viewpoint_rate:
                     project_id = viewpoint.project.id
-                    return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
+                    return redirect(request.META["HTTP_REFERER"])
 
         message = "sorry you have already rated this Viewpoint you can not rate again"
-        return redirect("projects:viewpoint", viewpoint_id=viewpoint_id)
+        return redirect(request.META["HTTP_REFERER"])
     message = "sorry you can not rate zero star, rate start from one star !!"
     return redirect("projects:viewpont", viewpoint_id=viewpoint_id)
 
@@ -4446,12 +4453,12 @@ def goalRate(request, goal_id):
                 goal_rate = GoalRate.objects.create(goal=goal, star_rate=rate)
                 goal_rate.save()
                 if goal_rate:
-                    return redirect("projects:viewgoal", goal_id=goal.id)
+                    return redirect(request.META["HTTP_REFERER"])
 
         message = "sorry you have already rated this Goal you can not rate it again"
         return redirect("projects:viewgoal", goal_id=goal.id)
     message = "sorry you can not rate zero star, rate start from one star !!"
-    return redirect("projects:viewgoal", goal_id=goal.id)
+    return redirect(request.META["HTTP_REFERER"])
 
 
 @login_required(login_url="login")
@@ -4501,10 +4508,10 @@ def scenarioRate(request, scenario_id):
                 )
                 scenario_rate.save()
                 if scenario_rate:
-                    return redirect("projects:viewscenario", scenario_id=scenario.id)
+                    return redirect(request.META["HTTP_REFERER"])
 
         message = "sorry you have already rated this Scenario you can not rate it again"
-        return redirect("projects:viewscenario", scenario_id=scenario.id)
+        return redirect(request.META["HTTP_REFERER"])
     message = "sorry you can not rate zero star, rate start from one star !!"
     return redirect("projects:viewscenario", scenario_id=scenario.id)
 
@@ -4530,10 +4537,10 @@ def processRate(request, process_id):
                 )
                 process_rate.save()
                 if process_rate:
-                    return redirect("projects:viewprocess", process_id=process.id)
+                    return redirect(request.META["HTTP_REFERER"])
 
         message = "sorry you have already rated this process you can not rate it again"
-        return redirect("projects:viewprocess", process_id=process.id)
+        return redirect(request.META["HTTP_REFERER"])
     message = "sorry you can not rate zero star, rate start from one star !!"
     return redirect("projects:viewprocess", process_id=process.id)
 
@@ -6510,8 +6517,7 @@ def relate_goal(request):
         relate_goal = GoalRelationship.objects.create(
             origin_goal=original_goal,
             relation_type=relationship_type,
-            related_goal=goal,
-        )
+            related_goal=int(goal) )
         relate_goal.save()
     return redirect(request.META["HTTP_REFERER"])
 
@@ -7888,7 +7894,7 @@ def scenario_process(request, scenario_id):
             "processes": processes,
             "member": member,
             "project": project,
-            "hideseach": 1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -7925,7 +7931,7 @@ def usecase_process(request, usecase_id):
             "processes": processes,
             "member": member,
             "project": project,
-            "hideseach": 1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -7962,7 +7968,7 @@ def usecase_scenario(request, usecase_id):
             "scenarios": scenarios,
             "member": member,
             "project": project,
-            "hideseach": 1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -7999,7 +8005,7 @@ def process_scenario(request, process_id):
             "scenarios": scenarios,
             "member": member,
             "project": project,
-            "hideseach": 1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -8036,7 +8042,7 @@ def scenario_usecase(request, scenario_id):
             "usecases": usecases,
             "member": member,
             "project": project,
-            "hideseach": 1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },
@@ -8073,7 +8079,7 @@ def process_usecase(request, process_id):
             "usecases": usecases,
             "member": member,
             "project": project,
-            "hideseach": 1,
+            "hidesearch": 1,
             "notification": notification(request),
             "total_notification": total_notification(request),
         },

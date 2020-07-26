@@ -124,7 +124,7 @@
                         <div class="col-md-6">
                             <label class="col-md-12 font-weight-semibold control-label">
                                 Filter Goal:</label>
-                            <form method="post" action="{% url 'projects:viewgoal' goal_id%}">
+                            <form method="post" action="{% url 'projects:viewgoal' goal.id %}">
                                 {% csrf_token %}
                                 <div class="col-md-12">
                                     <div class="input-group">
@@ -168,6 +168,10 @@
                         <li class="list-inline-item col-sm-12 mb-2">
                             <span class="font-weight-semibold">Created on: </span>
                             {{ goal.goal.created_on }}
+                        </li>
+                        <li class="list-inline-item col-sm-12 mb-2">
+                            <span class="font-weight-semibold">Goal type: </span>
+                            {{ goal.goal.goal_type }}
                         </li>
                         <li class="list-inline-item col-sm-12">
                             <a href="{% url 'projects:goalresources' goal_id=goal.goal.id%}"
@@ -662,7 +666,6 @@
                             <div class="col-sm-6">
                                 <label> Operator: </label>
                                 <select class="form-control " name="operator">
-                                <option >Select operator</option>
                                 <option >AND</option>
                                 <option >OR</option>
                                 <option>Linear</option>
@@ -712,7 +715,7 @@
                     <div class="form-group">
                         <div class="row">
                             <p class="text-info">
-                                <b class="text-danger">NOTE: <br></b> <b>Comflict relationship</b> means that a  if
+                                <b class="text-danger">NOTE: <br></b> <b>Conflict relationship</b> means that a  if
                                 origional goal satisfied then comflicting goal can not be accomplished<br></p>
                                 <p class="text-info">
                                 <b>Required  Relationship</b> means that original goal require that goal so as the original<br> goal to be accomplished</p>
