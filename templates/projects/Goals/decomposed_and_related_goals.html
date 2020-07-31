@@ -138,6 +138,9 @@
                                         <select name="operator" data-placeholder="Select View point" class="form-control" id="">
                                            
                                             {% if type == "Related" %}
+                                            <option>
+                                                Select Relationship Type
+                                            </option>
                                             <option >
                                                 Conflict
                                             </option>
@@ -148,6 +151,7 @@
                                                 Contribute
                                             </option>
                                             {% else %}
+                                            <option>Select Operator</option>
                                             <option >
                                                AND
                                             </option>

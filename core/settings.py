@@ -138,7 +138,6 @@ DATABASES = {
 
 # DATABASES = {
 #    'default': {
-
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'cores',
 #         'USER': 'postgres',
@@ -146,7 +145,6 @@ DATABASES = {
 #         'HOST': 'localhost',
 #     }
 # }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -193,7 +191,6 @@ AUTH_USER_MODEL = 'projects.User'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'docs')
 MEDIA_URL = '/docs/'
-
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 

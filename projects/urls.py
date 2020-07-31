@@ -12,6 +12,7 @@ urlpatterns = [
 
     # PROJECT URLS
     path("createproject", createProject, name="createproject"),
+    path('system-projects', general_projects, name="system-projects"),
     path("myprojects", myProjects, name="myprojects"),
     url(r'^addstakeholder/(?P<project_id>\d+)/$', add_stakeholder, name="addstakeholder"),
     url(r'^viewmyproject/(?P<project_id>\d+)/$', viewMyproject, name="viewmyproject"),

@@ -820,6 +820,7 @@ def login(request):
         message = "Soory you have entered incorrect credentials"
         return render(request, "login.html", {"message": message})
     if request.GET.get("next") != None:
+        request.session['next_page'] = request.GET.get("next")
         return render(request, "login.html", {"path": request.GET.get("next")})
     return render(request, "login.html")
 
@@ -871,6 +872,8 @@ def recovery(request):
 
 
 def registration(request):
+    print("The next page:")
+    print(request.session['next_page'])
     if request.method == "POST":
 
         # Taking values from html page so as to save to the database
@@ -915,6 +918,10 @@ def registration(request):
                     )
                     member.save()
                     if member:
+
+                        if request.session['next_page']:
+                            next_page = request.session['next_page']
+                            return redirect(next_page)
                         reg_message = (
                             "you have successfully create an account login now"
                         )
@@ -1706,7 +1713,7 @@ def viewMyproject(request, project_id):
 
 
 @login_required(login_url="login")
-def viewProject(request, project_id, message=None):
+def viewProject(request, project_id, message=None, message1=None):
     indexhead = "Project Details"
     hidesearch = "hide"
     member = Member.objects.get(user=request.user)
@@ -1751,6 +1758,7 @@ def viewProject(request, project_id, message=None):
             "member": member,
             "projectRate": projectRate,
             "message": message,
+            "message1": message1,
             "rates": rates,
             "likes": likes,
             "incentives": ProjectIncentive.objects.filter(project=project),
@@ -2244,43 +2252,8 @@ def viewpoints(request, project_id):
                     return viewProject(
                         request, project_id=project_id, message=requestmessage
                     )
-            hidesearch = "hide"
-
-            filltering_project = ProjectMembership.objects.filter(
-                member=member, status="active"
-            )
-
-            my_projects_id = []
-            for _project in filltering_project:
-                my_projects_id.append(_project.project.id)
-
-            projects = Project.objects.filter(
-                Q(id__in=my_projects_id) | Q(project_visibility="public")
-            ).order_by("-id")
-            viewpoint = Viewpoint.objects.filter(project=project_id).order_by("-id")
-            viewpoints = Viewpoint.objects.filter(
-                Q(project=project, status="accepted")
-                | Q(project=project, created_by=member)
-            ).order_by("id")
-            paginator = Paginator(viewpoints, 6)
-            page_number = request.GET.get("page")
-            viewpoints = paginator.get_page(page_number)
-            return render(
-                request,
-                "projects/viewpoints/viewpoints.html",
-                {
-                    "indexhead": indexhead,
-                    "hidesearch": hidesearch,
-                    "viewpoint": viewpoint,
-                    "viewpoints": viewpoints,
-                    "project_id": project_id,
-                    "member": member,
-                    "project": project,
-                    "projects": projects,
-                    "notification": notification(request),
-                    "total_notification": total_notification(request),
-                },
-            )
+            message = "join"
+            return viewProject(request,project_id=project_id, message1=message)
         filltering_project = ProjectMembership.objects.filter(
             member=member, status="active"
         )
@@ -6530,7 +6503,7 @@ def related_goals(request, goal_id):
     original_goal = Goal.objects.get(id=goal_id)
     if request.POST.get("operator"):
         related_goals_id = GoalRelationship.objects.filter(
-            relation_type=request.POST.get("operator")
+            relation_type=request.POST.get("operator"),origin_goal=original_goal
         )
     else:
         related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal)
@@ -6573,7 +6546,7 @@ def decomposed_goals(request, goal_id):
     original_goal = Goal.objects.get(id=goal_id)
     if request.POST.get("operator"):
         related_goals_id = GoalDecomposition.objects.filter(
-            decomposition_operator=request.POST.get("operator")
+            decomposition_operator=request.POST.get("operator"),original_goal=original_goal,
         )
     else:
 
@@ -8381,3 +8354,42 @@ def delete_relationship_with_goal(request, goal_id):
     return redirect(request.META["HTTP_REFERER"])
 
 
+def general_projects(request, project_id=None, message=None, requestmessage=None):
+    indexhead = "Projects"
+    placeholder = "search projects"
+    if request.method == "POST":
+        keyword = request.POST.get("project_keyword")
+        projects = (
+            Project.objects.filter(
+                Q(project_title__icontains=keyword)
+                | Q(description__icontains=keyword)
+                | Q(project_visibility__icontains=keyword)
+            )
+            .order_by("-id")
+            .exclude(is_invitational=True, is_discoverable=False)
+        )
+
+    else:
+        projects = (
+            Project.objects.all()
+            .order_by("-id")
+            .exclude(is_invitational=True, is_discoverable=False)
+        )
+
+    paginator = Paginator(projects, 6)
+    page_number = request.GET.get("page")
+    projects = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "web/projects.html",
+        {
+            "indexhead": indexhead,
+            "projects": projects,
+            "message": message,
+            "placeholder": placeholder,
+            "project_id": project_id,
+            "requestmessage": requestmessage,
+
+        },
+    )

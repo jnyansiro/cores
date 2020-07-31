@@ -131,7 +131,7 @@
                                         <select name="viewpoint_id" data-placeholder="Select View point" class="form-control" id="">
                                             {% for viewpoint in viewpoints%}
                                             <option value="{{ viewpoint.id}}" {% if viewpoint_id|add:'0' == viewpoint.id %} selected {% endif %}>
-                                                {{viewpoint.viewpoint_name }}
+                                                {{ viewpoint.number}} | {{viewpoint.viewpoint_name }}
                                             </option>
                                             {% endfor %}
                                         </select>

@@ -841,8 +841,8 @@ input[type='checkbox'] {
 /*     05. Features     */
 /************************/
 .tabs {
-	padding-top: 6.5rem;
-	padding-bottom: 4.25rem;
+	padding-top: 4.5rem;
+	padding-bottom: 2.25rem;
 	background-color: #093856;
 }
 
@@ -1960,7 +1960,7 @@ a:hover.back-to-top {
 
 	/* Features */
 	.tabs {
-		padding-bottom: 6.5rem;
+		padding-bottom: 3.5rem;
 	}
 
 	.tabs #tab-1 .card.first {

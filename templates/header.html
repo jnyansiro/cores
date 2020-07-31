@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 {% include 'common/header_links.html' %}
 {% load static %}
 
@@ -48,7 +48,7 @@
                                 {% endif %}
                             </span>
                         </a>
-
+                       {% if user.is_authenticated %}
                         <div class="dropdown-menu dropdown-menu-right animated fadeIn">
                             <a href="{% url 'projects:profile'%}" class="dropdown-item"><i
                                     class=" icon-vcard text-primary"></i>
@@ -61,6 +61,7 @@
                                     class="icon-switch2 text-danger"></i>
                                 Logout</a>
                         </div>
+                        {% endif %}
                     </li>
                 </ul>
         </div>
@@ -140,6 +141,9 @@
                                     <form method="post"
                                         action="{% url 'projects:memberrequest' project_id=project.id %}">
                                         {% endif %}
+                                        {% if placeholder == "search projects" %}
+                                        <form method="post" action="{% url 'projects:system-projects'%}">
+                                            {% endif %}
 
                                         {% csrf_token %}
                                         <div class="input-group mb-2 mt-2">

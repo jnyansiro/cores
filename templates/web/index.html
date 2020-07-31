@@ -10,20 +10,20 @@
     <meta name="description" content=" CORES| Collaborative Requirement Engineering is an open community for anyone to innovate. We share and improve
                                 ideas to solve critical problems in our communities. We help Government get solutions to
                                 their people.">
-    <meta name="author" content="Ismaili Mohamedi +255763080423">
+    <meta name="author" content="Ismaili Mohamedi +255763080423 gmail: ismailimohamedi1995@gmail.com">
 
     <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
     <meta property="og:site_name" content="CORES| Collaborative Requirement Engineering" /> <!-- website name -->
-    <meta property="og:site" content="CORES| Collaborative Requirement Engineering" /> <!-- website link -->
-    <meta property="og:title" content=" CORES| Collaborative Requirement Engineering" />
+    <meta property="og:site" content="CORES | Collaborative Requirement Engineering" /> <!-- website link -->
+    <meta property="og:title" content=" CORES | Collaborative Requirement Engineering" />
     <!-- title shown in the actual shared post -->
-    <meta property="og:description" content="CORES| Collaborative Requirement Engineering" />
+    <meta property="og:description" content="CORES | Collaborative Requirement Engineering" />
     <!-- description shown in the actual shared post -->
     <meta property="og:image" content="CORES| Collaborative Requirement Engineering" />
     <!-- image link, make sure it's jpg -->
-    <meta property="og:url" content="cores" />
+    <meta property="og:url" content="cores.africa" />
     <!-- where do you want your post to link to -->
-    <meta property="og:type" content="article" />
+    <meta property="og:type" content="system" />
 
     <!-- Website Title -->
     <title>CORES| Collaborative Requirement Engineering</title>
@@ -35,11 +35,14 @@
     <link href="{% static 'css/fontawesome-all.css' %}" rel="stylesheet">
     <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
     <link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/custome_css.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
     <script src="{% static 'js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
 
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'images/logo.png' %}">
+
+    
 </head>
 
 <body data-spy="scroll" data-target=".fixed-top">
@@ -60,10 +63,12 @@
 
 
         <!-- Logo -->
-        <a class="navbar-brand logo-image" href="/" style="text-decoration: none;">
-            <!-- <img src="{% static 'images/logo.png'  %}" alt=""> -->
-            CORES
-        </a>
+        <div class="navbar-brand wmin-200">
+            <a href="{{ index }}" class="d-inline-block sys-logo">
+                <img src="{% static 'images/logo.png' %}" alt="" >
+            </a>
+        </div>
+ 
 
         <!-- Mobile Menu Toggle Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -76,25 +81,29 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#header">HOME <span class="sr-only">(current)</span></a>
+                    <a class="nav-link page-scroll" href="#header">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#features">FEATURES</a>
+                    <a class="nav-link page-scroll" href="#features">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#preview">PREVIEW</a>
+                    <a class="nav-link page-scroll" href="#preview">Preview</a>
                 </li>
 
                 <!-- Dropdown Menu -->
                 <li class="nav-item">
                     <a class="nav-link  page-scroll" href="#counters" aria-haspopup="true"
-                        aria-expanded="false">STATISTICS</a>
+                        aria-expanded="false">Statistics</a>
 
                 </li>
                 <!-- end of dropdown menu -->
 
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#contact">CONTACT</a>
+                    <a class="nav-link page-scroll" href="#contact">Contacts</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'projects:system-projects'%}" class="nav-link page-scroll" href="#statistics"> Projects </a>
                 </li>
             </ul>
 
@@ -116,6 +125,7 @@
                         <a class="btn-solid-lg page-scroll" href="{% url 'login'%}"><i class="fa fa-user"></i> Login</a>
                         <a class="btn-solid-lg page-scroll" href="{% url 'registration'%}"><i
                                 class="fa fa-user-plus"></i> Register</a>
+                            <a class="btn-solid-lg page-scroll" href="{% url 'projects:system-projects'%}"><i class="fa fa-book"></i> Learn More</a>
                         <h3> Collaborative Innovation and Design</h3>
                         <p>Take innovation and solution design to the next level. Eliminate boundaries and collaborate
                             beyond your organization.</p>
