@@ -31,7 +31,7 @@
                                 <select class="form-control multiselect" name="requirement" multiple="multiple"
                                     data-fouc>
                                     {% for requirement in requirements %}
-                                    <option value="{{ requirement.id }}"> {{ requirement }}</option>
+                                    <option value="{{ requirement.id }}">{{ requirement.number }} | {{ requirement }}</option>
                                     {% endfor %}
 
                                 </select>

@@ -28,7 +28,7 @@
                                 <select class="form-control multiselect" name="goal" multiple="multiple" data-fouc required>
                                    
                                     {% for goal_ in goals %}
-                                    <option value="{{ goal_.id }}"> {{ goal_ }}</option>
+                                    <option value="{{ goal_.id }}">{{ goal_.number }} | {{ goal_ }}</option>
                                     {% endfor %}
 
                                 </select>
