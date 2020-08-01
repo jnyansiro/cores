@@ -798,8 +798,9 @@ def login(request):
             member.save()
             login_log = LoginLog.objects.create(user=request.user)
             login_log.save()
-            if request.GET.get("path"):
-                return redirect(request.GET.get("path"))
+            if request.session['next_page']:
+                path = request.session['next_page']
+                return redirect(path)
             return redirect("projects:profile")
         login_log = LoginLog.objects.create(user=request.user)
         login_log.save()
