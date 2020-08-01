@@ -798,6 +798,9 @@ def login(request):
             member.save()
             login_log = LoginLog.objects.create(user=request.user)
             login_log.save()
+            if request.session['next_page'] != "" or request.session['next_page'] != None:
+                next_page = request.session['next_page']
+                redirect(next_page)
             return redirect("projects:profile")
         login_log = LoginLog.objects.create(user=request.user)
         login_log.save()
@@ -2252,6 +2255,30 @@ def viewpoints(request, project_id):
                     return viewProject(
                         request, project_id=project_id, message=requestmessage
                     )
+
+                viewpoints = Viewpoint.objects.filter(
+                    Q(project=project, status="accepted")
+                    | Q(project=project, created_by=member)
+                ).order_by("id")
+                paginator = Paginator(viewpoints, 6)
+                view_page_number = request.GET.get("page")
+                viewpoints = paginator.get_page(view_page_number)
+                return render(
+                    request,
+                    "projects/viewpoints/viewpoints.html",
+                    {
+                        "indexhead": indexhead,
+                        "hidesearch": 1,
+                        "viewpoints": viewpoints,
+                        "project_id": project_id,
+                        "member": member,
+                        "project": project,
+                        "projects": projects,
+                        "notification": notification(request),
+                        "total_notification": total_notification(request),
+                    },
+                )
+                
             message = "join"
             return viewProject(request,project_id=project_id, message1=message)
         filltering_project = ProjectMembership.objects.filter(
