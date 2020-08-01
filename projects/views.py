@@ -804,6 +804,9 @@ def login(request):
             return redirect("projects:profile")
         login_log = LoginLog.objects.create(user=request.user)
         login_log.save()
+        if request.session['next_page']:
+                path = request.session['next_page']
+                return redirect(path)
         return redirect("index")
 
     elif request.method == "POST":
