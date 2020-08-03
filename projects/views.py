@@ -798,13 +798,13 @@ def login(request):
             member.save()
             login_log = LoginLog.objects.create(user=request.user)
             login_log.save()
-            if request.session['next_page']:
+            if 'next_page' in request.session:
                 path = request.session['next_page']
                 return redirect(path)
             return redirect("projects:profile")
         login_log = LoginLog.objects.create(user=request.user)
         login_log.save()
-        if request.session['next_page']:
+        if 'next_page' in request.session:
                 path = request.session['next_page']
                 return redirect(path)
         return redirect("index")
@@ -828,6 +828,7 @@ def login(request):
     if request.GET.get("next") != None:
         request.session['next_page'] = request.GET.get("next")
         return render(request, "login.html", {"path": request.GET.get("next")})
+    
     return render(request, "login.html")
 
 
@@ -841,6 +842,8 @@ def logout(request):
         logout_time=datetime.now()
     )
     auth_logout(request)
+    if 'next_page' in request.session:
+        del request.session['next_page']
     return redirect("login")
 
 
@@ -878,8 +881,6 @@ def recovery(request):
 
 
 def registration(request):
-    print("The next page:")
-    print(request.session['next_page'])
     if request.method == "POST":
 
         # Taking values from html page so as to save to the database
@@ -924,8 +925,8 @@ def registration(request):
                     )
                     member.save()
                     if member:
-
-                        if request.session['next_page']:
+                        
+                        if 'next_page' in request.session:
                             next_page = request.session['next_page']
                             return redirect(next_page)
                         reg_message = (
