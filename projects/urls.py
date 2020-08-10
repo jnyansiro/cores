@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^memberrequests/(?P<project_id>\d+)/$', memberRequest, name="memberrequest"),
     url(r'^invitemembers/(?P<project_id>\d+)/$', inviteMembers, name="invitemembers"),
     url(r'^membershipinvitation/(?P<project_id>\w+)/(?P<member_id>\d+)/$', sendInvitation, name='membershipinvitation'),
+    url(r'^invited/$', invited, name="invited"),
     url(r'^memberdetails/(?P<member_id>\d+)/$', viewMemberDetails, name='memberdetails'),
     url(r'^updatepersonaldetails/$', updatePersonalDetails, name="updatepersonaldetails"),
     url(r'^updateresidencedetails/$', updateResidenceDetails, name="updateresidencedetails"),

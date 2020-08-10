@@ -30,10 +30,12 @@
                             <td><b class="text-primary">{{ invite.project.project_title }}</b> created by:
                                 {{ invite.project.created_by}}</td>
 
-                            <td><a href="{% url 'projects:acceptinvitation' request_id=invite.id %}"><button
-                                        class="btn btn-success col-md-3 mr-md-3 ">Accept</button></a>
-                                <a href="{% url 'projects:rejectinvitation' request_id=invite.id %}"><button
-                                        class="btn btn-danger col-md-3 mr-md-3 ">Reject</button></a>
+                            <td><a title="Accept" href="{% url 'projects:acceptinvitation' request_id=invite.id %}"><button
+                                        class="btn btn-outline bg-success-400 border-success-400 text-success btn-icon rounded-round btn-sm">
+                                            <i class="icon-check"></i></button></a>
+                                <a title="Reject" href="{% url 'projects:rejectinvitation' request_id=invite.id %}"><button
+                                        class="btn btn-outline bg-danger-400 border-danger-400 text-danger btn-icon rounded-round btn-sm">
+                                            <i class="icon-trash"></i></button></a>
                             </td>
                         </tr>
                         {% endfor %}

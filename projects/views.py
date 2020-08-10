@@ -798,15 +798,15 @@ def login(request):
             member.save()
             login_log = LoginLog.objects.create(user=request.user)
             login_log.save()
-            if 'next_page' in request.session:
-                path = request.session['next_page']
+            if "next_page" in request.session:
+                path = request.session["next_page"]
                 return redirect(path)
             return redirect("projects:profile")
         login_log = LoginLog.objects.create(user=request.user)
         login_log.save()
-        if 'next_page' in request.session:
-                path = request.session['next_page']
-                return redirect(path)
+        if "next_page" in request.session:
+            path = request.session["next_page"]
+            return redirect(path)
         return redirect("index")
 
     elif request.method == "POST":
@@ -826,9 +826,9 @@ def login(request):
         message = "Soory you have entered incorrect credentials"
         return render(request, "login.html", {"message": message})
     if request.GET.get("next") != None:
-        request.session['next_page'] = request.GET.get("next")
+        request.session["next_page"] = request.GET.get("next")
         return render(request, "login.html", {"path": request.GET.get("next")})
-    
+
     return render(request, "login.html")
 
 
@@ -842,8 +842,8 @@ def logout(request):
         logout_time=datetime.now()
     )
     auth_logout(request)
-    if 'next_page' in request.session:
-        del request.session['next_page']
+    if "next_page" in request.session:
+        del request.session["next_page"]
     return redirect("login")
 
 
@@ -925,9 +925,9 @@ def registration(request):
                     )
                     member.save()
                     if member:
-                        
-                        if 'next_page' in request.session:
-                            next_page = request.session['next_page']
+
+                        if "next_page" in request.session:
+                            next_page = request.session["next_page"]
                             return redirect(next_page)
                         reg_message = (
                             "you have successfully create an account login now"
@@ -1235,7 +1235,6 @@ def updatePersonalDetails(request):
             profile_photo = member.profile_photo
         else:
             profile_photo = member.profile_photo
-
         if date_of_birth == "" or date_of_birth == None:
             date_of_birth = member.date_of_birth
 
@@ -1258,7 +1257,7 @@ def updatePersonalDetails(request):
                     "total_notification": total_notification(request),
                 },
             )
-        if datetime.strptime(date_of_birth, "%Y-%m-%d") > datetime.now():
+        if datetime.strptime(str(date_of_birth), "%Y-%m-%d") > datetime.now():
             message = "Birth date should be less than this year"
             member_details = Member.objects.get(user=request.user)
             indexhead = "Profile"
@@ -1709,6 +1708,7 @@ def viewMyproject(request, project_id):
             "total_rates": total_rates,
             "likes": likes,
             "dislikes": dislikes,
+            'url':'https://www.cores.africa/invited' + '?invitation_id=' + str(project.id),
             "rates": rates,
             "incentives": ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
@@ -1767,6 +1767,7 @@ def viewProject(request, project_id, message=None, message1=None):
             "message": message,
             "message1": message1,
             "rates": rates,
+            'url':'https://www.cores.africa/invited' + '?invitation_id=' + str(project.id),
             "likes": likes,
             "incentives": ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
@@ -2261,8 +2262,8 @@ def viewpoints(request, project_id):
                     )
                 if membership.status == "active":
                     filltering_project = ProjectMembership.objects.filter(
-                            member=member, status="active"
-                        )
+                        member=member, status="active"
+                    )
                     viewpoints = Viewpoint.objects.filter(
                         Q(project=project, status="accepted")
                         | Q(project=project, created_by=member)
@@ -2292,9 +2293,9 @@ def viewpoints(request, project_id):
                             "total_notification": total_notification(request),
                         },
                     )
-                
+
             message = "join"
-            return viewProject(request,project_id=project_id, message1=message)
+            return viewProject(request, project_id=project_id, message1=message)
         filltering_project = ProjectMembership.objects.filter(
             member=member, status="active"
         )
@@ -2604,8 +2605,16 @@ def viewGoal(request, goal_id, message=None):
             id__in=requirement_ids
         )
 
-        requirementss = RequirementGoal.objects.filter(goal=goal.goal).order_by('requirement__id').distinct('requirement__id')
-        viewpointss = ViewpointGoal.objects.filter(goal=goal.goal).order_by('viewpoint__id').distinct('viewpoint__id')
+        requirementss = (
+            RequirementGoal.objects.filter(goal=goal.goal)
+            .order_by("requirement__id")
+            .distinct("requirement__id")
+        )
+        viewpointss = (
+            ViewpointGoal.objects.filter(goal=goal.goal)
+            .order_by("viewpoint__id")
+            .distinct("viewpoint__id")
+        )
 
         ids = []
         for goal_id in GoalRelationship.objects.filter(origin_goal=goal.goal):
@@ -2618,7 +2627,6 @@ def viewGoal(request, goal_id, message=None):
 
         goalsss = Goal.objects.filter(id__in=goal_ids)
 
-
         return render(
             request,
             "projects/Goals/view_goal.html",
@@ -2627,10 +2635,10 @@ def viewGoal(request, goal_id, message=None):
                 "goal": goal,
                 "viewpoint_id": viewpoint_id,
                 "requirements": requirements,
-                'viewpointss':viewpointss,
-                'requirementss':requirementss,
-                'goalss':goalss,
-                'goalsss':goalsss,
+                "viewpointss": viewpointss,
+                "requirementss": requirementss,
+                "goalss": goalss,
+                "goalsss": goalsss,
                 "project_id": project_id,
                 "goal_id": goal_id,
                 "all_goals": all_goals,
@@ -2653,7 +2661,7 @@ def viewGoal(request, goal_id, message=None):
                 "project": project,
                 "notification": notification(request),
                 "total_notification": total_notification(request),
-            }
+            },
         )
 
     goal = ViewpointGoal.objects.get(id=goal_id)
@@ -2722,8 +2730,16 @@ def viewGoal(request, goal_id, message=None):
         id__in=requirement_ids
     )
 
-    requirementss = RequirementGoal.objects.filter(goal=goal.goal).order_by('requirement__id').distinct('requirement__id')
-    viewpointss = ViewpointGoal.objects.filter(goal=goal.goal).order_by('viewpoint__id').distinct('viewpoint__id')
+    requirementss = (
+        RequirementGoal.objects.filter(goal=goal.goal)
+        .order_by("requirement__id")
+        .distinct("requirement__id")
+    )
+    viewpointss = (
+        ViewpointGoal.objects.filter(goal=goal.goal)
+        .order_by("viewpoint__id")
+        .distinct("viewpoint__id")
+    )
 
     ids = []
     for goal_id in GoalRelationship.objects.filter(origin_goal=goal.goal):
@@ -2742,10 +2758,10 @@ def viewGoal(request, goal_id, message=None):
             "indexhead": indexhead,
             "goal": goal,
             "viewpoint_id": viewpoint_id,
-            'viewpointss':viewpointss,
-            'requirementss':requirementss,
-            'goalss':goalss,
-            'goalsss':goalsss,
+            "viewpointss": viewpointss,
+            "requirementss": requirementss,
+            "goalss": goalss,
+            "goalsss": goalsss,
             "project_id": project_id,
             "goal_id": goal_id,
             "viewpoints": viewpoints,
@@ -2795,7 +2811,7 @@ def createGoal(request, project_id):
         description = request.POST.get("description")
         requirement = request.POST.get("requirement")
         created_by = Member.objects.get(user=request.user)
-        goal_type = request.POST.get('goal_type')
+        goal_type = request.POST.get("goal_type")
 
         # creating goal number
 
@@ -3078,10 +3094,16 @@ def viewrequirement(request, requirement_id=None, message=None):
         usecases = UseCase.objects.filter(project=project).exclude(id__in=usecase_list)
 
         goalss = RequirementGoal.objects.filter(requirement=requirement.requirement)
-        scenarioss = RequirementScenario.objects.filter(requirement=requirement.requirement)
-        processess = RequirementProcess.objects.filter(requirement=requirement.requirement)
-        usecasess = RequirementUsecase.objects.filter(requirement=requirement.requirement)
-        
+        scenarioss = RequirementScenario.objects.filter(
+            requirement=requirement.requirement
+        )
+        processess = RequirementProcess.objects.filter(
+            requirement=requirement.requirement
+        )
+        usecasess = RequirementUsecase.objects.filter(
+            requirement=requirement.requirement
+        )
+
         return render(
             request,
             "projects/requirements/view_requirement.html",
@@ -3094,10 +3116,10 @@ def viewrequirement(request, requirement_id=None, message=None):
                 "scenarios": scenarios,
                 "processes": processes,
                 "usecases": usecases,
-                'usecasess':usecasess,
-                'processess':processess,
-                'goalss':goalss,
-                'scenarioss':scenarioss,
+                "usecasess": usecasess,
+                "processess": processess,
+                "goalss": goalss,
+                "scenarioss": scenarioss,
                 "creator": creator,
                 "rates": rates,
                 "likes": likes,
@@ -3192,10 +3214,10 @@ def viewrequirement(request, requirement_id=None, message=None):
             "project_id": project_id,
             "goal_id": goal.id,
             "viewpoints": viewpoints,
-            'usecasess':usecasess,
-            'processess':processess,
-            'goalss':goalss,
-            'scenarioss':scenarioss,
+            "usecasess": usecasess,
+            "processess": processess,
+            "goalss": goalss,
+            "scenarioss": scenarioss,
             "scenarios": scenarios,
             "processes": processes,
             "usecases": usecases,
@@ -3498,9 +3520,9 @@ def viewscenario(request, scenario_id=None, message=None):
             {
                 "indexhead": indexhead,
                 "scenario": scenario,
-                'requirementss':requirementss,
-                'processess':processess,
-                'usecasess':usecasess,
+                "requirementss": requirementss,
+                "processess": processess,
+                "usecasess": usecasess,
                 "project_id": project_id,
                 "stakeholders": stakeholders,
                 "creator": creator,
@@ -3583,9 +3605,9 @@ def viewscenario(request, scenario_id=None, message=None):
         "projects/scenario/view_scenario.html",
         {
             "indexhead": indexhead,
-            'requirementss':requirementss,
-            'processess':processess,
-            'usecasess':usecasess,
+            "requirementss": requirementss,
+            "processess": processess,
+            "usecasess": usecasess,
             "scenario": scenario,
             "processes": processes,
             "usecases": usecases,
@@ -3849,9 +3871,9 @@ def viewprocess(request, process_id=None, message=None):
                 "indexhead": indexhead,
                 "project_id": project_id,
                 "process": process,
-                'requirementss':requirementss,
-                'scenarioss':scenarioss,
-                'usecasess':usecasess,
+                "requirementss": requirementss,
+                "scenarioss": scenarioss,
+                "usecasess": usecasess,
                 "usecases": usecases,
                 "requirements": requirements,
                 "scenarios": scenarios,
@@ -3932,9 +3954,9 @@ def viewprocess(request, process_id=None, message=None):
             "indexhead": indexhead,
             "project_id": project_id,
             "process": process,
-            'requirementss':requirementss,
-            'scenarioss':scenarioss,
-            'usecasess':usecasess,
+            "requirementss": requirementss,
+            "scenarioss": scenarioss,
+            "usecasess": usecasess,
             "rate_data": rate_data,
             "stakeholders": stakeholders,
             "creator": creator,
@@ -4174,9 +4196,9 @@ def viewusecase(request, usecase_id=None, message=None):
                 "creator": creator,
                 "usecase": usecase,
                 "processes": processes,
-                'requirementss':requirementss,
-                'scenarioss':scenarioss,
-                'processess':processess, 
+                "requirementss": requirementss,
+                "scenarioss": scenarioss,
+                "processess": processess,
                 "scenarios": scenarios,
                 "requirements": requirements,
                 "stakeholders": stakeholders,
@@ -4258,9 +4280,9 @@ def viewusecase(request, usecase_id=None, message=None):
             "project_id": project_id,
             "stakeholders": stakeholders,
             "processes": processes,
-            'requirementss':requirementss,
-            'scenarioss':scenarioss,
-            'processess':processess, 
+            "requirementss": requirementss,
+            "scenarioss": scenarioss,
+            "processess": processess,
             "scenarios": scenarios,
             "requirements": requirements,
             "creator": creator,
@@ -6531,7 +6553,8 @@ def relate_goal(request):
         relate_goal = GoalRelationship.objects.create(
             origin_goal=original_goal,
             relation_type=relationship_type,
-            related_goal=int(goal) )
+            related_goal=int(goal),
+        )
         relate_goal.save()
     return redirect(request.META["HTTP_REFERER"])
 
@@ -6544,7 +6567,7 @@ def related_goals(request, goal_id):
     original_goal = Goal.objects.get(id=goal_id)
     if request.POST.get("operator"):
         related_goals_id = GoalRelationship.objects.filter(
-            relation_type=request.POST.get("operator"),origin_goal=original_goal
+            relation_type=request.POST.get("operator"), origin_goal=original_goal
         )
     else:
         related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal)
@@ -6587,7 +6610,8 @@ def decomposed_goals(request, goal_id):
     original_goal = Goal.objects.get(id=goal_id)
     if request.POST.get("operator"):
         related_goals_id = GoalDecomposition.objects.filter(
-            decomposition_operator=request.POST.get("operator"),original_goal=original_goal,
+            decomposition_operator=request.POST.get("operator"),
+            original_goal=original_goal,
         )
     else:
 
@@ -8290,26 +8314,31 @@ def delete_goal_association_with_requirement(request, association_id):
     delete_association = RequirementGoal.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_goal_association_with_viewpoint(request, association_id):
-    current_goal_id = int(request.GET.get('ids'))
+    current_goal_id = int(request.GET.get("ids"))
     print(current_goal_id)
     if current_goal_id == int(association_id):
         goal = ViewpointGoal.objects.get(id=association_id)
         delete_association = ViewpointGoal.objects.filter(id=association_id).delete()
-        return general_goals(request,project_id=goal.goal.project.id)
+        return general_goals(request, project_id=goal.goal.project.id)
 
     delete_association = ViewpointGoal.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_requirement_association_with_goal(request, association_id):
-    print('hited')
-    current_requirement_id = int(request.GET.get('id'))
+    print("hited")
+    current_requirement_id = int(request.GET.get("id"))
     if int(association_id) == current_requirement_id:
         requirement = RequirementGoal.objects.get(id=current_requirement_id)
         delete_association = RequirementGoal.objects.filter(id=association_id).delete()
-        return general_requirements(request, project_id=requirement.requirement.project.id)
+        return general_requirements(
+            request, project_id=requirement.requirement.project.id
+        )
     delete_association = RequirementGoal.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
+
 
 def delete_requirement_association_with_scenario(request, association_id):
     delete_association = RequirementScenario.objects.filter(id=association_id).delete()
@@ -8327,10 +8356,12 @@ def delete_requirement_association_with_usecase(request, association_id):
 
 
 def delete_scenario_association_with_requirement(request, association_id):
-    current_scenario_id = int(request.GET.get('id'))
+    current_scenario_id = int(request.GET.get("id"))
     if int(association_id) == current_scenario_id:
         scenario = RequirementScenario.objects.get(id=current_scenario_id)
-        delete_association = RequirementScenario.objects.filter(id=association_id).delete()
+        delete_association = RequirementScenario.objects.filter(
+            id=association_id
+        ).delete()
         return general_scenario(request, project_id=scenario.scenario.project.id)
     delete_association = RequirementScenario.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
@@ -8350,48 +8381,63 @@ def delete_process_association_with_usecase(request, association_id):
     delete_association = ProcessUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_process_association_with_scenario(request, association_id):
     delete_association = ScenarioProcess.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_usecase_association_with_requirement(request, association_id):
-    current_usecase_id = int(request.GET.get('id'))
+    current_usecase_id = int(request.GET.get("id"))
     if int(association_id) == current_usecase_id:
         usecase = RequirementUsecase.objects.get(id=current_usecase_id)
-        delete_association = RequirementUsecase.objects.filter(id=association_id).delete()
+        delete_association = RequirementUsecase.objects.filter(
+            id=association_id
+        ).delete()
         return general_usecase(request, project_id=usecase.usecase.project.id)
     delete_association = RequirementUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
+
 
 def delete_usecase_association_with_scenario(request, association_id):
     delete_association = ScenarioUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_usecase_association_with_process(request, association_id):
     delete_association = ProcessUsecase.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_process_association_with_requirement(request, association_id):
-    current_process_id = int(request.GET.get('id'))
+    current_process_id = int(request.GET.get("id"))
     if current_process_id == int(association_id):
         process = RequirementProcess.objects.get(id=current_process_id)
-        delete_association = RequirementProcess.objects.filter(id=association_id).delete()
+        delete_association = RequirementProcess.objects.filter(
+            id=association_id
+        ).delete()
         return general_process(request, project_id=process.process.project.id)
     delete_association = RequirementProcess.objects.filter(id=association_id).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_decomposition_with_goal(request, goal_id):
-    original_goal_id = int(request.GET.get('id'))
+    original_goal_id = int(request.GET.get("id"))
     original_goal = Goal.objects.get(id=original_goal_id)
     decomposed_goal = goal_id
-    delete_decomposition = GoalDecomposition.objects.filter(original_goal=original_goal, decomposed_goal=decomposed_goal).delete()
+    delete_decomposition = GoalDecomposition.objects.filter(
+        original_goal=original_goal, decomposed_goal=decomposed_goal
+    ).delete()
     return redirect(request.META["HTTP_REFERER"])
 
+
 def delete_relationship_with_goal(request, goal_id):
-    origin_goal_id = int(request.GET.get('id'))
+    origin_goal_id = int(request.GET.get("id"))
     origin_goal = Goal.objects.get(id=origin_goal_id)
     related_goal = goal_id
-    delete_relationship = GoalRelationship.objects.filter(origin_goal=origin_goal, related_goal=related_goal).delete()
+    delete_relationship = GoalRelationship.objects.filter(
+        origin_goal=origin_goal, related_goal=related_goal
+    ).delete()
     return redirect(request.META["HTTP_REFERER"])
 
 
@@ -8431,6 +8477,33 @@ def general_projects(request, project_id=None, message=None, requestmessage=None
             "placeholder": placeholder,
             "project_id": project_id,
             "requestmessage": requestmessage,
-
         },
     )
+
+
+@login_required(login_url="login")
+def invited(request):
+    project_id = request.GET.get('invitation_id')
+    if project_id != None:
+        project_id = int(project_id)
+        member = Member.objects.get(user=request.user)
+        project = Project.objects.get(id=project_id)
+        if not ProjectMembership.objects.filter(project=project, member=member).exists():
+            invitation = ProjectMembership.objects.create(
+                project=project, member=member, member_role="member", status="invited"
+            )
+            invitation.save()
+            if invitation:
+                link = "invitations"
+                activity = (
+                    "You have been invited by "
+                    + str(project.created_by)
+                    + " on "
+                    + str(project.project_title)
+                    + " project"
+                )
+                notify(request, affected_user=member, activity=activity, link=link)
+                return redirect('projects:invitations')
+
+        return redirect('index')
+    return redirect('index')

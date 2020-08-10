@@ -27,12 +27,7 @@
                     </div>
 
                     <div class="col-md-9 ">
-                        {% load social_share %}
-                        <span class="list-inline-item share_whatsapp" title="share on whatsapp" data-popup="tooltip"
-                            data-placement="bottom" style="position: absolute;top: 0;right: 0;">
-
-                            {% post_to_whatsapp  'cores-test.herokuapp.com/register/{{project.id}}/ Please kindly vist to CORES, register if you are new and accept my invitation' '<i class="icon-share3 icon-3x font-size-base text-success mr-2"></i><span class="text-success">Share</span>'%}
-                        </span>
+                       
                         <h5 class="font-weight-semibold my-1">
                             <a href="{% url 'projects:viewmyproject' project_id=project.id %}"
                                 class="text-primary">{{ project.project_title }}</a>
@@ -95,6 +90,13 @@
                                 </div>
                             </li>
                             {% endif %}
+                            <li class="list-inline-item col-md-12 mb-1">
+                                {% load social_share %}
+                                <span class="list-inline-item" title="share on whatsapp" data-popup="tooltip" data-placement="bottom">
+                            
+                                    {% post_to_whatsapp  url  'Share on WhatsApp: <i class="icon-share3 icon-3x font-size-base text-success"> </i>'%}
+                                </span>
+                            </li>
                             <li class="list-inline-item col-md-12 mt-1">
                                 <a href="{% url 'projects:projectresources' project_id=project.id %}"
                                     class="bg-primary-400 p-1 " style="border-radius: 4px;"><i
