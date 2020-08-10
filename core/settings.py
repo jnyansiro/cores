@@ -108,7 +108,7 @@ AUTHENTICATION_BACKENDS = (
 WSGI_APPLICATION = "core.wsgi.application"
 
 
-# Database
+# Development Database 1
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = {
@@ -119,6 +119,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 # }
 
 
+# Production Database
 DATABASES = {
    'default': {
 
@@ -136,6 +137,7 @@ DATABASES = {
     }
 }
 
+# development Database 2
 # DATABASES = {
 #    'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',

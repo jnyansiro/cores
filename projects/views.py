@@ -2642,6 +2642,12 @@ def viewGoal(request, goal_id, message=None):
                 "project_id": project_id,
                 "goal_id": goal_id,
                 "all_goals": all_goals,
+                'and_goals':and_goals(request,goal.goal),
+                'or_goals':or_goals(request,goal.goal),
+                'linear_goals':linear_goals(request,goal.goal),
+                'conflict_goals':conflict_goals(request,goal.goal),
+                'require_goals':require_goals(request,goal.goal),
+                'contribute_goals':contribute_goals(request,goal.goal),
                 "viewpoints": viewpoints,
                 "related_goals": related_goals,
                 "decomposed_goals": decomposed_goals,
@@ -2751,8 +2757,7 @@ def viewGoal(request, goal_id, message=None):
         goal_ids.append(goal_.decomposed_goal)
 
     goalsss = Goal.objects.filter(id__in=goal_ids)
-    return render(
-        request,
+    return render( request,
         "projects/Goals/view_goal.html",
         {
             "indexhead": indexhead,
@@ -2769,6 +2774,12 @@ def viewGoal(request, goal_id, message=None):
             "comments": comments,
             "goalRate": goalRate,
             "all_goals": all_goals,
+            'and_goals':and_goals(request,goal.goal),
+            'or_goals':or_goals(request,goal.goal),
+            'linear_goals':linear_goals(request,goal.goal),
+            'conflict_goals':conflict_goals(request,goal.goal),
+            'require_goals':require_goals(request,goal.goal),
+            'contribute_goals':contribute_goals(request,goal.goal),
             "related_goals": related_goals,
             "decomposed_goals": decomposed_goals,
             "likes": likes,
@@ -8507,3 +8518,102 @@ def invited(request):
 
         return redirect('index')
     return redirect('index')
+
+
+
+def linear_goals(request,original_goal):
+    linear_decomposed_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal,decomposition_operator="Linear")
+    linear_goal_ids = []
+    for goal_id in linear_decomposed_goals_id:
+        linear_goal_ids.append(goal_id.decomposed_goal)
+
+    linear_goals = (
+        ViewpointGoal.objects.filter(goal__id__in=linear_goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
+    paginate = Paginator(linear_goals, 4)
+    page_number = request.GET.get("page")
+    linear_goals = paginate.get_page(page_number)
+    return linear_goals
+
+def or_goals(request,original_goal):
+    or_decomposed_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal,decomposition_operator="OR")
+    or_goal_ids = []
+    for goal_id in or_decomposed_goals_id:
+        or_goal_ids.append(goal_id.decomposed_goal)
+
+    or_goals = (
+        ViewpointGoal.objects.filter(goal__id__in=or_goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
+    paginate = Paginator(or_goals, 4)
+    page_number = request.GET.get("page")
+    or_goals = paginate.get_page(page_number)
+    return or_goals
+
+def and_goals(request,original_goal):
+    and_decomposed_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal,decomposition_operator="AND")
+    and_goal_ids = []
+    for goal_id in and_decomposed_goals_id:
+        and_goal_ids.append(goal_id.decomposed_goal)
+
+    and_goals = (
+        ViewpointGoal.objects.filter(goal__id__in=and_goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
+    paginate = Paginator(and_goals, 4)
+    page_number = request.GET.get("page")
+    and_goals = paginate.get_page(page_number)
+    return and_goals
+
+
+def contribute_goals(request,original_goal):
+    contribute_related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal,relation_type="Contribute")
+    contribute_goal_ids = []
+    for goal_id in contribute_related_goals_id:
+        contribute_goal_ids.append(goal_id.related_goal)
+
+    contribute_goals = (
+        ViewpointGoal.objects.filter(goal__id__in=contribute_goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
+    paginate = Paginator(contribute_goals, 4)
+    page_number = request.GET.get("page")
+    contribute_goals = paginate.get_page(page_number)
+    return contribute_goals
+
+def require_goals(request,original_goal):
+    require_related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal,relation_type="Require")
+    require_goal_ids = []
+    for goal_id in require_related_goals_id:
+        require_goal_ids.append(goal_id.related_goal)
+
+    require_goals = (
+        ViewpointGoal.objects.filter(goal__id__in=require_goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
+    paginate = Paginator(require_goals, 4)
+    page_number = request.GET.get("page")
+    require_goals = paginate.get_page(page_number)
+    return require_goals
+
+def conflict_goals(request,original_goal):
+    conflict_related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal,relation_type="Conflict")
+    conflict_goal_ids = []
+    for goal_id in conflict_related_goals_id:
+        conflict_goal_ids.append(goal_id.related_goal)
+
+    conflict_goals = (
+        ViewpointGoal.objects.filter(goal__id__in=conflict_goal_ids)
+        .order_by("goal__id")
+        .distinct("goal__id")
+    )
+    paginate = Paginator(conflict_goals, 4)
+    page_number = request.GET.get("page")
+    conflict_goals = paginate.get_page(page_number)
+    return conflict_goals

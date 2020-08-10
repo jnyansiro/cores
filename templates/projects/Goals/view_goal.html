@@ -236,6 +236,372 @@
                 
                 
                 <hr>
+                <h5 class="font-weight-semibold">
+                     Decomposed Goals:
+                </h5>
+                <hr>
+                      <div class="row">
+                          <div class="col-md-4">
+                        <div class="col-md-12 mb-2 mt-2">
+                        <h5 class="font-weight-semibold">
+                           AND Operator Decomposed Goals:
+                        </h5>
+                        <div>
+                            <ul class="list-group">
+                                {% for goal_ in and_goals %}
+                                <li class="list-group-item pl-10 pr-10 ">
+
+                                    <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                        class="text-primary">{{ goal_.goal.goal_name }}</a>
+                                    <br>
+                                    <span class="font-weight-semibold">By:</span>
+                                    {{goal_.goal.created_by}}, <span class="text-muted"> Created On:
+                                        {{goal_.goal.created_on}}</span>
+
+                                    <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                        class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                        data-popup="tooltip" data-placement="bottom" title="View"
+                                        style="margin-top: -6px;">
+                                        <i class="icon-enter3"></i>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-12 text-center">
+                           
+                            <span class="step-links">
+                            
+
+                                {% if and_goals %}
+
+                                {% if and_goals.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ and_goals.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ and_goals.number }} of {{ and_goals.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if and_goals.has_next %}
+                                <a href="?page={{ and_goals.next_page_number }}" class="">next</a>
+                                <a href="?page={{ and_goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                                {% endif %}
+                                {% if not and_goals %}
+                                <div class="alert alert-info text-center col-md-12">
+                                    No Goal(s) to display!
+                                </div>
+                                {% endif %}
+                            </span>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="col-md-12 mb-2 mt-2">
+                                <h5 class="font-weight-semibold">
+                                    OR Operator Decomposed Goals:
+                                </h5>
+                                <div>
+                                    <ul class="list-group">
+                                        {% for goal_ in or_goals %}
+                                        <li class="list-group-item pl-10 pr-10 ">
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="text-primary">{{ goal_.goal.goal_name }}</a>
+                                            <br>
+                                            <span class="font-weight-semibold">By:</span>
+                                            {{goal_.goal.created_by}}, <span class="text-muted"> Created On:
+                                                {{goal_.goal.created_on}}</span>
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                                <i class="icon-enter3"></i>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-12 text-center">
+                        
+                                    <span class="step-links">
+                        
+                        
+                                        {% if or_goals %}
+                        
+                                        {% if or_goals.has_previous %}
+                                        <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                        <a href="?page={{ or_goals.previous_page_number }}" class="">Back</a>
+                                        {% endif %}
+                        
+                                        <span class="current">
+                                            Page {{ or_goals.number }} of {{ or_goals.paginator.num_pages }}.
+                                        </span>
+                        
+                                        {% if or_goals.has_next %}
+                                        <a href="?page={{ or_goals.next_page_number }}" class="">next</a>
+                                        <a href="?page={{or_goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if not or_goals %}
+                                        <div class="alert alert-info text-center col-md-12">
+                                            No Goal(s) to display!
+                                        </div>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="col-md-12 mb-2 mt-2">
+                                <h5 class="font-weight-semibold">
+                                    Linear Operator Decomposed Goals:
+                                </h5>
+                                <div>
+                                    <ul class="list-group">
+                                        {% for goal_ in linear_goals %}
+                                        <li class="list-group-item pl-10 pr-10 ">
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="text-primary">{{ goal_.goal.goal_name }}</a>
+                                            <br>
+                                            <span class="font-weight-semibold">By:</span>
+                                            {{goal_.goal.created_by}}, <span class="text-muted"> Created On:
+                                                {{goal_.goal.created_on}}</span>
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                                <i class="icon-enter3"></i>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-12 text-center">
+                        
+                                    <span class="step-links">
+                        
+                        
+                                        {% if linear_goals %}
+                        
+                                        {% if linear_goals.has_previous %}
+                                        <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                        <a href="?page={{ linear_goals.previous_page_number }}" class="">Back</a>
+                                        {% endif %}
+                        
+                                        <span class="current">
+                                            Page {{ linear_goals.number }} of {{ linear_goals.paginator.num_pages }}.
+                                        </span>
+                        
+                                        {% if linear_goals.has_next %}
+                                        <a href="?page={{ linear_goals.next_page_number }}" class="">next</a>
+                                        <a href="?page={{linear_goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if not linear_goals %}
+                                        <div class="alert alert-info text-center col-md-12">
+                                            No Goal(s) to display!
+                                        </div>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                <hr>
+
+                  <h5 class="font-weight-semibold">
+                    Related Goals:
+                </h5>
+                <hr>
+                      <div class="row">
+                          <div class="col-md-4">
+                        <div class="col-md-12 mb-2 mt-2">
+                        <h5 class="font-weight-semibold">
+                           Conflict related Goals:
+                        </h5>
+                        <div>
+                            <ul class="list-group">
+                                {% for goal_ in conflict_goals %}
+                                <li class="list-group-item pl-10 pr-10 ">
+
+                                    <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                        class="text-primary">{{ goal_.goal.goal_name }}</a>
+                                    <br>
+                                    <span class="font-weight-semibold">By:</span>
+                                    {{goal_.goal.created_by}}, <span class="text-muted"> Created On:
+                                        {{goal_.goal.created_on}}</span>
+
+                                    <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                        class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                        data-popup="tooltip" data-placement="bottom" title="View"
+                                        style="margin-top: -6px;">
+                                        <i class="icon-enter3"></i>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-12 text-center">
+                           
+                            <span class="step-links">
+                            
+
+                                {% if conflict_goals %}
+
+                                {% if conflict_goals.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                <a href="?page={{ conflict_goals.previous_page_number }}" class="">Back</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ conflict_goals.number }} of {{ conflict_goals.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if conflict_goals.has_next %}
+                                <a href="?page={{ conflict_goals.next_page_number }}" class="">next</a>
+                                <a href="?page={{ conflict_goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                                {% endif %}
+                                {% if not conflict_goals %}
+                                <div class="alert alert-info text-center col-md-12">
+                                    No Goal(s) to display!
+                                </div>
+                                {% endif %}
+                            </span>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="col-md-12 mb-2 mt-2">
+                                <h5 class="font-weight-semibold">
+                                    Required related Goals:
+                                </h5>
+                                <div>
+                                    <ul class="list-group">
+                                        {% for goal_ in require_goals %}
+                                        <li class="list-group-item pl-10 pr-10 ">
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="text-primary">{{ goal_.goal.goal_name }}</a>
+                                            <br>
+                                            <span class="font-weight-semibold">By:</span>
+                                            {{goal_.goal.created_by}}, <span class="text-muted"> Created On:
+                                                {{goal_.goal.created_on}}</span>
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                                <i class="icon-enter3"></i>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-12 text-center">
+                        
+                                    <span class="step-links">
+                        
+                        
+                                        {% if require_goals %}
+                        
+                                        {% if require_goals.has_previous %}
+                                        <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                        <a href="?page={{ require_goals.previous_page_number }}" class="">Back</a>
+                                        {% endif %}
+                        
+                                        <span class="current">
+                                            Page {{ require_goals.number }} of {{ require_goals.paginator.num_pages }}.
+                                        </span>
+                        
+                                        {% if require_goals.has_next %}
+                                        <a href="?page={{ require_goals.next_page_number }}" class="">next</a>
+                                        <a href="?page={{ require_goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if not require_goals %}
+                                        <div class="alert alert-info text-center col-md-12">
+                                            No Goal(s) to display!
+                                        </div>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="col-md-12 mb-2 mt-2">
+                                <h5 class="font-weight-semibold">
+                                    Contribution related Goals:
+                                </h5>
+                                <div>
+                                    <ul class="list-group">
+                                        {% for goal_ in contribute_goals %}
+                                        <li class="list-group-item pl-10 pr-10 ">
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="text-primary">{{ goal_.goal.goal_name }}</a>
+                                            <br>
+                                            <span class="font-weight-semibold">By:</span>
+                                            {{goal_.goal.created_by}}, <span class="text-muted"> Created On:
+                                                {{goal_.goal.created_on}}</span>
+                        
+                                            <a href="{% url 'projects:viewgoal' goal_id=goal_.id %}"
+                                                class="btn float-right text-success-600 btn-flat btn-icon btn-rounded btn-sm"
+                                                data-popup="tooltip" data-placement="bottom" title="View" style="margin-top: -6px;">
+                                                <i class="icon-enter3"></i>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-12 text-center">
+                        
+                                    <span class="step-links">
+                        
+                        
+                                        {% if contribute_goals %}
+                        
+                                        {% if contribute_goals.has_previous %}
+                                        <a href="?page=1" class="btn btn-primary btn-sm">&laquo; first</a>
+                                        <a href="?page={{ contribute_goals.previous_page_number }}" class="">Back</a>
+                                        {% endif %}
+                        
+                                        <span class="current">
+                                            Page {{ contribute_goals.number }} of {{ contribute_goals.paginator.num_pages }}.
+                                        </span>
+                        
+                                        {% if contribute_goals.has_next %}
+                                        <a href="?page={{ contribute_goals.next_page_number }}" class="">next</a>
+                                        <a href="?page={{ contribute_goals.paginator.num_pages }}" class="btn btn-primary btn-sm">last &raquo;</a>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if not contribute_goals %}
+                                        <div class="alert alert-info text-center col-md-12">
+                                            No Goal(s) to display!
+                                        </div>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                <hr>
+
                 <div class="card-footer bg-transparent d-sm-flex justify-content-sm-between align-items-sm-center border-top-0 p-0 row mb-3">
                     <div class="col-md-5">
                 <ul class="list-inline list-inline-dotted text-muted mb-3 mb-sm-0 col-md-12 p-0 ">
