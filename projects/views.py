@@ -18,6 +18,7 @@ import json
 from datetime import datetime
 from django.utils.timezone import now
 from django.http import Http404
+import urllib.request
 
 
 # Create your views here.
@@ -1708,7 +1709,9 @@ def viewMyproject(request, project_id):
             "total_rates": total_rates,
             "likes": likes,
             "dislikes": dislikes,
-            'url':'https://www.cores.africa/invited' + '?invitation_id=' + str(project.id),
+            "url": short_url("https://www.cores.africa/invited"
+            + "?invitation_id="
+            + str(project.id)),
             "rates": rates,
             "incentives": ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
@@ -1767,7 +1770,9 @@ def viewProject(request, project_id, message=None, message1=None):
             "message": message,
             "message1": message1,
             "rates": rates,
-            'url':'https://www.cores.africa/invited' + '?invitation_id=' + str(project.id),
+            "url": short_url("https://www.cores.africa/invited"
+            + "?invitation_id="
+            + str(project.id)),
             "likes": likes,
             "incentives": ProjectIncentive.objects.filter(project=project),
             "stakeholders": stakeholders,
@@ -2642,12 +2647,12 @@ def viewGoal(request, goal_id, message=None):
                 "project_id": project_id,
                 "goal_id": goal_id,
                 "all_goals": all_goals,
-                'and_goals':and_goals(request,goal.goal),
-                'or_goals':or_goals(request,goal.goal),
-                'linear_goals':linear_goals(request,goal.goal),
-                'conflict_goals':conflict_goals(request,goal.goal),
-                'require_goals':require_goals(request,goal.goal),
-                'contribute_goals':contribute_goals(request,goal.goal),
+                "and_goals": and_goals(request, goal.goal),
+                "or_goals": or_goals(request, goal.goal),
+                "linear_goals": linear_goals(request, goal.goal),
+                "conflict_goals": conflict_goals(request, goal.goal),
+                "require_goals": require_goals(request, goal.goal),
+                "contribute_goals": contribute_goals(request, goal.goal),
                 "viewpoints": viewpoints,
                 "related_goals": related_goals,
                 "decomposed_goals": decomposed_goals,
@@ -2757,7 +2762,8 @@ def viewGoal(request, goal_id, message=None):
         goal_ids.append(goal_.decomposed_goal)
 
     goalsss = Goal.objects.filter(id__in=goal_ids)
-    return render( request,
+    return render(
+        request,
         "projects/Goals/view_goal.html",
         {
             "indexhead": indexhead,
@@ -2774,12 +2780,12 @@ def viewGoal(request, goal_id, message=None):
             "comments": comments,
             "goalRate": goalRate,
             "all_goals": all_goals,
-            'and_goals':and_goals(request,goal.goal),
-            'or_goals':or_goals(request,goal.goal),
-            'linear_goals':linear_goals(request,goal.goal),
-            'conflict_goals':conflict_goals(request,goal.goal),
-            'require_goals':require_goals(request,goal.goal),
-            'contribute_goals':contribute_goals(request,goal.goal),
+            "and_goals": and_goals(request, goal.goal),
+            "or_goals": or_goals(request, goal.goal),
+            "linear_goals": linear_goals(request, goal.goal),
+            "conflict_goals": conflict_goals(request, goal.goal),
+            "require_goals": require_goals(request, goal.goal),
+            "contribute_goals": contribute_goals(request, goal.goal),
             "related_goals": related_goals,
             "decomposed_goals": decomposed_goals,
             "likes": likes,
@@ -8494,12 +8500,14 @@ def general_projects(request, project_id=None, message=None, requestmessage=None
 
 @login_required(login_url="login")
 def invited(request):
-    project_id = request.GET.get('invitation_id')
+    project_id = request.GET.get("invitation_id")
     if project_id != None:
         project_id = int(project_id)
         member = Member.objects.get(user=request.user)
         project = Project.objects.get(id=project_id)
-        if not ProjectMembership.objects.filter(project=project, member=member).exists():
+        if not ProjectMembership.objects.filter(
+            project=project, member=member
+        ).exists():
             invitation = ProjectMembership.objects.create(
                 project=project, member=member, member_role="member", status="invited"
             )
@@ -8514,15 +8522,16 @@ def invited(request):
                     + " project"
                 )
                 notify(request, affected_user=member, activity=activity, link=link)
-                return redirect('projects:invitations')
+                return redirect("projects:invitations")
 
-        return redirect('index')
-    return redirect('index')
+        return redirect("index")
+    return redirect("index")
 
 
-
-def linear_goals(request,original_goal):
-    linear_decomposed_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal,decomposition_operator="Linear")
+def linear_goals(request, original_goal):
+    linear_decomposed_goals_id = GoalDecomposition.objects.filter(
+        original_goal=original_goal, decomposition_operator="Linear"
+    )
     linear_goal_ids = []
     for goal_id in linear_decomposed_goals_id:
         linear_goal_ids.append(goal_id.decomposed_goal)
@@ -8537,8 +8546,11 @@ def linear_goals(request,original_goal):
     linear_goals = paginate.get_page(page_number)
     return linear_goals
 
-def or_goals(request,original_goal):
-    or_decomposed_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal,decomposition_operator="OR")
+
+def or_goals(request, original_goal):
+    or_decomposed_goals_id = GoalDecomposition.objects.filter(
+        original_goal=original_goal, decomposition_operator="OR"
+    )
     or_goal_ids = []
     for goal_id in or_decomposed_goals_id:
         or_goal_ids.append(goal_id.decomposed_goal)
@@ -8553,8 +8565,11 @@ def or_goals(request,original_goal):
     or_goals = paginate.get_page(page_number)
     return or_goals
 
-def and_goals(request,original_goal):
-    and_decomposed_goals_id = GoalDecomposition.objects.filter(original_goal=original_goal,decomposition_operator="AND")
+
+def and_goals(request, original_goal):
+    and_decomposed_goals_id = GoalDecomposition.objects.filter(
+        original_goal=original_goal, decomposition_operator="AND"
+    )
     and_goal_ids = []
     for goal_id in and_decomposed_goals_id:
         and_goal_ids.append(goal_id.decomposed_goal)
@@ -8570,8 +8585,10 @@ def and_goals(request,original_goal):
     return and_goals
 
 
-def contribute_goals(request,original_goal):
-    contribute_related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal,relation_type="Contribute")
+def contribute_goals(request, original_goal):
+    contribute_related_goals_id = GoalRelationship.objects.filter(
+        origin_goal=original_goal, relation_type="Contribute"
+    )
     contribute_goal_ids = []
     for goal_id in contribute_related_goals_id:
         contribute_goal_ids.append(goal_id.related_goal)
@@ -8586,8 +8603,11 @@ def contribute_goals(request,original_goal):
     contribute_goals = paginate.get_page(page_number)
     return contribute_goals
 
-def require_goals(request,original_goal):
-    require_related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal,relation_type="Require")
+
+def require_goals(request, original_goal):
+    require_related_goals_id = GoalRelationship.objects.filter(
+        origin_goal=original_goal, relation_type="Require"
+    )
     require_goal_ids = []
     for goal_id in require_related_goals_id:
         require_goal_ids.append(goal_id.related_goal)
@@ -8602,8 +8622,11 @@ def require_goals(request,original_goal):
     require_goals = paginate.get_page(page_number)
     return require_goals
 
-def conflict_goals(request,original_goal):
-    conflict_related_goals_id = GoalRelationship.objects.filter(origin_goal=original_goal,relation_type="Conflict")
+
+def conflict_goals(request, original_goal):
+    conflict_related_goals_id = GoalRelationship.objects.filter(
+        origin_goal=original_goal, relation_type="Conflict"
+    )
     conflict_goal_ids = []
     for goal_id in conflict_related_goals_id:
         conflict_goal_ids.append(goal_id.related_goal)
@@ -8617,3 +8640,10 @@ def conflict_goals(request,original_goal):
     page_number = request.GET.get("page")
     conflict_goals = paginate.get_page(page_number)
     return conflict_goals
+
+
+#generating short Url
+def short_url(url):
+    apiurl = "http://tinyurl.com/api-create.php?url="
+    tinyurl = urllib.request.urlopen(apiurl + url).read()
+    return tinyurl.decode("utf-8")
