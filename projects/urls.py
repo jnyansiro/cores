@@ -102,6 +102,7 @@ urlpatterns = [
     
     # Creating word docs URL
     url(r'^generatedocs/(?P<project_id>\d+)/$', create_docx, name='generatedocs'),
+    url(r'^generated_project_documents/(?P<project_id>\d+)/$', generated_docs, name='generated_project_documents'),
     url(r'^deletefile/(?P<file_id>\d+)/$', delete_file, name="deletefile"),
 
    #comments URLS

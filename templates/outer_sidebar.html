@@ -20,6 +20,7 @@
         {% url 'projects:projects' as projects %}
         {% url 'projects:generalreports' as generalreports %}
         {% url 'projects:createproject' as createproject %}
+        {% url 'projects:generated_project_documents' project.id as generated_project_documents %}
         <li
             class="nav-item nav-item-submenu {% if request.get_full_path == myprojects or request.get_full_path == membershipprojects or request.get_full_path == projects or request.get_full_path == createproject %} nav-item-expanded   {% endif %}">
             <a href="#" class="nav-link"><i class="icon-copy "></i> <span>Projects</span></a>
@@ -49,6 +50,20 @@
 
             </ul>
         </li>
+        {% if project %}
+        <li class="nav-item">
+        
+            
+            <a href="{% url 'projects:generated_project_documents' project.id %}" class="nav-link {% if request.get_full_path == generated_project_documents %} active {% endif %}">
+                <i class="icon-magazine"></i>
+                <span>
+                    Project Documents
+        
+                </span>
+            </a>
+        </li>
+        {% endif %}
+        {% if not project %}
         <li class="nav-item nav-item-submenu {% if request.get_full_path == generalreports %} nav-item-expanded {% endif %}">
             <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Reports</span></a>
 
@@ -61,6 +76,7 @@
 
             </ul>
         </li>
+        {% endif %}
 
         <!-- /main -->
 

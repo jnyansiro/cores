@@ -72,19 +72,19 @@ def create_docx(request,project_id):
                     document.add_heading(str(num)+': ' + process.process.process_name, level=3)
                     document.add_paragraph(re.sub(cleanr, '', process.process.description))
         now = datetime.now()
-        filename = str(now)+project.project_title+'.docx'
+        number_of_generated_docs = GeneratedDocs.objects.filter(project=project).count()
+        version = number_of_generated_docs + 1 
+        
+        filename = str(now)+project.project_title+'-Version-' + str(version) + '.docx'
         
         path = working_directory + '/docs/generated_docs/'+filename
-        print(path)
         document.save(path)
         notification(request)
         create_document = GeneratedDocs.objects.create(
             project=project,docx=filename
         )
         create_document.save()
-
     docs = enumerate(GeneratedDocs.objects.filter(project=project).order_by('-id'), start=1)
-    
     return render(request,'projects/my_projects/generate_docs.html',{
         'project':project,
         'project_id':project.id,
@@ -94,6 +94,21 @@ def create_docx(request,project_id):
         'docs':docs,
         'member':member
     })
+
+def generated_docs(request,project_id):
+    project = Project.objects.get(id=project_id)
+    member = Member.objects.get(user=request.user)
+    docs = enumerate(GeneratedDocs.objects.filter(project=project).order_by('-id'), start=1)
+    return render(request,'projects/other_projects/project_generated_docs.html',{
+        'project':project,
+        'project_id':project.id,
+        'notification':notification,
+        'indexhead':"Project Generated Document(S)",
+        'hidesearch':1,
+        'docs':docs,
+        'member':member
+    })
+
 
 
 def delete_file(request,file_id):
